@@ -13,6 +13,8 @@ Mls::Application.routes.draw do
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
 
+  resource :searches, :only => [:new, :create]
+
   # Sample resource route with options:
   #   resources :products do
   #     member do
@@ -48,7 +50,7 @@ Mls::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => "welcome#index"
+  root :to => "searches#new"
 
   # See how all your routes lay out with "rake routes"
 
