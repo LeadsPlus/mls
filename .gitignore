@@ -1,0 +1,15 @@
+.bundle
+db/*.sqlite3
+log/*.log
+tmp/
+doc/
+*.swp
+*~
+.project
+
+# weird mac project file
+.DS_Store
+
+# user specific files for rubymine
+.idea/workspace.xml
+.idea/tasks.xml
