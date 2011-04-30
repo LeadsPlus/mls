@@ -1,0 +1,7 @@
+%h1 Listing houses
+
+=render :partial => 'shared/houses', :locals => { :houses => @houses }
+
+%br
+
+= link_to 'New House', new_house_path
