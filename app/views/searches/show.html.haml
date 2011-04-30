@@ -1,12 +1,18 @@
 = render 'shared/search_form'
 
-.results
+#tabs
+  %ul
+    - r = 1
+    - @search.matches.each do |period, houses|
+      %li
+        %a{ :href => "tabs-#{r}" }= "#{period/12} year loan"
+        - r += 1
+
+  - i = 1
   - @search.matches.each do |period, houses|
-    %h2= "#{period/12} year loan"
+    %div{ :id => "ui-tabs-#{i}" }
+      - i += 1
+      ="Min house price: #{@search.price_ranges[period].begin.round}"
+      ="Max house price: #{@search.price_ranges[period].end.round}"
 
-    ="Min house price: #{@search.price_ranges[period].begin.round}"
-    ="Max house price: #{@search.price_ranges[period].end.round}"
-    
-    = render :partial => 'shared/houses', :locals => { :houses => houses }
-
-=link_to "New Search", root_path
+      = render :partial => 'shared/houses', :locals => { :houses => houses }

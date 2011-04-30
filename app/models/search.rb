@@ -35,3 +35,15 @@ class Search < ActiveRecord::Base
     matches
   end
 end
+
+# == Schema Information
+#
+# Table name: searches
+#
+#  id         :integer         not null, primary key
+#  payment    :integer
+#  deposit    :integer
+#  created_at :datetime
+#  updated_at :datetime
+#
+

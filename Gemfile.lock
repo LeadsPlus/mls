@@ -58,6 +58,9 @@ GEM
     haml (3.1.1)
     hirb (0.4.3)
     i18n (0.5.0)
+    jquery-rails (0.2.7)
+      rails (~> 3.0)
+      thor (~> 0.14.4)
     json_pure (1.5.1)
     launchy (0.3.0)
     mail (2.2.19)
@@ -101,6 +104,7 @@ GEM
       railties (~> 3.0)
       rspec (~> 2.5.0)
     rubyzip (0.9.4)
+    sass (3.1.1)
     selenium-webdriver (0.2.0)
       childprocess (>= 0.1.7)
       ffi (>= 1.0.7)
@@ -125,9 +129,11 @@ DEPENDENCIES
   faker (= 0.9.5)
   haml
   hirb
+  jquery-rails
   launchy (= 0.3.0)
   rails (= 3.0.6)
   rspec
   rspec-rails
+  sass
   spork
   sqlite3
