@@ -28,11 +28,16 @@ gem 'haml'
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
 group :development do
-   gem 'rspec-rails'
+  gem 'rspec-rails'
+  gem 'annotate', '2.4.0'
+  gem 'faker', "0.9.5" #, '0.3.1', :require => false
+  gem 'hirb'
 end
 
 group :test do
   gem 'rspec'
   gem 'capybara'
   gem 'spork'
+  gem "launchy", "0.3.0"
+  gem 'factory_girl_rails', "1.0.1"
 end

@@ -1,12 +1,1 @@
-.search
-  =form_for @search do |f|
-    =f.label :payment, "Monthly Payment (€)"
-    =f.text_field :payment
-
-    =f.label :deposit, "Deposit Amount (€)"
-    =f.text_field :deposit
-
-    =f.submit
-
-.results
-  =render :partial => 'search', :collection => @prev_searches
+= render 'shared/search_form'

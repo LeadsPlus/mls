@@ -1,0 +1,7 @@
+%tr.house{ :id => "house_#{house.id}" }
+    %td= house.price
+    %td= house.address
+    %td= house.bedrooms
+    %td= link_to 'Show', house
+    %td= link_to 'Edit', edit_house_path(house)
+    %td= link_to 'Destroy', house, :confirm => 'Are you sure?', :method => :delete

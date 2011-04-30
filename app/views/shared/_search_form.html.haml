@@ -1,0 +1,18 @@
+-# if there were errors then we need to show the offending search
+- if @search.errors.any?
+  - new_search = @search
+- else
+  - new_search = Search.new
+
+.search
+  =form_for new_search do |f|
+    =render 'shared/error_messages', :object => f.object
+
+    .field
+      =f.label :payment, "Monthly Payment (€)"
+      =f.text_field :payment, :value => @search.payment
+
+      =f.label :deposit, "Deposit Amount (€)"
+      =f.text_field :deposit, :value => @search.deposit
+
+      =f.submit :Search

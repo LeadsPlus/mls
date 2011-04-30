@@ -1,0 +1,12 @@
+= render 'shared/search_form'
+
+.results
+  - @search.matches.each do |period, houses|
+    %h2= "#{period/12} year loan"
+
+    ="Min house price: #{@search.price_ranges[period].begin.round}"
+    ="Max house price: #{@search.price_ranges[period].end.round}"
+    
+    = render :partial => 'shared/houses', :locals => { :houses => houses }
+
+=link_to "New Search", root_path
