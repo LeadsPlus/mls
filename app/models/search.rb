@@ -10,6 +10,10 @@ class Search < ActiveRecord::Base
        Tipperary Tyrone Westmeath Wexford].freeze
   end
 
+  def rates
+    [5, 4.5, 3.9, 3.2, 2.8, 2.2, 2.2, 2.2, 2.2, 2.2]
+  end
+
   def county_choices
     i = -1
     county_names.collect do |name|
@@ -45,11 +49,12 @@ class Search < ActiveRecord::Base
     matches = {}
     price_ranges.each do |period, range|
       matches[period] = House.where("price >= :min AND price <= :max AND county = :county",
-                                    { :min => range.begin, :max => range.end, :county => county_names[county.to_i]})
+                                    { :min => range.begin, :max => range.end, :county => county_names[county.to_i] })
     end
     matches
   end
 end
+
 
 # == Schema Information
 #
@@ -60,5 +65,6 @@ end
 #  deposit    :integer
 #  created_at :datetime
 #  updated_at :datetime
+#  county     :string(255)
 #
 

@@ -4,6 +4,10 @@ class House < ActiveRecord::Base
   def address
     "#{number} #{street}, #{town}, Co. #{county}"
   end
+
+  def ltv(princ)
+    (princ*100)/price
+  end
 end
 
 
