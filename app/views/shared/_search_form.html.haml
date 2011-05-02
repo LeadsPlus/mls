@@ -8,11 +8,12 @@
   =form_for new_search do |f|
     =render 'shared/error_messages', :object => f.object
 
-    .field
+    %span.field
       =f.label :payment, "Monthly Payment (€)"
       =f.text_field :payment, :value => @search.payment
 
+    %span.field
       =f.label :deposit, "Deposit Amount (€)"
       =f.text_field :deposit, :value => @search.deposit
-
+    
       =f.submit :Search

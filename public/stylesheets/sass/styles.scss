@@ -1,4 +1,56 @@
+@import 'support';
+
+body {
+  background-color: #e0e0e0;
+}
+
 div#wrapper {
-  width: 960px;
+  width: 920px;
   margin: 0 auto;
+  padding: 20px;
+  background-color: white;
+}
+
+div.logo {
+  width: 200px;
+  height: 50px;
+  background-color: #222;
+}
+
+div#header {
+  margin-bottom: 20px;
+}
+
+// property search bar
+div.search {
+  margin-bottom: 10px;
+  height: 30px;
+  padding: 7px 20px;
+  border: 1px solid #aaa;
+
+  @include border-radius(4px);
+
+  span.field {
+    margin: 0 5px;
+
+    label {
+      font-weight: bold;
+    }
+  }
+
+  #search_submit {
+    float: right;
+    position: relative;
+    top: -3px;
+  }
+
+  $search_input_width: 50px;
+
+  input#search_payment {
+    width: $search_input_width;
+  }
+
+  input#search_deposit {
+    width: $search_input_width;
+  }
 }
