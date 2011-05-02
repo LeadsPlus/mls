@@ -1,8 +1,22 @@
 class Search < ActiveRecord::Base
-  attr_accessible :payment, :deposit
+  attr_accessible :payment, :deposit, :county
 
   validates :payment, :presence => true
   validates :deposit, :presence => true
+
+  def county_names
+    %w[Louth Dublin Kerry Waterford Wicklow Antrim Fermanagh Armagh Carlow Cavan Clare Cork Derry Donegal
+       Down Galway Kildare Kilkenny Laois Letrim Limerick Longford Mayo Monaghan Offaly Roscommon Sligo
+       Tipperary Tyrone Westmeath Wexford].freeze
+  end
+
+  def county_choices
+    i = -1
+    county_names.collect do |name|
+      i += 1
+      [name, i]
+    end
+  end
 
   def effective_rate
     5.0/1200
@@ -30,7 +44,8 @@ class Search < ActiveRecord::Base
   def matches
     matches = {}
     price_ranges.each do |period, range|
-      matches[period] = House.where("price >= :min AND price <= :max", { :min => range.begin, :max => range.end })
+      matches[period] = House.where("price >= :min AND price <= :max AND county = :county",
+                                    { :min => range.begin, :max => range.end, :county => county_names[county.to_i]})
     end
     matches
   end

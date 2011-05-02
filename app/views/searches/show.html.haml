@@ -2,6 +2,7 @@
 
 #tabs
   %ul
+    - logger.debug @search
     - r = 1
     - @search.matches.each do |period, houses|
       %li
@@ -12,7 +13,8 @@
   - @search.matches.each do |period, houses|
     %div{ :id => "ui-tabs-#{i}" }
       - i += 1
-      ="Min house price: #{@search.price_ranges[period].begin.round}"
-      ="Max house price: #{@search.price_ranges[period].end.round}"
+      ="Min house price: #{number_to_currency(@search.price_ranges[period].begin.round, :unit => '€', :precision => 0)}"
+      ="Max house price: #{number_to_currency(@search.price_ranges[period].end.round, :unit => '€', :precision => 0)}"
 
-      = render :partial => 'shared/houses', :locals => { :houses => houses }
+      %table
+        = render :partial => 'shared/house', :collection => houses

@@ -8,6 +8,7 @@ class SearchesController < ApplicationController
   end
 
   def create
+    Rails.logger.debug params
     @search = Search.new(params[:search])
 
     if @search.save
