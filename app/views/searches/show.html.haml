@@ -4,17 +4,17 @@
   %ul
     - logger.debug @search
     - r = 1
-    - @search.matches.each do |period, houses|
+    - @search.matches.each do |deposit, houses|
       %li
-        %a{ :href => "tabs-#{r}" }= "#{period/12} year term"
+        %a{ :href => "tabs-#{r}" }= "#{number_to_currency(deposit, :unit => '€', :precision => 0)} down"
         - r += 1
 
   - i = 1
-  - @search.matches.each do |period, houses|
+  - @search.matches.each do |deposit, houses|
     %div{ :id => "ui-tabs-#{i}" }
       - i += 1
-      ="Min house price: #{number_to_currency(@search.price_ranges[period].begin.round, :unit => '€', :precision => 0)}"
-      ="Max house price: #{number_to_currency(@search.price_ranges[period].end.round, :unit => '€', :precision => 0)}"
+      ="Min house price: #{number_to_currency(@search.price_ranges[deposit].begin.round, :unit => '€', :precision => 0)}"
+      ="Max house price: #{number_to_currency(@search.price_ranges[deposit].end.round, :unit => '€', :precision => 0)}"
 
       %table
         = render :partial => 'shared/house', :collection => houses

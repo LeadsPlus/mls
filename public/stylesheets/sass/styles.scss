@@ -1,7 +1,8 @@
 @import 'support';
+$daves_grey: #e0e0e0;
 
 body {
-  background-color: #e0e0e0;
+  background-color: $daves_grey;
 }
 
 div#wrapper {
@@ -47,7 +48,7 @@ div.search {
     width: $search_input_width;
   }
 
-  input#search_deposit {
+  input#search_term {
     width: $search_input_width;
   }
 }
