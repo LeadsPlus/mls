@@ -44,11 +44,15 @@ div.search {
 
   $search_input_width: 50px;
 
-  input#search_payment {
+  input#search_min_payment {
     width: $search_input_width;
   }
 
-  input#search_term {
+  input#search_max_payment {
+    width: $search_input_width;
+  }
+
+  input#search_deposit {
     width: $search_input_width;
   }
 }

@@ -3,14 +3,15 @@
   %td
     %table
       %tr
-        %td
+        %td{ :colspan => 2 }
           %b= house.title
       %tr
-        %td= house.address
+        %td{ :colspan => 2 }= house.address
       %tr
-        %td= house.description
+        %td{ :colspan => 2 }= house.description
       %tr
-        %td= number_to_currency(house.price, :unit => '€', :precision => 0)
+        %td= "Price: #{number_to_currency(house.price, :unit => '€', :precision => 0)}"
+        %td= "Actual Monthly Payment Required: #{number_to_currency(-@search.pmt_at(house.price), :unit => '€')}"
         -#%td= number_to_percentage(house.ltv(@search.principals[40]))
         %td= link_to 'Show', house
         -#%td= link_to 'Edit', edit_house_path(house)

@@ -1,15 +1,6 @@
 = render 'shared/search_form'
 
 #results
-  =form_tag
-
-
-  - @search.matches.each do |deposit, houses|
-    %div
-      %h2= "#{number_to_currency(deposit, :unit => '€', :precision => 0)} down"
-      ="#{number_to_currency(@search.price_ranges[deposit].begin.round, :unit => '€', :precision => 0)} to "
-      ="#{number_to_currency(@search.price_ranges[deposit].end.round, :unit => '€', :precision => 0)}"
-
-      %br
-      %table
-        = render :partial => 'shared/house', :collection => houses
+  %div
+    %table
+      = render :partial => 'shared/house', :collection => @search.matches

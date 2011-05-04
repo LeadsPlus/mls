@@ -5,13 +5,14 @@ describe Search do
 end
 
 
+
 # == Schema Information
 #
 # Table name: searches
 #
 #  id         :integer         not null, primary key
 #  payment    :integer
-#  deposit    :integer
+#  term       :integer
 #  created_at :datetime
 #  updated_at :datetime
 #  county     :string(255)

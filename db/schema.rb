@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110503002348) do
+ActiveRecord::Schema.define(:version => 20110504121524) do
 
   create_table "houses", :force => true do |t|
     t.string   "street"
@@ -27,11 +27,12 @@ ActiveRecord::Schema.define(:version => 20110503002348) do
   end
 
   create_table "searches", :force => true do |t|
-    t.integer  "payment"
-    t.integer  "term"
+    t.integer  "max_payment"
+    t.integer  "deposit"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "county"
+    t.integer  "min_payment"
   end
 
 end

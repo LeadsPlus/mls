@@ -9,7 +9,7 @@ namespace :db do
 end
 
 def make_default_search
-  Search.create :payment => 1100, :term => 25, :county => '4'
+  Search.create :max_payment => 1100, :min_payment => 800, :deposit => 50000, :county => '4'
 end
 
 def make_houses

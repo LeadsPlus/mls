@@ -31,7 +31,9 @@ div.search {
     float: right;
     position: relative;
     top: -3px; }
-  div.search input#search_payment {
+  div.search input#search_min_payment {
     width: 50px; }
-  div.search input#search_term {
+  div.search input#search_max_payment {
+    width: 50px; }
+  div.search input#search_deposit {
     width: 50px; }
