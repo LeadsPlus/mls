@@ -25,6 +25,7 @@ gem 'sqlite3'
 gem 'haml'
 gem 'sass'
 gem 'jquery-rails'
+gem 'faker', "0.9.5" #, '0.3.1', :require => false
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
@@ -32,7 +33,6 @@ gem 'jquery-rails'
 group :development do
   gem 'rspec-rails'
   gem 'annotate', '2.4.0'
-  gem 'faker', "0.9.5" #, '0.3.1', :require => false
   gem 'hirb'
 end
 
