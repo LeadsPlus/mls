@@ -9,11 +9,7 @@ class Search < ActiveRecord::Base
        Down Galway Kildare Kilkenny Laois Letrim Limerick Longford Mayo Monaghan Offaly Roscommon Sligo
        Tipperary Tyrone Westmeath Wexford].freeze
   end
-
-  def rates
-    { 20 => 3.75, 25 => 3.5, 30 => 3.25, 35 => 3.0, 40 => 2.75 }
-  end
-
+  
   def county_choices
     i = -1
     county_names.collect do |name|
@@ -22,37 +18,29 @@ class Search < ActiveRecord::Base
     end
   end
 
+  def rates
+#    format: minimum deposit % needed to get this rate => rate
+#    { 10 => 5.15, 15 => 4.25, 20 => 3.75, 25 => 3.5, 30 => 3.25, 35 => 3.0, 40 => 2.75 }
+    { 1 => 5.0, 21 => 4.5, 31 => 4.0, 41 => 3.0 }
+  end
+
+#  hash of form min_depos => eff_rate
   def effective_rates
-    eff = {}
-    rates.each do |depos, rate|
-      eff[depos] = rate/1200
-    end
-    eff
+    rates.merge(rates){|min_depos, rate| rate/1200 }
   end
 
-  def calc_princ(rate)
-    (payment/rate)*(1-(1+rate)**-(term*12))
+  def princ(eff_rate)
+    (payment/eff_rate)*(1-(1+eff_rate)**-(term*12))
   end
 
-  def principals
-    princes = {}
-    effective_rates.each do |depos, rate|
-      princ = calc_princ(rate)
-      deposit = ((princ*100)/(100 - depos) - princ).round(-3)
-      princes[deposit] = princ+deposit
-    end
-    princes
+  def prices_per_rate
+    effective_rates.merge(effective_rates){|min_depos, eff_rate| princ(eff_rate)+deposit}
   end
 
-  def price_ranges
-    ranges = {}
-    principals.each do |deposit, principal|
-      margin = principal*0.1
-      min = (principal-margin).round(-3)
-      max = principal.round(-3)
-      ranges[deposit] = min..max
-    end
-    ranges
+  def max_price
+    prices_per_rate.reject { |min_depos, price| min_depos > deposit*100/price }
+#    .max will give back [depos_percent, max_price]
+#    .values.max will just give max_price
   end
 
   def matches

@@ -1,20 +1,15 @@
 = render 'shared/search_form'
 
-#tabs
-  %ul
-    - logger.debug @search
-    - r = 1
-    - @search.matches.each do |deposit, houses|
-      %li
-        %a{ :href => "tabs-#{r}" }= "#{number_to_currency(deposit, :unit => '€', :precision => 0)} down"
-        - r += 1
+#results
+  =form_tag
 
-  - i = 1
+
   - @search.matches.each do |deposit, houses|
-    %div{ :id => "ui-tabs-#{i}" }
-      - i += 1
-      ="Min house price: #{number_to_currency(@search.price_ranges[deposit].begin.round, :unit => '€', :precision => 0)}"
-      ="Max house price: #{number_to_currency(@search.price_ranges[deposit].end.round, :unit => '€', :precision => 0)}"
+    %div
+      %h2= "#{number_to_currency(deposit, :unit => '€', :precision => 0)} down"
+      ="#{number_to_currency(@search.price_ranges[deposit].begin.round, :unit => '€', :precision => 0)} to "
+      ="#{number_to_currency(@search.price_ranges[deposit].end.round, :unit => '€', :precision => 0)}"
 
+      %br
       %table
         = render :partial => 'shared/house', :collection => houses

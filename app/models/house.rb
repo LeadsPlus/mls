@@ -1,6 +1,8 @@
 class House < ActiveRecord::Base
   attr_accessible :title, :price, :bedrooms, :number, :street, :description, :county, :town, :image_url
 
+  default_scope order('price')
+
   def address
     "#{number} #{street}, #{town}, Co. #{county}"
   end
@@ -8,6 +10,7 @@ class House < ActiveRecord::Base
   def ltv(princ)
     (princ*100)/price
   end
+
 end
 
 
