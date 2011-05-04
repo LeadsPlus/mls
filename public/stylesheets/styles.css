@@ -17,7 +17,7 @@ div#header {
 
 div.search {
   margin-bottom: 10px;
-  height: 30px;
+  min-height: 60px;
   padding: 7px 20px;
   border: 1px solid #aaa;
   border-radius: 4px;
@@ -31,9 +31,18 @@ div.search {
     float: right;
     position: relative;
     top: -3px; }
-  div.search input#search_min_payment {
-    width: 50px; }
-  div.search input#search_max_payment {
-    width: 50px; }
-  div.search input#search_deposit {
-    width: 50px; }
+  div.search #boxes {
+    width: 37%;
+    float: left; }
+    div.search #boxes input#search_min_payment {
+      width: 50px; }
+    div.search #boxes input#search_max_payment {
+      width: 50px; }
+  div.search #other_fields {
+    margin-bottom: 10px; }
+    div.search #other_fields input#search_deposit {
+      width: 50px; }
+  div.search div#jquery-slider {
+    margin: 2px 0;
+    float: left;
+    width: 62%; }
