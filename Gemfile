@@ -25,7 +25,12 @@ gem 'sqlite3'
 gem 'haml'
 gem 'sass'
 gem 'jquery-rails'
+
+# this should be moved back into dev after I stop faking data in prod
 gem 'faker', "0.9.5" #, '0.3.1', :require => false
+
+# have this one outside dev so that I can use hirb on heroku console
+gem 'hirb'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
@@ -33,7 +38,6 @@ gem 'faker', "0.9.5" #, '0.3.1', :require => false
 group :development do
   gem 'rspec-rails'
   gem 'annotate', '2.4.0'
-  gem 'hirb'
 end
 
 group :test do
