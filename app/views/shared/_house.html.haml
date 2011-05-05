@@ -7,7 +7,7 @@
           %b= house.title
       %tr
         -# I cant do this in the model because have no helper access
-        %td{ :colspan => 2 }= "#{house.number} #{house.street}, #{house.town}, Co. #{county_to_word(house.county_id)}"
+        %td{ :colspan => 2 }= house_address house
       %tr
         %td{ :colspan => 2 }= house.description
       %tr

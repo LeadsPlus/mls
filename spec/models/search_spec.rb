@@ -75,6 +75,8 @@ describe Search do
         @search.should_not be_valid
         end
       end
+
+      it "should be smaller than max_payment"
     end
 
     describe "max payment" do
@@ -89,6 +91,8 @@ describe Search do
           @search.should_not be_valid
         end
       end
+
+      it "should be bigger than min_payment"
     end
 
     describe "deposit" do

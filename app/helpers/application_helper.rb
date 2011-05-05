@@ -17,4 +17,8 @@ module ApplicationHelper
   def county_to_word(county)
     county_names[county]
   end
+
+  def house_address house
+    "#{house.number} #{house.street}, #{house.town}, Co. #{county_to_word(house.county_id)}"
+  end
 end
