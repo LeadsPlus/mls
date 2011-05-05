@@ -1,2 +1,6 @@
-.search{ :id => "search#{search.id}" }
-  %span=search.house_price
+%tr.search{ :id => "search-#{search.id}" }
+  %td= search.id
+  %td= search.min_payment
+  %td= search.max_payment
+  %td= search.deposit
+  %td= search.county_names[search.county.to_i]

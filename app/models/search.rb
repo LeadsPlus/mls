@@ -1,5 +1,13 @@
 class Search < ActiveRecord::Base
   attr_accessible :min_payment, :max_payment, :deposit, :county
+  after_initialize :init
+
+  def init
+    self.min_payment ||= 800
+    self.max_payment ||= 1000
+    self.deposit ||= 50_000
+    self.county ||= 'Wicklow'
+  end
 
   def term
     25
@@ -75,15 +83,17 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: searches
 #
-#  id         :integer         not null, primary key
-#  payment    :integer
-#  term       :integer
-#  created_at :datetime
-#  updated_at :datetime
-#  county     :string(255)
+#  id          :integer         not null, primary key
+#  max_payment :integer
+#  deposit     :integer
+#  created_at  :datetime
+#  updated_at  :datetime
+#  county      :string(255)
+#  min_payment :integer
 #
 

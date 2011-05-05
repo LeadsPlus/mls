@@ -6,15 +6,17 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: searches
 #
-#  id         :integer         not null, primary key
-#  payment    :integer
-#  term       :integer
-#  created_at :datetime
-#  updated_at :datetime
-#  county     :string(255)
+#  id          :integer         not null, primary key
+#  max_payment :integer
+#  deposit     :integer
+#  created_at  :datetime
+#  updated_at  :datetime
+#  county      :string(255)
+#  min_payment :integer
 #
 

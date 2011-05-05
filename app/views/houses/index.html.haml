@@ -3,6 +3,8 @@
 %table
   =render :partial => 'shared/house', :collection => @houses
 
+= paginate @houses
+
 %br
 
 = link_to 'New House', new_house_path

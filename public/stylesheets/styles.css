@@ -8,14 +8,23 @@ div#wrapper {
   background-color: white; }
 
 div#header {
-  height: 50px;
-  margin-bottom: 20px;
+  height: 35px;
+  padding: 5px;
+  margin-bottom: 10px;
   border: 1px solid #aaa;
   border-radius: 4px;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px; }
+  div#header div.logo {
+    float: left;
+    padding: 8px 5px 0 0;
+    color: #434934;
+    font-size: 2.75em;
+    font-weight: bold; }
+  div#header div.nav {
+    float: right; }
 
-div.search {
+div.search_bar {
   margin-bottom: 10px;
   min-height: 60px;
   padding: 7px 20px;
@@ -23,26 +32,29 @@ div.search {
   border-radius: 4px;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px; }
-  div.search span.field {
+  div.search_bar span.field {
     margin: 0 5px; }
-    div.search span.field label {
+    div.search_bar span.field label {
       font-weight: bold; }
-  div.search #search_submit {
+  div.search_bar #search_submit {
     float: right;
     position: relative;
     top: -3px; }
-  div.search #boxes {
+  div.search_bar #boxes {
     width: 37%;
     float: left; }
-    div.search #boxes input#search_min_payment {
+    div.search_bar #boxes input#search_min_payment {
       width: 50px; }
-    div.search #boxes input#search_max_payment {
+    div.search_bar #boxes input#search_max_payment {
       width: 50px; }
-  div.search #other_fields {
+  div.search_bar #other_fields {
     margin-bottom: 10px; }
-    div.search #other_fields input#search_deposit {
+    div.search_bar #other_fields input#search_deposit {
       width: 50px; }
-  div.search div#jquery-slider {
+  div.search_bar div#jquery-slider {
     margin: 2px 0;
     float: left;
     width: 62%; }
+
+img.house {
+  float: right; }

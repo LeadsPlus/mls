@@ -1,5 +1,6 @@
 -# if there were errors then we need to show the offending search
-- if @search.errors.any?
+
+- if @search && @search.errors.any?
   - new_search = @search
 - else
   - new_search = Search.new
@@ -11,7 +12,7 @@
         min: 1,
         max: 2000,
         step: 10,
-        values: [ #{@search.min_payment}, #{@search.max_payment} ],
+        values: [ #{new_search.min_payment}, #{new_search.max_payment} ],
          slide: function( event, ui ) {
           $( "#search_min_payment" ).val( ui.values[ 0 ] );
           $( "#search_max_payment" ).val( ui.values[ 1 ] );
@@ -19,30 +20,29 @@
     });
   });
 
-.search
-  =form_for new_search do |f|
-    =render 'shared/error_messages', :object => f.object
-    #other_fields
+=form_for new_search do |f|
+  =render 'shared/error_messages', :object => f.object
+  #other_fields
+    %span.field
+      =f.label :deposit, "Deposit (€)"
+      =f.text_field :deposit, :value => new_search.deposit, :size => 6
+
+    %span.field
+      =f.label :county
+      =f.select :county, new_search.county_choices, :selected => new_search.county.to_i
+
+    =f.submit :Search
+
+  #payments
+    #boxes
+      %b Monthly Payment Range:
       %span.field
-        =f.label :deposit, "Deposit (€)"
-        =f.text_field :deposit, :value => @search.deposit
+        -#=f.label :min_payment, "Min Payment (€)"
+        =f.text_field :min_payment, :value => new_search.min_payment, :size => 6
 
       %span.field
-        =f.label :county
-        =f.select :county, new_search.county_choices, :selected => @search.county.to_i
+        -#=f.label :max_payment, "Max Payment (€)"
+        =f.text_field :max_payment, :value => new_search.max_payment, :size => 6
 
-      =f.submit :Search
-
-    #payments
-      #boxes
-        %b Monthly Payment Range:
-        %span.field
-          -#=f.label :min_payment, "Min Payment (€)"
-          =f.text_field :min_payment, :value => @search.min_payment
-
-        %span.field
-          -#=f.label :max_payment, "Max Payment (€)"
-          =f.text_field :max_payment, :value => @search.max_payment
-
-      #jquery-slider
+    #jquery-slider
 

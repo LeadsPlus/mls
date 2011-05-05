@@ -25,6 +25,7 @@ gem 'sqlite3'
 gem 'haml'
 gem 'sass'
 gem 'jquery-rails'
+gem 'kaminari'
 
 # this should be moved back into dev after I stop faking data in prod
 gem 'faker', "0.9.5" #, '0.3.1', :require => false

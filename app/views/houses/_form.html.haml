@@ -1,0 +1,44 @@
+= form_for(@house) do |f|
+  =render 'shared/error_messages', :object => f.object
+  %fieldset
+    .field
+      = f.label :title
+      %br/
+      = f.text_field :title, :size => 80
+    .field
+      = f.label :description
+      %br/
+      = f.text_area :description, :cols => 58, :rows => 6
+    .field
+      = f.label :image_url
+      %br/
+      = f.text_field :image_url, :size => 80
+  %fieldset
+    .field
+      = f.label :number
+      %br/
+      = f.text_field :number, :size => 4
+    .field
+      = f.label :street
+      %br/
+      = f.text_field :street, :size => 80
+    .field
+      = f.label :town
+      %br/
+      = f.text_field :town, :size => 20
+    .field
+      = f.label :county
+      %br/
+      = f.text_field :county
+  %fieldset
+    .field
+      = f.label :price
+      %br/
+      = f.text_field :price, :size => 8
+    .field
+      = f.label :bedrooms
+      %br/
+      = f.text_field :bedrooms, :size => 2
+
+  .actions
+    = f.submit

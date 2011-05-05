@@ -1,6 +1,16 @@
 class SearchesController < ApplicationController
+  def index
+    @searches = Search.page(params[:page])
+
+    respond_to do |format|
+      format.html # index.html.haml
+      format.xml  { render :xml => @searches }
+    end
+  end
+
   def show
     @search = Search.find params[:id]
+    @matches = @search.matches.page(params[:page]).per(30)
   end
 
   def new

@@ -1,10 +1,14 @@
 class House < ActiveRecord::Base
   attr_accessible :title, :price, :bedrooms, :number, :street, :description, :county, :town, :image_url
-
   default_scope order('price')
+  paginates_per 15
 
-  def address
+  def inline_address
     "#{number} #{street}, #{town}, Co. #{county}"
+  end
+
+  def listed_address
+    "#{number} #{street},\n #{town},\n Co. #{county}"
   end
 
   def ltv(princ)

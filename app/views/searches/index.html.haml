@@ -1,0 +1,14 @@
+%h1 Listing searches
+
+%table
+  %tr
+    %th ID
+    %th Min. Payment
+    %th Max. Payment
+    %th Deposit
+    %th County
+  =render :partial => 'search', :collection => @searches
+
+= paginate @searches
+%br
+= link_to "Home", root_path

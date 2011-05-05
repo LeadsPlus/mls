@@ -2,7 +2,7 @@ class HousesController < ApplicationController
   # GET /houses
   # GET /houses.xml
   def index
-    @houses = House.all
+    @houses = House.page(params[:page])
 
     respond_to do |format|
       format.html # index.html.haml
@@ -16,7 +16,7 @@ class HousesController < ApplicationController
     @house = House.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html # show.html.haml
       format.xml  { render :xml => @house }
     end
   end

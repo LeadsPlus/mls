@@ -1,17 +1,17 @@
 %tr.house{ :id => "house_#{house.id}" }
-  %td= image_tag house.image_url
+  %td= image_tag house.image_url, :size => '160x120'
   %td
     %table
       %tr
         %td{ :colspan => 2 }
           %b= house.title
       %tr
-        %td{ :colspan => 2 }= house.address
+        %td{ :colspan => 2 }= house.inline_address
       %tr
         %td{ :colspan => 2 }= house.description
       %tr
         %td= "Price: #{number_to_currency(house.price, :unit => '€', :precision => 0)}"
-        %td= "Actual Monthly Payment Required: #{number_to_currency(-@search.pmt_at(house.price), :unit => '€')}"
+        %td= "Actual Monthly Payment Required: #{number_to_currency(-@search.pmt_at(house.price), :unit => '€')}" if @search
         -#%td= number_to_percentage(house.ltv(@search.principals[40]))
         %td= link_to 'Show', house
         -#%td= link_to 'Edit', edit_house_path(house)

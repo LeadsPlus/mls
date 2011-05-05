@@ -1,6 +1,6 @@
-= render 'shared/search_form'
-
 #results
   %div
     %table
-      = render :partial => 'shared/house', :collection => @search.matches
+      = render :partial => 'shared/house', :collection => @matches
+
+  = paginate @matches
