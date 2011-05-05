@@ -27,10 +27,10 @@
       %br/
       = f.text_field :town, :size => 20
     .field
-      = f.label :county
+      = f.label :county_id, "County"
       %br/
       -# county choices is an application helper
-      = f.select :county, county_choices
+      = f.select :county_id, county_choices
   %fieldset
     .field
       = f.label :price

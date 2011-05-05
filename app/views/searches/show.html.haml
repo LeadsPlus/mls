@@ -1,6 +1,10 @@
 #results
   %div
-    %table
-      = render :partial => 'shared/house', :collection => @matches
+    - if @matches.any?
+      %table
+        = render :partial => 'shared/house', :collection => @matches
 
-  = paginate @matches
+      = paginate @matches
+
+    - else
+      We're sorry but no houses match that search

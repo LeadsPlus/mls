@@ -6,7 +6,8 @@
         %td{ :colspan => 2 }
           %b= house.title
       %tr
-        %td{ :colspan => 2 }= house.inline_address
+        -# I cant do this in the model because have no helper access
+        %td{ :colspan => 2 }= "#{house.number} #{house.street}, #{house.town}, Co. #{county_to_word(house.county_id)}"
       %tr
         %td{ :colspan => 2 }= house.description
       %tr

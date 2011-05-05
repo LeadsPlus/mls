@@ -9,15 +9,10 @@ namespace :db do
 end
 
 def make_default_search
-  Search.create :max_payment => 1100, :min_payment => 800, :deposit => 50000, :term => 25, :county => '4'
+  Search.create :max_payment => 1100, :min_payment => 800, :deposit => 50000, :term => 25, :county_id => 4
 end
 
 def make_houses
-#  can I reference the global variable here and DRY this up?
-  counties = %w[Louth Dublin Kerry Waterford Wicklow Antrim Fermanagh Armagh Carlow Cavan Clare Cork Derry Donegal
-                Down Galway Kildare Kilkenny Laois Letrim Limerick Longford Mayo Monaghan Offaly Roscommon Sligo
-                Tipperary Tyrone Westmeath Wexford].freeze
-
   images = ['http://mediacache-s3eu.daft.ie/MZYU1EHKU5Wezk5xuw07WPdRb8VZeof6esL9j1djM-RtPWRhZnQmZT0xNjB4MTIw.jpg',
             'http://mediacache-s3eu.daft.ie/wh2z6UZ1LyVzMwwJfMNjSXvixS89Qu5cQ0mDtPstW-htPWRhZnQmZT0xNjB4MTIw.jpg',
             'http://c2.dmstatic.com/i/daft_no_image_small.png',
@@ -31,12 +26,13 @@ def make_houses
             ]
 
   1000.times do |i|
+#    these functions should also be dried out with the factories
     beds = rand(4) + 1
     price = (150 + rand(350))*1000
     House.create(:street => Faker::Address.street_address,
                  :number => 1 + rand(30),
                  :town => Faker::Address.city,
-                 :county => counties[rand(counties.size)],
+                 :county_id => rand(31),
                  :bedrooms => beds,
                  :price => price,
                  :image_url => images[rand(images.size)],

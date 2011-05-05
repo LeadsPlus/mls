@@ -42,7 +42,7 @@ group :development do
 end
 
 group :test do
-  gem 'rspec'
+  gem 'rspec-rails'
   gem 'capybara'
   gem 'spork'
   gem "launchy", "0.3.0"

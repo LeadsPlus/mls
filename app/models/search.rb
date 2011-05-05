@@ -1,5 +1,5 @@
 class Search < ActiveRecord::Base
-  attr_accessible :min_payment, :max_payment, :deposit, :term, :county
+  attr_accessible :min_payment, :max_payment, :deposit, :term, :county_id
   after_initialize :init
 
   def init
@@ -7,17 +7,29 @@ class Search < ActiveRecord::Base
     self.max_payment ||= 1_000
     self.deposit ||= 50_000
     self.term ||= 25
-    self.county ||= '4'
+    self.county_id ||= 4
   end
 
-  validates :max_payment, :presence => true
-  validates :deposit, :presence => true
+  validates :max_payment, :presence => true,
+                          :numericality => { :greater_than => 0 }
+
+  validates :min_payment, :presence => true,
+                          :numericality => { :greater_than => 0 }
+
+  validates :deposit, :presence => true,
+                      :numericality => { :greater_than => 0 }
+
+  validates :term, :presence => true,
+                   :numericality => { :greater_than => 0, :less_than_or_equal_to => 60 }
+
+  validates :county_id, :presence => true,
+      :numericality => { :greater_than_or_equal_to => 0, :less_than => 32 }
 
 #  Do I need BigDecimals here?
   def rates
 #    format: minimum deposit % needed to get this rate => rate
 #    { 10 => 5.15, 15 => 4.25, 20 => 3.75, 25 => 3.5, 30 => 3.25, 35 => 3.0, 40 => 2.75 }
-    { 1 => 5.0, 21 => 4.5, 31 => 4.0, 41 => 3.0 }
+      { 1 => 5.0, 21 => 4.5, 31 => 4.0, 41 => 3.0 }
   end
 
   def eventual_rate
@@ -25,7 +37,8 @@ class Search < ActiveRecord::Base
   end
 
   def effective_rate(rate)
-    rate/1200
+#    this is going to fuck me up majorly if I move to BigDecimal
+    rate.to_f/1200
   end
 
 #  hash of form min_depos => eff_rate
@@ -59,10 +72,11 @@ class Search < ActiveRecord::Base
   end
 
   def matches
-    House.where("price >= :min AND price <= :max AND county = :county",
-                { :min => min_price, :max => affordable_prices.values.max, :county => $county_names[county.to_i] })
+    House.where("price >= :min AND price <= :max AND county_id = :county_id",
+                { :min => min_price, :max => affordable_prices.values.max, :county_id => county_id })
   end
 end
+
 
 
 
@@ -77,8 +91,8 @@ end
 #  deposit     :integer
 #  created_at  :datetime
 #  updated_at  :datetime
-#  county      :string(255)
 #  min_payment :integer
 #  term        :integer
+#  county_id   :integer
 #
 

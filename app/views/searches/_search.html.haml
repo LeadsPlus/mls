@@ -3,4 +3,4 @@
   %td= search.min_payment
   %td= search.max_payment
   %td= search.deposit
-  %td= $county_names[search.county.to_i]
+  %td= county_to_word(search.county_id)
