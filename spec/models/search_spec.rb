@@ -7,6 +7,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: searches
@@ -18,5 +19,6 @@ end
 #  updated_at  :datetime
 #  county      :string(255)
 #  min_payment :integer
+#  term        :integer
 #
 

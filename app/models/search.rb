@@ -1,34 +1,17 @@
 class Search < ActiveRecord::Base
-  attr_accessible :min_payment, :max_payment, :deposit, :county
+  attr_accessible :min_payment, :max_payment, :deposit, :term, :county
   after_initialize :init
 
   def init
     self.min_payment ||= 800
-    self.max_payment ||= 1000
+    self.max_payment ||= 1_000
     self.deposit ||= 50_000
-    self.county ||= 'Wicklow'
-  end
-
-  def term
-    25
+    self.term ||= 25
+    self.county ||= '4'
   end
 
   validates :max_payment, :presence => true
   validates :deposit, :presence => true
-
-#  def self.county_names
-#    %w[Louth Dublin Kerry Waterford Wicklow Antrim Fermanagh Armagh Carlow Cavan Clare Cork Derry Donegal
-#       Down Galway Kildare Kilkenny Laois Letrim Limerick Longford Mayo Monaghan Offaly Roscommon Sligo
-#       Tipperary Tyrone Westmeath Wexford].freeze
-#  end
-#
-#  def self.county_choices
-#    i = -1
-#    county_names.collect do |name|
-#      i += 1
-#      [name, i]
-#    end
-#  end
 
 #  Do I need BigDecimals here?
   def rates
@@ -84,6 +67,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: searches
@@ -95,5 +79,6 @@ end
 #  updated_at  :datetime
 #  county      :string(255)
 #  min_payment :integer
+#  term        :integer
 #
 

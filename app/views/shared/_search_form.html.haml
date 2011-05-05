@@ -26,6 +26,10 @@
       =f.text_field :deposit, :value => @search.deposit, :size => 6
 
     %span.field
+      =f.label :term, "Term (years)"
+      =f.text_field :term, :value => @search.term, :size => 3
+
+    %span.field
       =f.label :county
       =f.select :county, county_choices, :selected => @search.county.to_i
 
