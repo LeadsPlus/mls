@@ -13,6 +13,7 @@ def make_default_search
 end
 
 def make_houses
+#  can I reference the global variable here and DRY this up?
   counties = %w[Louth Dublin Kerry Waterford Wicklow Antrim Fermanagh Armagh Carlow Cavan Clare Cork Derry Donegal
                 Down Galway Kildare Kilkenny Laois Letrim Limerick Longford Mayo Monaghan Offaly Roscommon Sligo
                 Tipperary Tyrone Westmeath Wexford].freeze

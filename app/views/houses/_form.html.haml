@@ -29,7 +29,8 @@
     .field
       = f.label :county
       %br/
-      = f.text_field :county
+      -# county choices is an application helper
+      = f.select :county, county_choices
   %fieldset
     .field
       = f.label :price

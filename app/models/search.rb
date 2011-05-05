@@ -16,19 +16,19 @@ class Search < ActiveRecord::Base
   validates :max_payment, :presence => true
   validates :deposit, :presence => true
 
-  def county_names
-    %w[Louth Dublin Kerry Waterford Wicklow Antrim Fermanagh Armagh Carlow Cavan Clare Cork Derry Donegal
-       Down Galway Kildare Kilkenny Laois Letrim Limerick Longford Mayo Monaghan Offaly Roscommon Sligo
-       Tipperary Tyrone Westmeath Wexford].freeze
-  end
-  
-  def county_choices
-    i = -1
-    county_names.collect do |name|
-      i += 1
-      [name, i]
-    end
-  end
+#  def self.county_names
+#    %w[Louth Dublin Kerry Waterford Wicklow Antrim Fermanagh Armagh Carlow Cavan Clare Cork Derry Donegal
+#       Down Galway Kildare Kilkenny Laois Letrim Limerick Longford Mayo Monaghan Offaly Roscommon Sligo
+#       Tipperary Tyrone Westmeath Wexford].freeze
+#  end
+#
+#  def self.county_choices
+#    i = -1
+#    county_names.collect do |name|
+#      i += 1
+#      [name, i]
+#    end
+#  end
 
 #  Do I need BigDecimals here?
   def rates
@@ -77,7 +77,7 @@ class Search < ActiveRecord::Base
 
   def matches
     House.where("price >= :min AND price <= :max AND county = :county",
-                { :min => min_price, :max => affordable_prices.values.max, :county => county_names[county.to_i] })
+                { :min => min_price, :max => affordable_prices.values.max, :county => $county_names[county.to_i] })
   end
 end
 
