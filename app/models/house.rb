@@ -24,7 +24,7 @@ class House < ActiveRecord::Base
   validates :price, :presence => true,
                     :numericality => { :greater_than => 1 }
 
-  validates :number, :numericality => { :greater_than => 1 }
+  validates :number, :numericality => { :greater_than => 0 }
 end
 
 

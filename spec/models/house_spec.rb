@@ -51,14 +51,14 @@ describe House do
       House.new(@attr.merge(:county_id => nil)).should_not be_valid
     end
 
-#    it "should require a valid county identifier" do
-##      remember counties are 0 based
-#      invalid_counties = [-1, 32]
-#
-#      invalid_counties.each do |num|
-#        House.new(@attr.merge(:county => num)).should_not be_valid
-#      end
-#    end
+    it "should require a valid county identifier" do
+#      remember counties are 0 based
+      invalid_counties = [-1, 32]
+
+      invalid_counties.each do |num|
+        House.new(@attr.merge(:county => num)).should_not be_valid
+      end
+    end
 
     describe "image_url" do
 #      leaving these unfinished for the moment since will probably be using paperclip anyway
