@@ -95,21 +95,19 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: houses
 #
 #  id          :integer         not null, primary key
-#  street      :string(255)
 #  price       :integer
-#  bedrooms    :integer
 #  created_at  :datetime
 #  updated_at  :datetime
-#  number      :integer
-#  town        :string(255)
 #  image_url   :string(255)
 #  description :text
 #  title       :string(255)
 #  county_id   :integer
+#  daft_url    :string(255)
 #
 

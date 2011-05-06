@@ -11,6 +11,8 @@ class SearchesController < ApplicationController
   def show
     @search = Search.find params[:id]
     @matches = @search.matches.page(params[:page]).per(30)
+
+    add_search_bar
   end
 
   def new
@@ -30,4 +32,9 @@ class SearchesController < ApplicationController
       render 'new'
     end
   end
+
+  private
+    def add_search_bar
+      @search_form = true
+    end
 end

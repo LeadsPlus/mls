@@ -3,17 +3,14 @@
   %td
     %table
       %tr
-        %td{ :colspan => 2 }
+        %td{ :colspan => 3 }
           %b= house.title
       %tr
-        -# I cant do this in the model because have no helper access
-        %td{ :colspan => 2 }= house_address house
-      %tr
-        %td{ :colspan => 2 }= house.description
+        %td{ :colspan => 3 }= house.description if house.description
       %tr
         %td= "Price: #{number_to_currency(house.price, :unit => '€', :precision => 0)}"
         %td= "Actual Monthly Payment Required: #{number_to_currency(-@search.pmt_at(house.price), :unit => '€')}" if @search
-        -#%td= number_to_percentage(house.ltv(@search.principals[40]))
+        %td= link_to "View on Daft.ie", "http://www.daft.ie/#{house.daft_url}"
         %td= link_to 'Show', house
         -#%td= link_to 'Edit', edit_house_path(house)
         -#%td= link_to 'Destroy', house, :confirm => 'Are you sure?', :method => :delete

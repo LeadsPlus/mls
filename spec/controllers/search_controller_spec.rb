@@ -1,5 +1,7 @@
 require 'spec_helper'
 
+# these tests are not working properly. Don't trust them.
+
 describe SearchesController do
   render_views
 
@@ -9,12 +11,13 @@ describe SearchesController do
     end
 
     it "should be success" do
-      visit searches_path
-      response.should be_success
+      get 'index' do
+        response.should be_success
+      end
     end
 
     it "should list searches" do
-      visit searches_path
+      get 'index'
       page.should have_selector('tr#search-1')
     end
   end
@@ -25,7 +28,7 @@ describe SearchesController do
     end
     
     it "should be success" do
-      visit search_path(@search.id)
+      get'show', :id => @search
       response.should be_success
     end
 
@@ -79,9 +82,9 @@ describe SearchesController do
 
     describe "failure" do
       before(:each) do
-        @attr = {
-          :deposit => nil,
-          :min_payment => nil,
+        @fail_attr = {
+          :deposit => '',
+          :min_payment => -234,
           :max_payment => nil,
           :term => nil,
           :county_id => nil
@@ -90,18 +93,19 @@ describe SearchesController do
 
       it "should not create a search" do
         expect {
-          post 'create', :search => @attr
+          post 'create', :search => @fail_attr
         }.to change(Search, :count).by(0)
       end
 
-      it "should redirect to the search show page" do
-        post 'create', :search => @attr
-        current_path.should == search_path(assigns :search)
+      it "should render the new template" do
+        post 'create', :search => @fail_attr
+        response.should render_template 'new'
       end
 
+#      I've no idea why this fails
       it "should have error messages" do
-        post 'create', :search => @attr
-        page.should have_selector('div.error')
+        post 'create', :search => @fail_attr
+        page.should have_selector('div#search_error')
       end
     end
   end

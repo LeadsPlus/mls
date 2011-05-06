@@ -70,7 +70,7 @@ describe Search do
       end
 
       it "should be a valid number" do
-        [0, -23, 'bananas'].each do |paym|
+        [0, -23, 'bananas', nil, :nan, ''].each do |paym|
           @search.min_payment = paym
         @search.should_not be_valid
         end
@@ -86,7 +86,7 @@ describe Search do
       end
 
       it "should be a valid number" do
-        [0, -23, 'bananas', '', :hi].each do |paym|
+        [0, -23, 'bananas', nil, :nan, ''].each do |paym|
           @search.max_payment = paym
           @search.should_not be_valid
         end
@@ -102,7 +102,7 @@ describe Search do
       end
 
       it "should be valid" do
-        [0, -23, 'bananas', '', :hi].each do |depos|
+        [0, -23, 'bananas', nil, :nan, ''].each do |depos|
           @search.deposit = depos
         @search.should_not be_valid
         end
@@ -116,7 +116,7 @@ describe Search do
       end
 
       it "should be valid" do
-        [0, -23, 'bananas', 61, '', :hi].each do |term|
+        [0, -23, 'bananas', nil, :nan, ''].each do |term|
           @search.term = term
           @search.should_not be_valid
         end
@@ -131,7 +131,7 @@ describe Search do
 
 #      again I'm not exactly sure how to test this one yet
       it "should be valid" do
-        [-23, 'bananas', 32, '', :hi].each do |id|
+        [-23, 'bananas', 32, nil, :nan, ''].each do |id|
           @search.county_id = id
           @search.should_not be_valid
         end

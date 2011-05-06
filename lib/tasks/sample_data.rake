@@ -1,10 +1,9 @@
 namespace :db do
   desc "Fill database with sample data"
   task :populate => :environment do
-    Rake::Task['db:reset'].invoke
     require 'faker'
     make_default_search
-    make_houses
+#    make_houses
   end
 end
 

@@ -14,18 +14,15 @@ class House < ActiveRecord::Base
   end
 
   validates :title, :presence => true
-  validates :description, :presence => true
 
-  validates :street, :presence => true
-  validates :town, :presence => true
   validates :county_id, :presence => true,
                      :numericality => { :greater_than_or_equal_to => 0, :less_than => 32 }
 
   validates :price, :presence => true,
                     :numericality => { :greater_than => 1 }
 
-  validates :number, :numericality => { :greater_than => 0 }
 end
+
 
 
 
@@ -34,16 +31,13 @@ end
 # Table name: houses
 #
 #  id          :integer         not null, primary key
-#  street      :string(255)
 #  price       :integer
-#  bedrooms    :integer
 #  created_at  :datetime
 #  updated_at  :datetime
-#  number      :integer
-#  town        :string(255)
 #  image_url   :string(255)
 #  description :text
 #  title       :string(255)
 #  county_id   :integer
+#  daft_url    :string(255)
 #
 

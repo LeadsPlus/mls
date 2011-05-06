@@ -10,20 +10,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110505114629) do
+ActiveRecord::Schema.define(:version => 20110506115214) do
 
   create_table "houses", :force => true do |t|
-    t.string   "street"
     t.integer  "price"
-    t.integer  "bedrooms"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "number"
-    t.string   "town"
     t.string   "image_url"
     t.text     "description"
     t.string   "title"
     t.integer  "county_id"
+    t.string   "daft_url"
   end
 
   create_table "searches", :force => true do |t|

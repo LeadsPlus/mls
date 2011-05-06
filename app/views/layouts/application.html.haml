@@ -10,8 +10,7 @@
     #wrapper
       #header
         = render 'layouts/header'
-      .search_bar
-        = render 'shared/search_form'
+      = render 'shared/search_bar' if @search_form
       #content
         = yield
       #footer

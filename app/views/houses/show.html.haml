@@ -3,19 +3,12 @@
 
 %h2= @house.title
 
-%p= @house.description
+%p= @house.description if @house.description
 
 %p
   %b Price:
   = number_to_currency(@house.price, :unit => '€', :precision => 0)
 
-%p
-  %b Address:
-  = house_address @house
-
-%p
-  %b Bedrooms:
-  = @house.bedrooms
-= link_to 'Edit', edit_house_path(@house)
+= link_to 'View on Daft.ie', "http://www.daft.ie/#{@house.daft_url}"
 |
-\#{link_to 'Back', houses_path}
+\#{link_to 'Back', root_path}
