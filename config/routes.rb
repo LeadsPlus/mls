@@ -1,4 +1,6 @@
 Mls::Application.routes.draw do
+  resources :rates
+
   resources :houses
 
   # The priority is based upon order of creation:

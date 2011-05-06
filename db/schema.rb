@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110506115214) do
+ActiveRecord::Schema.define(:version => 20110506153655) do
 
   create_table "houses", :force => true do |t|
     t.integer  "price"
@@ -21,6 +21,19 @@ ActiveRecord::Schema.define(:version => 20110506115214) do
     t.string   "title"
     t.integer  "county_id"
     t.string   "daft_url"
+  end
+
+  create_table "rates", :force => true do |t|
+    t.float    "initial_rate"
+    t.string   "lender"
+    t.string   "type"
+    t.integer  "min_depos"
+    t.integer  "initial_period_length"
+    t.float    "svr"
+    t.integer  "max_princ"
+    t.integer  "min_princ"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "searches", :force => true do |t|

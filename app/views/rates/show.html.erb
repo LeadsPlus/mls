@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Initial rate:</b>
+  <%= @rate.initial_rate %>
+</p>
+
+<p>
+  <b>Lender:</b>
+  <%= @rate.lender %>
+</p>
+
+<p>
+  <b>Type:</b>
+  <%= @rate.type %>
+</p>
+
+<p>
+  <b>Min depos:</b>
+  <%= @rate.min_depos %>
+</p>
+
+<p>
+  <b>Initial period length:</b>
+  <%= @rate.initial_period_length %>
+</p>
+
+<p>
+  <b>Svr:</b>
+  <%= @rate.svr %>
+</p>
+
+<p>
+  <b>Max princ:</b>
+  <%= @rate.max_princ %>
+</p>
+
+<p>
+  <b>Min princ:</b>
+  <%= @rate.min_princ %>
+</p>
+
+
+<%= link_to 'Edit', edit_rate_path(@rate) %> |
+<%= link_to 'Back', rates_path %>

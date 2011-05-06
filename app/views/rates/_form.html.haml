@@ -1,0 +1,43 @@
+= form_for(@rate) do |f|
+  - if @rate.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@rate.errors.count, "error")
+        prohibited this rate from being saved:
+      %ul
+        - @rate.errors.full_messages.each do |msg|
+          %li= msg
+  .field
+    = f.label :initial_rate
+    %br/
+    = f.text_field :initial_rate
+  .field
+    = f.label :lender
+    %br/
+    = f.select :lender, [['Bank of Ireland','Bank of Ireland'], ['AIB','AIB']]
+  .field
+    = f.label :type
+    %br/
+    = f.select :type, [['Variable Rate','Variable Rate'], ['Fixed Rate','Fixed Rate']]
+  .field
+    = f.label :min_depos, "Min. Deposit (%)"
+    %br/
+    = f.text_field :min_depos
+  .field
+    = f.label :initial_period_length
+    %br/
+    = f.select :initial_period_length, [['1 years', 1], ['2 years', 2], ['3 years', 3], ['4 years', 4], ['5 years', 5]]
+  .field
+    = f.label :svr
+    %br/
+    = f.text_field :svr
+  .field
+    = f.label :max_princ, "Max. Loan Amount (€)"
+    %br/
+    = f.text_field :max_princ
+  .field
+    = f.label :min_princ, "Min. Loan Amount (€)"
+    %br/
+    = f.text_field :min_princ
+  .actions
+    = f.submit
