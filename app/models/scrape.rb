@@ -3,6 +3,7 @@ class Scrape
     county
   end
 
+#  calling Scrape.new.perform is running this directly, not delayed
   def county(county_id = 30)
     county_names = %w[Dublin Meath Kildare Wicklow Longford Offaly Westmeath Laois Louth Carlow Kilkenny Waterford
         Wexford Kerry Cork Clare Limerick Tipperary Galway Mayo Roscommon Sligo Leitrim Donegal Cavan
