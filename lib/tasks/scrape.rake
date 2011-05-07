@@ -45,7 +45,6 @@ def scrape_county county_id
 #      I don't want to scrape houses with no prices ie. 'POA' or the like
       if item.at(".price").text[/[0-9,]+/]
         title = item.at(".title a")
-        puts title.text.strip
         House.create!({
           :title => title.text.strip,
           :description => item.at(".description").text.strip,
