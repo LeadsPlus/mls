@@ -1,6 +1,6 @@
 class SearchesController < ApplicationController
   def index
-    @searches = Search.page(params[:page])
+    @searches = Search.page(params[:page]).per(50)
 
     respond_to do |format|
       format.html # index.html.haml
@@ -10,7 +10,7 @@ class SearchesController < ApplicationController
 
   def show
     @search = Search.find params[:id]
-    @matches = @search.matches.page(params[:page]).per(30)
+    @matches = @search.matches.page(params[:page])
 
     add_search_bar
   end
