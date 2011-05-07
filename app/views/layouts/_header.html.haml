@@ -2,7 +2,8 @@
   = link_to "HowMuchHouse.net", root_path
 %span.nav
   %a{ :href => "http://twitter.com/share",
-      :class => "twitter-share-button", :url => "#{root_path}" } Tweet
+      :class => "twitter-share-button", :url => "#{root_path}",
+      :related => "howmuchhouse" } Tweet
   %div#fb-root
   :javascript
     window.fbAsyncInit = function() {
@@ -15,5 +16,5 @@
         '//connect.facebook.net/en_US/all.js';
       document.getElementById('fb-root').appendChild(e);
     }());
-  %fb:like{ :href => "http://www.howmuchhouse.net/", :send => "true", :width => "300", :show_faces => "false",
+  %fb:like{ :href => "http://www.howmuchhouse.net/", :send => "true", :width => "70", :show_faces => "false",
         :layout => "button_count", :colorscheme => "dark", :font => "lucida grande" }
