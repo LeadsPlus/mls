@@ -23,6 +23,7 @@ class Rate < ActiveRecord::Base
 end
 
 
+
 # == Schema Information
 #
 # Table name: rates
@@ -31,10 +32,10 @@ end
 #  initial_rate          :float
 #  lender                :string(255)
 #  loan_type             :string(255)
-#  min_depos             :integer
-#  max_depos             :integer
+#  min_ltv               :integer
+#  max_ltv               :integer
 #  initial_period_length :integer
-#  svr                   :float
+#  rolls_to              :float
 #  max_princ             :integer
 #  min_princ             :integer
 #  created_at            :datetime

@@ -11,16 +11,18 @@ div#header {
   height: 35px;
   padding: 5px;
   margin-bottom: 10px;
-  border: 1px solid #aaa;
+  border: 1px solid #aaaaaa;
   border-radius: 4px;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px; }
   div#header div.logo {
     float: left;
     padding: 8px 5px 0 0;
-    color: #434934;
+    color: #aaaaaa;
     font-size: 2.75em;
     font-weight: bold; }
+    div#header div.logo a {
+      text-decoration: none; }
   div#header div.nav {
     float: right; }
 
@@ -55,6 +57,14 @@ div.search_bar {
     margin: 2px 0;
     float: left;
     width: 62%; }
+
+div#mortgage_details {
+  margin-bottom: 10px;
+  padding: 5px;
+  border-top: 1px solid #aaaaaa;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px; }
 
 img.house {
   float: right; }

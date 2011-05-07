@@ -1,5 +1,5 @@
 class House < ActiveRecord::Base
-  attr_accessible :title, :price, :bedrooms, :number, :street, :description, :county, :town, :image_url
+  attr_accessible :title, :price, :description, :county, :image_url, :daft_url
   default_scope order('price')
   paginates_per 15
 
