@@ -1,7 +1,7 @@
 class House < ActiveRecord::Base
   attr_accessible :title, :price, :description, :county, :image_url, :daft_url
   default_scope order('price')
-  paginates_per(15)
+  paginates_per(10)
 
 #  this doesn't work now because I have no access to the county_to_word helper
 #  what if I was to add a county name column too and populate it just before save based off the county_id?
