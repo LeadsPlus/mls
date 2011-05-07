@@ -30,6 +30,7 @@ gem 'kaminari'
 gem 'nokogiri'
 gem 'mechanize'
 gem 'pg'
+gem 'delayed_job'
 
 # this should be moved back into dev after I stop faking data in prod
 gem 'faker', "0.9.5" #, '0.3.1', :require => false

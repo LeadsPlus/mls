@@ -28,6 +28,7 @@ class Search < ActiveRecord::Base
   end
 
   def eventual_rate
+#    I think that this is trying to access a key that doesn't exist in some circumstances
     rates[affordable_prices.max[0]]
   end
 
