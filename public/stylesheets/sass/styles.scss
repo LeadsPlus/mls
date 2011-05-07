@@ -20,7 +20,7 @@ div#header {
   border: 1px solid $border_color;
   @include border-radius(4px);
 
-  div.logo {
+  span.logo {
     float: left;
     padding: 8px 5px 0 0;
     color: $border_color;
@@ -34,8 +34,12 @@ div#header {
     }
   }
 
-  div.nav {
+  span.nav {
     float: right;
+  }
+
+  div#fb-root {
+    display: inline;
   }
 }
 

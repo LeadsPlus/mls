@@ -1,3 +1,19 @@
-.logo
+%span.logo
   = link_to "HowMuchHouse.net", root_path
-.nav
+%span.nav
+  %a{ :href => "http://twitter.com/share",
+      :class => "twitter-share-button", :url => "#{root_path}" } Tweet
+  %div#fb-root
+  :javascript
+    window.fbAsyncInit = function() {
+    FB.init({appId: 'your app id', status: true, cookie: true,
+             xfbml: true});
+    };
+    (function() {
+      var e = document.createElement('script'); e.async = true;
+      e.src = document.location.protocol +
+        '//connect.facebook.net/en_US/all.js';
+      document.getElementById('fb-root').appendChild(e);
+    }());
+  %fb:like{ :href => "http://www.howmuchhouse.net/", :send => "true", :width => "300",
+    :show_faces => "true", :colorscheme => "dark", :font => "lucida grande" }

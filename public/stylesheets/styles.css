@@ -15,16 +15,18 @@ div#header {
   border-radius: 4px;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px; }
-  div#header div.logo {
+  div#header span.logo {
     float: left;
     padding: 8px 5px 0 0;
     color: #aaaaaa;
     font-size: 2.75em;
     font-weight: bold; }
-    div#header div.logo a {
+    div#header span.logo a {
       text-decoration: none; }
-  div#header div.nav {
+  div#header span.nav {
     float: right; }
+  div#header div#fb-root {
+    display: inline; }
 
 div.search_bar {
   margin-bottom: 10px;
