@@ -3,12 +3,59 @@ namespace :db do
   task :populate => :environment do
     require 'faker'
     make_default_search
+    make_rates
 #    make_houses
   end
 end
 
 def make_default_search
   Search.create :max_payment => 1100, :min_payment => 800, :deposit => 50000, :term => 25, :county => "Fermanagh"
+end
+
+def make_rates
+  Rate.create({
+    :initial_rate => 3.0,
+    :lender => 'Bank of Ireland',
+    :loan_type => 'Variable Rate',
+    :min_ltv => 1,
+    :max_ltv => 49,
+  })
+
+  Rate.create({
+    :initial_rate => 3.1,
+    :lender => 'Bank of Ireland',
+    :loan_type => 'Variable Rate',
+    :min_ltv => 50,
+    :max_ltv =>79,
+    :min_princ => 500000
+  })
+
+  Rate.create({
+    :initial_rate => 3.0,
+    :lender => 'Bank of Ireland',
+    :loan_type => 'Variable Rate',
+    :min_ltv => 50,
+    :max_ltv => 79,
+    :max_princ => 500000
+  })
+
+  Rate.create({
+    :initial_rate => 3.3,
+    :lender => 'Bank of Ireland',
+    :loan_type => 'Variable Rate',
+    :min_ltv => 80,
+    :max_ltv => 92,
+    :min_princ => 500000
+  })
+
+  Rate.create({
+    :initial_rate => 3.4,
+    :lender => 'Bank of Ireland',
+    :loan_type => 'Variable Rate',
+    :min_ltv => 80,
+    :max_ltv => 92,
+    :max_princ => 500000
+  })
 end
 
 def make_houses
