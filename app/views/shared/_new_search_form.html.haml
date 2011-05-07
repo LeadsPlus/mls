@@ -30,8 +30,8 @@
       =f.text_field :term, :value => @search.term, :size => 3
 
     %span.field
-      =f.label :county_id, "County"
-      =f.select :county_id, county_choices, :selected => @search.county_id
+      =f.label :county
+      =f.select :county, county_choices, :selected => @search.county
 
     =f.submit :Search
 

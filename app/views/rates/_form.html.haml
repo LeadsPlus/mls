@@ -8,7 +8,7 @@
         - @rate.errors.full_messages.each do |msg|
           %li= msg
   .field
-    = f.label :initial_rate
+    = f.label :initial_rate, "Initial Rate (%)"
     %br/
     = f.text_field :initial_rate
   .field
@@ -16,28 +16,36 @@
     %br/
     = f.select :lender, [['Bank of Ireland','Bank of Ireland'], ['AIB','AIB']]
   .field
-    = f.label :type
+    = f.label :loan_type
     %br/
-    = f.select :type, [['Variable Rate','Variable Rate'], ['Fixed Rate','Fixed Rate']]
+    = f.select :loan_type, [['Variable Rate','Variable Rate'], ['Partially Fixed Rate','Partially Fixed Rate']]
   .field
-    = f.label :min_depos, "Min. Deposit (%)"
+    = f.label :min_ltv, "Min. LTV (%). You must be borrowing greater than this % to avail of this rate."
     %br/
-    = f.text_field :min_depos
+    = f.text_field :min_ltv
+  .field
+    = f.label :max_ltv, "Max. LTV (%). You may borrow up to this % and still avail of this rate."
+    %br/
+    = f.text_field :max_ltv
   .field
     = f.label :initial_period_length
     %br/
-    = f.select :initial_period_length, [['1 years', 1], ['2 years', 2], ['3 years', 3], ['4 years', 4], ['5 years', 5]]
+    = f.select :initial_period_length, [['', nil], ['1 years', 1], ['2 years', 2], ['3 years', 3], ['4 years', 4], ['5 years', 5], ['6 years', 6]]
+
+  -# this should be 2 selects, one for lender and one for product
+  -# that way I could select the actual product it rolls to.
+  -# use the info to create a relationship between the two products
   .field
-    = f.label :svr
+    = f.label :rolls_to, "Rolling to (%)"
     %br/
-    = f.text_field :svr
-  .field
-    = f.label :max_princ, "Max. Loan Amount (€)"
-    %br/
-    = f.text_field :max_princ
+    = f.text_field :rolls_to
   .field
     = f.label :min_princ, "Min. Loan Amount (€)"
     %br/
     = f.text_field :min_princ
+  .field
+    = f.label :max_princ, "Max. Loan Amount (€)"
+    %br/
+    = f.text_field :max_princ
   .actions
     = f.submit

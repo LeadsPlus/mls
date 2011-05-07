@@ -1,12 +1,12 @@
 class House < ActiveRecord::Base
-  attr_accessible :title, :price, :bedrooms, :number, :street, :description, :county_id, :town, :image_url
+  attr_accessible :title, :price, :bedrooms, :number, :street, :description, :county, :town, :image_url
   default_scope order('price')
   paginates_per 15
 
 #  this doesn't work now because I have no access to the county_to_word helper
 #  what if I was to add a county name column too and populate it just before save based off the county_id?
   def inline_address
-    "#{number} #{street}, #{town}, Co. #{county_id}"
+    "#{number} #{street}, #{town}, Co. #{county}"
   end
 
   def ltv(princ)
@@ -15,13 +15,13 @@ class House < ActiveRecord::Base
 
   validates :title, :presence => true
 
-  validates :county_id, :presence => true,
-                     :numericality => { :greater_than_or_equal_to => 0, :less_than => 32 }
+  validates :county, :presence => true
 
   validates :price, :presence => true,
                     :numericality => { :greater_than => 1 }
 
 end
+
 
 
 
@@ -37,7 +37,7 @@ end
 #  image_url   :string(255)
 #  description :text
 #  title       :string(255)
-#  county_id   :integer
 #  daft_url    :string(255)
+#  county      :string(255)
 #
 

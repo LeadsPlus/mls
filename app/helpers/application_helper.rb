@@ -9,18 +9,8 @@ module ApplicationHelper
   end
 
   def county_choices
-    i = -1
     county_names.collect do |name|
-      i += 1
-      [name, i]
+      [name, name]
     end
-  end
-
-  def county_to_word(county)
-    county_names[county]
-  end
-
-  def house_address house
-    "#{house.number} #{house.street}, #{house.town}, Co. #{county_to_word(house.county_id)}"
   end
 end

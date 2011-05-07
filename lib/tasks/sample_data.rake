@@ -8,7 +8,7 @@ namespace :db do
 end
 
 def make_default_search
-  Search.create :max_payment => 1100, :min_payment => 800, :deposit => 50000, :term => 25, :county_id => 4
+  Search.create :max_payment => 1100, :min_payment => 800, :deposit => 50000, :term => 25, :county => "Fermanagh"
 end
 
 def make_houses

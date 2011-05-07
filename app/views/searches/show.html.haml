@@ -1,3 +1,11 @@
+- if Rails.env.development?
+  #rate_data
+    = "Rates Array: #{@search.rates.inspect}"
+    %br
+    = "Principals #{@search.max_prices_per_rate.inspect}"
+    %br
+    = "Our Bracket #{@search.affordable_prices.max.inspect}"
+  
 #results
   %div
     - if @matches.any?

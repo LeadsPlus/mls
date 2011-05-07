@@ -15,31 +15,15 @@
       = f.text_field :image_url, :size => 80
   %fieldset
     .field
-      = f.label :number
-      %br/
-      = f.text_field :number, :size => 4
-    .field
-      = f.label :street
-      %br/
-      = f.text_field :street, :size => 80
-    .field
-      = f.label :town
-      %br/
-      = f.text_field :town, :size => 20
-    .field
-      = f.label :county_id, "County"
+      = f.label :county, "County"
       %br/
       -# county choices is an application helper
-      = f.select :county_id, county_choices
+      = f.select :county, county_choices
   %fieldset
     .field
       = f.label :price
       %br/
       = f.text_field :price, :size => 8
-    .field
-      = f.label :bedrooms
-      %br/
-      = f.text_field :bedrooms, :size => 2
-
+      
   .actions
     = f.submit

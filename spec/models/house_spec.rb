@@ -96,6 +96,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: houses
@@ -107,7 +108,7 @@ end
 #  image_url   :string(255)
 #  description :text
 #  title       :string(255)
-#  county_id   :integer
 #  daft_url    :string(255)
+#  county      :string(255)
 #
 

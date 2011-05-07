@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "rates/show.html.erb" do
+describe "rates/show.html.haml" do
   before(:each) do
     @rate = assign(:rate, stub_model(Rate,
       :initial_rate => 1.5,

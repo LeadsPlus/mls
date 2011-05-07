@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110506153655) do
+ActiveRecord::Schema.define(:version => 20110507051718) do
 
   create_table "houses", :force => true do |t|
     t.integer  "price"
@@ -19,17 +19,21 @@ ActiveRecord::Schema.define(:version => 20110506153655) do
     t.string   "image_url"
     t.text     "description"
     t.string   "title"
-    t.integer  "county_id"
     t.string   "daft_url"
+    t.string   "county"
   end
+
+  add_index "houses", ["county"], :name => "index_houses_on_county"
+  add_index "houses", ["price"], :name => "index_houses_on_price"
 
   create_table "rates", :force => true do |t|
     t.float    "initial_rate"
     t.string   "lender"
-    t.string   "type"
-    t.integer  "min_depos"
+    t.string   "loan_type"
+    t.integer  "min_ltv"
+    t.integer  "max_ltv"
     t.integer  "initial_period_length"
-    t.float    "svr"
+    t.float    "rolls_to"
     t.integer  "max_princ"
     t.integer  "min_princ"
     t.datetime "created_at"
@@ -43,7 +47,7 @@ ActiveRecord::Schema.define(:version => 20110506153655) do
     t.datetime "updated_at"
     t.integer  "min_payment"
     t.integer  "term"
-    t.integer  "county_id"
+    t.string   "county"
   end
 
 end

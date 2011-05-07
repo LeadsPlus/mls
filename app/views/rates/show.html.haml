@@ -1,0 +1,33 @@
+%p#notice= notice
+%p
+  %b Initial rate:
+  = @rate.initial_rate
+%p
+  %b Lender:
+  = @rate.lender
+%p
+  %b Type:
+  = @rate.loan_type
+%p
+  %b Min. LTV:
+  = "#{@rate.min_ltv} (You must be borrowing greater than this % to avail of this rate)"
+%p
+  %b Max. LTV:
+  = "#{@rate.max_ltv} (You may borrow up to this % and still avail of this rate)"
+%p
+  %b Initial period length:
+  = @rate.initial_period_length
+%p
+  %b Rolling to:
+  = @rate.rolls_to
+%p
+  %b Min princ:
+  = number_to_currency(@rate.min_princ, :unit => "€", :precision => 0)
+%p
+  %b Max princ:
+  = number_to_currency(@rate.max_princ, :unit => "€", :precision => 0)
+= link_to 'Edit', edit_rate_path(@rate)
+|
+\#{link_to 'Back to Index', rates_path}
+|
+\#{link_to 'New Rate', new_rate_path}

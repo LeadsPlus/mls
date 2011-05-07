@@ -3,10 +3,11 @@ class CreateRates < ActiveRecord::Migration
     create_table :rates do |t|
       t.float :initial_rate
       t.string :lender
-      t.string :type
-      t.integer :min_depos
+      t.string :loan_type
+      t.integer :min_ltv
+      t.integer :max_ltv
       t.integer :initial_period_length
-      t.float :svr
+      t.float :rolls_to
       t.integer :max_princ
       t.integer :min_princ
 

@@ -60,3 +60,10 @@ div#search_error span.messages {
 #error_explanation ul li {
   font-size: 12px;
   list-style: square; }
+
+table.data {
+  border-collapse: collapse;
+  width: 100%; }
+  table.data td, table.data th {
+    border: 1px solid #999;
+    padding: 5px; }

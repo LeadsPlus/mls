@@ -1,0 +1,17 @@
+%tr
+  %td= rate.id
+  %td= number_to_percentage(rate.initial_rate, :precision => 2)
+  %td= rate.lender
+  %td= rate.loan_type
+  %td= number_to_percentage(rate.min_ltv, :precision => 0)
+  %td= number_to_percentage(rate.max_ltv, :precision => 0)
+  %td= "#{rate.initial_period_length} years" if rate.initial_period_length
+  %td= number_to_percentage(rate.rolls_to, :precision => 2)
+  %td= number_to_currency(rate.min_princ, :unit => "€", :precision => 0)
+  %td= number_to_currency(rate.max_princ, :unit => "€", :precision => 0)
+
+  - if Rails.env.development?
+    %td= link_to "Show", rate
+    %td= link_to "Edit", edit_rate_path(rate)
+    %td= link_to "X", rate, :confirm => 'Are you sure?', :method => :delete
+

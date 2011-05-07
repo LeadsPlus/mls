@@ -5,7 +5,7 @@ class RatesController < ApplicationController
     @rates = Rate.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html # index.html.haml
       format.xml  { render :xml => @rates }
     end
   end
@@ -16,7 +16,7 @@ class RatesController < ApplicationController
     @rate = Rate.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html # show.html.haml
       format.xml  { render :xml => @rate }
     end
   end
@@ -40,6 +40,7 @@ class RatesController < ApplicationController
   # POST /rates
   # POST /rates.xml
   def create
+    logger.debug params.inspect
     @rate = Rate.new(params[:rate])
 
     respond_to do |format|
