@@ -39,14 +39,16 @@ def scrape_county county_id
   @scraping_agent.get(url)
 
   puts "Scraping #{@county_names[county_id.to_i - 1]} via it's Daft county ID: #{county_id}..."
+  puts @scraping_agent.page
 
+#  while the page has a 'next page' link
   while(@scraping_agent.page.link_with(:text => "Next Page \u00BB")) do
     @scraping_agent.page.search(".content").each do |item|
 #      I don't want to scrape houses with no prices ie. 'POA' or the like
       if item.at(".price").text[/[0-9,]+/]
         title = item.at(".title a")
-        puts title[:href]
-        House.create({
+        puts title
+        House.create!({
           :title => title.text.strip,
           :description => item.at(".description").text.strip,
           :image_url => item.at(".main_photo")[:src],
