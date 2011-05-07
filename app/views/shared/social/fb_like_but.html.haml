@@ -1,0 +1,14 @@
+%div#fb-root
+  :javascript
+    window.fbAsyncInit = function() {
+    FB.init({appId: 'your app id', status: true, cookie: true,
+             xfbml: true});
+    };
+    (function() {
+      var e = document.createElement('script'); e.async = true;
+      e.src = document.location.protocol +
+        '//connect.facebook.net/en_US/all.js';
+      document.getElementById('fb-root').appendChild(e);
+    }());
+  %fb:like{ :href => "http://www.howmuchhouse.net/", :send => "true", :width => "70", :show_faces => "false",
+        :layout => "button_count", :colorscheme => "dark", :font => "lucida grande" }
