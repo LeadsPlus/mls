@@ -1,4 +1,4 @@
-class Scrape < ActiveRecord::Base
+class Scrape
   @county_names = %w[Dublin Meath Kildare Wicklow Longford Offaly Westmeath Laois Louth Carlow Kilkenny Waterford
         Wexford Kerry Cork Clare Limerick Tipperary Galway Mayo Roscommon Sligo Leitrim Donegal Cavan
         Monaghan Antrim Armagh Tyrone Fermanagh Derry Down].freeze
