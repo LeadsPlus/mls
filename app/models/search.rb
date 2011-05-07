@@ -57,7 +57,7 @@ class Search < ActiveRecord::Base
 #  I'm not too sure that this is the right solution for min price.
 #  Need to study the excel sheet more to try work it out.
   def min_price
-    princ(effective_rates.values.max, min_payment)+deposit
+    princ(effective_rate(eventual_rate), min_payment)+deposit
   end
 
 #  cycle through the max_prices hash, rejecting prices that we can't actually afford

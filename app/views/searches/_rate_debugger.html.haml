@@ -1,0 +1,19 @@
+- if Rails.env.development?
+  #rate_data
+    %h2 Debug Data
+    %table
+      %tr
+        %td Rates
+        %td= @search.rates.inspect
+      %tr
+        %td Effective Rates
+        %td= @search.effective_rates.inspect
+      %tr
+        %td Principals
+        %td= @search.max_prices_given_rate.inspect
+      %tr
+        %td Our Bracket
+        %td= @search.affordable_prices.max.inspect
+      %tr
+        %td Min Price Included
+        %td= @search.min_price.inspect
