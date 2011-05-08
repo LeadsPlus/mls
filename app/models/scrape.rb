@@ -1,10 +1,6 @@
 class Scrape
-  def perform
-    county
-  end
-
 #  calling Scrape.new.perform is running this directly, not delayed
-  def county(county_id = 30)
+  def perform(county_id = 30)
     county_names = %w[Dublin Meath Kildare Wicklow Longford Offaly Westmeath Laois Louth Carlow Kilkenny Waterford
         Wexford Kerry Cork Clare Limerick Tipperary Galway Mayo Roscommon Sligo Leitrim Donegal Cavan
         Monaghan Antrim Armagh Tyrone Fermanagh Derry Down].freeze
@@ -19,7 +15,7 @@ class Scrape
       agent.page.search(".content").each do |item|
   #      I don't want to scrape houses with no prices ie. 'POA' or the like
         if item.at(".price").text[/[0-9,]+/]
-          puts "."
+          print "."
           title = item.at(".title a")
           House.create!({
             :title => title.text.strip,
