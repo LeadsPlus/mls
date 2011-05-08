@@ -14,10 +14,11 @@ class Scrape
 #    while(agent.page.link_with(:text => "Next Page \u00BB")) do
       agent.page.search(".content").each do |item|
   #      I don't want to scrape houses with no prices ie. 'POA' or the like
-        puts "an item"
-#        if item.at(".price").text[/[0-9,]+/]
-#          print "."
-#          title = item.at(".title a")
+        title = item.at(".title a")
+        puts "title"
+        if item.at(".price").text[/[0-9,]+/]
+          puts "viable"
+#
 #          House.create!({
 #            :title => title.text.strip,
 #            :description => item.at(".description").text.strip,
@@ -26,7 +27,7 @@ class Scrape
 #            :price => item.at(".price").text[/[0-9,]+/].delete(',').to_i,
 #            :county => county_names[county_id.to_i - 1]
 #          })
-#        end
+        end
       end
 
 #      agent.page.link_with(:text => "Next Page \u00BB").click
