@@ -15,18 +15,16 @@ class Scrape
       agent.page.search(".content").each do |item|
   #      I don't want to scrape houses with no prices ie. 'POA' or the like
         title = item.at(".title a")
-        puts title
+        puts title.strip
         if item.at(".price").text[/[0-9,]+/]
-          puts "viable"
-#
-#          House.create!({
-#            :title => title.text.strip,
-#            :description => item.at(".description").text.strip,
-#            :image_url => item.at(".main_photo")[:src],
-#            :daft_url => title[:href],
-#            :price => item.at(".price").text[/[0-9,]+/].delete(',').to_i,
-#            :county => county_names[county_id.to_i - 1]
-#          })
+          House.create!({
+            :title => title.text.strip,
+            :description => item.at(".description").text.strip,
+            :image_url => item.at(".main_photo")[:src],
+            :daft_url => title[:href],
+            :price => item.at(".price").text[/[0-9,]+/].delete(',').to_i,
+            :county => county_names[county_id.to_i - 1]
+          })
         end
       end
 
