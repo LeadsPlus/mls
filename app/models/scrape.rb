@@ -10,25 +10,26 @@ class Scrape
 
     agent = Mechanize.new
     agent.get(url)
-  #  while the page has a 'next page' link
-    while(agent.page.link_with(:text => "Next Page \u00BB")) do
+#  #  while the page has a 'next page' link
+#    while(agent.page.link_with(:text => "Next Page \u00BB")) do
       agent.page.search(".content").each do |item|
   #      I don't want to scrape houses with no prices ie. 'POA' or the like
-        if item.at(".price").text[/[0-9,]+/]
-          print "."
-          title = item.at(".title a")
-          House.create!({
-            :title => title.text.strip,
-            :description => item.at(".description").text.strip,
-            :image_url => item.at(".main_photo")[:src],
-            :daft_url => title[:href],
-            :price => item.at(".price").text[/[0-9,]+/].delete(',').to_i,
-            :county => county_names[county_id.to_i - 1]
-          })
-        end
+        puts "an item"
+#        if item.at(".price").text[/[0-9,]+/]
+#          print "."
+#          title = item.at(".title a")
+#          House.create!({
+#            :title => title.text.strip,
+#            :description => item.at(".description").text.strip,
+#            :image_url => item.at(".main_photo")[:src],
+#            :daft_url => title[:href],
+#            :price => item.at(".price").text[/[0-9,]+/].delete(',').to_i,
+#            :county => county_names[county_id.to_i - 1]
+#          })
+#        end
       end
 
-      agent.page.link_with(:text => "Next Page \u00BB").click
-    end
+#      agent.page.link_with(:text => "Next Page \u00BB").click
+#    end
   end
 end
