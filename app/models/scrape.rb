@@ -10,27 +10,20 @@ class Scrape
 
     agent = Mechanize.new
     agent.get(url)
-#  #  while the page has a 'next page' link
-    if agent.page.link_with(:text => "Next Page \u00BB")
-      puts "link text found using unicode escape"
-    elsif agent.page.link_with(:text => "Next Page »")
-      puts "link text found using literal"
+
+    while(agent.page.link_with(:text => "Next Page \u00BB")) do
+      agent.page.search(".content").each do |search_result|
+        store search_result
+      end
+
+      agent.page.link_with(:text => "Next Page \u00BB").click
     end
-#    while(agent.page.link_with(:text => "Next Page \u00BB")) do
-#      puts page.at("title")
-#      agent.page.search(".content").each do |item|
-#        store item
-#      end
-#
-#      agent.page.link_with(:text => "Next Page \u00BB").click
-#    end
   end
 end
 
 def store item
 # I don't want to scrape houses with no prices ie. 'POA' or the like
   title = item.at(".title a")
-  puts title.text.strip
   if item.at(".price").text[/[0-9,]+/]
     House.create!({
       :title => title.text.strip,
@@ -40,5 +33,6 @@ def store item
       :price => item.at(".price").text[/[0-9,]+/].delete(',').to_i,
       :county => county_names[county_id.to_i - 1]
     })
+    print '.'
   end
 end
