@@ -11,14 +11,19 @@ class Scrape
     agent = Mechanize.new
     agent.get(url)
 #  #  while the page has a 'next page' link
-    while(agent.page.link_with(:text => "Next Page \u00BB")) do
-      puts page.at("title")
+    if agent.page.link_with(:text => "Next Page \u00BB")
+      puts "link text found using unicode escape"
+    elsif agent.page.link_with(:text => "Next Page »")
+      puts "link text found using literal"
+    end
+#    while(agent.page.link_with(:text => "Next Page \u00BB")) do
+#      puts page.at("title")
 #      agent.page.search(".content").each do |item|
 #        store item
 #      end
-
-      agent.page.link_with(:text => "Next Page \u00BB").click
-    end
+#
+#      agent.page.link_with(:text => "Next Page \u00BB").click
+#    end
   end
 end
 
