@@ -15,7 +15,7 @@ class Scrape
       agent.page.search(".content").each do |item|
   #      I don't want to scrape houses with no prices ie. 'POA' or the like
         title = item.at(".title a")
-        puts title.strip
+        puts title.text.strip
         if item.at(".price").text[/[0-9,]+/]
           House.create!({
             :title => title.text.strip,
