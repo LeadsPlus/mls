@@ -7,7 +7,7 @@ namespace :scrape do
   desc "Enqueue jobs to scrape house data for every county from daft.ie"
   task :all => :environment do
     Rake::Task['db:reset'].invoke
-    Scrape.new.all
+    Scrape.new.all # the delay is in the county method
     Rake::Task['db:populate'].invoke
   end
 
@@ -16,6 +16,6 @@ namespace :scrape do
   desc "Enqueue a job to scrape a single county based off it's ID"
   task :county, [:daft_county_id] => :environment do |task, args|
     args.with_defaults(:daft_county_id => 30) # 30 = Fermanagh
-    Scrape.new.county args.daft_county_id.to_s
+    Scrape.new.delay.county args.daft_county_id.to_s
   end
 end

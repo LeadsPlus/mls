@@ -1,4 +1,3 @@
-# make it auto scale the workers
 # give ability to run though houses in the database, updating information from daft show page
 # prevent it from inserting the same house from daft twice. Update instead
 #   remember that people can update the information on a particular house, change it's price etc. This means that
@@ -7,7 +6,6 @@
 #     Perhaps a better way to do it is, if the daft_url exists, update it, else, create new.
 #     but how do I deal with houses that have been sold. They need to be removed.
 #  Possibly just make daft_url required unique in the database
-# make a scrpae:all which adds all 32 counties to the queue
 
 class Scrape
   
@@ -19,7 +17,7 @@ class Scrape
 
   def all
     1.upto(32) do |daft_county_id|
-      county daft_county_id
+      delay.county daft_county_id
     end
   end
 
@@ -46,7 +44,7 @@ class Scrape
       agent.page.link_with(:text => "Next Page \u00BB").click
     end
   end
-#  handle_asynchronously :county
+  handle_asynchronously :county # doesn't seem to work with HireFire
 
   def store item, daft_county_id
 # I don't want to scrape houses with no prices ie. 'POA' or the like
