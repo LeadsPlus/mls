@@ -71,6 +71,14 @@ class Search < ActiveRecord::Base
     max_prices_given_rate.reject { |min_depos, price| min_depos > deposit*100/price }
   end
 
+  def max_total_paid
+    max_payment*12*term
+  end
+
+  def min_total_paid
+    min_payment*12*term
+  end
+
   def pmt_at(price)
     effective_rate(eventual_rate) / ((1+effective_rate(eventual_rate))**(term*12)-1) *
         -((price-deposit)*((1+effective_rate(eventual_rate))**(term*12)))
@@ -107,11 +115,6 @@ class Search < ActiveRecord::Base
 #  I have this implemented wrong. I'm calculating affordable prices twice every search
   validate :has_some_affordable_prices
 end
-
-
-
-
-
 
 
 # == Schema Information

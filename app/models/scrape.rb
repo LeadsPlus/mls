@@ -10,6 +10,11 @@
 #   create a new house
 #  end
 
+# add a daft_id to the table. Make it string just in case
+# figure out how to parse it from the url
+# delete the daft_url column and construct them from the daft_id instead
+# find by daft id
+
 #  Removal of houses from my DB will have to run the other way
 #  House.each do |house|
 #    try to access the daft_url for the house
