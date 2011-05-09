@@ -1,6 +1,10 @@
 module ApplicationHelper
-# ZOMG why was it in my head that option values had to be integers???????!!!11
-
+#  Return a title on a per page basis
+  def title
+    base_title = "How Much House"
+    @title ? "#{@title} | #{base_title}" : base_title
+  end
+  
   def county_names
 #    these are in the same order as daft url's use
     %w[Dublin Meath Kildare Wicklow Longford Offaly Westmeath Laois Louth Carlow Kilkenny Waterford

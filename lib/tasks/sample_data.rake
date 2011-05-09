@@ -2,10 +2,20 @@ namespace :db do
   desc "Fill database with sample data"
   task :populate => :environment do
     require 'faker'
+    delete_searches
+    delete_rates
     make_default_search
     make_rates
 #    make_houses
   end
+end
+
+def delete_default_search
+  Search.find(1).destroy
+end
+
+def delete_rates
+  Rate.delete_all
 end
 
 def make_default_search

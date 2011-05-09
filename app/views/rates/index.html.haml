@@ -13,6 +13,7 @@
       %th Rolling To
       %th Min. Princ
       %th Max. Princ
+    - if Rails.env.development?
       %th
       %th
       %th
@@ -20,6 +21,6 @@
   %tbody
     = render :partial => 'rate', :collection => @rates
 
-<br />
+%br
 
 =link_to 'New Rate', new_rate_path if Rails.env.development?
