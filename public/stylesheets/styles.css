@@ -60,6 +60,9 @@ div.search_bar {
     float: left;
     width: 62%; }
 
+div.spacer {
+  clear: both; }
+
 div#mortgage_details {
   margin-bottom: 10px;
   padding: 5px;
@@ -67,6 +70,9 @@ div#mortgage_details {
   border-radius: 4px;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px; }
+
+tr.house td.bottom {
+  padding-bottom: 20px; }
 
 img.house {
   float: right; }

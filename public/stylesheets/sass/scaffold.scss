@@ -1,3 +1,8 @@
+@import 'support';
+
+$fb_error_background: #ffebe7;
+$fb_error_border: #dc3e00;
+
 body { background-color: #fff; color: #333; }
 
 body, p, ol, ul, td {
@@ -14,7 +19,6 @@ pre {
 
 a { color: #000; }
 a:visited { color: #666; }
-a:hover { color: #fff; background-color:#000; }
 
 div.field, div.actions {
   margin-bottom: 10px;
@@ -43,8 +47,14 @@ div.field, div.actions {
 }
 
 div#search_error {
-  span.messages {
-    color: red;
+  background_color: $fb_error_background;
+  border: 1px solid $fb_error_border;
+  padding: 3px;
+  @include border-radius(4px);
+  margin-bottom: 5px;
+
+  span.error_count {
+    color: $fb_error_border;
   }
 }
 
@@ -72,4 +82,10 @@ table.data {
     border: 1px solid #999;
     padding: 5px;
   }
+}
+
+#rate_debugger {
+  border: 1px solid #999;
+  background-color: #ecf7d2;
+  padding: 10px;
 }

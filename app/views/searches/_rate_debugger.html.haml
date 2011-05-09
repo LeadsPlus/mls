@@ -1,19 +1,30 @@
-- if Rails.env.development?
-  #rate_debugger
-    %h2 Debug Data
-    %table
-      %tr
-        %td Rates
-        %td= @search.rates.inspect
-      %tr
-        %td Effective Rates
-        %td= @search.effective_rates.inspect
-      %tr
-        %td Principals
-        %td= @search.max_prices_given_rate.inspect
-      %tr
-        %td Our Bracket
-        %td= @search.affordable_prices.max.inspect
-      %tr
-        %td Min Price Included
-        %td= @search.min_price.inspect
+#rate_debugger
+  %h2 Debug Data
+  %table
+    %tr
+      %td Rates
+      %td= @search.rates.inspect
+    %tr
+      %td Effective Rates
+      %td
+        %ul
+          - @search.effective_rates.each do |deposit, rate|
+            %li
+              = "Deposit: #{number_to_percentage(deposit)}"
+              = "Rate: #{number_to_percentage(rate.truncate(4))}"
+    %tr
+      %td Principals
+      %td
+        %ul
+          - @search.max_prices_given_rate.each do |deposit, price|
+            %li
+              = "Deposit: #{number_to_percentage(deposit)}"
+              = "Price: #{number_to_currency(price.truncate(4), :unit => '€')}"
+    %tr
+      %td Our Bracket
+      %td
+        = "Deposit Percentage: #{number_to_percentage(@search.affordable_prices.max[0])}."
+        = "Max price: #{number_to_currency(@search.affordable_prices.max[1].truncate(4), :unit => '€')}"
+    %tr
+      %td Min Price
+      %td= number_to_currency(@search.min_price.truncate(4), :unit => '€')

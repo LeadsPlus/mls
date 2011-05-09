@@ -15,8 +15,8 @@
   });
 
 = form_for @search do |f|
-  = render 'shared/error_messages', :object => f.object
   .search_bar
+    = render 'shared/error_messages', :object => f.object
     #other_fields
       %span.field
         =f.label :deposit, "Deposit (€)"
@@ -44,4 +44,6 @@
           =f.text_field :max_payment, :value => @search.max_payment, :size => 6
 
       #jquery-slider
+
+      .spacer
 

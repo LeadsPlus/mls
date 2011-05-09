@@ -96,11 +96,21 @@ div.search_bar {
   }
 }
 
+div.spacer {
+  clear: both;
+}
+
 div#mortgage_details {
   margin-bottom: 10px;
   padding: 5px;
   border-top: 1px solid $border_color;
   @include border-radius(4px);
+}
+
+tr.house {
+  td.bottom {
+    padding-bottom:20px;
+  }
 }
 
 img.house {

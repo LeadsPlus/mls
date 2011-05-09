@@ -18,6 +18,7 @@
 #  end
 
 #  Possibly just make daft_url required unique in the database
+#  I also need to make a cron for doing all these tasks
 
 class Scrape
   def county_names

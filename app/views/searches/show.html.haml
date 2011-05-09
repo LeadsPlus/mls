@@ -1,4 +1,4 @@
--#= render 'rate_debugger'
+= render 'rate_debugger' if Rails.env.development?
 
 #mortgage_details
   You will be able to borrow up to a maximum of #{number_to_currency(@search.affordable_prices.values.max, :unit => '€', :precision => 0)}.
@@ -11,7 +11,8 @@
   %div
     - if @matches.any?
       %table
-        = render :partial => 'shared/house', :collection => @matches
+        %tbody
+          = render :partial => 'shared/house', :collection => @matches
 
       = paginate @matches
 

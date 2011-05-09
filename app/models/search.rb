@@ -11,31 +11,32 @@ class Search < ActiveRecord::Base
   end
 
 #  Do I need BigDecimals here?
-#  Cycle through every rate in the tabe and construct a hash with one entry for each LTV bracket
+#  Cycle through every rate in the table and construct a hash with one entry for each LTV bracket
 #  The value of the entry will be the lowest rate available in that LTV level
   def rates
 #    format: minimum deposit % needed to get this rate => rate
     rates = {}
     Rate.find_each do |rate|
-#      keep in mind this is overwriting
       if rates.has_key?(100-rate.max_ltv)
         rates[100-rate.max_ltv] = rate.initial_rate if rate.initial_rate < rates[100-rate.max_ltv]
       else
         rates[100-rate.max_ltv] = rate.initial_rate
       end
     end
+    Rails.logger.debug "Rates Hash: #{rates.inspect}"
     rates
   end
 
   def eventual_rate
 #    I think that this is trying to access a key that doesn't exist in some circumstances
-    rates[affordable_prices.max[0]]
+    Rails.logger.debug "Depos Bracket: #{affordable_prices.max[0]}"
+    rates[affordable_prices.max[0]] unless affordable_prices.max[0].nil?
   end
 
 #  Convert a given rate to it's effective counterpart
   def effective_rate(rate)
 #    this is going to fuck me up majorly if I move to BigDecimal
-    rate.to_f/1200
+    BigDecimal.new(rate.to_s, 2)/1200
   end
 
 #  hash of form min_depos => eff_rate
@@ -80,7 +81,14 @@ class Search < ActiveRecord::Base
                 { :min => min_price, :max => affordable_prices.values.max, :county => county })
   end
 
+  def max_payment_less_than_min_payment
+    errors.add(:max_payment, "cannot be less than the Min. payment") if max_payment < min_payment
+  end
 
+  def has_some_affordable_prices
+    affords = max_prices_given_rate.reject { |min_depos, price| min_depos > deposit*100/price }
+    errors[:base] << "Deposit is too small to facilitate a mortgage with payments in that range" if affords.length.zero?
+  end
 
   validates :max_payment, :presence => true,
                           :numericality => { :greater_than => 0 }
@@ -95,6 +103,9 @@ class Search < ActiveRecord::Base
                    :numericality => { :greater_than => 0, :less_than_or_equal_to => 60 }
 
   validates :county, :presence => true
+  validate :max_payment_less_than_min_payment
+#  I have this implemented wrong. I'm calculating affordable prices twice every search
+  validate :has_some_affordable_prices
 end
 
 
