@@ -6,7 +6,6 @@
 namespace :scrape do
   desc "Enqueue jobs to scrape house data for every county from daft.ie"
   task :all => :environment do
-    Rake::Task['db:reset'].invoke
     Scrape.new.all # the delay is in the county method
     Rake::Task['db:populate'].invoke
   end

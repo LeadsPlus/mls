@@ -3,12 +3,23 @@
 #   remember that people can update the information on a particular house, change it's price etc. This means that
 #   just because a house is already recorded, I can't just skip over it on a subsequent scrape. It's details may have
 #   changed and I would need to know about that
-#     Perhaps a better way to do it is, if the daft_url exists, update it, else, create new.
-#     but how do I deal with houses that have been sold. They need to be removed.
+
+#  if House.find_by_daft_id daft_id
+#    update details with info from the scrape
+#  else
+#   create a new house
+#  end
+
+#  Removal of houses from my DB will have to run the other way
+#  House.each do |house|
+#    try to access the daft_url for the house
+#    if able, grand
+#    else remove the house from the DB
+#  end
+
 #  Possibly just make daft_url required unique in the database
 
 class Scrape
-  
   def county_names
     @county_names = %w[Dublin Meath Kildare Wicklow Longford Offaly Westmeath Laois Louth Carlow Kilkenny Waterford
         Wexford Kerry Cork Clare Limerick Tipperary Galway Mayo Roscommon Sligo Leitrim Donegal Cavan
