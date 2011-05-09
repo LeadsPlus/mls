@@ -37,6 +37,7 @@ gem 'faker', "0.9.5" #, '0.3.1', :require => false
 
 # have this one outside dev so that I can use hirb on heroku console
 gem 'hirb'
+gem "heroku"
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
@@ -48,7 +49,7 @@ end
 
 group :test do
   gem 'rspec-rails', '2.5.0'
-  gem 'capybara', :git => "git://github.com/jnicklas/capybara", :tag => "0.4.1.2"
+  gem 'capybara', :git => "git://github.com/jnicklas/capybara" # , :tag => "0.4.1.2"
   gem 'spork'
   gem "launchy", "0.3.0"
   gem 'factory_girl_rails', "1.0.1"
