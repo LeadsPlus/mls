@@ -4,6 +4,8 @@
 #   remember that people can update the information on a particular house, change it's price etc. This means that
 #   just because a house is already recorded, I can't just skip over it on a subsequent scrape. It's details may have
 #   changed and I would need to know about that
+#     Perhaps a better way to do it is, if the daft_url exists, update it, else, create new.
+#     but how do I deal with houses that have been sold. They need to be removed.
 #  Possibly just make daft_url required unique in the database
 # make a scrpae:all which adds all 32 counties to the queue
 
@@ -28,6 +30,9 @@ class Scrape
   
 #  calling Scrape.new.perform is running this directly, not delayed
   def county(daft_county_id = 30)
+#    note that if scraping fails, I could be left with no houses since I delete them all here
+    delete_county daft_county_id
+
     url = "http://www.daft.ie/searchsale.daft?s%5Bcc_id%5D=c#{daft_county_id}&s%5Ba_id%5D%5B%5D=&s%5Broute_id%5D=&s%5Ba_id_transport%5D=0&s%5Baddress%5D=&s%5Btxt%5D=&s%5Bmnb%5D=&s%5Bmxb%5D=&s%5Bmnp%5D=&s%5Bmxp%5D=&s%5Bpt_id%5D=&s%5Bhouse_type%5D=&s%5Bsqmn%5D=&s%5Bsqmx%5D=&s%5Bmna%5D=&s%5Bmxa%5D=&s%5Bnpt_id%5D=&s%5Bdays_old%5D=&s%5Bnew%5D=&s%5Bagreed%5D=&search.x=34&search.y=20&search=Search+%BB&more=&tab=&search=1&s%5Bsearch_type%5D=sale&s%5Btransport%5D=&s%5Badvanced%5D=&s%5Bprice_per_room%5D=&fr=default"
     puts "Scraping #{county_names[daft_county_id.to_i - 1]} via it's Daft county ID: #{daft_county_id}..."
 
@@ -41,6 +46,9 @@ class Scrape
 
       agent.page.link_with(:text => "Next Page \u00BB").click
     end
+
+    after_enqueue_scale_up
+    after_perform_scale_down
   end
   handle_asynchronously :county
 
