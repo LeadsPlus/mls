@@ -46,16 +46,15 @@ class Scrape
 
       agent.page.link_with(:text => "Next Page \u00BB").click
     end
-    
-    heroku = Heroku::Client.new(ENV['HEROKU_USER'], ENV['HEROKU_PASS'])
-
-    puts "#{ENV['HEROKU_USER']} - #{ENV['HEROKU_PASS']}. App: #{ENV['HEROKU_APP']}. There are #{heroku.info(ENV['HEROKU_APP'])[:workers]} workers"
-
-    heroku.set_workers(ENV['HEROKU_APP'], 1)
-
-    puts "Now there are #{heroku.info(ENV['HEROKU_APP'])[:workers]} workers"
   end
   handle_asynchronously :county
+
+  def control_workers
+    heroku = Heroku::Client.new(ENV['HEROKU_USER'], ENV['HEROKU_PASS'])
+    puts "#{ENV['HEROKU_USER']} - #{ENV['HEROKU_PASS']}. App: #{ENV['HEROKU_APP']}. There are #{heroku.info(ENV['HEROKU_APP'])[:workers]} workers"
+    heroku.set_workers(ENV['HEROKU_APP'], 1)
+    puts "Now there are #{heroku.info(ENV['HEROKU_APP'])[:workers]} workers"
+  end
 
   def store item, daft_county_id
 # I don't want to scrape houses with no prices ie. 'POA' or the like
