@@ -46,8 +46,4 @@ Mls::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
-
-  HEROKU_USER = "dtuite@gmail.com"
-  HEROKU_PASS = "Oim0lXZI"
-  HEROKU_APP = "mlsmort"
 end

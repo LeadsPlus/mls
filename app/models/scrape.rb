@@ -10,7 +10,7 @@
 # make a scrpae:all which adds all 32 counties to the queue
 
 class Scrape
-  extend HerokuAutoScale
+#  extend HerokuAutoScale
   
   def county_names
     @county_names = %w[Dublin Meath Kildare Wicklow Longford Offaly Westmeath Laois Louth Carlow Kilkenny Waterford
@@ -47,8 +47,7 @@ class Scrape
       agent.page.link_with(:text => "Next Page \u00BB").click
     end
 
-    after_enqueue_scale_up
-    after_perform_scale_down
+    Heroku::Client.new(ENV['HEROKU_USER'], ENV['HEROKU_PASS']).set_workers(ENV['HEROKU_APP'], 1)
   end
   handle_asynchronously :county
 
