@@ -46,8 +46,14 @@ class Scrape
 
       agent.page.link_with(:text => "Next Page \u00BB").click
     end
+    
+    heroku = Heroku::Client.new(ENV['HEROKU_USER'], ENV['HEROKU_PASS'])
 
-    Heroku::Client.new(ENV['HEROKU_USER'], ENV['HEROKU_PASS']).set_workers(ENV['HEROKU_APP'], 1)
+    puts "#{ENV['HEROKU_USER']} - #{ENV['HEROKU_PASS']}. App: #{ENV['HEROKU_APP']}. There are #{heroku.info(ENV['HEROKU_APP'])[:workers]} workers"
+
+    heroku.set_workers(ENV['HEROKU_APP'], 1)
+
+    puts "Now there are #{heroku.info(ENV['HEROKU_APP'])[:workers]} workers"
   end
   handle_asynchronously :county
 
