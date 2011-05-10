@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110507172310) do
+ActiveRecord::Schema.define(:version => 20110509194341) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -36,9 +36,11 @@ ActiveRecord::Schema.define(:version => 20110507172310) do
     t.string   "title"
     t.string   "daft_url"
     t.string   "county"
+    t.integer  "daft_id"
   end
 
   add_index "houses", ["county"], :name => "index_houses_on_county"
+  add_index "houses", ["daft_id"], :name => "index_houses_on_daft_id"
   add_index "houses", ["price"], :name => "index_houses_on_price"
 
   create_table "rates", :force => true do |t|

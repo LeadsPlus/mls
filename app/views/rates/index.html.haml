@@ -13,10 +13,10 @@
       %th Rolling To
       %th Min. Princ
       %th Max. Princ
-    - if Rails.env.development?
-      %th
-      %th
-      %th
+      - if Rails.env.development?
+        %th
+        %th
+        %th
 
   %tbody
     = render :partial => 'rate', :collection => @rates

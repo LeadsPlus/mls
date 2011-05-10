@@ -6,7 +6,6 @@ namespace :db do
     delete_rates
     make_default_search
     make_rates
-#    make_houses
   end
 end
 

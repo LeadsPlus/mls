@@ -1,5 +1,5 @@
 class House < ActiveRecord::Base
-  attr_accessible :title, :price, :description, :county, :image_url, :daft_url
+  attr_accessible :title, :price, :description, :county, :image_url, :daft_url, :daft_id
   default_scope order('price')
   paginates_per(10)
 
@@ -8,6 +8,10 @@ class House < ActiveRecord::Base
   def inline_address
     "#{number} #{street}, #{town}, Co. #{county}"
   end
+
+#  def daft_url
+#    "http://www.daft.ie/searchsale.daft?id=#{daft_id}"
+#  end
 
   def ltv(princ)
     (princ*100)/price

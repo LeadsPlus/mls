@@ -3,15 +3,20 @@
   %table
     %tr
       %td Rates
-      %td= @search.rates.inspect
+      %td
+        %ul
+          - @search.rates.each do |deposit, rate|
+            %li
+              = "Deposit: #{number_to_percentage(deposit)}"
+              = "Avg. Rate: #{rate.truncate(4)}%"
     %tr
       %td Effective Rates
       %td
         %ul
-          - @search.effective_rates.each do |deposit, rate|
+          - @search.effective_rates.each do |deposit, eff_rate|
             %li
               = "Deposit: #{number_to_percentage(deposit)}"
-              = "Rate: #{number_to_percentage(rate.truncate(4))}"
+              = "Avg. Rate: #{eff_rate.truncate(15)}%"
     %tr
       %td Principals
       %td
@@ -19,12 +24,12 @@
           - @search.max_prices_given_rate.each do |deposit, price|
             %li
               = "Deposit: #{number_to_percentage(deposit)}"
-              = "Price: #{number_to_currency(price.truncate(4), :unit => '€')}"
+              = "Price: #{number_to_currency(price, :unit => '€')}"
     %tr
       %td Our Bracket
       %td
-        = "Deposit Percentage: #{number_to_percentage(@search.affordable_prices.max[0])}."
-        = "Max price: #{number_to_currency(@search.affordable_prices.max[1].truncate(4), :unit => '€')}"
+        = "Deposit Percentage: #{number_to_percentage(@search.affordable_prices[0])}."
+        = "Max price: #{number_to_currency(@search.affordable_prices[1].truncate(4), :unit => '€')}"
     %tr
       %td Min Price
       %td= number_to_currency(@search.min_price.truncate(4), :unit => '€')

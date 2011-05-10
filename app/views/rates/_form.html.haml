@@ -8,13 +8,13 @@
         - @rate.errors.full_messages.each do |msg|
           %li= msg
   .field
-    = f.label :initial_rate, "Initial Rate (%)"
+    = f.label :initial_rate, "Initial Rate (% APR)"
     %br/
     = f.text_field :initial_rate
   .field
     = f.label :lender
     %br/
-    = f.select :lender, [['Bank of Ireland','Bank of Ireland'], ['AIB','AIB']]
+    = f.select :lender, [['Bank of Ireland','Bank of Ireland'], ['AIB','AIB'], ['Ulster Bank', 'Ulster Bank'], ['Permanent TSB', 'Permanent TSB']]
   .field
     = f.label :loan_type
     %br/
@@ -36,7 +36,7 @@
   -# that way I could select the actual product it rolls to.
   -# use the info to create a relationship between the two products
   .field
-    = f.label :rolls_to, "Rolling to (%)"
+    = f.label :rolls_to, "Rolling to (%) APR"
     %br/
     = f.text_field :rolls_to
   .field

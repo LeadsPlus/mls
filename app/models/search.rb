@@ -1,3 +1,12 @@
+# ok so now I have a problem,
+#  Take the following choices
+#   Deposit: 51.000% Avg. Rate: 3.000%
+#   Deposit: 21.000% Avg. Rate: 3.000%
+#   Deposit: 8.000% Avg. Rate: 3.300%
+#   Deposit: 10.000% Avg. Rate: 4.100%
+# my algo rejects the, 51% and the 21% because our deposit isn't large enough.
+# it is left with the 8% and 8% but the 
+
 class Search < ActiveRecord::Base
   attr_accessible :min_payment, :max_payment, :deposit, :term, :county
   after_initialize :init
@@ -10,36 +19,33 @@ class Search < ActiveRecord::Base
     self.county ||= "Fermanagh"
   end
 
-#  Do I need BigDecimals here?
 #  Cycle through every rate in the table and construct a hash with one entry for each LTV bracket
 #  The value of the entry will be the lowest rate available in that LTV level
   def rates
-#    format: minimum deposit % needed to get this rate => rate
+#    format: minimum deposit % needed to get this rate => BigDecimal(rate)
     rates = {}
     Rate.find_each do |rate|
       if rates.has_key?(100-rate.max_ltv)
-        rates[100-rate.max_ltv] = rate.initial_rate if rate.initial_rate < rates[100-rate.max_ltv]
+        rates[100-rate.max_ltv] = rate.avg_rate(term) if rate.avg_rate(term) < rates[100-rate.max_ltv]
       else
-        rates[100-rate.max_ltv] = rate.initial_rate
+        rates[100-rate.max_ltv] = rate.avg_rate(term)
       end
     end
-    Rails.logger.debug "Rates Hash: #{rates.inspect}"
     rates
   end
 
   def eventual_rate
 #    I think that this is trying to access a key that doesn't exist in some circumstances
-    Rails.logger.debug "Depos Bracket: #{affordable_prices.max[0]}"
-    rates[affordable_prices.max[0]] unless affordable_prices.max[0].nil?
+    Rails.logger.debug "Depos Bracket: #{affordable_prices[0]}"
+    rates[affordable_prices[0]]
   end
 
 #  Convert a given rate to it's effective counterpart
   def effective_rate(rate)
-#    this is going to fuck me up majorly if I move to BigDecimal
     BigDecimal.new(rate.to_s, 2)/1200
   end
 
-#  hash of form min_depos => eff_rate
+#  hash of form min_depos_needed_to_avail => eff_rate
 #  cycle through the rates hash, converting each value to it's effective counterpart
   def effective_rates
     rates.merge(rates){|min_depos, rate| effective_rate rate }
@@ -68,7 +74,9 @@ class Search < ActiveRecord::Base
 #    .max will give back [depos_percent, max_price]
 #    .values.max will just give max_price
   def affordable_prices
-    max_prices_given_rate.reject { |min_depos, price| min_depos > deposit*100/price }
+    affords = max_prices_given_rate.reject { |min_depos, price| min_depos > deposit*100/price }
+#    now I need to reject all but the one which affords us the largest principal
+    affords.select {|k,v| v == affords.values.max }.max
   end
 
   def max_total_paid
@@ -86,7 +94,7 @@ class Search < ActiveRecord::Base
 
   def matches
     House.where("price >= :min AND price <= :max AND county = :county",
-                { :min => min_price, :max => affordable_prices.values.max, :county => county })
+                { :min => min_price, :max => affordable_prices[1], :county => county })
   end
 
   def max_payment_less_than_min_payment

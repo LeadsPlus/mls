@@ -10,7 +10,7 @@
 #   create a new house
 #  end
 
-# add a daft_id to the table. Make it string just in case
+# add a daft_id to the table. Daft_id is an integer see this: http://api.daft.ie/examples/php5/#media
 # figure out how to parse it from the url
 # delete the daft_url column and construct them from the daft_id instead
 # find by daft id
