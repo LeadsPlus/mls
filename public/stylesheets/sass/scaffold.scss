@@ -84,7 +84,17 @@ table.data {
   }
 }
 
-#rate_debugger {
+.hidden {
+  display: none;
+}
+
+#rate_debugger_trigger, #viable_rates_trigger {
+  border: 1px solid #999;
+  background-color: #ecf7d2;
+  padding-left: 10px;
+}
+
+#rate_debugger, #viable_rates {
   border: 1px solid #999;
   background-color: #ecf7d2;
   padding: 10px;

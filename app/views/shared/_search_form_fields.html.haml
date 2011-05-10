@@ -1,0 +1,45 @@
+#other_fields
+  %span.field
+    =f.label :deposit, "Deposit (€)"
+    =f.text_field :deposit, :value => search.deposit, :size => 6
+
+  %span.field
+    =f.label :term, "Term (years)"
+    =f.text_field :term, :value => search.term, :size => 3
+
+  %span.field
+    =f.label :county
+    =f.select :county, county_choices, :selected => search.county
+
+  =f.submit :Search
+
+#payments
+  #boxes
+    %b Monthly Payment Range:
+    %span.field
+      -#=f.label :min_payment, "Min Payment (€)"
+      =f.text_field :min_payment, :value => search.min_payment, :size => 6
+
+    %span.field
+      -#=f.label :max_payment, "Max Payment (€)"
+      =f.text_field :max_payment, :value => search.max_payment, :size => 6
+
+  #jquery-slider
+
+.spacer
+
+%span#mortgage_options_trigger.collapsed-trigger= link_to 'Mortgage Filter'
+#mortgage_options.collapsed-content{ :class => search.has_mortgage_conditions? ? '' : 'hidden' }
+  %span.field
+    = f.label :lender
+    = f.select :lender, lender_options.unshift(['Any', 'Any']), :selected => search.lender
+
+  %span.field
+    = f.label :loan_type
+    = f.select :loan_type, loan_type_options.unshift(['Any', 'Any']), :selected => search.loan_type
+
+  %span.field
+    = f.label :initial_period_length
+    = f.select :initial_period_length, initial_period_length_options, :selected => search.initial_period_length
+
+.spacer

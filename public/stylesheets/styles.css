@@ -51,6 +51,10 @@ div.search_bar {
       width: 50px; }
     div.search_bar #boxes input#search_max_payment {
       width: 50px; }
+  div.search_bar #mortgage_options_trigger {
+    float: right; }
+  div.search_bar #mortgage_options {
+    margin: 20px 0 5px 0; }
   div.search_bar #other_fields {
     margin-bottom: 10px; }
     div.search_bar #other_fields input#search_deposit {

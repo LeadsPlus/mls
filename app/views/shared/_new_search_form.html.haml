@@ -1,50 +1,6 @@
--# if there were errors then we need to show the offending search
-
 - @search ||= Search.new
 
-:javascript
-  $(function(){
-    $('div#jquery-slider').slider({
-        range: true,
-        min: 1,
-        max: 2000,
-        step: 10,
-        values: [ #{@search.min_payment}, #{@search.max_payment} ],
-         slide: function( event, ui ) {
-          $( "#search_min_payment" ).val( ui.values[ 0 ] );
-          $( "#search_max_payment" ).val( ui.values[ 1 ] );
-         }
-    });
-  });
-
--# if this works I should go update the Stack Overflow question I made
-=form_for Search.new do |f|
-  -#=render 'shared/error_messages', :object => f.object
-  #other_fields
-    %span.field
-      =f.label :deposit, "Deposit (€)"
-      =f.text_field :deposit, :value => @search.deposit, :size => 6
-
-    %span.field
-      =f.label :term, "Term (years)"
-      =f.text_field :term, :value => @search.term, :size => 3
-
-    %span.field
-      =f.label :county
-      =f.select :county, county_choices, :selected => @search.county
-
-    =f.submit :Search
-
-  #payments
-    #boxes
-      %b Monthly Payment Range:
-      %span.field
-        -#=f.label :min_payment, "Min Payment (€)"
-        =f.text_field :min_payment, :value => @search.min_payment, :size => 6
-
-      %span.field
-        -#=f.label :max_payment, "Max Payment (€)"
-        =f.text_field :max_payment, :value => @search.max_payment, :size => 6
-
-    #jquery-slider
-
+= render "shared/search_form_js", :search => @search
+= form_for Search.new do |f|
+  = render 'shared/search_form_fields', :search => @search, :f => f
+  

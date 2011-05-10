@@ -17,4 +17,19 @@ module ApplicationHelper
       [name, name]
     end
   end
+
+  def lender_options
+    [['Bank of Ireland','Bank of Ireland'],
+     ['AIB','AIB'],
+     ['Ulster Bank', 'Ulster Bank'],
+     ['Permanent TSB', 'Permanent TSB']]
+  end
+
+  def loan_type_options
+    [['Variable Rate','Variable Rate'], ['Partially Fixed Rate','Partially Fixed Rate']]
+  end
+
+  def initial_period_length_options
+    [['', nil], ['1 years', 1], ['2 years', 2], ['3 years', 3], ['4 years', 4], ['5 years', 5], ['6 years', 6]]
+  end
 end

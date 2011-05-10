@@ -1,5 +1,5 @@
 class Search < ActiveRecord::Base
-  attr_accessible :min_payment, :max_payment, :deposit, :term, :county
+  attr_accessible :min_payment, :max_payment, :deposit, :term, :county, :loan_type, :initial_period_length, :lender
   after_initialize :init
 
   def init
@@ -8,6 +8,17 @@ class Search < ActiveRecord::Base
     self.deposit ||= 50_000
     self.term ||= 25
     self.county ||= "Fermanagh"
+    self.initial_period_length ||= nil
+    self.loan_type ||= 'Any'
+    self.lender ||= 'Any'
+  end
+
+#  this might be a bad idea if I'm breaking the lazy loading ability?
+#  I think I'm ok since this returns a ActiveRecord::Relation object
+  def viable_rates
+    Rate.scope_by_lender(lender)
+        .scope_by_loan_type(loan_type)
+        .scope_by_initial_period(initial_period_length)
   end
 
 #  Cycle through every rate in the table and construct a hash with one entry for each LTV bracket
@@ -15,7 +26,7 @@ class Search < ActiveRecord::Base
   def rates
 #    format: minimum deposit % needed to get this rate => BigDecimal(rate)
     rates = {}
-    Rate.find_each do |rate|
+    viable_rates.find_each do |rate|
       if rates.has_key?(100-rate.max_ltv)
         rates[100-rate.max_ltv] = rate.avg_rate(term) if rate.avg_rate(term) < rates[100-rate.max_ltv]
       else
@@ -23,6 +34,11 @@ class Search < ActiveRecord::Base
       end
     end
     rates
+#    rescue ActiveRecord::RecordNotFound
+  end
+
+  def has_mortgage_conditions?
+    loan_type != 'Any' || initial_period_length != nil || lender != "Any"
   end
 
   def eventual_rate
@@ -60,8 +76,7 @@ class Search < ActiveRecord::Base
   end
 
 #  cycle through the max_prices hash, rejecting prices that we can't actually afford
-#  given the deposit we have to offer
-#  The 'answer' will be the highest price we can afford, given our deposit
+#  given the deposit we have to offer. Then select the setup which allows us the largest principal.
 #    .max will give back [depos_percent, max_price]
 #    .values.max will just give max_price
   def affordable_prices
@@ -88,15 +103,6 @@ class Search < ActiveRecord::Base
                 { :min => min_price, :max => affordable_prices[1], :county => county })
   end
 
-  def max_payment_less_than_min_payment
-    errors.add(:max_payment, "cannot be less than the Min. payment") if max_payment < min_payment
-  end
-
-  def has_some_affordable_prices
-    affords = max_prices_given_rate.reject { |min_depos, price| min_depos > deposit*100/price }
-    errors[:base] << "Deposit is too small to facilitate a mortgage with payments in that range" if affords.length.zero?
-  end
-
   validates :max_payment, :presence => true,
                           :numericality => { :greater_than => 0 }
 
@@ -112,7 +118,28 @@ class Search < ActiveRecord::Base
   validates :county, :presence => true
   validate :max_payment_less_than_min_payment
 #  I have this implemented wrong. I'm calculating affordable prices twice every search
-  validate :has_some_affordable_prices
+  validate :has_some_affordable_prices, :if =>  "viable_rates.size > 0"
+  validate :has_some_viable_rates
+  validate :pfm_if_initial_length_set
+
+  def max_payment_less_than_min_payment
+    errors.add(:max_payment, "cannot be less than the Min. payment") if max_payment < min_payment
+  end
+
+  def has_some_affordable_prices
+    affords = max_prices_given_rate.reject { |min_depos, price| min_depos > deposit*100/price }
+    errors[:base] << "Deposit is too small to facilitate a mortgage with payments in that range" if affords.length.zero?
+  end
+
+  def pfm_if_initial_length_set
+    unless initial_period_length == nil
+      errors[:base] << "Variable rate mortgages have no initial period length" unless loan_type == 'Partially Fixed Rate'
+    end
+  end
+
+  def has_some_viable_rates
+    errors[:base] << "There are no rates in the system which match those conditions" unless viable_rates.size > 0
+  end
 end
 
 

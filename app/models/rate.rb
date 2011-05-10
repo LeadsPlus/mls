@@ -12,6 +12,31 @@ class Rate < ActiveRecord::Base
     initial_rate.to_d
   end
 
+#  http://stackoverflow.com/questions/5748550/how-to-make-a-rails-3-dynamic-scope-conditional
+  def self.scope_by_lender(lender)
+    if lender == 'Any'
+      scoped
+    else
+      where(:lender => lender)
+    end
+  end
+
+  def self.scope_by_loan_type(loan_type)
+    if loan_type == 'Any'
+      scoped
+    else
+      where(:loan_type => loan_type)
+    end
+  end
+
+  def self.scope_by_initial_period(period)
+    if period == nil
+      scoped
+    else
+      where(:initial_period_length => period)
+    end
+  end
+
   validates :initial_rate, :presence => true,
             :numericality => { :greater_than_or_equal_to => 0, :less_than => 100  }
   validates :lender, :presence => true

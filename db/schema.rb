@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110510080653) do
+ActiveRecord::Schema.define(:version => 20110510082428) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -64,6 +64,9 @@ ActiveRecord::Schema.define(:version => 20110510080653) do
     t.integer  "min_payment"
     t.integer  "term"
     t.string   "county"
+    t.string   "loan_type"
+    t.integer  "initial_period_length"
+    t.string   "lender"
   end
 
 end

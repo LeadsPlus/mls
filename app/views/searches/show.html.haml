@@ -1,4 +1,6 @@
-= render 'rate_debugger' if Rails.env.development?
+- if Rails.env.development?
+  = render 'viable_rates'
+  = render 'rate_debugger'
 
 #mortgage_details
   You will be able to borrow up to a maximum of #{number_to_currency(@search.affordable_prices[1], :unit => '€', :precision => 0)}.

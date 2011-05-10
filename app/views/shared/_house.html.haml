@@ -1,5 +1,5 @@
 %tr.house{ :id => "house_#{house.id}" }
-  %td= image_tag house.image_url, :size => '160x120'
+  %td= image_tag house.image_url, :size => '160x120' if Rails.env.production? # sick of waiting for image loads in dev
   %td
     %table
       %tr

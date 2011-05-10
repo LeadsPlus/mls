@@ -1,14 +1,6 @@
-#rate_debugger
-  %h2 Debug Data
+#rate_debugger_trigger.collapsed-trigger  Debug Data
+#rate_debugger.hidden.collapsed-content
   %table
-    %tr
-      %td Rates
-      %td
-        %ul
-          - @search.rates.each do |deposit, rate|
-            %li
-              = "Deposit: #{number_to_percentage(deposit)}"
-              = "Avg. Rate: #{rate.truncate(4)}%"
     %tr
       %td Effective Rates
       %td

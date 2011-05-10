@@ -3,4 +3,9 @@
 $(function() {
   $( "button, input:submit, a.snazzy").button();
   $( "a", ".demo" ).click(function() { return false; });
+
+  $( ".collapsed-trigger" ).click(function(event){
+    event.preventDefault();
+    $(this).next(".collapsed-content").toggleClass('hidden');
+  })
 });
