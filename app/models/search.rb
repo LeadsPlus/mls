@@ -27,7 +27,8 @@ class Search < ActiveRecord::Base
     calc_rates_hash # now we should have access to @rates
     calc_effective_rates # @effective_rates
     calc_max_prices_given_rate # @max_prices_given_rate
-    calc_best_price # @affordable_prices
+    calc_affordable_prices # @affordable_prices
+    calc_best_price # @best_price
     calc_eventual_rate # @eventual_rate
     calc_min_price # @min_price
   end
@@ -96,11 +97,21 @@ class Search < ActiveRecord::Base
 #  given the deposit we have to offer. Then select the setup which allows us the largest principal.
 #    .max will give back [depos_percent, max_price]
 #    .values.max will just give max_price
+  def calc_affordable_prices
+    @affordable_prices = @max_prices_given_rate.reject { |min_depos, price| min_depos > deposit*100/price }
+    logger.debug "Affordable Prices determined "
+    if @affordable_prices.length > 0
+      @affordable_prices.each do |d, p|
+        logger.debug "Deposit of: #{d} gives Price: #{p.truncate(4)}"
+      end
+    else
+      logger.debug "There are no affordable prices"
+    end
+  end
+
   def calc_best_price
-    @best_price = @max_prices_given_rate.reject { |min_depos, price| min_depos > deposit*100/price }
 #    now I need to reject all but the one which affords us the largest principal
-    @best_price = @best_price.select! {|k,v| v == @best_price.values.max }.max.to_a
-    logger.debug @best_price.class
+    @best_price = @affordable_prices.select! {|k,v| v == @affordable_prices.values.max }.max.to_a
     logger.debug "Determined the best price. Deposit of: #{@best_price[0]} gives Price: #{@best_price[1].truncate(3)}"
   end
 
@@ -143,16 +154,26 @@ class Search < ActiveRecord::Base
   validates :county, :presence => true
   validate :max_payment_less_than_min_payment
 #  I have this implemented wrong. I'm calculating affordable prices twice every search
-#  validate :has_a_best_price, :if =>  "@viable_rates.size > 0"
-#  validate :has_some_viable_rates
-#  validate :pfm_if_initial_length_set
+
+  validate :has_some_viable_rates
+  validate :has_some_affordable_prices, :if =>  "@viable_rates.size > 0"
+  validate :pfm_if_initial_length_set
 
   def max_payment_less_than_min_payment
     errors.add(:max_payment, "cannot be less than the Min. payment") if max_payment < min_payment
   end
 
-  def has_a_best_price
-    errors[:base] << "Deposit is too small to facilitate a mortgage with payments in that range" if @best_price.length.zero?
+  def has_some_affordable_prices
+    errors[:base] << "Deposit is too small to facilitate a mortgage with payments in that range" if check_for_affordable_prices?
+  end
+
+  def check_for_affordable_prices?
+    set_viable_rates # now we should have access to @viable_rates
+    calc_rates_hash # now we should have access to @rates
+    calc_effective_rates # @effective_rates
+    calc_max_prices_given_rate # @max_prices_given_rate
+    calc_affordable_prices
+    @affordable_prices.length.zero?
   end
 
   def pfm_if_initial_length_set
@@ -162,7 +183,8 @@ class Search < ActiveRecord::Base
   end
 
   def has_some_viable_rates
-    errors[:base] << "There are no rates in the system which match those conditions" unless @viable_rates.size > 0
+    set_viable_rates
+    errors[:base] << "There are no rates in the system which match those conditions" if @viable_rates.size.zero?
   end
 end
 
