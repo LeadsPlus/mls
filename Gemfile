@@ -45,7 +45,6 @@ gem 'hirb'
 group :development do
   gem 'rspec-rails', '2.5.0'
   gem 'annotate'
-  gem "query_reviewer", :git => "git://github.com/nesquena/query_reviewer.git"
 end
 
 group :test do

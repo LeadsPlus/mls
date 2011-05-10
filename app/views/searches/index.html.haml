@@ -7,7 +7,10 @@
     %th Max. Payment
     %th Deposit
     %th County
-  -#=render :partial => 'search', :collection => @searches
+    %th Loan Type
+    %th Initial Length
+    %th Lender
+  =render :partial => 'search', :collection => @searches
 
 = paginate @searches
 %br

@@ -152,23 +152,23 @@ class Search < ActiveRecord::Base
                    :numericality => { :greater_than => 0, :less_than_or_equal_to => 60 }
 
   validates :county, :presence => true
-  validate :max_payment_less_than_min_payment
-#  I have this implemented wrong. I'm calculating affordable prices twice every search
-
-  validate :has_some_viable_rates
-  validate :has_some_affordable_prices, :if =>  "@viable_rates.size > 0"
-  validate :pfm_if_initial_length_set
+#  these validations happen in the order they're listed here
+#  @viable rates is built in 'has_some_viable_rates' and can then be used in 'has_some_affordable_prices'
+  validate :max_payment_less_than_min_payment, :pfm_if_initial_length_set,
+           :has_some_viable_rates, :has_some_affordable_prices
 
   def max_payment_less_than_min_payment
     errors.add(:max_payment, "cannot be less than the Min. payment") if max_payment < min_payment
   end
 
   def has_some_affordable_prices
-    errors[:base] << "Deposit is too small to facilitate a mortgage with payments in that range" if check_for_affordable_prices?
+    unless @viable_rates.size.zero?
+      errors[:base] << "Deposit is too small to facilitate a mortgage with payments in that range" if no_affordable_prices?
+    end
   end
 
-  def check_for_affordable_prices?
-    set_viable_rates # now we should have access to @viable_rates
+  def no_affordable_prices?
+#    @viable_rates already set by previous validation
     calc_rates_hash # now we should have access to @rates
     calc_effective_rates # @effective_rates
     calc_max_prices_given_rate # @max_prices_given_rate
