@@ -100,7 +100,7 @@ class Search < ActiveRecord::Base
 
   def matches
     House.where("price >= :min AND price <= :max AND county = :county",
-                { :min => min_price, :max => affordable_prices[1], :county => county })
+                { :min => min_price.truncate(0), :max => affordable_prices[1].truncate(0), :county => county })
   end
 
   validates :max_payment, :presence => true,
