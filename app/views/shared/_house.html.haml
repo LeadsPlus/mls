@@ -10,7 +10,7 @@
       %tr
         %td= "Price: #{number_to_currency(house.price, :unit => '€', :precision => 0)}"
         %td= "Actual Monthly Payment Required: #{number_to_currency(-@search.pmt_at(house.price), :unit => '€')}" if @search
-        %td= link_to "View on Daft.ie", "http://www.daft.ie/#{house.daft_url}"
+        %td= link_to "View on Daft.ie", house.daft_url
         %td= link_to 'Show', house
         -#%td= link_to 'Edit', edit_house_path(house)
         -#%td= link_to 'Destroy', house, :confirm => 'Are you sure?', :method => :delete
