@@ -10,6 +10,12 @@ GIT
       selenium-webdriver (~> 0.2.0)
       xpath (~> 0.1.4)
 
+GIT
+  remote: git://github.com/nesquena/query_reviewer.git
+  revision: 9de60e75d18068d40cd3f8439a3de28eb4df5f3b
+  specs:
+    query_reviewer (0.1.2)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -150,7 +156,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  annotate (= 2.4.0)
+  annotate
   capybara!
   delayed_job
   factory_girl_rails
@@ -164,6 +170,7 @@ DEPENDENCIES
   mechanize
   nokogiri
   pg
+  query_reviewer!
   rails (= 3.0.7)
   rspec-rails (= 2.5.0)
   sass

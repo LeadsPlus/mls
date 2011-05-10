@@ -12,7 +12,7 @@
   <component name="GemRequirementsHolder" version="3">
     <requirement>
       <requirement>
-        <dependency name="annotate" version="2.4.0" bound="EQUAL" git="false" path="false" doRequire="true" />
+        <dependency name="annotate" version="0" bound="GREATER_OR_EQUAL" git="false" path="false" doRequire="true" />
       </requirement>
       <source from="Gemfile" />
     </requirement>
@@ -91,6 +91,12 @@
     <requirement>
       <requirement>
         <dependency name="pg" version="0" bound="GREATER_OR_EQUAL" git="false" path="false" doRequire="true" />
+      </requirement>
+      <source from="Gemfile" />
+    </requirement>
+    <requirement>
+      <requirement>
+        <dependency name="query_reviewer" version="0" bound="GREATER_OR_EQUAL" git="true" path="false" doRequire="true" />
       </requirement>
       <source from="Gemfile" />
     </requirement>

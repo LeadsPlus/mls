@@ -20,8 +20,8 @@
     %tr
       %td Our Bracket
       %td
-        = "Deposit Percentage: #{number_to_percentage(@search.affordable_prices[0])}."
-        = "Max price: #{number_to_currency(@search.affordable_prices[1].truncate(4), :unit => '€')}"
+        = "Deposit Percentage: #{number_to_percentage(@search.best_price[0])}."
+        = "Max price: #{number_to_currency(@search.best_price[1].truncate(4), :unit => '€')}"
     %tr
       %td Min Price
       %td= number_to_currency(@search.min_price.truncate(4), :unit => '€')

@@ -20,7 +20,6 @@ class SearchesController < ApplicationController
   end
 
   def create
-    Rails.logger.debug params
 #    if I do Search.new(params[:search]) then the :init method realises there is a missing value
 #    and subs in a default value instead. That means that we can never fail because of blank fields
     @search = Search.new

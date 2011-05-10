@@ -44,7 +44,8 @@ gem 'hirb'
 # and rake tasks are available in development mode:
 group :development do
   gem 'rspec-rails', '2.5.0'
-  gem 'annotate', '2.4.0'
+  gem 'annotate'
+  gem "query_reviewer", :git => "git://github.com/nesquena/query_reviewer.git"
 end
 
 group :test do

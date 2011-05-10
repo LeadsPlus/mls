@@ -3,7 +3,7 @@
   = render 'rate_debugger'
 
 #mortgage_details
-  You will be able to borrow up to a maximum of #{number_to_currency(@search.affordable_prices[1], :unit => '€', :precision => 0)}.
+  You will be able to borrow up to a maximum of #{number_to_currency(@search.best_price[1], :unit => '€', :precision => 0)}.
   The best rate you can receive given the size of your deposit is #{number_to_percentage(@search.eventual_rate, :precision => 2)}.
   The rates we use to calculate this data can be found
   %a{ :href => rates_path } here.
