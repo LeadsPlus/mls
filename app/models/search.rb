@@ -1,12 +1,3 @@
-# ok so now I have a problem,
-#  Take the following choices
-#   Deposit: 51.000% Avg. Rate: 3.000%
-#   Deposit: 21.000% Avg. Rate: 3.000%
-#   Deposit: 8.000% Avg. Rate: 3.300%
-#   Deposit: 10.000% Avg. Rate: 4.100%
-# my algo rejects the, 51% and the 21% because our deposit isn't large enough.
-# it is left with the 8% and 8% but the 
-
 class Search < ActiveRecord::Base
   attr_accessible :min_payment, :max_payment, :deposit, :term, :county
   after_initialize :init
