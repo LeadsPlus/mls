@@ -16,14 +16,19 @@ class SearchesController < ApplicationController
   end
 
   def new
-    @search = Search.new
+#    I think that the problem here will be that these will overwrite the fields that
+#    caused errors when we render new from the create failure action???
+    @search = Search.new( :min_payment => 700,
+                          :max_payment => 1200,
+                          :term => 25,
+                          :deposit => 50000,
+                          :county => "Fermanagh",
+                          :lender => 'Any',
+                          :loan_type => 'Any', :initial_period_length => 0)
   end
 
   def create
-#    if I do Search.new(params[:search]) then the :init method realises there is a missing value
-#    and subs in a default value instead. That means that we can never fail because of blank fields
-    @search = Search.new
-    @search.update_attributes params[:search]
+    @search = Search.new params[:search]
 
     if @search.save
       redirect_to search_path(@search)

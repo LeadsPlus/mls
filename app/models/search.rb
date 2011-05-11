@@ -1,25 +1,16 @@
+require 'custom_validators/ample_max_payment_validator'
+require 'custom_validators/vrm_and_initial_length_not_both_set_validator'
+
 class Search < ActiveRecord::Base
   attr_accessible :min_payment, :max_payment, :deposit, :term, :county, :loan_type, :initial_period_length, :lender
   attr_reader :viable_rates, :rates, :effective_rates,
               :max_prices_given_rate, :best_price, :eventual_rate,
               :min_price, :matches
-  after_initialize :init
 
   before_validation { Rails.logger.debug "Validation begins here" }
   after_validation do
     Rails.logger.debug "Validation Ends here"
 #    do_everything
-  end
-
-  def init
-    self.min_payment ||= 800
-    self.max_payment ||= 1_000
-    self.deposit ||= 50_000
-    self.term ||= 25
-    self.county ||= "Fermanagh"
-    self.initial_period_length ||= nil
-    self.loan_type ||= 'Any'
-    self.lender ||= 'Any'
   end
 
   def calc_everything
@@ -39,7 +30,7 @@ class Search < ActiveRecord::Base
     @viable_rates = Rate.scope_by_lender(lender)
                       .scope_by_loan_type(loan_type)
                       .scope_by_initial_period(initial_period_length)
-    Rails.logger.debug "Viable rates set: #{@viable_rates.inspect}"
+    Rails.logger.debug "Viable rates set. #{@viable_rates.count} viable rates found"
   end
 
 #  Cycle through every rate in the table and construct a hash with one entry for each LTV bracket
@@ -140,14 +131,10 @@ class Search < ActiveRecord::Base
     House.where("price >= :min AND price <= :max AND county = :county",
                 { :min => @min_price.truncate(0), :max => @best_price[1].truncate(0), :county => county })
   end
-  
-#  these validations happen in the order they're listed here
-#  @viable rates is built in 'has_some_viable_rates' and can then be used in 'has_some_affordable_prices'
-  validate :max_payment_less_than_min_payment, :pfm_if_initial_length_set,
-           :has_some_viable_rates, :has_some_affordable_prices
-  
+
   validates :max_payment, :presence => true,
-                          :numericality => { :greater_than => 0 }
+                          :numericality => { :greater_than => 0 },
+                          :ample_max_payment => { :unless => :either_payment_blank? }
 
   validates :min_payment, :presence => true,
                           :numericality => { :greater_than => 0 }
@@ -160,14 +147,19 @@ class Search < ActiveRecord::Base
 
   validates :county, :presence => true
 
-  def max_payment_less_than_min_payment
-    unless max_payment.nil? || min_payment.nil?
-      errors.add(:max_payment, "cannot be less than the Min. payment") if max_payment < min_payment
-    end
+  validates :loan_type, :vrm_and_initial_length_not_both_set => { :unless => "initial_period_length.blank?" }
+
+#  #  as far as I can tell, 'validate xyz' validations always happen before 'validates xyz' validations
+#  @viable rates is built in 'has_some_viable_rates' and can then be used in 'has_some_affordable_prices'
+  validate :has_some_viable_rates, :has_some_affordable_prices
+
+  def either_payment_blank?
+    max_payment.blank? || min_payment.blank?
   end
 
   def has_some_affordable_prices
     unless @viable_rates.size.zero?
+      logger.debug "Validating that there are some affordable prices"
       errors[:base] << "Deposit is too small to facilitate a mortgage with payments in that range" if no_affordable_prices?
     end
   end
@@ -178,17 +170,20 @@ class Search < ActiveRecord::Base
     calc_effective_rates # @effective_rates
     calc_max_prices_given_rate # @max_prices_given_rate
     calc_affordable_prices
+    logger.debug "There are some affordable prices?: #{!@affordable_prices.length.zero?}"
     @affordable_prices.length.zero?
   end
-
-  def pfm_if_initial_length_set
-    unless initial_period_length == nil
-      errors[:base] << "Variable rate mortgages have no initial period length" unless loan_type == 'Partially Fixed Rate'
-    end
-  end
+#
+#  def pfm_if_initial_length_set
+#    unless initial_period_length == ''
+#      errors[:base] << "Variable rate mortgages have no initial period length" unless loan_type == 'Partially Fixed Rate'
+#    end
+#  end
 
   def has_some_viable_rates
+    check_valid_attributes
     set_viable_rates
+    logger.debug "Validating the existance of some viable rates. Valid?: #{!@viable_rates.size.zero?}"
     errors[:base] << "There are no rates in the system which match those conditions" if @viable_rates.size.zero?
   end
 end
