@@ -12,6 +12,11 @@ describe Rate do
     }
   end
 
+
+  it "should create a new rate given valid attributes" do
+    Rate.create! @valid_attr
+  end
+
   describe "validations" do
     it "should require an initial rate" do
       Rate.new(@valid_attr.merge(:initial_rate => '')).should_not be_valid

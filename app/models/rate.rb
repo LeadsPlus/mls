@@ -40,11 +40,9 @@ class Rate < ActiveRecord::Base
   validates :initial_rate, :presence => true,
             :numericality => { :greater_than_or_equal_to => 0, :less_than => 100  }
   validates :lender, :presence => true,
-      :inclusion => { :in => %w[Dublin Meath Kildare Wicklow Longford Offaly Westmeath Laois Louth Carlow Kilkenny Waterford
-        Wexford Kerry Cork Clare Limerick Tipperary Galway Mayo Roscommon Sligo Leitrim Donegal Cavan
-        Monaghan Antrim Armagh Tyrone Fermanagh Derry Down] }
+      :inclusion => { :in => %w['Bank of Ireland' AIB 'Ulster Bank' 'Permanent TSB' ] }
   validates :loan_type, :presence => true,
-      :inclusion => { :in => %w[Any 'Bank of Ireland' AIB 'Ulster Bank' 'Permanent TSB' ] }
+      :inclusion => { :in => ['Variable Rate', 'Partially Fixed Rate'] }
   validates :min_ltv, :presence => true,
             :numericality => { :greater_than_or_equal_to => 1, :less_than => 100 }
 #            less than max_ltv
