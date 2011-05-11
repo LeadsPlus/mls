@@ -1,7 +1,38 @@
 require 'spec_helper'
 
 describe Rate do
-  pending "add some examples to (or delete) #{__FILE__}"
+  before(:each) do
+    @valid_attr = {
+      :initial_rate => 3.0,
+      :lender => 'AIB',
+      :loan_type => 'Variable Rate',
+      :min_ltv => 50,
+      :max_ltv => 79,
+      :max_princ => 500_000
+    }
+  end
+
+  describe "validations" do
+    it "should require an initial rate" do
+      Rate.new(@valid_attr.merge(:initial_rate => '')).should_not be_valid
+    end
+
+    it "should require a lender" do
+      Rate.new(@valid_attr.merge(:lender => '')).should_not be_valid
+    end
+
+    it "should require a loan type" do
+      Rate.new(@valid_attr.merge(:loan_type => '')).should_not be_valid
+    end
+
+    it "should require a max_ltv" do
+      Rate.new(@valid_attr.merge(:max_ltv => '')).should_not be_valid
+    end
+
+    it "should require a min_ltv" do
+      Rate.new(@valid_attr.merge(:min_ltv => '')).should_not be_valid
+    end
+  end
 end
 
 

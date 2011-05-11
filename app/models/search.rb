@@ -1,6 +1,9 @@
 require 'custom_validators/ample_max_payment_validator'
 require 'custom_validators/vrm_and_initial_length_not_both_set_validator'
 
+# I should really think about calculating the whole thing on creating and storing the answer
+# I'm halfway there anyway
+
 class Search < ActiveRecord::Base
   attr_accessible :min_payment, :max_payment, :deposit, :term, :county, :loan_type, :initial_period_length, :lender
   attr_reader :viable_rates, :rates, :effective_rates,
