@@ -125,6 +125,8 @@ class Search < ActiveRecord::Base
   end
 
   def matches
+    logger.debug "County Names: #{$county_names}"
+    logger.debug "About to start finding matches"
     calc_everything
     logger.debug "Details used for finding matches: \n Min. Price: #{@min_price.truncate(0)} \n"
     logger.debug "Max. Price: #{@best_price[1].truncate(0)} \n County: #{county}"
@@ -134,7 +136,7 @@ class Search < ActiveRecord::Base
 
   validates :max_payment, :presence => true,
                           :numericality => { :greater_than => 0 },
-                          :ample_max_payment => { :unless => :either_payment_blank? }
+                          :ample_max_payment => { :unless => :anything_blank? }
 
   validates :min_payment, :presence => true,
                           :numericality => { :greater_than => 0 }
@@ -145,19 +147,28 @@ class Search < ActiveRecord::Base
   validates :term, :presence => true,
                    :numericality => { :greater_than => 0, :less_than_or_equal_to => 60 }
 
-  validates :county, :presence => true
+  validates :county, :presence => true,
+            :inclusion => { :in => %w[Dublin Meath Kildare Wicklow Longford Offaly Westmeath Laois Louth Carlow Kilkenny Waterford
+        Wexford Kerry Cork Clare Limerick Tipperary Galway Mayo Roscommon Sligo Leitrim Donegal Cavan
+        Monaghan Antrim Armagh Tyrone Fermanagh Derry Down] }
 
   validates :loan_type, :vrm_and_initial_length_not_both_set => { :unless => "initial_period_length.blank?" }
+  validates :lender, :inclusion => { :in => %w[Any 'Bank of Ireland' AIB 'Ulster Bank' 'Permanent TSB' ] }
+  validates :loan_type, :inclusion => { :in => ['Variable Rate', "Partially Fixed Rate", "Any"] }
+  validates :initial_period_length, :numericality => { :within => 0..100, :allow_nil => true, :allow_blank => true }
 
 #  #  as far as I can tell, 'validate xyz' validations always happen before 'validates xyz' validations
 #  @viable rates is built in 'has_some_viable_rates' and can then be used in 'has_some_affordable_prices'
   validate :has_some_viable_rates, :has_some_affordable_prices
 
-  def either_payment_blank?
-    max_payment.blank? || min_payment.blank?
+  def anything_blank?
+    max_payment.blank? || min_payment.blank? || deposit.blank? || term.blank?
   end
 
   def has_some_affordable_prices
+    logger.debug "About to check for affordable prices"
+    logger.debug "There are no blank attributes?: #{!anything_blank?}"
+    return if anything_blank?
     unless @viable_rates.size.zero?
       logger.debug "Validating that there are some affordable prices"
       errors[:base] << "Deposit is too small to facilitate a mortgage with payments in that range" if no_affordable_prices?
@@ -173,15 +184,9 @@ class Search < ActiveRecord::Base
     logger.debug "There are some affordable prices?: #{!@affordable_prices.length.zero?}"
     @affordable_prices.length.zero?
   end
-#
-#  def pfm_if_initial_length_set
-#    unless initial_period_length == ''
-#      errors[:base] << "Variable rate mortgages have no initial period length" unless loan_type == 'Partially Fixed Rate'
-#    end
-#  end
 
   def has_some_viable_rates
-    check_valid_attributes
+    return if anything_blank?
     set_viable_rates
     logger.debug "Validating the existance of some viable rates. Valid?: #{!@viable_rates.size.zero?}"
     errors[:base] << "There are no rates in the system which match those conditions" if @viable_rates.size.zero?
