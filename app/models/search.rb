@@ -111,7 +111,9 @@ class Search < ActiveRecord::Base
 
   def calc_best_price
 #    now I need to reject all but the one which affords us the largest principal
-    @best_price = @affordable_prices.select! {|k,v| v == @affordable_prices.values.max }.max.to_a
+#    using select! here is dangerous because it returns nil if no changes were made
+#    this if there is only once affordable choice to begin with, we get returned nil
+    @best_price = @affordable_prices.select {|k,v| v == @affordable_prices.values.max }.max.to_a
     logger.debug "Determined the best price. Deposit of: #{@best_price[0]} gives Price: #{@best_price[1].truncate(3)}"
   end
 
@@ -138,7 +140,12 @@ class Search < ActiveRecord::Base
     House.where("price >= :min AND price <= :max AND county = :county",
                 { :min => @min_price.truncate(0), :max => @best_price[1].truncate(0), :county => county })
   end
-
+  
+#  these validations happen in the order they're listed here
+#  @viable rates is built in 'has_some_viable_rates' and can then be used in 'has_some_affordable_prices'
+  validate :max_payment_less_than_min_payment, :pfm_if_initial_length_set,
+           :has_some_viable_rates, :has_some_affordable_prices
+  
   validates :max_payment, :presence => true,
                           :numericality => { :greater_than => 0 }
 
@@ -152,13 +159,11 @@ class Search < ActiveRecord::Base
                    :numericality => { :greater_than => 0, :less_than_or_equal_to => 60 }
 
   validates :county, :presence => true
-#  these validations happen in the order they're listed here
-#  @viable rates is built in 'has_some_viable_rates' and can then be used in 'has_some_affordable_prices'
-  validate :max_payment_less_than_min_payment, :pfm_if_initial_length_set,
-           :has_some_viable_rates, :has_some_affordable_prices
 
   def max_payment_less_than_min_payment
-    errors.add(:max_payment, "cannot be less than the Min. payment") if max_payment < min_payment
+    unless max_payment.nil? || min_payment.nil?
+      errors.add(:max_payment, "cannot be less than the Min. payment") if max_payment < min_payment
+    end
   end
 
   def has_some_affordable_prices
@@ -189,17 +194,21 @@ class Search < ActiveRecord::Base
 end
 
 
+
 # == Schema Information
 #
 # Table name: searches
 #
-#  id          :integer         not null, primary key
-#  max_payment :integer
-#  deposit     :integer
-#  created_at  :datetime
-#  updated_at  :datetime
-#  min_payment :integer
-#  term        :integer
-#  county      :string(255)
+#  id                    :integer         not null, primary key
+#  max_payment           :integer
+#  deposit               :integer
+#  created_at            :datetime
+#  updated_at            :datetime
+#  county                :string(255)
+#  min_payment           :integer
+#  term                  :integer
+#  loan_type             :string(255)
+#  initial_period_length :integer
+#  lender                :string(255)
 #
 

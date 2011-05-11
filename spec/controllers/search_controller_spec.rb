@@ -1,9 +1,10 @@
 require 'spec_helper'
 
-# these tests are not working properly. Don't trust them.
-
 describe SearchesController do
   render_views
+  before(:each) do
+    @rate = Factory :rate
+  end
 
   describe "GET index" do
     before(:each) do
@@ -11,14 +12,13 @@ describe SearchesController do
     end
 
     it "should be success" do
-      get 'index' do
-        response.should be_success
-      end
+      get 'index'
+      response.should be_success
     end
 
     it "should list searches" do
       get 'index'
-      page.should have_selector('tr#search-1')
+      response.should have_selector("tr#search-#{@search.id}")
     end
   end
 
@@ -28,7 +28,7 @@ describe SearchesController do
     end
     
     it "should be success" do
-      get'show', :id => @search
+      get 'show', :id => @search
       response.should be_success
     end
 
@@ -38,20 +38,17 @@ describe SearchesController do
       end
 
       it "should list matches" do
-        visit search_path(@search.id)
-        page.should have_selector('tr.house')
-      end
-
-      it "should show the content of the matches houses" do
-         visit search_path(@search.id)
-        page.should have_content('This is the title of a house')
+        get 'show', :id => @search
+        response.should have_selector('tr.house')
       end
     end
 
     describe "when there are no matches" do
+#      we haven't made any houses in this instance
+      
       it "should say so" do
-        visit search_path(@search.id)
-        page.should have_content('sorry but no houses')
+        get 'show', :id => @search
+        response.should have_selector('div', :content => 'sorry but no houses')
       end
     end
   end
@@ -64,19 +61,22 @@ describe SearchesController do
           :min_payment => 1_000,
           :max_payment => 1_300,
           :term => 30,
-          :county_id => 5
+          :county => "Wicklow",
+          :initial_period_length => '',
+          :loan_type => 'Any',
+          :lender => 'Any'
         }
       end
 
       it "should create a search" do
-        expect {
+        lambda {
           post 'create', :search => @attr
-        }.to change(Search, :count).by(1)
+        }.should change(Search, :count).by(1)
       end
 
       it "should redirect to the search show page" do
         post 'create', :search => @attr
-        current_path.should == search_path(assigns :search)
+        response.should redirect_to(assigns :search)
       end
     end
 
@@ -85,9 +85,12 @@ describe SearchesController do
         @fail_attr = {
           :deposit => '',
           :min_payment => -234,
-          :max_payment => nil,
-          :term => nil,
-          :county_id => nil
+          :max_payment => '',
+          :term => '',
+          :county => '',
+          :initial_period_length => '',
+          :loan_type => 'Any',
+          :lender => 'Any'
         }
       end
 
@@ -105,7 +108,7 @@ describe SearchesController do
 #      I've no idea why this fails
       it "should have error messages" do
         post 'create', :search => @fail_attr
-        page.should have_selector('div#search_error')
+        response.should have_selector('div#search_error')
       end
     end
   end

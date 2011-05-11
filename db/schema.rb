@@ -31,10 +31,10 @@ ActiveRecord::Schema.define(:version => 20110510082428) do
     t.integer  "price"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "county"
     t.string   "image_url"
     t.text     "description"
     t.string   "title"
-    t.string   "county"
     t.integer  "daft_id"
   end
 
@@ -61,9 +61,9 @@ ActiveRecord::Schema.define(:version => 20110510082428) do
     t.integer  "deposit"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "county"
     t.integer  "min_payment"
     t.integer  "term"
-    t.string   "county"
     t.string   "loan_type"
     t.integer  "initial_period_length"
     t.string   "lender"

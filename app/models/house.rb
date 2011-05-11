@@ -3,12 +3,6 @@ class House < ActiveRecord::Base
   default_scope order('price')
   paginates_per(10)
 
-#  this doesn't work now because I have no access to the county_to_word helper
-#  what if I was to add a county name column too and populate it just before save based off the county_id?
-  def inline_address
-    "#{number} #{street}, #{town}, Co. #{county}"
-  end
-
   def daft_url
     "http://www.daft.ie/searchsale.daft?id=#{daft_id}"
   end
@@ -24,7 +18,11 @@ class House < ActiveRecord::Base
   validates :price, :presence => true,
                     :numericality => { :greater_than => 1 }
 
+  validates :daft_id, :presence => true,
+                      :numericality => { :greater_than => 0 }
+
 end
+
 
 
 
@@ -38,10 +36,10 @@ end
 #  price       :integer
 #  created_at  :datetime
 #  updated_at  :datetime
+#  county      :string(255)
 #  image_url   :string(255)
 #  description :text
 #  title       :string(255)
-#  daft_url    :string(255)
-#  county      :string(255)
+#  daft_id     :integer
 #
 

@@ -70,7 +70,7 @@ class Scrape
         :title => title.text.strip,
         :description => item.at(".description").text.strip,
         :image_url => item.at(".main_photo")[:src],
-        :daft_url => title[:href],
+        :daft_id => title[:href].match(/[0-9]+/) { |id| id[0].to_i },
         :price => item.at(".price").text[/[0-9,]+/].delete(',').to_i,
         :county => county_names[daft_county_id.to_i - 1]
       })

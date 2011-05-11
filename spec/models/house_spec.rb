@@ -3,15 +3,12 @@ require 'spec_helper'
 describe House do
   before(:each) do
     @attr = {
-       :street => 'Main Street',
-       :number => 23,
-       :town => 'Drogheda',
-       :county_id => 4,
-       :bedrooms => 5,
-       :price => 345435,
-       :image_url => 'http://mediacache-s3eu.daft.ie/MZYU1EHKU5Wezk5xuw07WPdRb8VZeof6esL9j1djM-RtPWRhZnQmZT0xNjB4MTIw.jpg',
-       :title => 'This is the title of the property',
-       :description => 'This is the description'
+      :price => 345435,
+      :image_url => 'http://mediacache-s3eu.daft.ie/MZYU1EHKU5Wezk5xuw07WPdRb8VZeof6esL9j1djM-RtPWRhZnQmZT0xNjB4MTIw.jpg',
+      :title => 'This is the title of the property',
+      :description => 'This is the description',
+      :county => "Wicklow",
+      :daft_id => 5453653
     }
   end
 
@@ -19,17 +16,17 @@ describe House do
     House.create!(@attr)
   end
 
-  describe "inline address method" do
+  describe "daft url method" do
     before(:each) do
       @house = House.create!(@attr)
     end
 
     it "should have one" do
-      @house.should respond_to(:inline_address)
+      @house.should respond_to(:daft_url)
     end
 
-    it "should return the houses address" do
-      @house.inline_address.should == "23 Main Street, Drogheda, Co. Wicklow"
+    it "should return the daft_url" do
+      @house.daft_url.should == "http://www.daft.ie/searchsale.daft?id=5453653"
     end
   end
 
@@ -39,24 +36,20 @@ describe House do
       House.new(no_title_house).should_not be_valid
     end
 
-    it "should require a description" do
-      House.new(@attr.merge(:description => '')).should_not be_valid
-    end
+    it "should require a valid county" # do
+#      invalid_counties = [-1, 32, '', nil]
+#
+#      invalid_counties.each do |num|
+#        House.new(@attr.merge(:county => num)).should_not be_valid
+#      end
+#    end
 
-    it "should require a town" do
-      House.new(@attr.merge(:town => '')).should_not be_valid
-    end
+    it "should require a valid daft id" do
+      invalid_ids = [0, -1, nil, '']
 
-    it "should require a county" do
-      House.new(@attr.merge(:county_id => nil)).should_not be_valid
-    end
-
-    it "should require a valid county identifier" do
-#      remember counties are 0 based
-      invalid_counties = [-1, 32]
-
-      invalid_counties.each do |num|
-        House.new(@attr.merge(:county => num)).should_not be_valid
+      invalid_ids.each do |id|
+        invalid_id_house = @attr.merge(:daft_id => id)
+        House.new(invalid_id_house).should_not be_valid
       end
     end
 
@@ -64,16 +57,6 @@ describe House do
 #      leaving these unfinished for the moment since will probably be using paperclip anyway
       it "should require an image url"
       it "should require a valid image url"
-    end
-
-    describe "house number" do
-      invalid_numbers = [-1, 0, nil, 'hello']
-
-      it "should need to be valid" do
-        invalid_numbers.each { |num|
-          House.new(@attr.merge(:number => num)).should_not be_valid
-        }
-      end
     end
 
     describe "of price" do
@@ -89,9 +72,9 @@ describe House do
         House.new(@attr.merge(:price => -234456)).should_not be_valid
       end
     end
-
   end
 end
+
 
 
 
@@ -105,10 +88,10 @@ end
 #  price       :integer
 #  created_at  :datetime
 #  updated_at  :datetime
+#  county      :string(255)
 #  image_url   :string(255)
 #  description :text
 #  title       :string(255)
-#  daft_url    :string(255)
-#  county      :string(255)
+#  daft_id     :integer
 #
 

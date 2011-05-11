@@ -25,6 +25,7 @@ gem 'rails', '3.0.7'
 
 gem 'haml'
 gem 'sass'
+gem 'uglifier' # auto-minimizes assets
 gem 'jquery-rails'
 gem 'kaminari'
 gem 'nokogiri'
@@ -33,8 +34,9 @@ gem 'pg'
 gem 'delayed_job'
 gem 'hirefire'
 
+
 # this should be moved back into dev after I stop faking data in prod
-gem 'faker', "0.9.5" #, '0.3.1', :require => false
+gem 'faker'
 
 # have this one outside dev so that I can use hirb on heroku console
 gem 'hirb'
@@ -43,14 +45,16 @@ gem 'hirb'
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
 group :development do
-  gem 'rspec-rails', '2.5.0'
+  gem 'rspec-rails'
   gem 'annotate'
 end
 
 group :test do
-  gem 'rspec-rails', '2.5.0'
+  gem 'rspec-rails'
+  gem 'webrat'
   gem 'capybara', :git => "git://github.com/jnicklas/capybara" # , :tag => "0.4.1.2"
   gem 'spork'
   gem "launchy"
   gem 'factory_girl_rails'
+  gem 'turn', :require => false # nicer test output
 end

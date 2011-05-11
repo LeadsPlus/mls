@@ -146,17 +146,21 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: searches
 #
-#  id          :integer         not null, primary key
-#  max_payment :integer
-#  deposit     :integer
-#  created_at  :datetime
-#  updated_at  :datetime
-#  min_payment :integer
-#  term        :integer
-#  county      :string(255)
+#  id                    :integer         not null, primary key
+#  max_payment           :integer
+#  deposit               :integer
+#  created_at            :datetime
+#  updated_at            :datetime
+#  county                :string(255)
+#  min_payment           :integer
+#  term                  :integer
+#  loan_type             :string(255)
+#  initial_period_length :integer
+#  lender                :string(255)
 #
 
