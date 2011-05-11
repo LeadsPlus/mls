@@ -49,6 +49,7 @@ group :development do
   gem 'annotate'
 end
 
+# a comment to make it migrate
 group :test do
   gem 'rspec-rails'
   gem 'webrat'
