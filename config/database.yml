@@ -17,3 +17,12 @@ test:
   encoding: utf-8
   database: mls_test
   pool: 5
+
+
+#production:
+#  # <<: *common
+#  adapter: postgresql
+#  username: davidtuite
+#  encoding: utf-8
+#  database: mls_prod
+#  pool: 5

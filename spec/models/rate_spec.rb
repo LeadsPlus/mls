@@ -17,20 +17,55 @@ describe Rate do
       Rate.new(@valid_attr.merge(:initial_rate => '')).should_not be_valid
     end
 
+    it "should reject invalid initial rates" do
+      invalid = ['dfsdfdsf', -34, nil, 101]
+      invalid.each do |r|
+        Rate.new(@valid_attr.merge(:initial_rate => r)).should_not be_valid
+      end
+    end
+
     it "should require a lender" do
       Rate.new(@valid_attr.merge(:lender => '')).should_not be_valid
+    end
+
+    it "should reject invalid lenders" do
+      invalid_lenders = ['dfsdfdsf', 45, :sdsdw, nil]
+      invalid_lenders.each do |l|
+        Rate.new(@valid_attr.merge(:lender => l)).should_not be_valid
+      end
     end
 
     it "should require a loan type" do
       Rate.new(@valid_attr.merge(:loan_type => '')).should_not be_valid
     end
 
+    it "should reject invalid loan types" do
+      invalid_loan_type = ['dfsdfdsf', 45, :sdsdw, nil]
+      invalid_loan_type.each do |l|
+        Rate.new(@valid_attr.merge(:loan_type => l)).should_not be_valid
+      end
+    end
+
     it "should require a max_ltv" do
       Rate.new(@valid_attr.merge(:max_ltv => '')).should_not be_valid
     end
 
+    it "should reject invalid max ltvs" do
+      invalid = ['dfsdfdsf', -34, :sdsdw, nil, 101]
+      invalid.each do |l|
+        Rate.new(@valid_attr.merge(:max_ltv => l)).should_not be_valid
+      end
+    end
+
     it "should require a min_ltv" do
       Rate.new(@valid_attr.merge(:min_ltv => '')).should_not be_valid
+    end
+
+    it "should reject invalid min_ltv" do
+      invalid = ['dfsdfdsf', -34, :sdsdw, nil, 101]
+      invalid.each do |l|
+        Rate.new(@valid_attr.merge(:min_ltv => l)).should_not be_valid
+      end
     end
   end
 end
