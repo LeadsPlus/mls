@@ -25,7 +25,7 @@ gem 'rails', '3.0.7'
 
 gem 'haml'
 gem 'sass'
-gem 'uglifier' # auto-minimizes assets
+#gem 'uglifier' # auto-minimizes assets
 gem 'jquery-rails'
 gem 'kaminari'
 gem 'nokogiri'
@@ -56,5 +56,5 @@ group :test do
   gem 'spork'
   gem "launchy"
   gem 'factory_girl_rails'
-  gem 'turn', :require => false # nicer test output
+#  gem 'turn', :require => false # nicer test output
 end

@@ -41,7 +41,6 @@ GEM
       activesupport (= 3.0.7)
     activesupport (3.0.7)
     annotate (2.4.0)
-    ansi (1.2.5)
     arel (2.0.9)
     builder (2.1.2)
     childprocess (0.1.8)
@@ -54,8 +53,6 @@ GEM
     diff-lcs (1.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
-    execjs (0.3.3)
-      multi_json (~> 1.0)
     factory_girl (1.3.3)
     factory_girl_rails (1.0.1)
       factory_girl (~> 1.3)
@@ -78,7 +75,6 @@ GEM
     jquery-rails (1.0.1)
       railties (~> 3.0)
       thor (~> 0.14)
-    json (1.5.1)
     json_pure (1.5.1)
     kaminari (0.12.4)
       rails (>= 3.0.0)
@@ -93,7 +89,6 @@ GEM
     mechanize (1.0.0)
       nokogiri (>= 1.2.1)
     mime-types (1.16)
-    multi_json (1.0.1)
     nokogiri (1.4.4)
     pg (0.11.0)
     polyglot (0.3.1)
@@ -147,12 +142,7 @@ GEM
     thor (0.14.6)
     treetop (1.4.9)
       polyglot (>= 0.3.1)
-    turn (0.8.2)
-      ansi (>= 1.2.2)
     tzinfo (0.3.27)
-    uglifier (0.5.1)
-      execjs
-      json
     webrat (0.7.3)
       nokogiri (>= 1.2.0)
       rack (>= 1.0)
@@ -182,6 +172,4 @@ DEPENDENCIES
   rspec-rails
   sass
   spork
-  turn
-  uglifier
   webrat
