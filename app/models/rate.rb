@@ -40,7 +40,7 @@ class Rate < ActiveRecord::Base
   validates :initial_rate, :presence => true,
             :numericality => { :greater_than_or_equal_to => 0, :less_than => 100  }
   validates :lender, :presence => true,
-      :inclusion => { :in => %w['Bank of Ireland' AIB 'Ulster Bank' 'Permanent TSB' ] }
+      :inclusion => { :in => ['Bank of Ireland', 'AIB', 'Ulster Bank', 'Permanent TSB' ] }
   validates :loan_type, :presence => true,
       :inclusion => { :in => ['Variable Rate', 'Partially Fixed Rate'] }
   validates :min_ltv, :presence => true,
