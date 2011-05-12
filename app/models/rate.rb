@@ -53,12 +53,12 @@ class Rate < ActiveRecord::Base
   validates :initial_period_length, :numericality =>
       { :greater_than_or_equal_to => 1, :less_than => 10, :only_integer => true,
         :unless => "initial_period_length.nil?" }
-  validates :rolls_to, :numericality =>
-      { :greater_than_or_equal_to => 0, :less_than => 100, :unless => "rolls_to.nil?" }
+  validates :rolls_to, :presence => { :unless => "loan_type == 'Variable Rate'" },
+            :numericality => { :greater_than_or_equal_to => 0, :less_than => 100, :allow_blank => true }
   validates :min_princ, :numericality =>
-      { :greater_than_or_equal_to => 0, :unless => "min_princ.nil?" }
+      { :greater_than_or_equal_to => 0, :allow_blank => true }
   validates :max_princ, :numericality =>
-      { :greater_than_or_equal_to => 0, :unless => "max_princ.nil?" }
+      { :greater_than_or_equal_to => 0, :allow_blank => true }
 end
 
 

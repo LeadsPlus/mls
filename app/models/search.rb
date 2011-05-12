@@ -1,8 +1,7 @@
 require 'custom_validators/ample_max_payment_validator'
 require 'custom_validators/vrm_and_initial_length_not_both_set_validator'
 
-# I should really think about calculating the whole thing on creating and storing the answer
-# I'm halfway there anyway
+# what if non-logged in users keep editing the same search but logged in users keep creating new ones
 
 class Search < ActiveRecord::Base
   attr_accessible :min_payment, :max_payment, :deposit, :term, :county,
@@ -42,6 +41,8 @@ class Search < ActiveRecord::Base
     logger.debug "Rates Hash Calculated."
   end
 
+#  If I limit people to preset term lengths, I can pre-calulate average rates, skip the calc_rates_hash
+#  method and only instanciate mortgages for compeditive rates
   def reject_morts
     @mortgages = @mortgages.group_by{|m| m.rate.min_deposit }
                             .map { |min_deposit, mortgages| mortgages.min_by(&:avg_rate) }.flatten(1)
