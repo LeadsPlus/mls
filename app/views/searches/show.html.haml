@@ -3,7 +3,7 @@
   -#= render 'rate_debugger'
 
 #mortgage_details
-  You will be able to borrow up to a maximum of #{number_to_currency(@search.best_mortgage.max_price, :unit => '€', :precision => 0)}.
+  You will be able to borrow up to a maximum of #{number_to_currency(@search.max_mortgage.price, :unit => '€', :precision => 0)}.
   This is the rate we calculated to be the best match for you
   %table
     %tbody

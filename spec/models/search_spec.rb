@@ -18,13 +18,6 @@ describe Search do
   it "should create a search given valid params" do
     Search.create! @valid_attr
   end
-
-  describe "reject_morts" do
-    @search = Search.new
-    morts = [Mortgage.new(8,2), Mortgage.new(8,3), Mortgage.new(8,4), Mortgage.new(20,7)]
-    @search.mortgages = morts
-    @search.reject_morts.should == [morts[0], morts[4]]
-  end
   
   describe "validations" do
 #    Many of these validations do not test what they are meant to because of the complicatedness of

@@ -7,9 +7,11 @@ require 'custom_validators/vrm_and_initial_length_not_both_set_validator'
 class Search < ActiveRecord::Base
   attr_accessible :min_payment, :max_payment, :deposit, :term, :county, :loan_type, :initial_period_length, :lender
   attr_reader :viable_rates
-  attr_accessor :best_mortgage
+  attr_accessor :max_mortgage
 
   before_validation { Rails.logger.debug "Validation begins here" }
+
+#  by the time validation is finished, I already have everything up as far as get_affordable_mortgages
   after_validation do
     Rails.logger.debug "Validation Ends here"
 #    do_everything
@@ -20,8 +22,8 @@ class Search < ActiveRecord::Base
     calc_rates_hash # now we should have access to @rates
 #    calc_effective_rates # @effective_rates
     reject_morts
-    calc_max_prices_given_rate # @max_prices_given_rate
-    calc_affordable_prices # @affordable_prices
+    calc_prices_given_rate # @prices_given_rate
+    get_affordable_mortgages # @affordable_prices
     calc_best_mortgage # @best_price
 #    calc_eventual_rate # @eventual_rate
     calc_min_price # @min_price
@@ -60,46 +62,23 @@ class Search < ActiveRecord::Base
     logger.debug "Checking if has mortgage conditions"
     loan_type != 'Any' || initial_period_length != nil || lender != "Any"
   end
-
-#  I ALREADY HAVE EFFECTIVE RATES IN THE MORTGAGE OBJECTS
-#  Convert a given rate to it's effective counterpart
-#  def calc_effective_rate(rate)
-#    BigDecimal.new(rate.to_s, 2)/1200
-#  end
-
-#  I ALREADY HAVE EFFECTIVE RATES IN THE MORTGAGE OBJECTS
-#  hash of form min_depos_needed_to_avail => eff_rate
-#  cycle through the rates hash, converting each value to it's effective counterpart
-#  def calc_effective_rates
-#    @effective_rates = @rates.merge(@rates){|min_depos, rate| calc_effective_rate rate }
-#    Rails.logger.debug "Effective rates calculated:"
-#    @effective_rates.each {|d,r| logger.debug "Deposit: #{d}, Effective Rate: #{r.truncate(4)}"}
-#  end
-
-#  calculate the principal given an effective rate and monthly payment ammount
-#  def calc_princ(eff_rate, payment)
-#    (payment/eff_rate)*(1-(1+eff_rate)**-(term*12))
-#  end
-
+  
 #  cycle through the effective rates hash, calculating the most expensive house we can afford
 #  assuming we are able to buy at each particular rate, given the deposit we have to offer
-  def calc_max_prices_given_rate
-#    @max_prices_given_rate = @effective_rates.merge(@effective_rates){|min_depos, eff_rate|
-#      calc_princ(eff_rate, max_payment)+deposit
-#    }
-    @mortgages.each {|m| m.calc_max_price(max_payment, deposit) }
+  def calc_prices_given_rate
+    @mortgages.each {|m| m.calc_price(max_payment, deposit) }
     Rails.logger.debug "Max prices calculated for each rate:"
-#    @max_prices_given_rate.each {|d,p| logger.debug "Deposit: #{d}, Max. Price: #{p.truncate(4)}"}
   end
 
-#  cycle through the max_prices hash, rejecting prices that we can't actually afford
+#  cycle through the prices hash, rejecting prices that we can't actually afford
 #  given the deposit we have to offer. Then select the setup which allows us the largest principal.
-#    .max will give back [depos_percent, max_price]
-#    .values.max will just give max_price
-  def calc_affordable_prices
+#    .max will give back [depos_percent, price]
+#    .values.max will just give price
+  def get_affordable_mortgages
 #    deletes items for which the block is true
     @affordable_mortgages = @mortgages.delete_if { |mortgage| mortgage.unaffordable?(deposit) }
-    logger.debug "Affordable Prices determined "
+    
+    logger.debug "Affordable Mortgages determined "
     if @affordable_mortgages.length > 0
       @affordable_mortgages.each do |mortgage|
         mortgage.log_debug
@@ -113,22 +92,16 @@ class Search < ActiveRecord::Base
 #    now I need to reject all but the one which affords us the largest principal
 #    using select! here is dangerous because it returns nil if no changes were made
 #    this if there is only once affordable choice to begin with, we get returned nil
-    @sorted_mortgages = @affordable_mortgages.sort! {|a,b| a.max_price <=> b.max_price }
-    @sorted_mortgages.each {|m| logger.debug m.max_price.truncate(2) }
-    @best_mortgage = @sorted_mortgages.pop
-    logger.debug "Determined the best mortgage. #{@best_mortgage.max_price.truncate(2)}"
+    @sorted_mortgages = @affordable_mortgages.sort! {|a,b| a.price <=> b.price }
+    @sorted_mortgages.each {|m| logger.debug m.price.truncate(2) }
+    @max_mortgage = @sorted_mortgages.pop
+    logger.debug "Determined the best mortgage. #{@max_mortgage.price.truncate(2)}"
   end
-
-#  find the rate which corresponds to the deposit which gave us the best price
-#  def calc_eventual_rate
-#    @eventual_rate = @rates[@best_price[0]]
-#    logger.debug "calculated the eventual rate as #{@eventual_rate} using deposit #{@best_price[0]}"
-#  end
-
+  
   def calc_min_price
-    @min_mortgage = Mortgage.new(@best_mortgage.rate, term)
-    @min_mortgage.calc_max_price(min_payment, deposit)
-    logger.debug "Calculated the min price as #{@min_mortgage.max_price.truncate(3)}"
+    @min_mortgage = Mortgage.new(@max_mortgage.rate, term)
+    @min_mortgage.calc_price(min_payment, deposit)
+    logger.debug "Calculated the min price as #{@min_mortgage.price.truncate(3)}"
   end
 
   def pmt_at(price)
@@ -140,24 +113,24 @@ class Search < ActiveRecord::Base
   def matches
     logger.debug "About to start finding matches"
     calc_everything
-    logger.debug "Details used for finding matches: \n Min. Price: #{@min_mortgage.max_price.truncate(0)} \n"
-    logger.debug "Max. Price: #{@best_mortgage.max_price.truncate(0)} \n County: #{county}"
+    logger.debug "Details used for finding matches: \n Min. Price: #{@min_mortgage.price.truncate(0)} \n"
+    logger.debug "Max. Price: #{@max_mortgage.price.truncate(0)} \n County: #{county}"
     House.where("price >= :min AND price <= :max AND county = :county",
-                { :min => @min_mortgage.max_price.truncate(0), :max => @best_mortgage.max_price.truncate(0), :county => county })
+                { :min => @min_mortgage.price.truncate(0), :max => @max_mortgage.price.truncate(0), :county => county })
   end
 
   validates :max_payment, :presence => true,
-                          :numericality => { :greater_than => 0 },
+                          :numericality => { :greater_than => 0, :allow_blank => true },
                           :ample_max_payment => { :unless => :anything_blank? }
 
   validates :min_payment, :presence => true,
-                          :numericality => { :greater_than => 0 }
+                          :numericality => { :greater_than => 0, :allow_blank => true }
 
   validates :deposit, :presence => true,
-                      :numericality => { :greater_than => 0 }
+                      :numericality => { :greater_than => 0, :allow_blank => true }
 
   validates :term, :presence => true,
-                   :numericality => { :greater_than => 0, :less_than_or_equal_to => 60 }
+                   :numericality => { :greater_than => 0, :less_than_or_equal_to => 60, :allow_blank => true }
 
   validates :county, :presence => true,
             :inclusion => { :in => %w[Dublin Meath Kildare Wicklow Longford Offaly Westmeath Laois Louth Carlow Kilkenny Waterford
@@ -180,21 +153,19 @@ class Search < ActiveRecord::Base
   def has_some_affordable_prices
     logger.debug "About to check for affordable prices"
     logger.debug "There are no blank attributes?: #{!anything_blank?}"
-    return if anything_blank?
-    unless @viable_rates.size.zero?
-      logger.debug "Validating that there are some affordable prices"
-      errors[:base] << "Deposit is too small to facilitate a mortgage with payments in that range" if no_affordable_prices?
-    end
+    return if anything_blank? or @viable_rates.size.zero?
+    logger.debug "Validating that there are some affordable prices"
+    errors[:base] << "Deposit is too small to facilitate a mortgage with payments in that range" if no_affordable_mortgages?
   end
 
-  def no_affordable_prices?
+  def no_affordable_mortgages?
 #    @viable_rates already set by previous validation
     calc_rates_hash # now we should have access to @rates
-    calc_effective_rates # @effective_rates
-    calc_max_prices_given_rate # @max_prices_given_rate
-    calc_affordable_prices
-    logger.debug "There are some affordable prices?: #{!@affordable_prices.length.zero?}"
-    @affordable_prices.length.zero?
+#    calc_effective_rates # @effective_rates
+    calc_prices_given_rate # @prices_given_rate
+    get_affordable_mortgages
+    logger.debug "There are some affordable prices?: #{!@affordable_mortgages.length.zero?}"
+    @affordable_mortgages.length.zero?
   end
 
   def has_some_viable_rates

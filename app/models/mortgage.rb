@@ -1,6 +1,6 @@
 class Mortgage
   attr_accessor :rate, :min_deposit, :term
-  attr_reader :effective_rate, :max_price
+  attr_reader :effective_rate, :price
 
   def initialize(rate, term, min_deposit=1)
     @min_deposit = min_deposit
@@ -18,12 +18,12 @@ class Mortgage
   end
 
 #  this deposit is the monetary amount the searcher has to offer
-  def calc_max_price payment, deposit
-    @max_price = calc_principal(payment) + deposit
+  def calc_price payment, deposit
+    @price = calc_principal(payment) + deposit
   end
 
   def unaffordable? deposit
-    @min_deposit > deposit*100/@max_price
+    @min_deposit > deposit*100/@price
   end
 
   def inspect
