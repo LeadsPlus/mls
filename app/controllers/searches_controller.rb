@@ -12,7 +12,8 @@ class SearchesController < ApplicationController
     logger.debug "about to retrieve the search"
     @search = Search.find params[:id]
     logger.debug "about to retrieve the matches"
-    @matches = @search.matches.page(params[:page])
+    @all_matches = @search.matches
+    @matches = @all_matches.page(params[:page])
 
     add_search_bar
   end

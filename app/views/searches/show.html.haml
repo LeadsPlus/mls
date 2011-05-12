@@ -5,11 +5,12 @@
 #mortgage_details
   You will be able to borrow up to a maximum of #{number_to_currency(@search.max_price, :unit => '€', :precision => 0)}.
   This is the rate we calculated to be the best match for you
+
   %table
     %tbody
       -#= render "shared/rate", :rate => @something
   %a{ :href => rates_path } here.
-  There are #{@matches.count} results.
+  There are #{@all_matches.count} results.
   
 #results
   %div

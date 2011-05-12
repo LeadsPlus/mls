@@ -2,15 +2,14 @@
 
 class Rate < ActiveRecord::Base
   attr_accessible :initial_rate, :lender, :loan_type, :min_ltv, :max_ltv,
-                  :initial_period_length, :rolls_to, :min_princ, :max_princ
-#  attr_reader :min_deposit
+                  :initial_period_length, :rolls_to, :min_princ, :max_princ,
+                  :min_deposit, :max_deposit
 
-  def initialize
-    calc_min_deposit
-  end
+  before_save :calc_deposit_limits
 
-  def min_deposit
-    100-max_ltv
+  def calc_deposit_limits
+    self.min_deposit = 100-max_ltv
+    self.max_deposit = 100-min_ltv
   end
 
 #  http://stackoverflow.com/questions/5748550/how-to-make-a-rails-3-dynamic-scope-conditional
