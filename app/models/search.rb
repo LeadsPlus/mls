@@ -6,32 +6,24 @@ require 'custom_validators/vrm_and_initial_length_not_both_set_validator'
 
 class Search < ActiveRecord::Base
   attr_accessible :min_payment, :max_payment, :deposit, :term, :county,
-                  :loan_type, :initial_period_length, :lender
+                  :loan_type, :initial_period_length, :lender, :max_price, :min_price
   attr_reader :viable_rates
   attr_accessor :max_mortgage
 
-  before_validation { Rails.logger.debug "Validation begins here" }
+  before_validation { logger.debug "Validation begins here" }
+
+  before_create do
+    logger.debug "About to create"
+    keep_calculating
+  end
 
 #  by the time validation is finished, I already have everything up as far as get_affordable_mortgages
-  after_validation do
-    Rails.logger.debug "Validation Ends here"
-#    do_everything
+  def keep_calculating
+    calc_best_mortgage
+    self.max_price = @max_mortgage.price.to_i
+    self.min_price = calc_min_price.to_i
   end
 
-  def calc_everything
-    set_viable_rates # now we should have access to @viable_rates
-    calc_rates_hash # now we should have access to @rates
-#    calc_effective_rates # @effective_rates
-    reject_morts
-    calc_prices_given_rate # @prices_given_rate
-    get_affordable_mortgages # @affordable_prices
-    calc_best_mortgage # @best_price
-#    calc_eventual_rate # @eventual_rate
-    calc_min_price # @min_price
-  end
-
-#  this might be a bad idea if I'm breaking the lazy loading ability?
-#  I think I'm ok since this returns a ActiveRecord::Relation object
   def set_viable_rates
     @viable_rates = Rate.scope_by_lender(lender)
                       .scope_by_loan_type(loan_type)
@@ -39,25 +31,19 @@ class Search < ActiveRecord::Base
     logger.debug "Viable rates set. #{@viable_rates.count} viable rates found"
   end
 
-#  Cycle through every rate in the table and construct a hash with one entry for each LTV bracket
-#  The value of the entry will be the lowest rate available in that LTV level
   def calc_rates_hash # build morts
     logger.debug "In the rates function"
-#    format: minimum deposit % needed to get this rate => BigDecimal(rate)
     @mortgages = []
     @viable_rates.each do |rate|
 #     make an array of the lowest rated mortgages for each deposit bracket
       @mortgages << Mortgage.new(rate, term)
     end
-    logger.debug "Rates Hash Calculated:"
-    @mortgages.inspect #.each {|m| m.log_debug }
-#    rescue ActiveRecord::RecordNotFound
+    logger.debug "Rates Hash Calculated."
   end
 
   def reject_morts
     @mortgages = @mortgages.group_by{|m| m.rate.min_deposit }
                             .map { |min_deposit, mortgages| mortgages.min_by(&:avg_rate) }.flatten(1)
-    @mortgages.inspect #.each {|m| m.log_debug }
   end
 
   def has_mortgage_conditions?
@@ -65,58 +51,35 @@ class Search < ActiveRecord::Base
     loan_type != 'Any' || initial_period_length != nil || lender != "Any"
   end
   
-#  cycle through the effective rates hash, calculating the most expensive house we can afford
-#  assuming we are able to buy at each particular rate, given the deposit we have to offer
   def calc_prices_given_rate
     @mortgages.each {|m| m.calc_price(max_payment, deposit) }
     Rails.logger.debug "Max prices calculated for each rate."
   end
 
-#  cycle through the prices hash, rejecting prices that we can't actually afford
-#  given the deposit we have to offer. Then select the setup which allows us the largest principal.
-#    .max will give back [depos_percent, price]
-#    .values.max will just give price
   def get_affordable_mortgages
 #    deletes items for which the block is true
-    @mortgages = @mortgages.delete_if { |mortgage| mortgage.unaffordable?(deposit) }
-    
-    logger.debug "Affordable Mortgages determined "
-    if @mortgages.length > 0
-      @mortgages.each do |mortgage|
-        logger.debug mortgage
-      end
-    else
-      logger.debug "There are no affordable prices"
-    end
+    @affordable_mortgages = @mortgages.delete_if { |mortgage| mortgage.unaffordable?(deposit) }
   end
 
   def calc_best_mortgage
 #    now I need to reject all but the one which affords us the largest principal
 #    using select! here is dangerous because it returns nil if no changes were made
 #    this if there is only once affordable choice to begin with, we get returned nil
-    @max_mortgage = @mortgages.sort! {|a,b| a.price <=> b.price }.pop
+    @max_mortgage = @affordable_mortgages.sort! {|a,b| a.price <=> b.price }.pop
     logger.debug "Determined the best mortgage. #{@max_mortgage.price.truncate(2)}"
   end
   
   def calc_min_price
     @min_mortgage = Mortgage.new(@max_mortgage.rate, term)
     @min_mortgage.calc_price(min_payment, deposit)
-    logger.debug "Calculated the min price as #{@min_mortgage.price.truncate(3)}"
-  end
-
-  def pmt_at(price)
-    logger.debug "Getting a PMT for a house"
-    calc_effective_rate(@eventual_rate) / ((1+calc_effective_rate(@eventual_rate))**(term*12)-1) *
-        -((price-deposit)*((1+calc_effective_rate(@eventual_rate))**(term*12)))
   end
 
   def matches
     logger.debug "About to start finding matches"
-    calc_everything
-    logger.debug "Details used for finding matches: \n Min. Price: #{@min_mortgage.price.truncate(0)} \n"
-    logger.debug "Max. Price: #{@max_mortgage.price.truncate(0)} \n County: #{county}"
+    logger.debug "Details used for finding matches: \n Min. Price: #{min_price} \n"
+    logger.debug "Max. Price: #{max_price} \n County: #{county}"
     House.where("price >= :min AND price <= :max AND county = :county",
-                { :min => @min_mortgage.price.truncate(0), :max => @max_mortgage.price.truncate(0), :county => county })
+                { :min => min_price, :max => max_price, :county => county })
   end
 
   validates :max_payment, :presence => true,

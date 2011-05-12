@@ -36,8 +36,14 @@ class Mortgage
     @rate.min_deposit > deposit*100/@price
   end
 
+  def pmt_at(price)
+    logger.debug "Getting a PMT for a house"
+    @effective_rate / ((1+@effective_rate)**(term*12)-1) *
+        -((price-deposit)*((1+@effective_rate)**(term*12)))
+  end
+
   def to_s
-    string = "Avg Rate: #{@avg_rate}, Effective Rate: #{@effective_rate}"
+    string = "Avg Rate: #{@avg_rate}, Effective Rate: #{@effective_rate.truncate(6)}, "
     string << "Principal: #{@principal.truncate(2)}, " if @principal
     string << "Price: #{@price.truncate(2)}" if @price
   end
