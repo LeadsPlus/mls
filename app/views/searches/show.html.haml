@@ -1,13 +1,13 @@
 - if Rails.env.development?
   = render 'viable_rates'
-  = render 'rate_debugger'
+  -#= render 'rate_debugger'
 
 #mortgage_details
-  You will be able to borrow up to a maximum of #{number_to_currency(@search.best_price[1], :unit => '€', :precision => 0)}.
+  You will be able to borrow up to a maximum of #{number_to_currency(@search.best_mortgage.max_price, :unit => '€', :precision => 0)}.
   This is the rate we calculated to be the best match for you
   %table
     %tbody
-      = render "shared/rate", :rate => @something
+      -#= render "shared/rate", :rate => @something
   %a{ :href => rates_path } here.
   There are #{@matches.count} results.
   
