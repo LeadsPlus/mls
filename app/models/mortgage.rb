@@ -2,11 +2,18 @@ class Mortgage
   attr_accessor :rate, :term
   attr_reader :price, :avg_rate
 
-  def initialize(rate, term)
+  def initialize(rate, term, users_deposit, payment=0)
     @rate = rate # rate object
     @term = term
+    @users_deposit = users_deposit
+    @users_payment = payment
     calc_avg_rate
     calc_effective_rate
+  end
+
+  def calculate_price
+    calc_principal
+    @price = @principal + @users_deposit
   end
 
 #  This function converts PFR's into a format which allows them to be compared directly with variable rates
@@ -23,23 +30,16 @@ class Mortgage
     @effective_rate = @avg_rate/1200
   end
 
-  def calc_principal payment
-    @principal = (payment/@effective_rate)*(1-(1+@effective_rate)**-(term*12))
+  def calc_principal
+    @principal = (@users_payment/@effective_rate)*(1-(1+@effective_rate)**-(@term*12))
   end
 
-#  this deposit is the monetary amount the searcher has to offer
-  def calc_price payment, deposit
-    @price = calc_principal(payment) + deposit
-  end
-
-  def unaffordable? deposit
-    @rate.min_deposit > deposit*100/@price
+  def unaffordable?
+    @rate.min_deposit > @users_deposit*100/@price
   end
 
   def pmt_at(price)
-    logger.debug "Getting a PMT for a house"
-    @effective_rate / ((1+@effective_rate)**(term*12)-1) *
-        -((price-deposit)*((1+@effective_rate)**(term*12)))
+    @effective_rate / ((1+@effective_rate)**(@term*12)-1) * -((price-@users_deposit)*((1+@effective_rate)**(@term*12)))
   end
 
   def to_s

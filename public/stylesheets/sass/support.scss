@@ -3,3 +3,21 @@
   -moz-border-radius: $rad;
   -webkit-border-radius: $rad;
 }
+
+body, p, ol, ul, td {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size:   13px;
+  line-height: 18px;
+}
+
+.float-right {
+  float: right;
+}
+
+.hidden {
+  display: none;
+}
+
+div.spacer {
+  clear: both;
+}

@@ -4,6 +4,7 @@ class Rate < ActiveRecord::Base
   attr_accessible :initial_rate, :lender, :loan_type, :min_ltv, :max_ltv,
                   :initial_period_length, :rolls_to, :min_princ, :max_princ,
                   :min_deposit, :max_deposit
+  has_many :searches
 
   before_save :calc_deposit_limits
 

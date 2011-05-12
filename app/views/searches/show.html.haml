@@ -1,16 +1,16 @@
-- if Rails.env.development?
-  = render 'viable_rates'
-  -#= render 'rate_debugger'
-
 #mortgage_details
-  You will be able to borrow up to a maximum of #{number_to_currency(@search.max_price, :unit => '€', :precision => 0)}.
-  This is the rate we calculated to be the best match for you
+  %p
+    You can borrow between #{number_to_currency(@search.min_price, :unit => '€', :precision => 0)}
+    and #{number_to_currency(@search.max_price, :unit => '€', :precision => 0)}.
+    = link_to "Based on what rate?", "#", :class => " collapsed-trigger float-right"
 
-  %table
-    %tbody
-      -#= render "shared/rate", :rate => @something
-  %a{ :href => rates_path } here.
-  There are #{@all_matches.count} results.
+  .collapsed-content.hidden
+    %table.data
+      %thead
+        = render "shared/rate_table_headings"
+      %tbody
+        = render "shared/rate", :rate => @rate
+    = link_to "View all the rates", rates_path, :class => "float-right"
   
 #results
   %div

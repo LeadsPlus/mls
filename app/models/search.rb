@@ -8,18 +8,19 @@ class Search < ActiveRecord::Base
   attr_accessible :min_payment, :max_payment, :deposit, :term, :county,
                   :loan_type, :initial_period_length, :lender, :max_price, :min_price
   attr_reader :viable_rates
-  attr_accessor :max_mortgage
+
+  belongs_to :rate
 
   before_validation { logger.debug "Validation begins here" }
 
-  before_create do
+  before_save do
     logger.debug "About to create"
     keep_calculating
   end
 
 #  by the time validation is finished, I already have everything up as far as get_affordable_mortgages
   def keep_calculating
-    calc_best_mortgage
+    find_best_mortgage
     self.max_price = @max_mortgage.price.to_i
     self.min_price = calc_min_price.to_i
   end
@@ -36,7 +37,7 @@ class Search < ActiveRecord::Base
     @mortgages = []
     @viable_rates.each do |rate|
 #     make an array of the lowest rated mortgages for each deposit bracket
-      @mortgages << Mortgage.new(rate, term)
+      @mortgages << Mortgage.new(rate, term, deposit, max_payment)
     end
     logger.debug "Rates Hash Calculated."
   end
@@ -52,26 +53,26 @@ class Search < ActiveRecord::Base
   end
   
   def calc_prices_given_rate
-    @mortgages.each {|m| m.calc_price(max_payment, deposit) }
-    Rails.logger.debug "Max prices calculated for each rate."
+    @mortgages.each {|m| m.calculate_price }
+    logger.debug "Max prices calculated for each rate."
   end
 
   def get_affordable_mortgages
 #    deletes items for which the block is true
-    @affordable_mortgages = @mortgages.delete_if { |mortgage| mortgage.unaffordable?(deposit) }
+    @affordable_mortgages = @mortgages.delete_if { |mortgage| mortgage.unaffordable? }
   end
 
-  def calc_best_mortgage
+  def find_best_mortgage
 #    now I need to reject all but the one which affords us the largest principal
 #    using select! here is dangerous because it returns nil if no changes were made
 #    this if there is only once affordable choice to begin with, we get returned nil
     @max_mortgage = @affordable_mortgages.sort! {|a,b| a.price <=> b.price }.pop
+    self.rate = @max_mortgage.rate
     logger.debug "Determined the best mortgage. #{@max_mortgage.price.truncate(2)}"
   end
   
   def calc_min_price
-    @min_mortgage = Mortgage.new(@max_mortgage.rate, term)
-    @min_mortgage.calc_price(min_payment, deposit)
+    @min_mortgage = Mortgage.new(@max_mortgage.rate, term, deposit, min_payment).calculate_price
   end
 
   def matches
@@ -123,9 +124,8 @@ class Search < ActiveRecord::Base
 
   def no_affordable_mortgages?
 #    @viable_rates already set by previous validation
-    calc_rates_hash # now we should have access to @rates
-#    calc_effective_rates # @effective_rates
-    calc_prices_given_rate # @prices_given_rate
+    calc_rates_hash
+    calc_prices_given_rate
     get_affordable_mortgages
     logger.debug "There are some affordable prices?: #{!@affordable_mortgages.length.zero?}"
     @affordable_mortgages.length.zero?

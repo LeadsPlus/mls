@@ -1,0 +1,15 @@
+%tr
+  %th ID
+  %th Initial rate
+  %th Lender
+  %th Type
+  %th{ :title => "You must be borrowing greater than this % to avail of this rate" } Min. LTV
+  %th{ :title => "You may borrow up to this % and still avail of this rate" } Max. LTV
+  %th Initial Length
+  %th Rolling To
+  %th Min. Princ
+  %th Max. Princ
+  - if Rails.env.development?
+    %th
+    %th
+    %th

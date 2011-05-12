@@ -42,7 +42,7 @@ def update_default_search
          :county => "Fermanagh",
          :lender => 'Any',
          :loan_type => 'Any',
-         :initial_period_length => "Any"
+         :initial_period_length => ""
        })
   puts "Default search updated"
 end

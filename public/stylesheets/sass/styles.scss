@@ -106,10 +106,6 @@ div.search_bar {
   }
 }
 
-div.spacer {
-  clear: both;
-}
-
 div#mortgage_details {
   margin-bottom: 10px;
   padding: 5px;
@@ -125,14 +121,6 @@ tr.house {
 
 img.house {
   float: right;
-}
-
-
-
-body, p, ol, ul, td {
-  font-family: verdana, arial, helvetica, sans-serif;
-  font-size:   13px;
-  line-height: 18px;
 }
 
 pre {
@@ -206,10 +194,6 @@ table.data {
     border: 1px solid #999;
     padding: 5px;
   }
-}
-
-.hidden {
-  display: none;
 }
 
 #rate_debugger_trigger, #viable_rates_trigger {

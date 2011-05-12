@@ -28,7 +28,7 @@
 
 .spacer
 
-%span#mortgage_options_trigger.collapsed-trigger= link_to 'Mortgage Filter'
+%span= link_to 'Mortgage Filter', "#", :class => " collapsed-trigger float-right"
 #mortgage_options.collapsed-content{ :class => search.has_mortgage_conditions? ? '' : 'hidden' }
   %span.field
     = f.label :lender

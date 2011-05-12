@@ -14,6 +14,7 @@ class SearchesController < ApplicationController
     logger.debug "about to retrieve the matches"
     @all_matches = @search.matches
     @matches = @all_matches.page(params[:page])
+    @rate = @search.rate
 
     add_search_bar
   end

@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(:version => 20110512141805) do
     t.string   "lender"
     t.integer  "max_price"
     t.integer  "min_price"
+    t.integer  "rate_id"
   end
 
 end
