@@ -28,6 +28,10 @@ describe "Searches" do
       it "should show the rate we're using" do
         page.should have_selector("tr.rate")
       end
+
+      it "should show the actual monthly payment required" do
+        page.should have_content("Actual Monthly Payment Required:")
+      end
     end
   end
 end

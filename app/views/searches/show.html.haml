@@ -2,6 +2,7 @@
   %p
     You can borrow between #{number_to_currency(@search.min_price, :unit => '€', :precision => 0)}
     and #{number_to_currency(@search.max_price, :unit => '€', :precision => 0)}.
+    There are #{@all_matches.count} results.
     = link_to "Based on what rate?", "#", :class => " collapsed-trigger float-right"
 
   .collapsed-content.hidden
