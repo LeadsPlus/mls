@@ -111,6 +111,11 @@ class Search < ActiveRecord::Base
     logger.debug "Determined the best price. Deposit of: #{@best_price[0]} gives Price: #{@best_price[1].truncate(3)}"
   end
 
+  def get_evental_mortgage
+
+  end
+
+#  find the rate which corresponds to the deposit which gave us the best price
   def calc_eventual_rate
     @eventual_rate = @rates[@best_price[0]]
     logger.debug "calculated the eventual rate as #{@eventual_rate} using deposit #{@best_price[0]}"

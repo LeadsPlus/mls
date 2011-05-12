@@ -24,6 +24,10 @@
 
 #  Possibly just make daft_url required unique in the database
 #  I also need to make a cron for doing all these tasks
+# I need a way to deal with NI prices like this: "£185,000 (€212,913)"
+
+# examples of what can happen when a house is sold: /Users/davidtuite/Dropbox/MLS stuff
+  
 
 class Scrape
   def county_names
@@ -54,7 +58,13 @@ class Scrape
 
     while(agent.page.link_with(:text => "Next Page \u00BB")) do
       agent.page.search(".content").each do |search_result|
-        store search_result, daft_county_id
+        daft_id = search_result.at(".title a")[:href].match(/[0-9]+/) { |id| id[0].to_i }
+        house = House.find_by_daft_id(daft_id)
+        if house
+          update search_result, daft_county_id, house
+        else
+          store search_result, daft_county_id
+        end
       end
 
       agent.page.link_with(:text => "Next Page \u00BB").click
@@ -62,11 +72,27 @@ class Scrape
   end
   handle_asynchronously :county # doesn't seem to work with HireFire
 
+  def update item, daft_county_id, house
+    title = item.at(".title a")
+    if item.at(".price").text[/[0-9,]+/]
+#      it's probably just as fast to update everything as it is to check if things changed yet
+      house.update_attributes({
+        :title => title.text.strip,
+        :description => item.at(".description").text.strip,
+        :image_url => item.at(".main_photo")[:src],
+        :daft_id => title[:href].match(/[0-9]+/) { |id| id[0].to_i },
+        :price => item.at(".price").text[/[0-9,]+/].delete(',').to_i,
+        :county => county_names[daft_county_id.to_i - 1]
+      })
+      print '.'
+    end
+  end
+
   def store item, daft_county_id
 # I don't want to scrape houses with no prices ie. 'POA' or the like
     title = item.at(".title a")
     if item.at(".price").text[/[0-9,]+/]
-      House.create!({
+      House.create({
         :title => title.text.strip,
         :description => item.at(".description").text.strip,
         :image_url => item.at(".main_photo")[:src],

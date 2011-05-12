@@ -7,7 +7,6 @@ namespace :scrape do
   desc "Enqueue jobs to scrape house data for every county from daft.ie"
   task :all => :environment do
     Scrape.new.all # the delay is in the county method
-    Rake::Task['db:populate'].invoke
   end
 
 #  the numbers in the daft URLs are probably a UID, perhaps I can use these to only scrape new houses
