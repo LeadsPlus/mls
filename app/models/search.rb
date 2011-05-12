@@ -5,7 +5,8 @@ require 'custom_validators/vrm_and_initial_length_not_both_set_validator'
 # I'm halfway there anyway
 
 class Search < ActiveRecord::Base
-  attr_accessible :min_payment, :max_payment, :deposit, :term, :county, :loan_type, :initial_period_length, :lender
+  attr_accessible :min_payment, :max_payment, :deposit, :term, :county,
+                  :loan_type, :initial_period_length, :lender
   attr_reader :viable_rates
   attr_accessor :max_mortgage
 
@@ -46,7 +47,7 @@ class Search < ActiveRecord::Base
     @mortgages = []
     @viable_rates.each do |rate|
 #     make an array of the lowest rated mortgages for each deposit bracket
-      @mortgages << Mortgage.new(rate.avg_rate(term), term, 100-rate.max_ltv)
+      @mortgages << Mortgage.new(rate, term)
     end
     logger.debug "Rates Hash Calculated:"
     @mortgages.inspect #.each {|m| m.log_debug }
@@ -54,7 +55,8 @@ class Search < ActiveRecord::Base
   end
 
   def reject_morts
-    @mortgages = @mortgages.group_by(&:min_deposit).map { |min_deposit, mortgages| mortgages.min_by(&:rate) }.flatten(1)
+    @mortgages = @mortgages.group_by{|m| m.rate.min_deposit }
+                            .map { |min_deposit, mortgages| mortgages.min_by(&:avg_rate) }.flatten(1)
     @mortgages.inspect #.each {|m| m.log_debug }
   end
 
@@ -67,7 +69,7 @@ class Search < ActiveRecord::Base
 #  assuming we are able to buy at each particular rate, given the deposit we have to offer
   def calc_prices_given_rate
     @mortgages.each {|m| m.calc_price(max_payment, deposit) }
-    Rails.logger.debug "Max prices calculated for each rate:"
+    Rails.logger.debug "Max prices calculated for each rate."
   end
 
 #  cycle through the prices hash, rejecting prices that we can't actually afford
@@ -76,12 +78,12 @@ class Search < ActiveRecord::Base
 #    .values.max will just give price
   def get_affordable_mortgages
 #    deletes items for which the block is true
-    @affordable_mortgages = @mortgages.delete_if { |mortgage| mortgage.unaffordable?(deposit) }
+    @mortgages = @mortgages.delete_if { |mortgage| mortgage.unaffordable?(deposit) }
     
     logger.debug "Affordable Mortgages determined "
-    if @affordable_mortgages.length > 0
-      @affordable_mortgages.each do |mortgage|
-        mortgage.log_debug
+    if @mortgages.length > 0
+      @mortgages.each do |mortgage|
+        logger.debug mortgage
       end
     else
       logger.debug "There are no affordable prices"
@@ -92,9 +94,7 @@ class Search < ActiveRecord::Base
 #    now I need to reject all but the one which affords us the largest principal
 #    using select! here is dangerous because it returns nil if no changes were made
 #    this if there is only once affordable choice to begin with, we get returned nil
-    @sorted_mortgages = @affordable_mortgages.sort! {|a,b| a.price <=> b.price }
-    @sorted_mortgages.each {|m| logger.debug m.price.truncate(2) }
-    @max_mortgage = @sorted_mortgages.pop
+    @max_mortgage = @mortgages.sort! {|a,b| a.price <=> b.price }.pop
     logger.debug "Determined the best mortgage. #{@max_mortgage.price.truncate(2)}"
   end
   

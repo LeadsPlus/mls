@@ -1,16 +1,26 @@
 class Mortgage
-  attr_accessor :rate, :min_deposit, :term
-  attr_reader :effective_rate, :price
+  attr_accessor :rate, :term
+  attr_reader :price, :avg_rate
 
-  def initialize(rate, term, min_deposit=1)
-    @min_deposit = min_deposit
-    @rate = rate # big_d
+  def initialize(rate, term)
+    @rate = rate # rate object
     @term = term
+    calc_avg_rate
     calc_effective_rate
   end
 
+#  This function converts PFR's into a format which allows them to be compared directly with variable rates
+#  returns a BigDecimal
+  def calc_avg_rate
+    if @rate.loan_type == 'Partially Fixed Rate'
+      @avg_rate = (@rate.initial_rate*@rate.initial_period_length + @rate.rolls_to*(term-@rate.initial_period_length)).to_d/term
+    else
+      @avg_rate = @rate.initial_rate.to_d
+    end
+  end
+
   def calc_effective_rate
-    @effective_rate = rate/1200
+    @effective_rate = @avg_rate/1200
   end
 
   def calc_principal payment
@@ -23,14 +33,12 @@ class Mortgage
   end
 
   def unaffordable? deposit
-    @min_deposit > deposit*100/@price
+    @rate.min_deposit > deposit*100/@price
   end
 
-  def inspect
-    "Min. Deposit: #{@min_deposit}. Rate #{@rate}"
-  end
-
-  def log_debug
-    Rails.logger.debug "Min. Deposit: #{@min_deposit}. Rate #{@rate.truncate(2)}"
+  def to_s
+    string = "Avg Rate: #{@avg_rate}, Effective Rate: #{@effective_rate}"
+    string << "Principal: #{@principal.truncate(2)}, " if @principal
+    string << "Price: #{@price.truncate(2)}" if @price
   end
 end

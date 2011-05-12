@@ -2,14 +2,14 @@
 
 class Rate < ActiveRecord::Base
   attr_accessible :initial_rate, :lender, :loan_type, :min_ltv, :max_ltv, :initial_period_length, :rolls_to, :min_princ, :max_princ
+#  attr_reader :min_deposit
 
-#  This function converts PFR's into a format which allows them to be compared directly with variable rates
-#  returns a BigDecimal
-  def avg_rate term
-    if loan_type == 'Partially Fixed Rate'
-      return (initial_rate*initial_period_length + rolls_to*(term-initial_period_length)).to_d/term
-    end
-    initial_rate.to_d
+  def initialize
+    calc_min_deposit
+  end
+
+  def min_deposit
+    100-max_ltv
   end
 
 #  http://stackoverflow.com/questions/5748550/how-to-make-a-rails-3-dynamic-scope-conditional
