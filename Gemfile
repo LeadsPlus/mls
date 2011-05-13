@@ -53,7 +53,7 @@ group :test do
   gem 'rspec-rails'
   gem 'webrat'
   gem 'capybara', :git => "git://github.com/jnicklas/capybara"
-  gem 'spork'
+  gem 'spork', '~> 0.9.0.rc'
   gem "launchy"
   gem 'factory_girl_rails'
 #  gem 'turn', :require => false # nicer test output

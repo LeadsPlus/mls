@@ -137,7 +137,7 @@ GEM
       rubyzip
     session (3.1.0)
       fattr
-    spork (0.8.4)
+    spork (0.9.0.rc7)
     term-ansicolor (1.0.5)
     thor (0.14.6)
     treetop (1.4.9)
@@ -171,5 +171,5 @@ DEPENDENCIES
   rails (= 3.0.7)
   rspec-rails
   sass
-  spork
+  spork (~> 0.9.0.rc)
   webrat

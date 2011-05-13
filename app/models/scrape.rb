@@ -30,12 +30,6 @@
   
 
 class Scrape
-  def county_names
-    @county_names = %w[Dublin Meath Kildare Wicklow Longford Offaly Westmeath Laois Louth Carlow Kilkenny Waterford
-        Wexford Kerry Cork Clare Limerick Tipperary Galway Mayo Roscommon Sligo Leitrim Donegal Cavan
-        Monaghan Antrim Armagh Tyrone Fermanagh Derry Down].freeze
-  end
-
   def all
     1.upto(32) do |daft_county_id|
       county daft_county_id
@@ -43,7 +37,7 @@ class Scrape
   end
 
   def delete_houses_in_county(daft_county_id = 30)
-    House.delete_all("county = '#{county_names[daft_county_id.to_i - 1]}'")
+    House.delete_all("county = '#{COUNTIES[daft_county_id.to_i - 1]}'")
   end
   
   def county(daft_county_id = 30)
@@ -51,7 +45,7 @@ class Scrape
     delete_houses_in_county daft_county_id
 
     url = "http://www.daft.ie/searchsale.daft?s%5Bcc_id%5D=c#{daft_county_id}&s%5Ba_id%5D%5B%5D=&s%5Broute_id%5D=&s%5Ba_id_transport%5D=0&s%5Baddress%5D=&s%5Btxt%5D=&s%5Bmnb%5D=&s%5Bmxb%5D=&s%5Bmnp%5D=&s%5Bmxp%5D=&s%5Bpt_id%5D=&s%5Bhouse_type%5D=&s%5Bsqmn%5D=&s%5Bsqmx%5D=&s%5Bmna%5D=&s%5Bmxa%5D=&s%5Bnpt_id%5D=&s%5Bdays_old%5D=&s%5Bnew%5D=&s%5Bagreed%5D=&search.x=34&search.y=20&search=Search+%BB&more=&tab=&search=1&s%5Bsearch_type%5D=sale&s%5Btransport%5D=&s%5Badvanced%5D=&s%5Bprice_per_room%5D=&fr=default"
-    puts "Scraping #{county_names[daft_county_id.to_i - 1]} via it's Daft county ID: #{daft_county_id}..."
+    puts "Scraping #{COUNTIES[daft_county_id.to_i - 1]} via it's Daft county ID: #{daft_county_id}..."
 
     agent = Mechanize.new
     agent.get(url)
@@ -82,7 +76,7 @@ class Scrape
         :image_url => item.at(".main_photo")[:src],
         :daft_id => title[:href].match(/[0-9]+/) { |id| id[0].to_i },
         :price => item.at(".price").text[/[0-9,]+/].delete(',').to_i,
-        :county => county_names[daft_county_id.to_i - 1]
+        :county => COUNTIES[daft_county_id.to_i - 1]
       })
       print '.'
     end
@@ -98,7 +92,7 @@ class Scrape
         :image_url => item.at(".main_photo")[:src],
         :daft_id => title[:href].match(/[0-9]+/) { |id| id[0].to_i },
         :price => item.at(".price").text[/[0-9,]+/].delete(',').to_i,
-        :county => county_names[daft_county_id.to_i - 1]
+        :county => COUNTIES[daft_county_id.to_i - 1]
       })
       print '.'
     end

@@ -94,13 +94,11 @@ class Search < ActiveRecord::Base
                    :numericality => { :greater_than => 0, :less_than_or_equal_to => 60, :allow_blank => true }
 
   validates :county, :presence => true,
-            :inclusion => { :in => %w[Dublin Meath Kildare Wicklow Longford Offaly Westmeath Laois Louth Carlow Kilkenny Waterford
-        Wexford Kerry Cork Clare Limerick Tipperary Galway Mayo Roscommon Sligo Leitrim Donegal Cavan
-        Monaghan Antrim Armagh Tyrone Fermanagh Derry Down] }
+            :inclusion => { :in => COUNTIES }
 
   validates :loan_type, :vrm_and_initial_length_not_both_set => { :unless => "initial_period_length.blank?" }
-  validates :lender, :inclusion => { :in => ['Any', 'Bank of Ireland', 'AIB', 'Ulster Bank', 'Permanent TSB' ] }
-  validates :loan_type, :inclusion => { :in => ['Variable Rate', "Partially Fixed Rate", "Any"] }
+  validates :lender, :inclusion => { :in => Array.new(LENDERS) << "Any" }
+  validates :loan_type, :inclusion => { :in => Array.new(LOAN_TYPES) << "Any" }
   validates :initial_period_length, :numericality => { :within => 0..100, :allow_nil => true, :allow_blank => true }
 
 #  #  as far as I can tell, 'validate xyz' validations always happen before 'validates xyz' validations

@@ -114,7 +114,7 @@
     </requirement>
     <requirement>
       <requirement>
-        <dependency name="spork" version="0" bound="GREATER_OR_EQUAL" git="false" path="false" doRequire="true" />
+        <dependency name="spork" version="0.9.0.rc" bound="LATEST_IN_BRANCH" git="false" path="false" doRequire="true" />
       </requirement>
       <source from="Gemfile" />
     </requirement>

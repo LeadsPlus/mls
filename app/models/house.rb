@@ -13,7 +13,8 @@ class House < ActiveRecord::Base
 
   validates :title, :presence => true
 
-  validates :county, :presence => true
+  validates :county, :presence => true,
+      :inclusion => { :in => COUNTIES }
 
   validates :price, :presence => true,
                     :numericality => { :greater_than => 1 }

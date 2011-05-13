@@ -32,11 +32,11 @@
 #mortgage_options.collapsed-content{ :class => search.has_mortgage_conditions? ? '' : 'hidden' }
   %span.field
     = f.label :lender
-    = f.select :lender, lender_options.unshift(['Any', 'Any']), :selected => search.lender
+    = f.select :lender, lender_options, :selected => search.lender
 
   %span.field
     = f.label :loan_type
-    = f.select :loan_type, loan_type_options.unshift(['Any', 'Any']), :selected => search.loan_type
+    = f.select :loan_type, loan_type_options, :selected => search.loan_type
 
   %span.field
     = f.label :initial_period_length
