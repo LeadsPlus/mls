@@ -9,6 +9,8 @@ describe SearchesController do
   describe "GET index" do
     before(:each) do
       @search = Factory :search
+      @user = Factory :user
+      sign_in @user
     end
 
     it "should be success" do

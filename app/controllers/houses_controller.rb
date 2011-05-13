@@ -1,4 +1,5 @@
 class HousesController < ApplicationController
+  before_filter :authenticate_user!, :except => [ :show ]
   # GET /houses
   # GET /houses.xml
   def index

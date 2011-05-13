@@ -6,6 +6,8 @@ describe HousesController do
   describe "GET index" do
     before(:each) do
       @house = Factory :house
+      @user = Factory :user
+      sign_in @user
     end
 
     it "should be a success" do
@@ -38,6 +40,8 @@ describe HousesController do
   describe "GET new" do
     before(:each) do
       @house = Factory :house
+      @user = Factory :user
+      sign_in @user
     end
 
     it "should be a success" do
@@ -54,6 +58,8 @@ describe HousesController do
   describe "GET edit" do
     before(:each) do
       @house = Factory :house
+      @user = Factory :user
+      sign_in @user
     end
 
     it "should be a success" do
@@ -73,6 +79,11 @@ describe HousesController do
   end
 
   describe "POST create" do
+    before(:each) do
+      @user = Factory :user
+      sign_in @user
+    end
+
     describe "with valid params" do
       before(:each) do
         @valid_attr = {
@@ -124,6 +135,8 @@ describe HousesController do
   describe "PUT update" do
     before(:each) do
       @house = Factory :house
+      @user = Factory :user
+      sign_in @user
     end
     
     describe "with valid params" do
@@ -176,6 +189,8 @@ describe HousesController do
   describe "DELETE destroy" do
     before(:each) do
       @house = Factory :house
+      @user = Factory :user
+      sign_in @user
     end
 
     it "destroys the requested house" do

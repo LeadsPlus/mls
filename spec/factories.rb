@@ -26,3 +26,9 @@ Factory.define Rate do |rate|
   rate.min_ltv 1
   rate.max_ltv 92
 end
+
+Factory.define User do |user|
+  user.email                 "example@example.com"
+  user.password              "foobar"
+  user.password_confirmation "foobar"
+end

@@ -1,4 +1,6 @@
 class SearchesController < ApplicationController
+  before_filter :authenticate_user!, :only => [ :index ]
+
   def index
     @searches = Search.page(params[:page]).per(50)
 

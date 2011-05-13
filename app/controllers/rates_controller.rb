@@ -1,4 +1,6 @@
 class RatesController < ApplicationController
+  before_filter :authenticate_user!, :except => [ :index ]
+  
   # GET /rates
   # GET /rates.xml
   def index

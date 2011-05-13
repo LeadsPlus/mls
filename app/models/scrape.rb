@@ -27,6 +27,9 @@
 # I need a way to deal with NI prices like this: "£185,000 (€212,913)"
 
 # examples of what can happen when a house is sold: /Users/davidtuite/Dropbox/MLS stuff
+
+# all images are loaded with the page. hrefs are listed in a div#photo_browser >> #pb_carousel at the bottom
+# I can get the Lat/Long of the gaff also from a google maps initialization script on the page
   
 
 class Scrape

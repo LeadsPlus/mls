@@ -1,4 +1,6 @@
 Mls::Application.routes.draw do
+  devise_for :users
+
   get "pages/user_agreement"
 
   resources :rates

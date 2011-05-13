@@ -12,6 +12,8 @@
     #wrapper
       #header
         = render 'layouts/header'
+      #notice= notice
+      #alert= alert
       = render 'shared/search_bar' if @search_form
       #content
         = yield

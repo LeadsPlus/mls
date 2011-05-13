@@ -1,6 +1,8 @@
 %span.logo
   = link_to "HowMuchHouse.net", root_path
 %span.nav
-  -#- if Rails.env.production?
-  -#  = render "shared/social/tweet_but"
-  -#  = render "shared/social/fb_like_but"
+  - if user_signed_in?
+    = current_user.email
+    = link_to "Sign Out", destroy_user_session_path
+  - else
+    #{ link_to "Sign Up", new_user_registration_path } or #{ link_to "Sign In", new_user_session_path }

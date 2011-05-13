@@ -22,6 +22,8 @@ describe RatesController do
   describe "GET show" do
     before(:each) do
       @rate = Factory :rate
+      @user = Factory :user
+      sign_in @user
     end
 
     it "should be a success" do
@@ -38,6 +40,8 @@ describe RatesController do
   describe "GET new" do
     before(:each) do
       @rate = Factory :rate
+      @user = Factory :user
+      sign_in @user
     end
 
     it "should be a success" do
@@ -54,6 +58,8 @@ describe RatesController do
   describe "GET edit" do
     before(:each) do
       @rate = Factory :rate
+      @user = Factory :user
+      sign_in @user
     end
 
     it "should be a success" do
@@ -73,6 +79,11 @@ describe RatesController do
   end
 
   describe "POST create" do
+    before(:each) do
+      @user = Factory :user
+      sign_in @user
+    end
+
     describe "with valid params" do
       before(:each) do
         @valid_attr = {
@@ -127,6 +138,8 @@ describe RatesController do
   describe "PUT update" do
     before(:each) do
       @rate = Factory :rate
+      @user = Factory :user
+      sign_in @user
     end
     
     describe "with valid params" do
@@ -182,6 +195,8 @@ describe RatesController do
   describe "DELETE destroy" do
     before(:each) do
       @rate = Factory :rate
+      @user = Factory :user
+      sign_in @user
     end
 
     it "destroys the requested rate" do
