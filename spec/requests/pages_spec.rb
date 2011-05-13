@@ -8,7 +8,7 @@ describe "Searches" do
   
   describe "visiting the user aggreement" do
     it "should work" do
-      visit root_path
+      visit(root_path)
       click_link "User Agreement"
 
       page.current_path.should == user_agreement_path

@@ -2,7 +2,11 @@ require 'spec_helper'
 
 describe Search do
   before(:each) do
-    @rate = Factory :rate
+    @rate = Factory :rate # BOI variable rate
+    @fixed_rate = Factory :rate, :initial_period_length => 3,
+                                 :loan_type => "Partially Fixed Rate",
+                                 :lender => "AIB"
+    @other_rate = Factory :rate, :lender => "Ulster Bank"
     @valid_attr = {
           :min_payment => 700,
           :max_payment => 1200,
@@ -48,6 +52,10 @@ describe Search do
           Search.new(@valid_attr.merge(:max_payment => p)).should_not be_valid
         end
       end
+
+      it "should not allow max_payment to be smaller than min_payment" do
+        Search.new(@valid_attr.merge(:max_payment => "300", :min_payment => "400")).should_not be_valid
+      end
     end
 
     describe "of min_payment" do
@@ -87,22 +95,54 @@ describe Search do
     end
 
     describe "of lender" do
-      it "Lender should be of a set group if present" do
+      it "should be of a set group if present" do
         Search.new(@valid_attr.merge(:lender => 'dfiefijde')).should_not be_valid
+      end
+
+      it "should allow valid lenders" do
+        valid_loans = ['Bank of Ireland', 'AIB', 'Ulster Bank']
+        valid_loans.each do |loan|
+          Search.new(@valid_attr.merge(:lender => loan)).should be_valid
+        end
+      end
+
+      it "should allow the 'Any' lender" do
+        Search.new(@valid_attr.merge(:lender => 'Any')).should be_valid
       end
     end
 
     describe "of loan type" do
-      it "Loan Type should be of a set group if present" do
+      it "should be required to be of a set group if present" do
         Search.new(@valid_attr.merge(:loan_type => 'dfiefijde')).should_not be_valid
+      end
+
+      it "should allow valid loan types" do
+        valid_loans = ['Variable Rate', 'Partially Fixed Rate']
+        valid_loans.each do |type|
+          Search.new(@valid_attr.merge(:loan_type => type)).should be_valid
+        end
+      end
+
+      it "should allow the 'Any' type" do
+        Search.new(@valid_attr.merge(:loan_type => 'Any')).should be_valid
       end
     end
 
     describe "of Initial Period Length" do
+      it "should be required if loan_type is non Variable rate" do
+        Search.new(@valid_attr.merge(:loan_type => 'Varibale Rate')).should_not be_valid
+      end
+
+      it "should accept valid paramaters under the right conditions" do
+        Search.new(@valid_attr.merge(:loan_type => 'Partially Fixed Rate',
+                                     :initial_period_length => "3")).should be_valid
+      end
+
       it "should be of a set range if present" do
         invaid_periods = [4564, -23, "fsfewf", :fefe]
         invaid_periods.each do |p|
-          Search.new(@valid_attr.merge(:initial_period_length => p)).should_not be_valid
+          Search.new(@valid_attr.merge(:loan_type => "Partially Fixed Rate",
+                                       :initial_period_length => p)).should_not be_valid
         end
       end
     end
