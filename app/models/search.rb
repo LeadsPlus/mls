@@ -31,21 +31,29 @@ class Search < ActiveRecord::Base
     logger.debug "Viable rates set. #{@viable_rates.count} viable rates found"
   end
 
-  def calc_rates_hash # build morts
-    logger.debug "In the rates function"
-    @mortgages = []
-    @viable_rates.each do |rate|
-#     make an array of the lowest rated mortgages for each deposit bracket
-      @mortgages << Mortgage.new(rate, term, deposit, max_payment)
-    end
-    logger.debug "Rates Hash Calculated."
-  end
+#  def calc_rates_hash
+#    logger.debug "In the rates function"
+#    @mortgages = []
+#    @viable_rates.each do |rate|
+##     make an array of the lowest rated mortgages for each deposit bracket
+#      @mortgages << Mortgage.new(rate, term, deposit, max_payment)
+#    end
+#    logger.debug "Rates Hash Calculated."
+#  end
 
 #  If I limit people to preset term lengths, I can pre-calulate average rates, skip the calc_rates_hash
 #  method and only instanciate mortgages for compeditive rates
   def reject_morts
-    @mortgages = @mortgages.group_by{|m| m.rate.min_deposit }
-                            .map { |min_deposit, mortgages| mortgages.min_by(&:apr) }.flatten(1)
+#    @mortgages = @mortgages.group_by{|m| m.rate.min_deposit }
+#                            .map { |min_deposit, mortgages| mortgages.min_by(&:apr) }.flatten(1)
+    @viable_rates = @viable_rates.group_by{|r| r.min_deposit }
+                        .map { |min_deposit, rates| rates.min_by(&:twenty_year_apr) }.flatten(1)
+    logger.debug @viable_rates
+    @mortgages = []
+    @viable_rates.each do |rate|
+      @mortgages << Mortgage.new(rate, term, deposit, max_payment)
+    end
+    logger.debug "Mortgages built"
   end
 
   def has_mortgage_conditions?
@@ -125,7 +133,8 @@ class Search < ActiveRecord::Base
 
   def no_affordable_mortgages?
 #    @viable_rates already set by previous validation
-    calc_rates_hash
+#    calc_rates_hash
+    reject_morts
     calc_prices_given_rate
     get_affordable_mortgages
     logger.debug "There are some affordable prices?: #{!@affordable_mortgages.length.zero?}"

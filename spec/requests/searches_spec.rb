@@ -18,10 +18,10 @@ describe "Searches" do
     describe "results content" do
       before(:each) do
         visit root_path
-        click_button "Search"
       end
 
       it "should show the matching houses" do
+        click_button "Search"
         page.should have_content("This is the title of a house")
       end
 

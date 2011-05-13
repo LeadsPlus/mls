@@ -52,7 +52,7 @@ end
 group :test do
   gem 'rspec-rails'
   gem 'webrat'
-  gem 'capybara' #, :git => "git://github.com/jnicklas/capybara"
+  gem 'capybara', :git => "git://github.com/jnicklas/capybara"
   gem 'spork'
   gem "launchy"
   gem 'factory_girl_rails'
