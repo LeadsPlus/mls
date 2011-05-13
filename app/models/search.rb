@@ -45,7 +45,7 @@ class Search < ActiveRecord::Base
 #  method and only instanciate mortgages for compeditive rates
   def reject_morts
     @mortgages = @mortgages.group_by{|m| m.rate.min_deposit }
-                            .map { |min_deposit, mortgages| mortgages.min_by(&:avg_rate) }.flatten(1)
+                            .map { |min_deposit, mortgages| mortgages.min_by(&:apr) }.flatten(1)
   end
 
   def has_mortgage_conditions?
@@ -69,7 +69,7 @@ class Search < ActiveRecord::Base
 #    this if there is only once affordable choice to begin with, we get returned nil
     @max_mortgage = @affordable_mortgages.sort! {|a,b| a.price <=> b.price }.pop
     self.rate = @max_mortgage.rate
-    logger.debug "Determined the best mortgage. #{@max_mortgage.price.truncate(2)}"
+    logger.debug "Determined the best mortgage. #{@max_mortgage.price.truncate()}"
   end
   
   def calc_min_price
@@ -142,6 +142,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: searches
@@ -157,5 +158,8 @@ end
 #  loan_type             :string(255)
 #  initial_period_length :integer
 #  lender                :string(255)
+#  max_price             :integer
+#  min_price             :integer
+#  rate_id               :integer
 #
 

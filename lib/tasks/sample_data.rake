@@ -41,8 +41,7 @@ def update_default_search
          :term => 25,
          :county => "Fermanagh",
          :lender => 'Any',
-         :loan_type => 'Any',
-         :initial_period_length => ""
+         :loan_type => 'Any'
        })
   puts "Default search updated"
 end
@@ -62,7 +61,7 @@ end
 
 def make_rates
   Rate.create!({
-    :initial_rate => 3.0,
+    :twenty_year_apr => 3.0,
     :lender => 'Bank of Ireland',
     :loan_type => 'Variable Rate',
     :min_ltv => 1,
@@ -70,7 +69,7 @@ def make_rates
   })
 
   Rate.create!({
-    :initial_rate => 3.1,
+    :twenty_year_apr => 3.1,
     :lender => 'Bank of Ireland',
     :loan_type => 'Variable Rate',
     :min_ltv => 50,
@@ -79,7 +78,7 @@ def make_rates
   })
 
   Rate.create!({
-    :initial_rate => 3.0,
+    :twenty_year_apr => 3.0,
     :lender => 'Bank of Ireland',
     :loan_type => 'Variable Rate',
     :min_ltv => 50,
@@ -88,7 +87,7 @@ def make_rates
   })
 
   Rate.create!({
-    :initial_rate => 3.3,
+    :twenty_year_apr => 3.3,
     :lender => 'Bank of Ireland',
     :loan_type => 'Variable Rate',
     :min_ltv => 80,
@@ -97,7 +96,7 @@ def make_rates
   })
 
   Rate.create!({
-    :initial_rate => 3.4,
+    :twenty_year_apr => 3.4,
     :lender => 'Bank of Ireland',
     :loan_type => 'Variable Rate',
     :min_ltv => 80,
@@ -106,7 +105,7 @@ def make_rates
   })
 
   Rate.create!({
-    :initial_rate => 3.5,
+    :twenty_year_apr => 3.5,
     :lender => 'Bank of Ireland',
     :loan_type => 'Partially Fixed Rate',
     :min_ltv => 1,
@@ -116,7 +115,7 @@ def make_rates
   })
 
   Rate.create!({
-    :initial_rate => 3.7,
+    :twenty_year_apr => 3.7,
     :lender => 'Bank of Ireland',
     :loan_type => 'Partially Fixed Rate',
     :min_ltv => 1,
@@ -126,7 +125,7 @@ def make_rates
   })
 
   Rate.create!({
-    :initial_rate => 4.0,
+    :twenty_year_apr => 4.0,
     :lender => 'Bank of Ireland',
     :loan_type => 'Partially Fixed Rate',
     :min_ltv => 1,
@@ -136,7 +135,7 @@ def make_rates
   })
 
   Rate.create!({
-    :initial_rate => 4.0,
+    :twenty_year_apr => 4.0,
     :lender => 'Bank of Ireland',
     :loan_type => 'Partially Fixed Rate',
     :min_ltv => 1,
@@ -146,7 +145,7 @@ def make_rates
   })
 
   Rate.create!({
-    :initial_rate => 4.7,
+    :twenty_year_apr => 4.7,
     :lender => 'Ulster Bank',
     :loan_type => 'Partially Fixed Rate',
     :min_ltv => 1,
@@ -156,7 +155,7 @@ def make_rates
   })
 
   Rate.create!({
-    :initial_rate => 5.0,
+    :twenty_year_apr => 5.0,
     :lender => 'Ulster Bank',
     :loan_type => 'Partially Fixed Rate',
     :min_ltv => 1,
@@ -166,7 +165,7 @@ def make_rates
   })
 
   Rate.create!({
-    :initial_rate => 4.0,
+    :twenty_year_apr => 4.0,
     :lender => 'Ulster Bank',
     :loan_type => 'Variable Rate',
     :min_ltv => 1,
@@ -174,11 +173,88 @@ def make_rates
   })
 
   Rate.create!({
-    :initial_rate => 4.1,
+    :twenty_year_apr => 4.1,
     :lender => 'Ulster Bank',
     :loan_type => 'Variable Rate',
     :min_ltv => 80,
     :max_ltv => 90
+  })
+
+  Rate.create!({
+    :twenty_year_apr => 3.13,
+    :initial_rate => 3.09,
+    :lender => 'AIB',
+    :loan_type => 'Variable Rate',
+    :min_ltv => 1,
+    :max_ltv => 50
+  })
+
+  Rate.create!({
+    :twenty_year_apr => 3.34,
+    :initial_rate => 3.29,
+    :lender => 'AIB',
+    :loan_type => 'Variable Rate',
+    :min_ltv => 51,
+    :max_ltv => 79
+  })
+
+  Rate.create!({
+    :twenty_year_apr => 3.54,
+    :initial_rate => 3.49,
+    :lender => 'AIB',
+    :loan_type => 'Variable Rate',
+    :min_ltv => 80,
+    :max_ltv => 92
+  })
+
+  Rate.create!({
+    :twenty_year_apr => 3.40,
+    :initial_rate => 4.15,
+    :lender => 'AIB',
+    :loan_type => 'Partially Fixed Rate',
+    :min_ltv => 1,
+    :max_ltv => 92,
+    :initial_period_length => 1
+  })
+
+  Rate.create!({
+    :twenty_year_apr => 3.6,
+    :initial_rate => 4.65,
+    :lender => 'AIB',
+    :loan_type => 'Partially Fixed Rate',
+    :min_ltv => 1,
+    :max_ltv => 92,
+    :initial_period_length => 2
+  })
+
+  Rate.create!({
+    :twenty_year_apr => 3.81,
+    :initial_rate => 4.88,
+    :lender => 'AIB',
+    :loan_type => 'Partially Fixed Rate',
+    :min_ltv => 1,
+    :max_ltv => 92,
+    :initial_period_length => 3
+  })
+
+  Rate.create!({
+    :twenty_year_apr => 4.07,
+    :initial_rate => 5.15,
+    :lender => 'AIB',
+    :loan_type => 'Partially Fixed Rate',
+    :min_ltv => 1,
+    :max_ltv => 92,
+    :initial_period_length => 4
+  })
+
+  Rate.create!({
+    :twenty_year_apr => 4.34,
+    :initial_rate => 5.35,
+    :lender => 'AIB',
+    :loan_type => 'Partially Fixed Rate',
+    :min_ltv => 1,
+    :max_ltv => 92,
+    :initial_period_length => 5
   })
 
   puts "rates created"

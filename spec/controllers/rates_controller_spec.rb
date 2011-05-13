@@ -77,6 +77,7 @@ describe RatesController do
       before(:each) do
         @valid_attr = {
           :initial_rate => 3.0,
+          :twenty_year_apr => 3.05,
           :lender => 'Bank of Ireland',
           :loan_type => 'Variable Rate',
           :min_ltv => 50,
@@ -101,6 +102,7 @@ describe RatesController do
       before(:each) do
         @invalid_attr = {
           :initial_rate => "",
+          :twenty_year_apr => '',
           :lender => '',
           :loan_type => '',
           :min_ltv => '',
@@ -131,6 +133,7 @@ describe RatesController do
       before(:each) do
         @update_attr = {
           :initial_rate => 3.0,
+          :twenty_year_apr => 4.23,
           :lender => 'AIB',
           :loan_type => 'Variable Rate',
           :min_ltv => 50,
@@ -157,6 +160,7 @@ describe RatesController do
       before(:each) do
         @invalid_attr = {
           :initial_rate => '',
+          :twenty_year_apr => '',
           :lender => '',
           :loan_type => 'Variable Rate',
           :min_ltv => 50,

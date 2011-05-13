@@ -1,9 +1,11 @@
+require "custom_validators/ample_ltv_validator"
+
 # ulster bank provides min_term and max_term data
 
 class Rate < ActiveRecord::Base
   attr_accessible :initial_rate, :lender, :loan_type, :min_ltv, :max_ltv,
                   :initial_period_length, :rolls_to, :min_princ, :max_princ,
-                  :min_deposit, :max_deposit
+                  :min_deposit, :max_deposit, :twenty_year_apr
   has_many :searches
 
   before_save :calc_deposit_limits
@@ -38,28 +40,44 @@ class Rate < ActiveRecord::Base
     end
   end
 
-  validates :initial_rate, :presence => true,
-            :numericality => { :greater_than_or_equal_to => 0, :less_than => 100  }
+  def anything_blank?
+    lender.blank? || loan_type.blank? || min_ltv.blank? || max_ltv.blank? || twenty_year_apr.blank?
+  end
+
+  validates :twenty_year_apr, :presence => true,
+            :numericality => { :greater_than_or_equal_to => 0, :less_than => 100, :allow_blank => true }
+#  sometimes nominal rates are not shown on lenders websites
+  validates :initial_rate,
+            :numericality => { :greater_than_or_equal_to => 0, :less_than => 100, :allow_blank => true  }
+
   validates :lender, :presence => true,
       :inclusion => { :in => ['Bank of Ireland', 'AIB', 'Ulster Bank', 'Permanent TSB' ] }
+
   validates :loan_type, :presence => true,
       :inclusion => { :in => ['Variable Rate', 'Partially Fixed Rate'] }
+  
   validates :min_ltv, :presence => true,
             :numericality => { :greater_than_or_equal_to => 1, :less_than => 100 }
-#            less than max_ltv
+
   validates :max_ltv, :presence => true,
-            :numericality => { :greater_than_or_equal_to => 1, :less_than => 100 }
-#            greater than min_ltv
+            :numericality => { :greater_than_or_equal_to => 1, :less_than => 100 },
+            :ample_ltv => { :unless => :anything_blank? }
+
   validates :initial_period_length, :numericality =>
       { :greater_than_or_equal_to => 1, :less_than => 10, :only_integer => true,
         :unless => "initial_period_length.nil?" }
-  validates :rolls_to, :presence => { :unless => "loan_type == 'Variable Rate'" },
+
+#  this is not an APR rate. Usually not available. aka Standard Variable Rate
+  validates :rolls_to,
             :numericality => { :greater_than_or_equal_to => 0, :less_than => 100, :allow_blank => true }
+
+#  these are rarely available
   validates :min_princ, :numericality =>
       { :greater_than_or_equal_to => 0, :allow_blank => true }
   validates :max_princ, :numericality =>
       { :greater_than_or_equal_to => 0, :allow_blank => true }
 end
+
 
 
 
@@ -79,5 +97,8 @@ end
 #  min_princ             :integer
 #  created_at            :datetime
 #  updated_at            :datetime
+#  min_deposit           :integer
+#  max_deposit           :integer
+#  twenty_year_apr       :float
 #
 

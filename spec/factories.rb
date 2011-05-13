@@ -19,6 +19,7 @@ Factory.define Search do |search|
 end
 
 Factory.define Rate do |rate|
+  rate.twenty_year_apr 3.55
   rate.initial_rate 3.5
   rate.lender "Bank of Ireland"
   rate.loan_type "Variable Rate"

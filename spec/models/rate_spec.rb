@@ -4,6 +4,7 @@ describe Rate do
   before(:each) do
     @valid_attr = {
       :initial_rate => 3.0,
+      :twenty_year_apr => 3.05,
       :lender => 'AIB',
       :loan_type => 'Variable Rate',
       :min_ltv => 50,
@@ -12,18 +13,13 @@ describe Rate do
     }
   end
 
-
   it "should create a new rate given valid attributes" do
     Rate.create! @valid_attr
   end
 
   describe "validations" do
-    it "should require an initial rate" do
-      Rate.new(@valid_attr.merge(:initial_rate => '')).should_not be_valid
-    end
-
     it "should reject invalid initial rates" do
-      invalid = ['dfsdfdsf', -34, nil, 101]
+      invalid = ['dfsdfdsf', -34, 101]
       invalid.each do |r|
         Rate.new(@valid_attr.merge(:initial_rate => r)).should_not be_valid
       end
@@ -72,8 +68,13 @@ describe Rate do
         Rate.new(@valid_attr.merge(:min_ltv => l)).should_not be_valid
       end
     end
+
+    it "should require min_ltv to be smaller than max_ltv" do
+      Rate.new(@valid_attr.merge(:min_ltv => 34, :max_ltv => 22)).should_not be_valid
+    end
   end
 end
+
 
 
 
@@ -93,5 +94,8 @@ end
 #  min_princ             :integer
 #  created_at            :datetime
 #  updated_at            :datetime
+#  min_deposit           :integer
+#  max_deposit           :integer
+#  twenty_year_apr       :float
 #
 
