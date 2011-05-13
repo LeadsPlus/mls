@@ -10,14 +10,14 @@ module ApplicationHelper
   end
 
   def lender_options
-    LENDERS.collect {|name| [name, name] } << ["Any", "Any"]
+    LENDERS.collect {|name| [name, name] }.unshift ["Any", "Any"]
   end
 
   def loan_type_options
-    LOAN_TYPES.collect {|name| [name, name] } << ["Any", "Any"]
+    LOAN_TYPES.collect {|name| [name, name] }.unshift ["Any", "Any"]
   end
 
   def initial_period_length_options
-    LOAN_PERIODS.collect {|period| ["#{period} years", period]} << ["", nil]
+    LOAN_PERIODS.collect {|period| ["#{period} years", period]}.unshift ["", nil]
   end
 end

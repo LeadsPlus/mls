@@ -75,7 +75,7 @@ class Scrape
         :description => item.at(".description").text.strip,
         :image_url => item.at(".main_photo")[:src],
         :daft_id => title[:href].match(/[0-9]+/) { |id| id[0].to_i },
-        :price => item.at(".price").text[/[0-9,]+/].delete(',').to_i,
+        :price => item.at(".price").text[/\u20AC[0-9,]+/].gsub(/[\D]/, '').to_i,
         :county => COUNTIES[daft_county_id.to_i - 1]
       })
       print '.'
@@ -91,7 +91,7 @@ class Scrape
         :description => item.at(".description").text.strip,
         :image_url => item.at(".main_photo")[:src],
         :daft_id => title[:href].match(/[0-9]+/) { |id| id[0].to_i },
-        :price => item.at(".price").text[/[0-9,]+/].delete(',').to_i,
+        :price => item.at(".price").text[/\u20AC[0-9,]+/].gsub(/[\D]/, '').to_i,
         :county => COUNTIES[daft_county_id.to_i - 1]
       })
       print '.'
