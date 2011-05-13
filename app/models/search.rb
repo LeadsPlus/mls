@@ -39,7 +39,7 @@ class Search < ActiveRecord::Base
     logger.debug @viable_rates
     @mortgages = []
     @viable_rates.each do |rate|
-      @mortgages << Mortgage.new(rate, term, deposit, max_payment)
+      @mortgages << ReverseMortgage.new(rate, term, deposit, max_payment)
     end
     logger.debug "Mortgages built"
   end
@@ -69,7 +69,7 @@ class Search < ActiveRecord::Base
   end
   
   def calc_min_price
-    @min_mortgage = Mortgage.new(@max_mortgage.rate, term, deposit, min_payment).calculate_price
+    @min_mortgage = ReverseMortgage.new(@max_mortgage.rate, term, deposit, min_payment).calculate_price
   end
 
   def matches
