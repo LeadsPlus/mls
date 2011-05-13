@@ -25,7 +25,6 @@ gem 'rails', '3.0.7'
 
 gem 'haml'
 gem 'sass'
-#gem 'uglifier' # auto-minimizes assets
 gem 'jquery-rails'
 gem 'kaminari'
 gem 'nokogiri'

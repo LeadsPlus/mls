@@ -15,6 +15,14 @@ div#wrapper {
   background-color: white;
 }
 
+div#content {
+  margin-bottom: 20px;
+}
+
+div#footer {
+  border-top: 1px solid $border_color;
+}
+
 div#header {
   height: 35px;
   padding: 5px;
