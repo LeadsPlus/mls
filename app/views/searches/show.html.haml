@@ -8,9 +8,9 @@
   .collapsed-content.hidden
     %table.data
       %thead
-        = render "shared/rate_table_headings"
+        = render "shared/compact_rate_table_headings", :rate => @rate
       %tbody
-        = render "shared/rate", :rate => @rate
+        = render "shared/compact_rate", :rate => @rate
     = link_to "View all the rates", rates_path, :class => "float-right"
   
 #results

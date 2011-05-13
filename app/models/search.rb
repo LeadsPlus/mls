@@ -31,21 +31,9 @@ class Search < ActiveRecord::Base
     logger.debug "Viable rates set. #{@viable_rates.count} viable rates found"
   end
 
-#  def calc_rates_hash
-#    logger.debug "In the rates function"
-#    @mortgages = []
-#    @viable_rates.each do |rate|
-##     make an array of the lowest rated mortgages for each deposit bracket
-#      @mortgages << Mortgage.new(rate, term, deposit, max_payment)
-#    end
-#    logger.debug "Rates Hash Calculated."
-#  end
-
 #  If I limit people to preset term lengths, I can pre-calulate average rates, skip the calc_rates_hash
 #  method and only instanciate mortgages for compeditive rates
   def reject_morts
-#    @mortgages = @mortgages.group_by{|m| m.rate.min_deposit }
-#                            .map { |min_deposit, mortgages| mortgages.min_by(&:apr) }.flatten(1)
     @viable_rates = @viable_rates.group_by{|r| r.min_deposit }
                         .map { |min_deposit, rates| rates.min_by(&:twenty_year_apr) }.flatten(1)
     logger.debug @viable_rates
@@ -111,7 +99,7 @@ class Search < ActiveRecord::Base
         Monaghan Antrim Armagh Tyrone Fermanagh Derry Down] }
 
   validates :loan_type, :vrm_and_initial_length_not_both_set => { :unless => "initial_period_length.blank?" }
-  validates :lender, :inclusion => { :in => %w[Any 'Bank of Ireland' AIB 'Ulster Bank' 'Permanent TSB' ] }
+  validates :lender, :inclusion => { :in => ['Any', 'Bank of Ireland', 'AIB', 'Ulster Bank', 'Permanent TSB' ] }
   validates :loan_type, :inclusion => { :in => ['Variable Rate', "Partially Fixed Rate", "Any"] }
   validates :initial_period_length, :numericality => { :within => 0..100, :allow_nil => true, :allow_blank => true }
 

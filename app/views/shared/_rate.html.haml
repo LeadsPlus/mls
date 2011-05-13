@@ -1,5 +1,6 @@
 %tr.rate
   %td= rate.id
+  %td= number_to_percentage(rate.twenty_year_apr, :precision => 2)
   %td= number_to_percentage(rate.initial_rate, :precision => 2)
   %td= rate.lender
   %td= rate.loan_type

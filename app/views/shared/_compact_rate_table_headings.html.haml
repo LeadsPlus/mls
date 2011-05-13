@@ -1,16 +1,7 @@
 %tr
-  %th ID
   %th 20 Year APR
-  %th Initial rate (nominal)
   %th Lender
   %th Type
+  %th{ :title => "If the mortgage is a fixed rate mortgage, the length of the fixed period will be shown here." } Initial Period Length
   %th{ :title => "You must be borrowing greater than this % to avail of this rate" } Min. LTV
   %th{ :title => "You may borrow up to this % and still avail of this rate" } Max. LTV
-  %th Initial Length
-  %th Rolling To (nominal)
-  %th Min. Princ
-  %th Max. Princ
-  - if Rails.env.development?
-    %th
-    %th
-    %th

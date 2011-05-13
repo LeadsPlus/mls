@@ -1,0 +1,7 @@
+%tr.rate
+  %td= number_to_percentage(rate.twenty_year_apr, :precision => 2)
+  %td= rate.lender
+  %td= rate.loan_type
+  %td= "#{rate.initial_period_length} years" if rate.initial_period_length
+  %td= number_to_percentage(rate.min_ltv, :precision => 0)
+  %td= number_to_percentage(rate.max_ltv, :precision => 0)
