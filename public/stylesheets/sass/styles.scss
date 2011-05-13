@@ -57,38 +57,42 @@ div#header {
 div.search_bar {
   margin-bottom: 10px;
   min-height: 60px;
-  padding: 7px 20px;
+  padding: 10px 20px;
   border: 1px solid #aaa;
 
   @include border-radius(4px);
 
-  span.field {
-    margin: 0 5px;
+  table {
+    width: 100%;
 
-    label {
+    tr {
+      height: 25px;
+    }
+
+    td.label {
+      width: 160px;
       font-weight: bold;
     }
+
+    td.slider {
+      width: 600px;
+    }
   }
 
-  #search_submit {
-    float: right;
-    position: relative;
-    top: -3px;
+  input[type=text] {
+    display: inline;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    height: 20px;
+    font-weight: bold;
+    font-size: 14px;
   }
 
-  $search_input_width: 50px;
-
-  #boxes {
-    width: 37%;
-    float: left;
-
-    input#search_min_payment {
-      width: $search_input_width;
-    }
-
-    input#search_max_payment {
-      width: $search_input_width;
-    }
+  div.slider-tooltip {
+    width: 100px;
+    position: absolute;
+    top: -20px; left: -10px;
   }
 
   #mortgage_options_trigger {
@@ -97,20 +101,6 @@ div.search_bar {
 
   #mortgage_options {
     margin: 20px 0 5px 0;
-  }
-
-  #other_fields {
-    margin-bottom: 10px;
-
-    input#search_deposit {
-      width: $search_input_width;
-    }
-  }
-
-  div#jquery-slider {
-    margin: 2px 0;
-    float: left;
-    width: 62%;
   }
 }
 

@@ -1,5 +1,7 @@
 :javascript
   $(function(){
+    var $slideMe = $("<div/>").css({ position : 'absolute' , top : 10, left : 0 }).text("Slide Me").hide();
+
     $('div#jquery-slider').slider({
         range: true,
         min: 1,
@@ -10,5 +12,5 @@
           $( "#search_min_payment" ).val( ui.values[ 0 ] );
           $( "#search_max_payment" ).val( ui.values[ 1 ] );
          }
-    });
+    }).find(".ui-slider-handle").append($slideMe).hover(function(){ $slideMe.show() }, function(){ $slideMe.hide() });
   });

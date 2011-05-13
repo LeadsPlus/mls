@@ -6,6 +6,9 @@ body, p, ol, ul, td {
 .float-right {
   float: right; }
 
+.float-left {
+  float: left; }
+
 .hidden {
   display: none; }
 
@@ -51,38 +54,37 @@ div#header {
 div.search_bar {
   margin-bottom: 10px;
   min-height: 60px;
-  padding: 7px 20px;
+  padding: 10px 20px;
   border: 1px solid #aaa;
   border-radius: 4px;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px; }
-  div.search_bar span.field {
-    margin: 0 5px; }
-    div.search_bar span.field label {
+  div.search_bar table {
+    width: 100%; }
+    div.search_bar table tr {
+      height: 25px; }
+    div.search_bar table td.label {
+      width: 160px;
       font-weight: bold; }
-  div.search_bar #search_submit {
-    float: right;
-    position: relative;
-    top: -3px; }
-  div.search_bar #boxes {
-    width: 37%;
-    float: left; }
-    div.search_bar #boxes input#search_min_payment {
-      width: 50px; }
-    div.search_bar #boxes input#search_max_payment {
-      width: 50px; }
+    div.search_bar table td.slider {
+      width: 600px; }
+  div.search_bar input[type=text] {
+    display: inline;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    height: 20px;
+    font-weight: bold;
+    font-size: 14px; }
+  div.search_bar div.slider-tooltip {
+    width: 100px;
+    position: absolute;
+    top: -20px;
+    left: -10px; }
   div.search_bar #mortgage_options_trigger {
     float: right; }
   div.search_bar #mortgage_options {
     margin: 20px 0 5px 0; }
-  div.search_bar #other_fields {
-    margin-bottom: 10px; }
-    div.search_bar #other_fields input#search_deposit {
-      width: 50px; }
-  div.search_bar div#jquery-slider {
-    margin: 2px 0;
-    float: left;
-    width: 62%; }
 
 div#mortgage_details {
   margin-bottom: 10px;

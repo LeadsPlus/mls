@@ -1,45 +1,47 @@
-#other_fields
-  %span.field
-    =f.label :deposit, "Deposit (€)"
-    =f.text_field :deposit, :value => search.deposit, :size => 6
+%table
+  %tbody
+    %tr
+      %td.label
+        = f.label :deposit, "Deposit (€)"
+      %td
+        = f.text_field :deposit, :value => search.deposit, :size => 8
+      %td.slider
+        #deposit-slider
+    %tr
+      %td.label
+        = f.label :term, "Term (years)"
+      %td
+        = f.text_field :term, :value => search.term, :size => 2
+      %td.slider
+        #term-slider
+    %tr
+      %td.label
+        Payment Range (€)
+      %td
+        = f.text_field :min_payment, :value => search.min_payment, :size => 4
+        = f.text_field :max_payment, :value => search.max_payment, :size => 4
+      %td.slider
+        #jquery-slider
 
-  %span.field
-    =f.label :term, "Term (years)"
-    =f.text_field :term, :value => search.term, :size => 3
-
-  %span.field
-    =f.label :county
-    =f.select :county, county_choices, :selected => search.county
-
-  =f.submit :Search
-
-#payments
-  #boxes
-    %b Monthly Payment Range:
-    %span.field
-      -#=f.label :min_payment, "Min Payment (€)"
-      =f.text_field :min_payment, :value => search.min_payment, :size => 6
-
-    %span.field
-      -#=f.label :max_payment, "Max Payment (€)"
-      =f.text_field :max_payment, :value => search.max_payment, :size => 6
-
-  #jquery-slider
-
-.spacer
+    %tr
+      %td.label
+        = f.label :county
+      %td
+        = f.select :county, county_choices, :selected => search.county
+      %td= f.submit :Search, :class => "float-right"
 
 %span= link_to 'Mortgage Filter', "#", :class => " collapsed-trigger float-right"
+
 #mortgage_options.collapsed-content{ :class => search.has_mortgage_conditions? ? '' : 'hidden' }
-  %span.field
-    = f.label :lender
-    = f.select :lender, lender_options, :selected => search.lender
-
-  %span.field
-    = f.label :loan_type
-    = f.select :loan_type, loan_type_options, :selected => search.loan_type
-
-  %span.field
-    = f.label :initial_period_length
-    = f.select :initial_period_length, initial_period_length_options, :selected => search.initial_period_length
+  %span Only use mortgages which meet the following conditions
+  %table
+    %tbody
+      %tr
+        %td.label= f.label :lender
+        %td= f.select :lender, lender_options, :selected => search.lender
+        %td.label= f.label :loan_type
+        %td= f.select :loan_type, loan_type_options, :selected => search.loan_type
+        %td.label= f.label :initial_period_length
+        %td= f.select :initial_period_length, initial_period_length_options, :selected => search.initial_period_length
 
 .spacer

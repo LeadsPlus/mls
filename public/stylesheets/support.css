@@ -6,6 +6,9 @@ body, p, ol, ul, td {
 .float-right {
   float: right; }
 
+.float-left {
+  float: left; }
+
 .hidden {
   display: none; }
 
