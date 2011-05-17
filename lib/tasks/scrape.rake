@@ -16,4 +16,15 @@ namespace :scrape do
     args.with_defaults(:daft_county_id => 30) # 30 = Fermanagh
     Scrape.new.county args.daft_county_id.to_s
   end
+
+  desc "Visit the show page of all the houses in a particular county"
+  task :visit_houses_in_county, [:daft_county_id] => :environment do |task, args|
+    args.with_defaults(:daft_county_id => 30) # 30 = Fermanagh
+    Scrape.new.visit_houses_in_county(args.daft_county_id)
+  end
+
+  desc "Visit the show page of all the houses in the database after a particular house id"
+  task :visit_houses_starting_from, [:house_id] => :environment do |task, args|
+    Scrape.new.visit_houses_starting_from args.house_id
+  end
 end

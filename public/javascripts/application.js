@@ -9,6 +9,35 @@ $(function() {
     $(this).parent().siblings(".collapsed-content").toggleClass("hidden");
   });
 
+  $( "a.house_photos_trigger" ).click(function( event ) {
+    event.preventDefault();
+    var dialog = $( this ).next( "div" );
+    var photoData = {};
+    photoData.maxHeight = 0;
+    photoData.maxWidth = 0;
+    photoData.images = dialog.find( "img.async_img" ); // array
+    
+    photoData.images.each(function(i, image){
+//      console.log( "Image " + i + ". Height: " + image.height + ". Width: " + image.width );
+//      console.log( image );
+      if (image.height > photoData.maxHeight) {
+        photoData.maxHeight = image.height;
+      }
+      if (image.width > photoData.maxWidth) {
+        photoData.maxWidth = image.width;
+      }
+    });
+
+//    console.log("max height: " + photoData.maxHeight + "px. max width: " + photoData.maxWidth + "px.");
+
+    dialog.dialog({
+          autoOpen: true,
+          modal: true,
+          height: photoData.maxHeight + 40, // padding
+          width: photoData.maxWidth + 50
+    }).find( "img.async_img" ).asynchImageLoader({ event: 'load' });
+  });
+
   $(function() {
     var term = $( "#search_term" );
 //    var $termSlideTip = $("<div/>").attr("id", "term-slide-tip").addClass("slider-tooltip")

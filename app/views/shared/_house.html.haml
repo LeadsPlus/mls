@@ -1,10 +1,20 @@
 %tr.house{ :id => "house_#{house.id}" }
-  %td= image_tag house.image_url, :size => '160x120' if Rails.env.production? # sick of waiting for image loads in dev
+  %td
+    = image_tag house.image_url, :size => '160x120' # if Rails.env.production? # sick of waiting for image loads in dev
+    = link_to "#{house.photos.count} Photos", '', :class => "house_photos_trigger"
+    .house_photo_dialog.hidden
+      - house.photos.each do |photo|
+        = image_tag "", :"data-href" => photo.url, :size => "#{photo.width}x#{photo.height}",
+                        :class => "async_img", :alt => "house image"
   %td
     %table
       %tr
         %td{ :colspan => 3 }
           %b= house.title
+      %tr
+        %td= "#{house.bedrooms} Bedrooms" unless house.bedrooms.blank?
+        %td= "#{house.bathrooms} Bathrooms" unless house.bathrooms.blank?
+        %td= "Created: #{house.daft_date_created}" unless house.daft_date_created.blank?
       %tr
         %td{ :colspan => 3 }= house.description if house.description
       %tr
@@ -20,4 +30,6 @@
         -#%td= link_to 'Destroy', house, :confirm => 'Are you sure?', :method => :delete
       %tr
         %td.bottom{ :colspan => 5 }
+
+  
 

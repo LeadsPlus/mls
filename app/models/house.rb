@@ -1,7 +1,17 @@
 class House < ActiveRecord::Base
-  attr_accessible :title, :price, :description, :county, :image_url, :daft_id
+  attr_accessible :price, :description, :county, :image_url, :daft_id,
+                  :property_type, :daft_title, :daft_date_created, :bedrooms,
+                  :bathrooms, :address
   default_scope order('price')
   paginates_per(10)
+  has_many :photos, :dependent => :destroy
+
+  def title
+    unless address.blank? || property_type.blank?
+      return "#{address} - #{property_type}"
+    end
+    daft_title
+  end
 
   def daft_url
     "http://www.daft.ie/searchsale.daft?id=#{daft_id}"
@@ -11,7 +21,7 @@ class House < ActiveRecord::Base
     (princ*100)/price
   end
 
-  validates :title, :presence => true
+#  validates :title, :presence => true
 
   validates :county, :presence => true,
       :inclusion => { :in => COUNTIES }
@@ -29,18 +39,24 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: houses
 #
-#  id          :integer         not null, primary key
-#  price       :integer
-#  created_at  :datetime
-#  updated_at  :datetime
-#  county      :string(255)
-#  image_url   :string(255)
-#  description :text
-#  title       :string(255)
-#  daft_id     :integer
+#  id                :integer         not null, primary key
+#  price             :integer
+#  created_at        :datetime
+#  updated_at        :datetime
+#  county            :string(255)
+#  image_url         :string(255)
+#  description       :text
+#  daft_title        :string(255)
+#  daft_id           :integer
+#  bedrooms          :integer
+#  bathrooms         :integer
+#  daft_date_created :date
+#  address           :string(255)
+#  property_type     :string(255)
 #
 

@@ -30,6 +30,29 @@ describe House do
     end
   end
 
+  describe "photo associations" do
+    before(:each) do
+      @house = House.create!(@attr)
+      @photo1 = Factory :photo, :house => @house
+      @photo2 = Factory :photo, :house => @house
+    end
+
+    it "should have a photo attribute" do
+      @house.should respond_to(:photos)
+    end
+
+    it "should have the right notes in the right order" do
+      @house.photos.should. == [@photo1, @photo2]
+    end
+
+    it "should destroy associated photos" do
+      @house.destroy
+      [@photo1, @photo1].each do |photo|
+        Photo.find_by_id(photo.id).should be_nil
+      end
+    end
+  end
+
   describe "validations" do
     it "should require a title" do
       no_title_house = @attr.merge(:title => '')
@@ -80,18 +103,24 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: houses
 #
-#  id          :integer         not null, primary key
-#  price       :integer
-#  created_at  :datetime
-#  updated_at  :datetime
-#  county      :string(255)
-#  image_url   :string(255)
-#  description :text
-#  title       :string(255)
-#  daft_id     :integer
+#  id                :integer         not null, primary key
+#  price             :integer
+#  created_at        :datetime
+#  updated_at        :datetime
+#  county            :string(255)
+#  image_url         :string(255)
+#  description       :text
+#  daft_title        :string(255)
+#  daft_id           :integer
+#  bedrooms          :integer
+#  bathrooms         :integer
+#  daft_date_created :date
+#  address           :string(255)
+#  property_type     :string(255)
 #
 

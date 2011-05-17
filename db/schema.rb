@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110513222734) do
+ActiveRecord::Schema.define(:version => 20110517121447) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -34,13 +34,29 @@ ActiveRecord::Schema.define(:version => 20110513222734) do
     t.string   "county"
     t.string   "image_url"
     t.text     "description"
-    t.string   "title"
+    t.string   "daft_title"
     t.integer  "daft_id"
+    t.integer  "bedrooms"
+    t.integer  "bathrooms"
+    t.date     "daft_date_created"
+    t.string   "address"
+    t.string   "property_type"
   end
 
   add_index "houses", ["county"], :name => "index_houses_on_county"
   add_index "houses", ["daft_id"], :name => "index_houses_on_daft_id"
   add_index "houses", ["price"], :name => "index_houses_on_price"
+
+  create_table "photos", :force => true do |t|
+    t.integer  "house_id"
+    t.string   "url"
+    t.integer  "width"
+    t.integer  "height"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "photos", ["url"], :name => "index_photos_on_url", :unique => true
 
   create_table "rates", :force => true do |t|
     t.float    "initial_rate"

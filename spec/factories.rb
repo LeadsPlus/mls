@@ -1,10 +1,17 @@
+require "date"
+
 Factory.define House do |house|
-  house.title "This is the title of a house"
+  house.daft_title "This is the title of a house"
   house.description "This is the description of a house"
+  house.address "23 Bananatown"
   house.image_url 'http://mediacache-s3eu.daft.ie/MZYU1EHKU5Wezk5xuw07WPdRb8VZeof6esL9j1djM-RtPWRhZnQmZT0xNjB4MTIw.jpg'
   house.price 250_000
   house.county "Wicklow"
   house.daft_id 343532
+  house.property_type "Semi-Detached House"
+  house.bathrooms 4
+  house.bedrooms 5
+  house.daft_date_created Date.civil(2011, rand(5) + 1, rand(31) + 1)
 end
 
 Factory.define Search do |search|
@@ -31,4 +38,11 @@ Factory.define User do |user|
   user.email                 "example@example.com"
   user.password              "foobar"
   user.password_confirmation "foobar"
+end
+
+Factory.define Photo do |photo|
+  photo.url "http://mediacache-s3eu.daft.ie/PBZXUNU3DvZJXvZzZ-TD-eUvlP3myJN4RVSeNWQrkPJtPWRhZnQmaD00NTA=.jpg"
+  photo.height 450
+  photo.width 341
+  photo.association :house
 end
