@@ -26,15 +26,27 @@ class DaftHousePage
   private
 
     def extract_prop_type
-      @html.at("#smi_prop_type").text
+      type = @html.at("#smi_prop_type")
+      if type.nil?
+        return ''
+      end
+      type.text
     end
 
     def extract_address
-      @html.at("h1").text
+      addy = @html.at("h1")
+      if addy.nil?
+        return ''
+      end
+      addy.text
     end
 
     def extract_description
-      @html.at("#smi_description").text
+      desc = @html.at("#smi_description")
+      if desc.nil?
+        return ''
+      end
+      desc.text
     end
 
 #    "Date Entered" changes whenever details on the post are changed

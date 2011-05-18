@@ -4,6 +4,7 @@ namespace :db do
     require 'faker'
     delete_rates
     delete_all_searches
+    delete_all_users
     make_rates
     create_default_search # has to happen after rates else validation fail
   end
@@ -15,6 +16,8 @@ namespace :db do
     end
   end
 end
+
+# git push heroku && heroku rake db:reset && heroku rake db:migrate && heroku rake db:p
 
 def delete_default_search
   Search.find(1).destroy

@@ -21,7 +21,7 @@ class Scrape
 #    if we get returned a 404 of the form Scrape#visit_houses_in_county_without_delay failed with Mechanize::ResponseCodeError: 404 => Net::HTTPNotFound - 0 failed attempts
 #    that means we got the daft page.. "property has either been sold or removed from daft...."
     begin
-      agent.get house.daft_url
+      agent.get(house.daft_url)
     rescue Mechanize::ResponseCodeError
       house.destroy
       return
