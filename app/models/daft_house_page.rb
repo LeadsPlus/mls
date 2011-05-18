@@ -15,9 +15,9 @@ class DaftHousePage
     extract
 #    These are only updated if different
     @house.update_attributes({
-        :property_type => @property_type,
-        :address => @address,
-        :daft_date_created => @daft_date_entered,
+        property_type: @property_type,
+        address: @address,
+        daft_date_entered: @daft_date_entered,
     })
     save_photos
     @house.save
@@ -48,10 +48,10 @@ class DaftHousePage
       @html.search("div#pb_carousel ul li img").each do |img|
         photo = Photo.find_or_initialize_by_url(img[:src])
         photo.update_attributes({
-            :url => img[:src],
-            :width => img[:width],
-            :height => img[:height],
-            :house_id => @house.id
+            url: img[:src],
+            width: img[:width],
+            height: img[:height],
+            house_id: @house.id
         })
   #     I think I'm ok to just save the photo, if it's there
         photo.save!

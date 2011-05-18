@@ -62,13 +62,13 @@ class Scrape
       house = House.find_or_initialize_by_daft_id(result.daft_id)
 #          This automatically only updates fields which have changed
       house.update_attributes({
-        :daft_title => result.daft_title,
-        :description => result.description,
-        :image_url => result.image,
-        :price => result.price,
-        :county => COUNTIES[daft_county_id.to_i - 1],
-        :bedrooms => result.rooms[0],
-        :bathrooms => result.rooms[1],
+        daft_title: result.daft_title,
+        description: result.description,
+        image_url: result.image,
+        price: result.price,
+        county: COUNTIES[daft_county_id.to_i - 1],
+        bedrooms: result.rooms[0],
+        bathrooms: result.rooms[1],
       })
       house.save
     end

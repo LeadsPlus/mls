@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(:version => 20110517121447) do
     t.integer  "daft_id"
     t.integer  "bedrooms"
     t.integer  "bathrooms"
-    t.date     "daft_date_created"
+    t.date     "daft_date_entered"
     t.string   "address"
     t.string   "property_type"
   end

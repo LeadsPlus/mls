@@ -114,7 +114,7 @@ end
 #  daft_id           :integer
 #  bedrooms          :integer
 #  bathrooms         :integer
-#  daft_date_created :date
+#  daft_date_entered :date
 #  address           :string(255)
 #  property_type     :string(255)
 #

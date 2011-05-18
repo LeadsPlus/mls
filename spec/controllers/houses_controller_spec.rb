@@ -87,7 +87,7 @@ describe HousesController do
     describe "with valid params" do
       before(:each) do
         @valid_attr = {
-          :title => "This is the title of a house",
+          :daft_title => "This is the title of a house",
           :description => "This is the description of a house",
           :image_url => 'http://mediacache-s3eu.daft.ie/MZYU1EHKU5Wezk5xuw07WPdRb8VZeof6esL9j1djM-RtPWRhZnQmZT0xNjB4MTIw.jpg',
           :county => "Wicklow",
@@ -111,7 +111,7 @@ describe HousesController do
     describe "with invalid params" do
       before(:each) do
         @invalid_attr = {
-          :title => "",
+          :daft_title => "",
           :description => "",
           :image_url => '',
           :price => nil,
@@ -142,7 +142,7 @@ describe HousesController do
     describe "with valid params" do
       before(:each) do
         @update_attr = {
-          :title => "This is the new title of a house",
+          :daft_title => "This is the new title of a house",
           :description => "This is a different description of a house",
           :image_url => 'http://mediacache-s3eu.daft.ie/MZYU1EHKU5Wezk5xuw07WPdRb8VZeof6esL9j1djM-RtPWRhZnQmZT0xNjB4MTIw.jpg',
           :county => "Wicklow",
@@ -155,7 +155,7 @@ describe HousesController do
         put 'update', :id => @house, :house => @update_attr
 
         @house.reload
-        @house.title.should  == @update_attr[:title]
+        @house.daft_title.should  == @update_attr[:daft_title]
         @house.description.should == @update_attr[:description]
       end
 
@@ -168,7 +168,7 @@ describe HousesController do
     describe "with invalid params" do
       before(:each) do
         @invalid_attr = {
-          :title => "",
+          :daft_title => "",
           :description => "",
           :image_url => '',
           :price => nil,
