@@ -1,5 +1,5 @@
 class Photo < ActiveRecord::Base
-  attr_accessible :url, :height, :width
+  attr_accessible :url, :height, :width, :house_id
   belongs_to :house
 
   validates :url, :uniqueness => { :case_sensitive => false }

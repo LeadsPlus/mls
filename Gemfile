@@ -46,6 +46,7 @@ gem 'hirb'
 group :development do
   gem 'rspec-rails'
   gem 'annotate'
+  gem 'fakeweb'
 end
 
 # a comment to make it migrate
@@ -56,5 +57,6 @@ group :test do
   gem 'spork', '~> 0.9.0.rc'
   gem "launchy"
   gem 'factory_girl_rails'
+  gem 'fakeweb'
 #  gem 'turn', :require => false # nicer test output
 end
