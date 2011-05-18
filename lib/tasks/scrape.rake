@@ -1,6 +1,8 @@
 # ways to improve
 # parse the address
 # make it possible to not scrape sites, houses only
+# Took about 18 mins to visit 640 houses on heroku = 38.5 worker hours to visit every for sale house
+#  38.5*0.05 = $2 to visit every house
 
 # looks like 1k properties takes up about 1mb on the disk
 namespace :scrape do
