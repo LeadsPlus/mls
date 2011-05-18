@@ -34,7 +34,7 @@ describe House do
     before(:each) do
       @house = House.create!(@attr)
       @photo1 = Factory :photo, :house => @house
-      @photo2 = Factory :photo, :house => @house
+      @photo2 = Factory :photo, :house => @house, :url => Factory.next(:photo_url)
     end
 
     it "should have a photo attribute" do
@@ -54,18 +54,13 @@ describe House do
   end
 
   describe "validations" do
-    it "should require a title" do
-      no_title_house = @attr.merge(:title => '')
-      House.new(no_title_house).should_not be_valid
-    end
+    it "should require a valid county" do
+      invalid_counties = [-1, 32, '', nil]
 
-    it "should require a valid county" # do
-#      invalid_counties = [-1, 32, '', nil]
-#
-#      invalid_counties.each do |num|
-#        House.new(@attr.merge(:county => num)).should_not be_valid
-#      end
-#    end
+      invalid_counties.each do |num|
+        House.new(@attr.merge(:county => num)).should_not be_valid
+      end
+    end
 
     it "should require a valid daft id" do
       invalid_ids = [0, -1, nil, '']

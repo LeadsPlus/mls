@@ -46,3 +46,7 @@ Factory.define Photo do |photo|
   photo.width 341
   photo.association :house
 end
+
+Factory.sequence :photo_url do |n|
+  "http://mediacache-s3eu.daft.ie/PBZXUNU3DvZJXvZzZ-#{n}-eUvlP3myJN4RVSeNWQrkPJtPWRhZnQmaD00NTA=.jpg"
+end
