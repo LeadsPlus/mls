@@ -9,10 +9,10 @@
       %tr
         %td{ :colspan => 3 }
           %b= house.title
-      %tr
-        %td= "#{house.bedrooms} Bedrooms" unless house.bedrooms.blank?
-        %td= "#{house.bathrooms} Bathrooms" unless house.bathrooms.blank?
-        %td= "Created: #{house.daft_date_entered}" unless house.daft_date_entered.blank?
+      -#%tr
+      -#  %td= "#{house.bedrooms} Bedrooms" unless house.bedrooms.blank?
+      -#  %td= "#{house.bathrooms} Bathrooms" unless house.bathrooms.blank?
+      -#  %td= "Created: #{house.daft_date_entered}" unless house.daft_date_entered.blank?
       %tr
         %td{ :colspan => 3 }= house.description if house.description
       %tr

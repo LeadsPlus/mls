@@ -41,6 +41,8 @@ class DaftHousePage
       addy.text
     end
 
+#  If I start actually setting the description, this will be dangerous because it will set it to ""
+#   in the right circumstances
     def extract_description
       desc = @html.at("#smi_description")
       if desc.nil?
@@ -52,6 +54,9 @@ class DaftHousePage
 #    "Date Entered" changes whenever details on the post are changed
 #     It doesn't seem to have any relevance to when the house was first registered with Daft
     def extract_date
+      if @description.blank?
+        return
+      end
       date_string = @description.match(/\d+\/\d+\/\d+/)[0]
       Date.strptime(date_string, "%d/%m/%Y" )
     end
