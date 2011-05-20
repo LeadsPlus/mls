@@ -42,7 +42,7 @@ def update_default_search
          :min_payment => 800,
          :deposit => 50000,
          :term => 25,
-         :county => "Fermanagh",
+         :county => "Detached, Enniskillen, Co. Fermanagh",
          :lender => 'Any',
          :loan_type => 'Any'
        })
