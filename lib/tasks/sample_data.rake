@@ -4,7 +4,7 @@ namespace :db do
     require 'faker'
     delete_rates
     delete_all_searches
-    delete_all_users
+#    delete_all_users
     make_rates
     create_default_search # has to happen after rates else validation fail
   end
