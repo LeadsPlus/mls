@@ -4,6 +4,11 @@ class DaftHousePage
     @house = house
   end
 
+#  *************
+#  instead of assigning all these variables up here, what you can do instead is
+#  do @property_type ||= extraction_logic in the method
+#  that way it will extract if the instance var doesn't exist yet,
+#  but just return the var if it has already been extracted
   def extract
     @property_type = extract_prop_type
     @address = extract_address

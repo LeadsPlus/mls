@@ -64,10 +64,13 @@ div.search_bar {
     div.search_bar table tr {
       height: 25px; }
     div.search_bar table td.label {
-      width: 160px;
+      width: 145px;
       font-weight: bold; }
-    div.search_bar table td.slider {
-      width: 600px; }
+    div.search_bar table td.fields {
+      width: 115px; }
+    div.search_bar table input#search_county {
+      margin-top: 6px;
+      border: 2px solid #e0e0e0; }
   div.search_bar input[type=text] {
     display: inline;
     border: 0;

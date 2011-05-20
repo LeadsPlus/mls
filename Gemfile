@@ -33,6 +33,7 @@ gem 'pg'
 gem 'delayed_job'
 gem 'hirefire'
 gem 'devise'
+gem 'texticle'
 
 # this should be moved back into dev after I stop faking data in prod
 gem 'faker'

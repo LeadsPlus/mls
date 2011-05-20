@@ -70,12 +70,17 @@ div.search_bar {
     }
 
     td.label {
-      width: 160px;
+      width: 145px;
       font-weight: bold;
     }
 
-    td.slider {
-      width: 600px;
+    td.fields {
+      width: 115px;
+    }
+
+    input#search_county {
+      margin-top: 6px;
+      border: 2px solid $daves_grey;
     }
   }
 

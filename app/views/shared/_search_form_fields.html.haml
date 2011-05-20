@@ -3,21 +3,21 @@
     %tr
       %td.label
         = f.label :deposit, "Deposit (€)"
-      %td
+      %td.fields
         = f.text_field :deposit, :value => search.deposit, :size => 8
       %td.slider
         #deposit-slider
     %tr
       %td.label
         = f.label :term, "Term (years)"
-      %td
+      %td.fields
         = f.text_field :term, :value => search.term, :size => 2
       %td.slider
         #term-slider
     %tr
       %td.label
         Payment Range (€)
-      %td
+      %td.fields
         = f.text_field :min_payment, :value => search.min_payment, :size => 4
         = f.text_field :max_payment, :value => search.max_payment, :size => 4
       %td.slider
@@ -25,10 +25,12 @@
 
     %tr
       %td.label
-        = f.label :county
-      %td
-        = f.select :county, county_choices, :selected => search.county
-      %td= f.submit :Search, :class => "float-right"
+        = f.label :county, "Address"
+      -#%td.fields
+        -#= f.select :county, county_choices, :selected => search.county
+      %td{ colspan: 2 }
+        = f.text_field :county, value: search.county, size: 100
+        = f.submit :Search, :class => "float-right"
 
 %span= link_to 'Mortgage Filter', "#", :class => " collapsed-trigger float-right"
 

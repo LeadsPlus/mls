@@ -6,6 +6,10 @@ class House < ActiveRecord::Base
   paginates_per(10)
   has_many :photos, :dependent => :destroy
 
+  index do
+    daft_title
+  end
+
   def title
     unless address.blank? || property_type.blank?
       return "#{address} - #{property_type}"
@@ -19,6 +23,18 @@ class House < ActiveRecord::Base
 
   def ltv(princ)
     (princ*100)/price
+  end
+
+  def self.cheaper_than price
+    where('houses.price <= ?', price)
+  end
+
+  def self.more_expensive_than price
+    where('houses.price >= ?', price)
+  end
+
+  def self.title_like keyword
+    where("houses.daft_title ILIKE ?", "%#{keyword}%")
   end
 
 #  validates :title, :presence => true

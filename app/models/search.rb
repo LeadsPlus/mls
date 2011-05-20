@@ -17,6 +17,10 @@ class Search < ActiveRecord::Base
     keep_calculating
   end
 
+  def split_county
+    county.split(" ")
+  end
+
 #  by the time validation is finished, I already have everything up as far as get_affordable_mortgages
   def keep_calculating
     find_best_mortgage
@@ -72,12 +76,14 @@ class Search < ActiveRecord::Base
     @min_mortgage = ReverseMortgage.new(@max_mortgage.rate, term, deposit, min_payment).calculate_price
   end
 
+#  potential problems I see with this implementation
+#  One, I don't think it lazy loads, which means that I'm working on an array in memory. Could be problem
+#  
   def matches
     logger.debug "About to start finding matches"
     logger.debug "Details used for finding matches: \n Min. Price: #{min_price} \n"
     logger.debug "Max. Price: #{max_price} \n County: #{county}"
-    House.where("price >= :min AND price <= :max AND county = :county",
-                { :min => min_price, :max => max_price, :county => county })
+    House.search(county).cheaper_than(max_price).more_expensive_than(min_price) #.title_like(county)
   end
 
   validates :max_payment, :presence => true,
@@ -93,8 +99,8 @@ class Search < ActiveRecord::Base
   validates :term, :presence => true,
                    :numericality => { :greater_than => 0, :less_than_or_equal_to => 60, :allow_blank => true }
 
-  validates :county, :presence => true,
-            :inclusion => { :in => COUNTIES }
+  validates :county, :presence => true
+#            :inclusion => { :in => COUNTIES }
 
   validates :loan_type, :vrm_and_initial_length_not_both_set => { :unless => "initial_period_length.blank?" }
   validates :lender, :inclusion => { :in => Array.new(LENDERS) << "Any" }
