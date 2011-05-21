@@ -10,80 +10,68 @@ class Search < ActiveRecord::Base
 
   belongs_to :rate
 
-  before_validation { logger.debug "Validation begins here" }
-
   before_save do
-    logger.debug "About to create"
+    logger.debug "About to save the search"
     keep_calculating
   end
 
-  def split_county
-    county.split(" ")
-  end
-
-#  by the time validation is finished, I already have everything up as far as get_affordable_mortgages
+#  by the time validation is finished, I already have everything up as far as affordable_mortgages
   def keep_calculating
-    find_best_mortgage
-    self.max_price = @max_mortgage.price.to_i
-    self.min_price = calc_min_price.to_i
+    self.max_price = max_mortgage.price.to_i
+    self.min_price = min_mortgage.price.to_i
+    self.rate = max_mortgage.rate
   end
 
-  def set_viable_rates
-    @viable_rates = Rate.scope_by_lender(lender)
+  def viable_rates
+    @viable_rates ||= Rate.scope_by_lender(lender)
                       .scope_by_loan_type(loan_type)
                       .scope_by_initial_period(initial_period_length)
-    logger.debug "Viable rates set. #{@viable_rates.count} viable rates found"
   end
 
 #  If I limit people to preset term lengths, I can pre-calulate average rates, skip the calc_rates_hash
 #  method and only instanciate mortgages for compeditive rates
-  def reject_morts
-    @viable_rates = @viable_rates.group_by{|r| r.min_deposit }
+  def lowest_rates
+    @lowest_rates ||= viable_rates.group_by{|r| r.min_deposit }
                         .map { |min_deposit, rates| rates.min_by(&:twenty_year_apr) }.flatten(1)
-    logger.debug @viable_rates
-    @mortgages = []
-    @viable_rates.each do |rate|
-      @mortgages << ReverseMortgage.new(rate, term, deposit, max_payment)
+  end
+
+  def mortgages
+    unless @mortgages
+      logger.debug "Building the mortgage objects"
+      @mortgages = []
+      lowest_rates.each do |rate|
+        @mortgages << ReverseMortgage.new(rate, term, deposit, max_payment)
+      end
     end
-    logger.debug "Mortgages built"
+    logger.debug "Returning the mortgages"
+    @mortgages
   end
 
   def has_mortgage_conditions?
     logger.debug "Checking if has mortgage conditions"
     loan_type != 'Any' || initial_period_length != nil || lender != "Any"
   end
-  
-  def calc_prices_given_rate
-    @mortgages.each {|m| m.calculate_price }
-    logger.debug "Max prices calculated for each rate."
-  end
 
-  def get_affordable_mortgages
+  def affordable_mortgages
+    logger.debug "Removing unaffordable mortgages"
 #    deletes items for which the block is true
-    @affordable_mortgages = @mortgages.delete_if { |mortgage| mortgage.unaffordable? }
+    @affordable_mortgages ||= mortgages.delete_if { |mortgage| mortgage.unaffordable }
   end
 
-  def find_best_mortgage
-#    now I need to reject all but the one which affords us the largest principal
-#    using select! here is dangerous because it returns nil if no changes were made
-#    this if there is only once affordable choice to begin with, we get returned nil
-    @max_mortgage = @affordable_mortgages.sort! {|a,b| a.price <=> b.price }.pop
-    self.rate = @max_mortgage.rate
-    logger.debug "Determined the best mortgage. #{@max_mortgage.price.truncate()}"
+  def max_mortgage
+    logger.debug "Selecting the mortgage with the max affordable price"
+    @max_mortgage ||= affordable_mortgages.sort! {|a,b| a.price <=> b.price }.pop
   end
   
-  def calc_min_price
-    @min_mortgage = ReverseMortgage.new(@max_mortgage.rate, term, deposit, min_payment).calculate_price
+  def min_mortgage
+    @min_mortgage ||= ReverseMortgage.new(max_mortgage.rate, term, deposit, min_payment)
   end
 
 #  potential problems I see with this implementation
 #  One, I don't think it lazy loads, which means that I'm working on an array in memory. Could be problem
-#  
   def matches
-    logger.debug "About to start finding matches"
-    logger.debug "Details used for finding matches: \n Min. Price: #{min_price} \n"
-    logger.debug "Max. Price: #{max_price} \n County: #{county}"
-    House.search(county).cheaper_than(max_price).more_expensive_than(min_price) #.title_like(county)
+    logger.debug "Finding matches"
+    House.search(county).cheaper_than(max_price).more_expensive_than(min_price)
   end
 
   validates :max_payment, :presence => true,
@@ -117,27 +105,14 @@ class Search < ActiveRecord::Base
 
   def has_some_affordable_prices
     logger.debug "About to check for affordable prices"
-    logger.debug "There are no blank attributes?: #{!anything_blank?}"
-    return if anything_blank? or @viable_rates.size.zero?
-    logger.debug "Validating that there are some affordable prices"
-    errors[:base] << "Deposit is too small to facilitate a mortgage with payments in that range" if no_affordable_mortgages?
-  end
-
-  def no_affordable_mortgages?
-#    @viable_rates already set by previous validation
-#    calc_rates_hash
-    reject_morts
-    calc_prices_given_rate
-    get_affordable_mortgages
-    logger.debug "There are some affordable prices?: #{!@affordable_mortgages.length.zero?}"
-    @affordable_mortgages.length.zero?
+    return if anything_blank? or viable_rates.size.zero?
+    errors[:base] << "Deposit is too small to facilitate a mortgage with payments in that range" if affordable_mortgages.length.zero?
   end
 
   def has_some_viable_rates
     return if anything_blank?
-    set_viable_rates
-    logger.debug "Validating the existance of some viable rates. Valid?: #{!@viable_rates.size.zero?}"
-    errors[:base] << "There are no rates in the system which match those conditions" if @viable_rates.size.zero?
+    logger.debug "Validating the existance of some viable rates. Valid?: #{!viable_rates.size.zero?}"
+    errors[:base] << "There are no rates in the system which match those conditions" if viable_rates.size.zero?
   end
 end
 

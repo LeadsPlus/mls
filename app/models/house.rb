@@ -11,9 +11,9 @@ class House < ActiveRecord::Base
   end
 
   def title
-    unless address.blank? || property_type.blank?
-      return "#{address} - #{property_type}"
-    end
+#    unless address.blank? || property_type.blank?
+#      return "#{address} - #{property_type}"
+#    end
     daft_title
   end
 
@@ -31,10 +31,6 @@ class House < ActiveRecord::Base
 
   def self.more_expensive_than price
     where('houses.price >= ?', price)
-  end
-
-  def self.title_like keyword
-    where("houses.daft_title ILIKE ?", "%#{keyword}%")
   end
 
 #  validates :title, :presence => true

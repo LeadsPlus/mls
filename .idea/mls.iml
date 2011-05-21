@@ -214,6 +214,7 @@
     <orderEntry type="library" scope="PROVIDED" name="[gem] launchy (v0.4.0, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/launchy-0.4.0)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] rush (v0.6.7, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/rush-0.6.7)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] i18n (v0.5.0, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/i18n-0.5.0)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] texticle (v1.0.4.20101004123327, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/texticle-1.0.4.20101004123327)" level="application" />
   </component>
 </module>
 

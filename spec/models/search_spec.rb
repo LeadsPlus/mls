@@ -84,13 +84,13 @@ describe Search do
       end
     end
 
-    describe "of county" do
-      it "should require a county" do
+    describe "of location" do
+      it "should require a location" do
         Search.new(@valid_attr.merge(:county => '')).should_not be_valid
       end
 
-      it "should require a valid county" do
-        Search.new(@valid_attr.merge(:county => 'dfiefijde')).should_not be_valid
+      it "should require a location of reasonable length" do
+        Search.new(@valid_attr.merge(:county => 'a'*255 )).should_not be_valid
       end
     end
 
