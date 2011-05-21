@@ -68,7 +68,7 @@ div.search_bar {
       font-weight: bold; }
     div.search_bar table td.fields {
       width: 115px; }
-    div.search_bar table input#search_county {
+    div.search_bar table input#search_location {
       margin-top: 6px;
       border: 2px solid #e0e0e0; }
   div.search_bar input[type=text] {
