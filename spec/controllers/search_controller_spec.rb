@@ -63,7 +63,7 @@ describe SearchesController do
           :min_payment => 1_000,
           :max_payment => 1_300,
           :term => 30,
-          :county => "Wicklow",
+          :location => "Wicklow",
           :initial_period_length => '',
           :loan_type => 'Any',
           :lender => 'Any'
@@ -89,7 +89,7 @@ describe SearchesController do
           :min_payment => -234,
           :max_payment => '',
           :term => '',
-          :county => '',
+          :location => '',
           :initial_period_length => '',
           :loan_type => 'Any',
           :lender => 'Any'

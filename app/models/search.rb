@@ -4,7 +4,7 @@ require 'custom_validators/vrm_and_initial_length_not_both_set_validator'
 # what if non-logged in users keep editing the same search but logged in users keep creating new ones
 
 class Search < ActiveRecord::Base
-  attr_accessible :min_payment, :max_payment, :deposit, :term, :county,
+  attr_accessible :min_payment, :max_payment, :deposit, :term, :location,
                   :loan_type, :initial_period_length, :lender, :max_price, :min_price
   attr_reader :viable_rates
 
@@ -38,29 +38,28 @@ class Search < ActiveRecord::Base
 #  One, I don't think it lazy loads, which means that I'm working on an array in memory. Could be problem
   def matches
     logger.debug "Finding matches"
-    House.search(county).cheaper_than(max_price).more_expensive_than(min_price)
+    House.search(location).cheaper_than(max_price).more_expensive_than(min_price)
   end
 
   validates :max_payment, :presence => true,
-                          :numericality => { :greater_than => 0, :allow_blank => true },
-                          :ample_max_payment => { :unless => :anything_blank? }
+                          :numericality => { greater_than: 0, allow_blank: true },
+                          :ample_max_payment => { unless: :anything_blank? }
 
   validates :min_payment, :presence => true,
-                          :numericality => { :greater_than => 0, :allow_blank => true }
+                          :numericality => { greater_than: 0, allow_blank: true }
 
   validates :deposit, :presence => true,
-                      :numericality => { :greater_than => 0, :allow_blank => true }
+                      :numericality => { greater_than: 0, allow_blank: true }
 
   validates :term, :presence => true,
-                   :numericality => { :greater_than => 0, :less_than_or_equal_to => 60, :allow_blank => true }
+                   :numericality => { greater_than: 0, less_than_or_equal_to: 60, allow_blank: true }
 
-  validates :county, :presence => true
-#            :inclusion => { :in => COUNTIES }
+  validates :location, presence: true, length: { maximum: 254, minimum: 1, allow_blank: true }
 
-  validates :loan_type, :vrm_and_initial_length_not_both_set => { :unless => "initial_period_length.blank?" }
+  validates :loan_type, :vrm_and_initial_length_not_both_set => { unless: "initial_period_length.blank?" }
   validates :lender, :inclusion => { :in => Array.new(LENDERS) << "Any" }
   validates :loan_type, :inclusion => { :in => Array.new(LOAN_TYPES) << "Any" }
-  validates :initial_period_length, :numericality => { :within => 0..100, :allow_nil => true, :allow_blank => true }
+  validates :initial_period_length, :numericality => { within: 0..100, allow_nil: true, allow_blank: true }
 
 #  #  as far as I can tell, 'validate xyz' validations always happen before 'validates xyz' validations
 #  @viable rates is built in 'has_some_viable_rates' and can then be used in 'has_some_affordable_prices'
@@ -100,7 +99,7 @@ end
 #  deposit               :integer
 #  created_at            :datetime
 #  updated_at            :datetime
-#  county                :string(255)
+#  location                :string(255)
 #  min_payment           :integer
 #  term                  :integer
 #  loan_type             :string(255)

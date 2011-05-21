@@ -28,7 +28,7 @@ class SearchesController < ApplicationController
                           :max_payment => 1200,
                           :term => 25,
                           :deposit => 50000,
-                          :county => "Fermanagh",
+                          :location => "Fermanagh",
                           :lender => 'Any',
                           :loan_type => 'Any', :initial_period_length => 0)
   end

@@ -12,7 +12,7 @@ describe Search do
           :max_payment => 1200,
           :term => 25,
           :deposit => 50000,
-          :county => "Fermanagh",
+          :location => "Fermanagh",
           :lender => 'Any',
           :loan_type => 'Any',
           :initial_period_length => ''
@@ -86,11 +86,12 @@ describe Search do
 
     describe "of location" do
       it "should require a location" do
-        Search.new(@valid_attr.merge(:county => '')).should_not be_valid
+        Search.new(@valid_attr.merge(:location => '')).should_not be_valid
       end
 
       it "should require a location of reasonable length" do
-        Search.new(@valid_attr.merge(:county => 'a'*255 )).should_not be_valid
+        long_location = "a" * 256
+        Search.new(@valid_attr.merge(:location => long_location )).should_not be_valid
       end
     end
 
@@ -157,6 +158,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: searches
@@ -166,7 +168,7 @@ end
 #  deposit               :integer
 #  created_at            :datetime
 #  updated_at            :datetime
-#  county                :string(255)
+#  location              :string(255)
 #  min_payment           :integer
 #  term                  :integer
 #  loan_type             :string(255)

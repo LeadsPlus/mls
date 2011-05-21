@@ -25,11 +25,9 @@
 
     %tr
       %td.label
-        = f.label :county, "Location"
-      -#%td.fields
-        -#= f.select :county, county_choices, :selected => search.county
+        = f.label :location
       %td{ colspan: 2 }
-        = f.text_field :county, value: search.county, size: 100
+        = f.text_field :location, value: search.location, size: 100
         = f.submit :Search, :class => "float-right"
 
 %span= link_to 'Mortgage Filter', "#", :class => " collapsed-trigger float-right"

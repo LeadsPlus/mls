@@ -33,8 +33,6 @@ class House < ActiveRecord::Base
     where('houses.price >= ?', price)
   end
 
-#  validates :title, :presence => true
-
   validates :county, :presence => true,
       :inclusion => { :in => COUNTIES }
 
