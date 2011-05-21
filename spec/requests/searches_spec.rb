@@ -26,7 +26,6 @@ describe "Searches" do
       end
 
       it "should show the rate we're using" do
-        save_and_open_page
         page.should have_selector("tr.rate")
       end
 

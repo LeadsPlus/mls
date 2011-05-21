@@ -15,56 +15,23 @@ class Search < ActiveRecord::Base
     keep_calculating
   end
 
-#  by the time validation is finished, I already have everything up as far as affordable_mortgages
+#  I think there's a way I can put these calcs in the reader methods for the attributes
+#  so that if they're present in the DB we read from there
+#  but if we're saving, it will calc them
   def keep_calculating
-    self.max_price = max_mortgage.price.to_i
-    self.min_price = min_mortgage.price.to_i
-    self.rate = max_mortgage.rate
+    self.max_price = broker.max_mortgage.price.to_i
+    self.min_price = broker.min_mortgage.price.to_i
+    self.rate = broker.max_mortgage.rate
   end
 
-  def viable_rates
-    @viable_rates ||= Rate.scope_by_lender(lender)
-                      .scope_by_loan_type(loan_type)
-                      .scope_by_initial_period(initial_period_length)
+#  maybe I just pass in the Search object instead?
+  def broker
+    @broker ||= MortgageBroker.new(term, deposit, max_payment, min_payment, lender, loan_type, initial_period_length)
   end
-
-#  If I limit people to preset term lengths, I can pre-calulate average rates, skip the calc_rates_hash
-#  method and only instanciate mortgages for compeditive rates
-  def lowest_rates
-    @lowest_rates ||= viable_rates.group_by{|r| r.min_deposit }
-                        .map { |min_deposit, rates| rates.min_by(&:twenty_year_apr) }.flatten(1)
-  end
-
-  def mortgages
-    unless @mortgages
-      logger.debug "Building the mortgage objects"
-      @mortgages = []
-      lowest_rates.each do |rate|
-        @mortgages << ReverseMortgage.new(rate, term, deposit, max_payment)
-      end
-    end
-    logger.debug "Returning the mortgages"
-    @mortgages
-  end
-
+  
   def has_mortgage_conditions?
     logger.debug "Checking if has mortgage conditions"
     loan_type != 'Any' || initial_period_length != nil || lender != "Any"
-  end
-
-  def affordable_mortgages
-    logger.debug "Removing unaffordable mortgages"
-#    deletes items for which the block is true
-    @affordable_mortgages ||= mortgages.delete_if { |mortgage| mortgage.unaffordable }
-  end
-
-  def max_mortgage
-    logger.debug "Selecting the mortgage with the max affordable price"
-    @max_mortgage ||= affordable_mortgages.sort! {|a,b| a.price <=> b.price }.pop
-  end
-  
-  def min_mortgage
-    @min_mortgage ||= ReverseMortgage.new(max_mortgage.rate, term, deposit, min_payment)
   end
 
 #  potential problems I see with this implementation
@@ -104,15 +71,20 @@ class Search < ActiveRecord::Base
   end
 
   def has_some_affordable_prices
-    logger.debug "About to check for affordable prices"
-    return if anything_blank? or viable_rates.size.zero?
-    errors[:base] << "Deposit is too small to facilitate a mortgage with payments in that range" if affordable_mortgages.length.zero?
+    logger.debug "Checking for affordable prices"
+    return if anything_blank? or broker.has_no_viable_rates?
+#    we have an problem if the mortgage broker has no affordable mortgages for us
+    unless broker.has_affordable_mortgages?
+      errors[:base] << "Deposit is too small to facilitate a mortgage with payments in that range"
+    end
   end
 
   def has_some_viable_rates
     return if anything_blank?
-    logger.debug "Validating the existance of some viable rates. Valid?: #{!viable_rates.size.zero?}"
-    errors[:base] << "There are no rates in the system which match those conditions" if viable_rates.size.zero?
+    logger.debug "Checking for viable rates"
+    unless broker.has_viable_rates?
+      errors[:base] << "There are no rates in the system which match those conditions"
+    end
   end
 end
 

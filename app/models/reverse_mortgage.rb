@@ -26,10 +26,6 @@ class ReverseMortgage
     @unaffordable ||= @rate.min_deposit > @users_deposit*100/price
   end
 
-  def calc_pmt_at(price)
-    @pmt ||= effective_rate / ((1+effective_rate)**(@term*12)-1) * -((price-@users_deposit)*((1+effective_rate)**(@term*12)))
-  end
-
   def to_s
     unless @string
       @string = "APR: #{@apr}, Effective Rate: #{effective_rate.truncate(6)}, "
