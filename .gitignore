@@ -5,6 +5,7 @@ tmp/
 doc/
 *.swp
 *~
+webrat.log
 .project
 
 # weird mac project file

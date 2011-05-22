@@ -2,7 +2,8 @@
   = link_to "HowMuchHouse.net", root_path
 %span.nav
   - if user_signed_in?
-    = current_user.email
+    = link_to "Profile", user_path(current_user)
+    |
     = link_to "Sign Out", destroy_user_session_path
   - else
     = link_to "Sign In", new_user_session_path

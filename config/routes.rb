@@ -1,15 +1,10 @@
 Mls::Application.routes.draw do
-  get "users/show"
-
-  get "users/index"
-
   devise_for :users
   resources :users, :only => [ :show, :index ]
 
   get "pages/user_agreement"
 
   resources :rates
-
   resources :houses
 
   # The priority is based upon order of creation:
@@ -18,7 +13,6 @@ Mls::Application.routes.draw do
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
-  match 'user_agreement' => 'pages#user_agreement'
 
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase

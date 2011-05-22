@@ -11,12 +11,12 @@ describe "Searches" do
       visit(root_path)
       click_link "User Agreement"
 
-      page.current_path.should == user_agreement_path
+      page.current_path.should == pages_user_agreement_path
       page.should have_content("AGREEMENT BETWEEN USER AND HowMuchHouse.net")
     end
 
     it "should have link to get off holy wall of text" do
-      visit user_agreement_path
+      visit pages_user_agreement_path
       click_link "Home"
       page.current_path.should == root_path
     end
