@@ -4,9 +4,10 @@
   %head
     %title How Much House
     = render "layouts/fb_meta_tags"
-    = javascript_include_tag :defaults, 'fancybox.pack'
-    = stylesheet_link_tag 'styles', 'fancybox'
-    = stylesheet_link_tag 'smoothness/jquery-ui'
+    = javascript_include_tag :application
+    -#= stylesheet_link_tag 'sets/stylesheets/styles', 'sets/stylesheets/fancybox'
+    -#= stylesheet_link_tag 'smoothness/jquery-ui'
+    = stylesheet_link_tag :application
     -#%script{ :src => "http://platform.twitter.com/widgets.js" }
     = csrf_meta_tag
   %body

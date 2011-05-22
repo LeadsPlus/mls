@@ -30,13 +30,24 @@ module Mls
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
+    # Javascript expansions are ignored altogether if the asset pipeline is enabled below
     # JavaScript files you want as :defaults (application.js is always included).
-    config.action_view.javascript_expansions[:defaults] = %w(jquery.min jquery-ui.min rails analytics)
+    # config.action_view.javascript_expansions[:defaults] = %w()
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+
+    # Enable IdentityMap for ActiveRecord, to disable set to false or remove
+    config.active_record.identity_map = true
+
+    # Ryans Bates hack in case Identity Map doesn't work with just the code above
+    ActiveRecord::IdentityMap.enabled = true
+
+    # Enable the asset pipeline
+    # Put default javascripts in app/assets/javascripts/application.js
+    config.assets.enabled = true
   end
 end

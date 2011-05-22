@@ -11,7 +11,9 @@ Mls::Application.configure do
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
-  config.action_view.debug_rjs             = true
+#  set this to true when updating to rails 3.1.0.rc1 because of error:
+#  /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/actionpack-3.1.0.rc1/lib/action_view/railtie.rb:34:in `block (3 levels) in <class:Railtie>': undefined method `debug_rjs=' for ActionView::Base:Class (NoMethodError)
+#  config.action_view.debug_rjs             = true
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send

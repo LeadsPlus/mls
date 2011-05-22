@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.7'
+gem 'rails', '3.1.0.rc1'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -19,13 +19,16 @@ gem 'rails', '3.0.7'
 
 # Bundle the extra gems:
 # gem 'bj'
-# gem 'nokogiri'
-# gem 'sqlite3'
 # gem 'aws-s3', :require => 'aws/s3'
 
+# template engines
 gem 'haml'
 gem 'sass'
-gem 'jquery-rails'
+gem 'coffee-script'
+gem 'uglifier'
+
+
+gem 'jquery-rails', :git => 'http://github.com/indirect/jquery-rails.git'
 gem 'kaminari'
 gem 'nokogiri'
 gem 'mechanize'
@@ -59,5 +62,4 @@ group :test do
   gem "launchy"
   gem 'factory_girl_rails'
   gem 'fakeweb'
-#  gem 'turn', :require => false # nicer test output
 end
