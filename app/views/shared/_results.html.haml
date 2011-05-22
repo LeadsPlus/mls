@@ -1,0 +1,11 @@
+.sorting_options= sortable "price"
+%div
+  - if @matches.any?
+    %table
+      %tbody
+        = render :partial => 'shared/house', :collection => @matches
+
+    = paginate @matches
+
+  - else
+    We're sorry but no houses match that search

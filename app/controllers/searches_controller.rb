@@ -14,16 +14,17 @@ class SearchesController < ApplicationController
 
   def show
     @search = Search.find params[:id]
-
-#    if there is no sorting cookie, set one with defaults
-#    if we call the show action with params, use them to change the cookie values
-#    reload the show with the cookie values controlling order
-
     @all_matches = @search.matches.order(sort_column + " " + sort_direction)
     @matches = @all_matches.page(params[:page])
     @rate = @search.rate
 
     add_search_bar
+
+    respond_to do |format|
+      format.html
+      format.xml { render :xml => @matches }
+      format.js
+    end
   end
 
   def new

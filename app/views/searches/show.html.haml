@@ -13,15 +13,4 @@
         = render "shared/compact_rate", :rate => @rate
     = link_to "View all the rates", rates_path, :class => "float-right"
   
-#results
-  .sorting_options= sortable "price"
-  %div
-    - if @matches.any?
-      %table
-        %tbody
-          = render :partial => 'shared/house', :collection => @matches
-
-      = paginate @matches
-
-    - else
-      We're sorry but no houses match that search
+#results= render partial: "shared/results"
