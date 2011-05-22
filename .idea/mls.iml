@@ -193,26 +193,26 @@
     <orderEntry type="library" scope="PROVIDED" name="[gem] actionmailer (v3.1.0.rc1, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/actionmailer-3.1.0.rc1)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] actionpack (v3.1.0.rc1, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/actionpack-3.1.0.rc1)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] activesupport (v3.1.0.rc1, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/activesupport-3.1.0.rc1)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] multi_json (v1.0.2, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/multi_json-1.0.2)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] coffee-script-source (v1.1.1, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/coffee-script-source-1.1.1)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] coffee-script (v2.2.0, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/coffee-script-2.2.0)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] execjs (v1.0.0, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/execjs-1.0.0)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] faker (v0.9.5, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/faker-0.9.5)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] therubyracer-heroku (v0.8.1.pre3, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/therubyracer-heroku-0.8.1.pre3)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] annotate (v2.4.0, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/annotate-2.4.0)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] rspec-rails (v2.6.0, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/rspec-rails-2.6.0)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] mechanize (v1.0.0, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/mechanize-1.0.0)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] jquery-rails (vJquery::Rails::VERSION, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/bundler/gems/jquery-rails-3a8007fc5cf6)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] hirb (v0.4.5, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/hirb-0.4.5)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] webrat (v0.7.3, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/webrat-0.7.3)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] factory_girl_rails (v1.0.1, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/factory_girl_rails-1.0.1)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] faker (v0.9.5, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/faker-0.9.5)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] sass (v3.1.1, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/sass-3.1.1)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] capybara (v1.0.0.beta1, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/bundler/gems/capybara-9cdf015e2863)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] mechanize (v1.0.0, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/mechanize-1.0.0)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] delayed_job (v2.1.4, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/delayed_job-2.1.4)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] uglifier (v0.5.4, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/uglifier-0.5.4)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] hirb (v0.4.5, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/hirb-0.4.5)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] jquery-rails (vJquery::Rails::VERSION, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/bundler/gems/jquery-rails-3a8007fc5cf6)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] hirefire (vHireFire::Version.current, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/hirefire-0.1.3)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] launchy (v0.4.0, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/launchy-0.4.0)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] kaminari (v0.12.4, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/kaminari-0.12.4)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] webrat (v0.7.3, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/webrat-0.7.3)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] haml (v3.1.1, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/haml-3.1.1)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] factory_girl_rails (v1.0.1, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/factory_girl_rails-1.0.1)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] configuration (v1.2.0, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/configuration-1.2.0)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] hike (v1.0.0, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/hike-1.0.0)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] rack-ssl (v1.3.2, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/rack-ssl-1.3.2)" level="application" />
@@ -233,6 +233,7 @@
     <orderEntry type="library" scope="PROVIDED" name="[gem] activemodel (v3.1.0.rc1, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/activemodel-3.1.0.rc1)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] heroku (v2.0.5, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/heroku-2.0.5)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] factory_girl (v1.3.3, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/factory_girl-1.3.3)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] multi_json (v1.0.2, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/multi_json-1.0.2)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] rack-cache (v1.0.2, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/rack-cache-1.0.2)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] childprocess (vChildProcess::VERSION, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/childprocess-0.1.9)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] ffi (v1.0.9, /Users/davidtuite/.rvm/gems/ruby-1.9.2-head@mls_gems/gems/ffi-1.0.9)" level="application" />

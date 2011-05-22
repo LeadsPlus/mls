@@ -28,7 +28,7 @@ gem 'coffee-script'
 gem 'uglifier'
 
 
-gem 'jquery-rails', :git => 'http://github.com/indirect/jquery-rails.git'
+gem 'jquery-rails', :git => 'https://github.com/indirect/jquery-rails.git'
 gem 'kaminari'
 gem 'nokogiri'
 gem 'mechanize'
