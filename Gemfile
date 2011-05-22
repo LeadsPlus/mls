@@ -25,7 +25,7 @@ gem 'rails', '3.1.0.rc1'
 gem 'haml'
 gem 'sass'
 gem 'coffee-script'
-#gem 'uglifier'
+gem 'uglifier'
 
 
 gem 'jquery-rails', :git => 'http://github.com/indirect/jquery-rails.git'
@@ -44,9 +44,10 @@ gem 'faker'
 # have this one outside dev so that I can use hirb on heroku console
 gem 'hirb'
 
-# Bundle gems for the local environment. Make sure to
-# put test-only gems in this group so their generators
-# and rake tasks are available in development mode:
+group :production do
+  gem 'therubyracer-heroku', '0.8.1.pre3'
+end
+
 group :development do
   gem 'rspec-rails'
   gem 'annotate'
