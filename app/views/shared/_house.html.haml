@@ -20,7 +20,7 @@
 
         - if @search
           - mort = Mortgage.new(@rate, @search.term, @search.deposit, house.price)
-          %td= "Actual Monthly Payment Required: #{number_to_currency(-mort.pmt, :unit => '€')}"
+          %td= "Required Payments: #{number_to_currency(-mort.pmt, :unit => '€')}"
         
         %td= link_to "View on Daft.ie", house.daft_url
         %td= link_to 'Show', house

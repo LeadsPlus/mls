@@ -2,7 +2,7 @@ class House < ActiveRecord::Base
   attr_accessible :price, :description, :county, :image_url, :daft_id,
                   :property_type, :daft_title, :daft_date_entered, :bedrooms,
                   :bathrooms, :address
-  default_scope order("#{table_name}.price desc")
+  
   paginates_per(10)
   has_many :photos, :dependent => :destroy
 

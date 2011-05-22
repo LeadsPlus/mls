@@ -97,6 +97,15 @@ div#mortgage_details {
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px; }
 
+div.sorting_options .current {
+  padding-right: 12px;
+  background-repeat: no-repeat;
+  background-position: right center; }
+div.sorting_options .asc {
+  background-image: url("/images/up_arrow.gif"); }
+div.sorting_options .desc {
+  background-image: url("/images/down_arrow.gif"); }
+
 tr.house td.bottom {
   padding-bottom: 20px; }
 

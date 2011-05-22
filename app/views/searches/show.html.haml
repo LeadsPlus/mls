@@ -14,6 +14,7 @@
     = link_to "View all the rates", rates_path, :class => "float-right"
   
 #results
+  .sorting_options= sortable "price"
   %div
     - if @matches.any?
       %table

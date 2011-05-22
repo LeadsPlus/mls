@@ -1,5 +1,7 @@
 class SearchesController < ApplicationController
   before_filter :authenticate_user!, :only => [ :index ]
+#  so that we can access these methods in the view layer
+  helper_method :sort_column, :sort_direction
 
   def index
     @searches = Search.page(params[:page]).per(50)
@@ -11,10 +13,9 @@ class SearchesController < ApplicationController
   end
 
   def show
-    logger.debug "about to retrieve the search"
     @search = Search.find params[:id]
-    logger.debug "about to retrieve the matches"
-    @all_matches = @search.matches
+
+    @all_matches = @search.matches.order(sort_column + " " + sort_direction)
     @matches = @all_matches.page(params[:page])
     @rate = @search.rate
 
@@ -46,5 +47,18 @@ class SearchesController < ApplicationController
   private
     def add_search_bar
       @search_form = true
+    end
+
+#   set defaults for the sorting params for when they're not in the url
+    def sort_column
+#      I'm going to have to retreive the default sort column from a cookie or from seesion
+#      to allow it to persist from page to page
+#      perhaps a gem can do this for me instead?
+      House.column_names.include?(params[:sort]) ? params[:sort] : "price"
+    end
+
+    def sort_direction
+#     sanitize the direction parameter to prevent SQL inj
+      %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
     end
 end
