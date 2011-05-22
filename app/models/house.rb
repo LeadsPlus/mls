@@ -2,6 +2,7 @@ class House < ActiveRecord::Base
   attr_accessible :price, :description, :county, :image_url, :daft_id,
                   :property_type, :daft_title, :daft_date_entered, :bedrooms,
                   :bathrooms, :address
+  attr_reader :payment_required
   
   paginates_per(10)
   has_many :photos, :dependent => :destroy
@@ -31,6 +32,10 @@ class House < ActiveRecord::Base
 
   def self.more_expensive_than price
     where('houses.price >= ?', price)
+  end
+
+  def calc_payment_required_assuming rate, term, users_deposit
+    @payment_required ||= Mortgage.new(rate, term, users_deposit, self.price).payment_required
   end
 
   validates :county, :presence => true,

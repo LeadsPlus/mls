@@ -1,25 +1,17 @@
-class Mortgage
-  attr_accessor :rate, :term
-  attr_reader :apr, :pmt
+class Mortgage < FinancialProduct
+  attr_reader :payment, :total_paid
 
   def initialize(rate, term, users_deposit, price)
-    @rate = rate # rate object
-    @term = term
+    super(rate, term, users_deposit)
     @price = price
-    @users_deposit = users_deposit
-    @apr = @rate.twenty_year_apr
   end
 
-  def effective_rate
-    @effective_rate ||= @apr/1200
-  end
-
-  def pmt
-    @pmt ||= effective_rate / ((1+effective_rate)**(@term*12)-1) * -((@price-@users_deposit)*((1+effective_rate)**(@term*12)))
+  def payment_required
+    @payment ||= effective_rate / ((1+effective_rate)**(@term*12)-1) * -((@price-@users_deposit)*((1+effective_rate)**(@term*12)))
   end
 
   def total_paid
-    @total_paid ||= @term*12*pmt
+    @total_paid ||= @term*12*payment_required
   end
 
   def to_s

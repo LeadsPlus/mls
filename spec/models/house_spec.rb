@@ -16,6 +16,18 @@ describe House do
     House.create!(@attr)
   end
 
+  describe "payment_required_assuming method" do
+    before(:each) do
+      @house = House.create! @attr
+    end
+
+    it "should exist" do
+      @house.should respond_to :calc_payment_required_assuming
+    end
+
+#    the function of this method is already tested in the mortgage class tests
+  end
+
   describe "daft url method" do
     before(:each) do
       @house = House.create!(@attr)

@@ -1,25 +1,21 @@
-class ReverseMortgage
-  attr_accessor :rate, :term, :unaffordable
-  attr_reader :price, :apr
+class ReverseMortgage < FinancialProduct
+  attr_reader :price, :total_paid, :unaffordable
 
-  def initialize(rate, term, users_deposit, payment=0)
-    @rate = rate # rate object
-    @term = term
-    @users_deposit = users_deposit
+  def initialize(rate, term, users_deposit, payment)
+    super(rate, term, users_deposit)
     @users_payment = payment
-    @apr = @rate.twenty_year_apr
   end
 
   def price
     @price ||= principal + @users_deposit
   end
 
-  def effective_rate
-    @effective_rate ||= @apr/1200
-  end
-
   def principal
     @principal ||= (@users_payment/effective_rate)*(1-(1+effective_rate)**-(@term*12))
+  end
+
+  def total_paid
+    @total_paid ||= BigDecimal.new(@users_payment.to_s, 0)*@term*12
   end
 
   def unaffordable?
