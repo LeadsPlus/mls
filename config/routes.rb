@@ -1,5 +1,10 @@
 Mls::Application.routes.draw do
+  get "users/show"
+
+  get "users/index"
+
   devise_for :users
+  resources :users, :only => [ :show, :index ]
 
   get "pages/user_agreement"
 

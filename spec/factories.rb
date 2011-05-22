@@ -40,6 +40,10 @@ Factory.define User do |user|
   user.password_confirmation "foobar"
 end
 
+Factory.sequence :email do |n|
+  "example-#{n}@example.com"
+end
+
 Factory.define Photo do |photo|
   photo.url "http://mediacache-s3eu.daft.ie/PBZXUNU3DvZJXvZzZ-TD-eUvlP3myJN4RVSeNWQrkPJtPWRhZnQmaD00NTA=.jpg"
   photo.height 450

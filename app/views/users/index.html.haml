@@ -1,0 +1,8 @@
+%h1 Listing Users
+%table.data
+  %tbody
+  - @users.each do |user|
+    %tr
+      %td= link_to user.email, user_path(user)
+
+= paginate @users
