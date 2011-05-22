@@ -25,7 +25,7 @@ gem 'rails', '3.1.0.rc1'
 gem 'haml'
 gem 'sass'
 gem 'coffee-script'
-gem 'uglifier'
+#gem 'uglifier'
 
 
 gem 'jquery-rails', :git => 'http://github.com/indirect/jquery-rails.git'

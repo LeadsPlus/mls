@@ -1044,3 +1044,15 @@ REQUESTING PAGE: POST /searches with {"utf8"=>"✓", "search"=>{"deposit"=>"5000
 REQUESTING PAGE: GET http://www.example.com/searches/20 with {} and HTTP headers {"HTTP_REFERER"=>"/searches"}
 REQUESTING PAGE: GET / with {} and HTTP headers {}
 REQUESTING PAGE: GET / with {} and HTTP headers {}
+REQUESTING PAGE: GET / with {} and HTTP headers {}
+REQUESTING PAGE: GET /pages/user_agreement with {} and HTTP headers {"HTTP_REFERER"=>"/"}
+REQUESTING PAGE: GET /pages/user_agreement with {} and HTTP headers {}
+REQUESTING PAGE: GET / with {} and HTTP headers {"HTTP_REFERER"=>"/pages/user_agreement"}
+REQUESTING PAGE: GET / with {} and HTTP headers {}
+REQUESTING PAGE: POST /searches with {"utf8"=>"✓", "search"=>{"deposit"=>"50000", "term"=>"30", "min_payment"=>"700", "max_payment"=>"1200", "location"=>"Mountain View, Wicklow", "lender"=>"Any", "loan_type"=>"Any", "initial_period_length"=>""}, "commit"=>"Search"} and HTTP headers {"HTTP_REFERER"=>"/"}
+REQUESTING PAGE: GET http://www.example.com/searches/29 with {} and HTTP headers {"HTTP_REFERER"=>"/searches"}
+REQUESTING PAGE: GET / with {} and HTTP headers {}
+REQUESTING PAGE: POST /searches with {"utf8"=>"✓", "search"=>{"deposit"=>"50000", "term"=>"30", "min_payment"=>"700", "max_payment"=>"1200", "location"=>"Mountain View, Wicklow", "lender"=>"Any", "loan_type"=>"Any", "initial_period_length"=>""}, "commit"=>"Search"} and HTTP headers {"HTTP_REFERER"=>"/"}
+REQUESTING PAGE: GET http://www.example.com/searches/30 with {} and HTTP headers {"HTTP_REFERER"=>"/searches"}
+REQUESTING PAGE: GET / with {} and HTTP headers {}
+REQUESTING PAGE: GET / with {} and HTTP headers {}
