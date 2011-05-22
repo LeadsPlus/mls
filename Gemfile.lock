@@ -11,7 +11,7 @@ GIT
       xpath (~> 0.1.4)
 
 GIT
-  remote: http://github.com/indirect/jquery-rails.git
+  remote: https://github.com/indirect/jquery-rails.git
   revision: 3a8007fc5cf6019e56d37af5675ba4e78aee239a
   specs:
     jquery-rails (1.0.7)
