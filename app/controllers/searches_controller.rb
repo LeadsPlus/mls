@@ -15,6 +15,10 @@ class SearchesController < ApplicationController
   def show
     @search = Search.find params[:id]
 
+#    if there is no sorting cookie, set one with defaults
+#    if we call the show action with params, use them to change the cookie values
+#    reload the show with the cookie values controlling order
+
     @all_matches = @search.matches.order(sort_column + " " + sort_direction)
     @matches = @all_matches.page(params[:page])
     @rate = @search.rate
@@ -50,15 +54,28 @@ class SearchesController < ApplicationController
     end
 
 #   set defaults for the sorting params for when they're not in the url
+#   also, if the user sets default sorting options, store them in a cookie so they persist
+#   between searches.
     def sort_column
-#      I'm going to have to retreive the default sort column from a cookie or from seesion
-#      to allow it to persist from page to page
-#      perhaps a gem can do this for me instead?
-      House.column_names.include?(params[:sort]) ? params[:sort] : "price"
+#     sanitize the direction parameter to prevent SQL inj
+      if params[:sort] && House.column_names.include?(params[:sort])
+        cookies[:sort] = { value: params[:sort], expires: 1.year.from_now } unless cookies[:sort] == params[:sort]
+        cookies[:sort]
+      elsif cookies[:sort]
+        cookies[:sort]
+      else
+        'price'
+      end
     end
 
     def sort_direction
-#     sanitize the direction parameter to prevent SQL inj
-      %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
+      if params[:direction] && %w[asc desc].include?(params[:direction])
+        cookies[:direction] = { value: params[:direction], expires: 1.year.from_now } unless cookies[:direction] == params[:direction]
+        cookies[:direction]
+      elsif cookies[:direction]
+        cookies[:direction]
+      else
+        'desc'
+      end
     end
 end
