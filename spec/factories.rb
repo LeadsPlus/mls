@@ -11,7 +11,7 @@ Factory.define House do |house|
   house.property_type "Semi-Detached House"
   house.bathrooms 4
   house.bedrooms 5
-  house.daft_date_entered Date.civil(2011, rand(5) + 1, rand(31) + 1)
+  house.daft_date_entered Date.civil(2011, (rand(4) + 1), (rand(30) + 1))
 end
 
 Factory.define Search do |search|
