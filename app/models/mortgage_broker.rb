@@ -51,7 +51,7 @@ class MortgageBroker
   def affordable_mortgages
     Rails.logger.debug "Returning or Removing unaffordable mortgages"
 #    deletes items for which the block is true
-    @affordable_mortgages ||= mortgages.delete_if { |mortgage| mortgage.unaffordable }
+    @affordable_mortgages ||= mortgages.delete_if { |mortgage| mortgage.unaffordable? }
   end
 
   def has_affordable_mortgages?

@@ -1,5 +1,5 @@
 class ReverseMortgage < FinancialProduct
-  attr_reader :price, :total_paid, :unaffordable
+  attr_reader :price, :total_paid
 
   def initialize(rate, term, users_deposit, payment)
     super(rate, term, users_deposit)
@@ -18,8 +18,9 @@ class ReverseMortgage < FinancialProduct
     @total_paid ||= BigDecimal.new(@users_payment.to_s, 0)*@term*12
   end
 
+#  doing @unaffordable ||= xyz is not a good idea. See eloquent ruby.
   def unaffordable?
-    @unaffordable ||= @rate.min_deposit > @users_deposit*100/price
+    @rate.min_deposit > @users_deposit*100/price
   end
 
   def to_s

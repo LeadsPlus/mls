@@ -40,7 +40,9 @@
         %td.label= f.label :lender
         %td= f.select :lender, lender_options, :selected => search.lender
         %td.label= f.label :loan_type
-        -# It might be best to consolidate IPL into loan type: variable rate, 1 year fixed rate, ..
+        -#It might be best to consolidate IPL into loan type: variable rate, 1 year fixed rate, ..
+        -#Selection of lender etc. would be much better if you could select multiple options at once
+        -#eg. "Using variable rate loans by BOI and AIB only"
         %td= f.select :loan_type, loan_type_options, :selected => search.loan_type
         %td.label= f.label :initial_period_length
         %td= f.select :initial_period_length, initial_period_length_options, :selected => search.initial_period_length
