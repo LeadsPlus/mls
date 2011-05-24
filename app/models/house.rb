@@ -1,3 +1,5 @@
+BasicObject.new()
+
 class House < ActiveRecord::Base
   attr_accessible :price, :description, :county, :image_url, :daft_id,
                   :property_type, :daft_title, :daft_date_entered, :bedrooms,

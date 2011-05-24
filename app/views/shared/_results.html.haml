@@ -1,10 +1,9 @@
-.sorting_options.float-right= sortable "price", "Required Payments"
-.spacer
-%div
+.results_menu.clear
+  = sortable "price", "Required Payments"
+%div.clear
   - if @matches.any?
-    %table
-      %tbody
-        = render :partial => 'shared/house', :collection => @matches
+    %ul
+      = render :partial => 'shared/house/house', :collection => @matches
 
     = paginate @matches
 

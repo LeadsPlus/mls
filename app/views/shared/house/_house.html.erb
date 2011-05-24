@@ -1,0 +1,23 @@
+<li class="listing" id="house_<%= house.id %>">
+	<%= image_tag house.image_url, size: '160x120' %>
+	<div class="house_details">
+		<h3><%= house.title %></h3>
+		<p><%= house.description if house.description %></p>
+	</div>
+	<div class="summary">
+    <span class="price">
+      <%= number_to_currency(house.price, unit: '€', precision: 0) %>
+    </span>
+    <span class="payment_frequency">/ month</span>
+    <ul>
+      <li><b>Bedrooms:</b> <%= house.bedrooms %></li>
+      <li><b>Bathrooms:</b> <%= house.bathrooms %></li>
+    </ul>
+    <div class="spacer"></div>
+    <%= link_to "Contact Owner", house.daft_url, class: "button daft_btn corners" %>
+    <%= link_to "More Info", house_path(house), class: "button grey_btn corners" %>
+    <!--<a class="button daft_btn corners" href="" style="float:left; margin-right:5px">contact owner</a>-->
+		<!--<a class="button grey_btn corners" href="" style="float:left">more info</a>-->
+  </div>
+</li>
+

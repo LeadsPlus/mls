@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+  <!--[if lt IE 9]>      <html class="no-js oldie" lang="en"> <![endif]-->
+  <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>How Much House</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%= render "layouts/fb_meta_tags" %>
+  <%= javascript_include_tag :application %>
+  <%= stylesheet_link_tag :application %>
+  <%= csrf_meta_tag %>
+</head>
+<body>
+<div id="wrapper">
+  <header><%= render "layouts/header" %></header>
+  <div id="notice"></div>
+  <div id="alert"></div>
+  <%= render "shared/search_bar" if @search_form %>
+  <div id="content" role="content">
+    <%= yield %>
+  </div>
+  <footer><%= render "layouts/footer" %></footer>
+  <%= debug params if Rails.env.development? %>
+</div>
+</body>
+</html>

@@ -1,6 +1,6 @@
 %span.logo
   = link_to "HowMuchHouse.net", root_path
-%span.nav
+%span.nav.float-right
   - if user_signed_in?
     = link_to "Profile", user_path(current_user)
     |
