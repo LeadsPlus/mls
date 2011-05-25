@@ -1,3 +1,5 @@
+@import "support";
+
 div#results {
   width: 760px; // dont like pixel widths
 
@@ -5,15 +7,11 @@ div#results {
     width: 100%;
     border-bottom: 1px solid #ddd;
   }
+}
 
-  ul {
-    padding-top: 10px;
-    margin: 0;
-
-    li:last-child {
-      border-bottom: none;
-    }
-  }
+ul.listings {
+  padding-top: 10px;
+  margin: 0;
 }
 
 li.listing {
@@ -43,7 +41,7 @@ li.listing {
 
     h3 {
       margin-bottom: 5px;
-      
+
       font: {
         size: 1.1em;
         weight: bold;
@@ -74,36 +72,55 @@ li.listing {
       color:#666; font-size:0.9em;
     }
 
-    li {
-      list-style: none;
+    ul {
+      margin-left: 0;
+      margin-bottom: 10px;
+      li {
+        list-style: none;
+      }
+    }
+
+    .button {
+      font-family:"Trebuchet MS", Arial, Helvetica;
+      font-weight: bold;
+      text-transform: lowercase;
+      padding: 5px;
+      @include border-radius(5px);
+      margin-top: 10px;
+      width:79px;
+      color:#fff;
+      font-size:10px;
+      text-align:center;
+    }
+
+    .daft_btn {
+      background:#18c;
+    }
+
+    .daft_btn:hover {
+      background:#17a
+    }
+
+    .grey_btn {
+      background:#555;
+    }
+
+    .grey_btn:hover {
+      background:#666;
     }
   }
 }
 
-/*
+li.listing:last-child {
+  border-bottom: none;
+}
 
-#listings_menu { border-bottom:1px solid #ddd; overflow:hidden; }
-#listings_menu ul { float:left; padding-top:10px }
-#listings_menu ul li { list-style:none; float:left; padding-right:10px; font:14px Arial, Helvetica, sans-serif; color:#444 }
-#listings_menu ul li:hover { text-decoration:underline; cursor:pointer }
-#listings_menu select { float:right; color:#666; padding:3px; margin-bottom:7px }	#listings_menu select:focus { outline:none }
+table.data {
+  border-collapse: collapse;
+  width: 100%;
 
-.HouseListings { width:760px; float:left; }
-.listing { list-style:none; border-bottom:1px dotted #ccc; clear:both; height:120px; padding:15px 0 }
-.HouseListings li:last-child { border-bottom:0 }
-
-.house_gallery { width:160px; height:120px; float:left; margin-right:10px; clear:none }	.house_gallery:hover { opacity:0.8; cursor:pointer }
-.house_details { float:left; width:417px; margin-right:10px }
-.HouseHeading { font:15px Arial, Helvetica, sans-serif; color:#333; font-weight:bold; float:left; margin-bottom:5px }
-.HouseDescription { font:12px Arial, Helvetica, sans-serif; color:#666; line-height:16px; float:left; clear:left }
-.MortgageDetails { font:12px Arial, Helvetica, sans-serif; color:#666; line-height:16px; float:left; clear:left }
-.listing_tab { clear:left; float:left; font:11px sans-serif; font-weight:bold; color:#18c; margin-bottom:3px; cursor:pointer }
-.listing_tab:hover { text-decoration:underline }
-
-.listing_summary { float:right; width:163px;; height:120px }
-.price{ font:30px "lucida grande",tahoma,verdana,arial,sans-serif; color:#18c; font-weight:bold; float:left; margin:-7px 0 5px 0 }
-.payment_frequency { float:left; padding:8px 0 0 3px; color:#666; font-size:15px }
-.details_summary { clear:left; float:left; margin-bottom:5px }
-.details_summary li { list-style:none; font:12px Arial, Helvetica, sans-serif; color:#666; margin-bottom:5px }
-
-*/
+  td, th {
+    border: 1px solid #999;
+    padding: 5px;
+  }
+}

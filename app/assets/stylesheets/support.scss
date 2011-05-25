@@ -1,3 +1,6 @@
+/* this gets written in everytime it's included in another stylesheet.*/
+/* that means it gets applied to elements 5/6 times each. Obv not ideal */
+
 @mixin border-radius($rad) {
   border-radius: $rad;
   -moz-border-radius: $rad;

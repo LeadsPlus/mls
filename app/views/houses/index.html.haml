@@ -1,7 +1,7 @@
-%h1 Listing houses
+%h2.bar_head Listing houses
 
-%table
-  =render :partial => 'shared/house', :collection => @houses
+%ul.listings
+  =render :partial => "shared/house/house", :collection => @houses
 
 = paginate @houses
 

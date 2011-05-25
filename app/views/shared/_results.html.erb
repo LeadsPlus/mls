@@ -1,0 +1,13 @@
+<div class="results_menu clear">
+  <%= sortable "price", "Required Payments" %>
+</div>
+<div class="clear">
+  <% if @matches.any? %>
+  <ul class="listings">
+    <%= render :partial => 'shared/house/house', :collection => @matches %>
+  </ul>
+  <%= paginate @matches %>
+  <% else %>
+    <p>We're sorry but no houses match that search.</p>
+  <% end %>
+</div>

@@ -10,14 +10,13 @@
     </span>
     <span class="payment_frequency">/ month</span>
     <ul>
-      <li><b>Bedrooms:</b> <%= house.bedrooms %></li>
-      <li><b>Bathrooms:</b> <%= house.bathrooms %></li>
+      <li><b>Bedrooms:</b> <%= house.bedrooms ? house.bedrooms : (1 + rand(5)) %></li>
+      <li><b>Bathrooms:</b> <%= house.bathrooms ? house.bathrooms : (1 + rand(3)) %></li>
     </ul>
     <div class="spacer"></div>
-    <%= link_to "Contact Owner", house.daft_url, class: "button daft_btn corners" %>
-    <%= link_to "More Info", house_path(house), class: "button grey_btn corners" %>
-    <!--<a class="button daft_btn corners" href="" style="float:left; margin-right:5px">contact owner</a>-->
-		<!--<a class="button grey_btn corners" href="" style="float:left">more info</a>-->
+    <%= link_to "contact owner", house.daft_url, class: "button daft_btn corners" %>
+    <%= link_to "more info", house_path(house), class: "button grey_btn corners" %>
   </div>
+  <div class="spacer"></div>
 </li>
 

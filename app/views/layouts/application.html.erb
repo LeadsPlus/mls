@@ -18,11 +18,14 @@
   <header><%= render "layouts/header" %></header>
   <div id="notice"></div>
   <div id="alert"></div>
+  <div class="spacer"></div>
   <%= render "shared/search_bar" if @search_form %>
   <div id="content" role="content">
     <%= yield %>
   </div>
-  <footer><%= render "layouts/footer" %></footer>
+  <footer class="clear">
+    <%= render "layouts/footer" %>
+  </footer>
   <%= debug params if Rails.env.development? %>
 </div>
 </body>

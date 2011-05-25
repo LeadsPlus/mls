@@ -1,6 +1,5 @@
--#= render "shared/search_form_js", :search => @search
-= form_for @search do |f|
-  .search_bar
+.search_content
+  = form_for @search do |f|
     = render 'shared/error_messages', :object => f.object
     = render 'shared/search_form_fields', :search => @search, :f => f
 
