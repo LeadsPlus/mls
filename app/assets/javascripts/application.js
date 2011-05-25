@@ -7,4 +7,10 @@
 //= require jquery.min
 //= require jquery_ujs
 //= require jquery-ui.min
-//= require_tree .
+// require modernizr-1.7.min
+//= require fancybox.pack
+// require respond.min
+// require safelog.js
+//= require jquery.multiselect.min
+//= require myjs
+// require_tree .

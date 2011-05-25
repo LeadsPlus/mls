@@ -9,8 +9,7 @@
  *= require search_bar
  *= require results
  *= require smoothness/jquery-ui
- *
- *
+ *= require jquery.multiselect
  *
  *
  * require_tree .

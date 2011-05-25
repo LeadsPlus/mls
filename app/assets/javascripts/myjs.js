@@ -18,6 +18,17 @@ $(function() {
     cyclic: true
   });
 
+  $(".multiselect").multiselect({
+    selectedText: function(numChecked, numTotal, checkedItems){
+      if(numChecked === numTotal) {
+        return "All selected";
+      }
+      else {
+        return numChecked + ' selected';
+      }
+    }
+  });
+
   $(function() {
     var term = $( "#search_term" );
 

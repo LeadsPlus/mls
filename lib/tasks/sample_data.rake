@@ -43,8 +43,8 @@ def update_default_search
          :deposit => 50000,
          :term => 25,
          :location => "Detached, Enniskillen, Co. Fermanagh",
-         :lender => 'Any',
-         :loan_type => 'Any'
+         :lender => LENDERS,
+         :loan_type => LOAN_TYPES
        })
   puts "Default search updated"
 end
@@ -56,8 +56,8 @@ def create_default_search
          :deposit => 50000,
          :term => 25,
          :location => "Detached, Enniskillen, Co. Fermanagh",
-         :lender => 'Any',
-         :loan_type => 'Any'
+         :lender => LENDERS,
+         :loan_type => LOAN_TYPES
        })
   puts "Default search created"
 end
@@ -110,7 +110,7 @@ def make_rates
   Rate.create!({
     :twenty_year_apr => 3.5,
     :lender => 'Bank of Ireland',
-    :loan_type => 'Partially Fixed Rate',
+    :loan_type => '1 Year Fixed Rate',
     :min_ltv => 1,
     :max_ltv => 92,
     :rolls_to => 3.4,
@@ -120,7 +120,7 @@ def make_rates
   Rate.create!({
     :twenty_year_apr => 3.7,
     :lender => 'Bank of Ireland',
-    :loan_type => 'Partially Fixed Rate',
+    :loan_type => '2 Year Fixed Rate',
     :min_ltv => 1,
     :max_ltv => 92,
     :rolls_to => 3.4,
@@ -130,7 +130,7 @@ def make_rates
   Rate.create!({
     :twenty_year_apr => 4.0,
     :lender => 'Bank of Ireland',
-    :loan_type => 'Partially Fixed Rate',
+    :loan_type => '3 Year Fixed Rate',
     :min_ltv => 1,
     :max_ltv => 92,
     :rolls_to => 3.4,
@@ -140,7 +140,7 @@ def make_rates
   Rate.create!({
     :twenty_year_apr => 4.0,
     :lender => 'Bank of Ireland',
-    :loan_type => 'Partially Fixed Rate',
+    :loan_type => '5 Year Fixed Rate',
     :min_ltv => 1,
     :max_ltv => 92,
     :rolls_to => 3.4,
@@ -150,7 +150,7 @@ def make_rates
   Rate.create!({
     :twenty_year_apr => 4.7,
     :lender => 'Ulster Bank',
-    :loan_type => 'Partially Fixed Rate',
+    :loan_type => '2 Year Fixed Rate',
     :min_ltv => 1,
     :max_ltv => 90,
     :rolls_to => 4.4,
@@ -160,7 +160,7 @@ def make_rates
   Rate.create!({
     :twenty_year_apr => 5.0,
     :lender => 'Ulster Bank',
-    :loan_type => 'Partially Fixed Rate',
+    :loan_type => '3 Year Fixed Rate',
     :min_ltv => 1,
     :max_ltv => 90,
     :rolls_to => 4.4,
@@ -214,7 +214,7 @@ def make_rates
     :twenty_year_apr => 3.40,
     :initial_rate => 4.15,
     :lender => 'AIB',
-    :loan_type => 'Partially Fixed Rate',
+    :loan_type => '1 Year Fixed Rate',
     :min_ltv => 1,
     :max_ltv => 92,
     :initial_period_length => 1
@@ -224,7 +224,7 @@ def make_rates
     :twenty_year_apr => 3.6,
     :initial_rate => 4.65,
     :lender => 'AIB',
-    :loan_type => 'Partially Fixed Rate',
+    :loan_type => '2 Year Fixed Rate',
     :min_ltv => 1,
     :max_ltv => 92,
     :initial_period_length => 2
@@ -234,7 +234,7 @@ def make_rates
     :twenty_year_apr => 3.81,
     :initial_rate => 4.88,
     :lender => 'AIB',
-    :loan_type => 'Partially Fixed Rate',
+    :loan_type => '3 Year Fixed Rate',
     :min_ltv => 1,
     :max_ltv => 92,
     :initial_period_length => 3
@@ -244,7 +244,7 @@ def make_rates
     :twenty_year_apr => 4.07,
     :initial_rate => 5.15,
     :lender => 'AIB',
-    :loan_type => 'Partially Fixed Rate',
+    :loan_type => '4 Year Fixed Rate',
     :min_ltv => 1,
     :max_ltv => 92,
     :initial_period_length => 4
@@ -254,7 +254,7 @@ def make_rates
     :twenty_year_apr => 4.34,
     :initial_rate => 5.35,
     :lender => 'AIB',
-    :loan_type => 'Partially Fixed Rate',
+    :loan_type => '5 Year Fixed Rate',
     :min_ltv => 1,
     :max_ltv => 92,
     :initial_period_length => 5

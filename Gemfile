@@ -50,14 +50,14 @@ group :production do
 end
 
 group :development do
-  gem 'rspec-rails'
+  gem 'rspec-rails', :git => 'https://github.com/dchelimsky/rspec-rails.git'
   gem 'annotate'
   gem 'fakeweb'
 end
 
 # a comment to make it migrate
 group :test do
-  gem 'rspec-rails'
+  gem 'rspec-rails', :git => 'https://github.com/dchelimsky/rspec-rails.git'
   gem 'webrat'
   gem 'capybara', :git => "https://github.com/jnicklas/capybara.git", tag: '0.4.1.2'
   gem 'spork', '~> 0.9.0.rc'

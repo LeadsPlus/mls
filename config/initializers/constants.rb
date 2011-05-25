@@ -4,6 +4,7 @@ COUNTIES = %w[Dublin Meath Kildare Wicklow Longford Offaly Westmeath Laois Louth
 
 LENDERS = ['Bank of Ireland', 'AIB', 'Ulster Bank'].freeze
 
-LOAN_TYPES = ['Variable Rate', "Partially Fixed Rate"].freeze
+LOAN_TYPES = ['Variable Rate', "1 Year Fixed Rate", "2 Year Fixed Rate", "3 Year Fixed Rate", "4 Year Fixed Rate",
+              "5 Year Fixed Rate", "6 Year Fixed Rate"].freeze
 
 LOAN_PERIODS = [1, 2, 3, 4, 5, 6].freeze

@@ -1,4 +1,15 @@
+# option 1: Just store an array of included (perhaps excluded) mortgage types in a db column. AR Serialize
+# the problem is that, bound check boxes respond to boolean model columns, which doesn't really work
+# virtual attribute? Custom form builder?
+# <input name="search[:lenders][]" />
+# <input name="search[:lenders][]" />
+# this will result in search[:lenders] == Array
+# unchecked checkboxes sbmit no value
+# 
+
+
 require 'custom_validators/ample_max_payment_validator'
+require 'custom_validators/is_valid_lender_validator'
 require 'custom_validators/vrm_and_initial_length_not_both_set_validator'
 
 # what if non-logged in users keep editing the same search but logged in users keep creating new ones
@@ -7,8 +18,9 @@ class Search < ActiveRecord::Base
   attr_accessible :min_payment, :max_payment, :deposit, :term, :location,
                   :loan_type, :initial_period_length, :lender, :max_price, :min_price
   attr_reader :viable_rates
-
   belongs_to :rate
+  serialize :lender
+  serialize :loan_type
 
   before_save do
     logger.debug "About to save the search"
@@ -31,7 +43,7 @@ class Search < ActiveRecord::Base
   
   def has_mortgage_conditions?
     logger.debug "Checking if has mortgage conditions"
-    loan_type != 'Any' || initial_period_length != nil || lender != "Any"
+    loan_type != LOAN_TYPES || lender != LENDERS
   end
 
 #  potential problems I see with this implementation
@@ -56,10 +68,8 @@ class Search < ActiveRecord::Base
 
   validates :location, presence: true, length: { maximum: 254, minimum: 1, allow_blank: true }
 
-  validates :loan_type, :vrm_and_initial_length_not_both_set => { unless: "initial_period_length.blank?" }
-  validates :lender, :inclusion => { :in => Array.new(LENDERS) << "Any" }
-  validates :loan_type, :inclusion => { :in => Array.new(LOAN_TYPES) << "Any" }
-  validates :initial_period_length, :numericality => { within: 0..100, allow_nil: true, allow_blank: true }
+#  validates :lender, :is_valid_lender => true
+#  validates :loan_type, :inclusion => { :in => LOAN_TYPES }
 
 #  #  as far as I can tell, 'validate xyz' validations always happen before 'validates xyz' validations
 #  @viable rates is built in 'has_some_viable_rates' and can then be used in 'has_some_affordable_prices'

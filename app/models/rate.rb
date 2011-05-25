@@ -17,19 +17,11 @@ class Rate < ActiveRecord::Base
 
 #  http://stackoverflow.com/questions/5748550/how-to-make-a-rails-3-dynamic-scope-conditional
   def self.scope_by_lender(lender)
-    if lender == 'Any'
-      scoped # just return an empty scope
-    else
-      where(:lender => lender)
-    end
+    where(:lender => lender)
   end
 
   def self.scope_by_loan_type(loan_type)
-    if loan_type == 'Any'
-      scoped
-    else
-      where(:loan_type => loan_type)
-    end
+    where(:loan_type => loan_type)
   end
 
   def self.scope_by_initial_period(period)

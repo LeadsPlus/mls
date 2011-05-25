@@ -14,9 +14,7 @@ class MortgageBroker
 
   def viable_rates
     Rails.logger.debug "Getting viable rates"
-    @viable_rates ||= Rate.scope_by_lender(@lender)
-                      .scope_by_loan_type(@loan_type)
-                      .scope_by_initial_period(@initial_period_length)
+    @viable_rates ||= Rate.scope_by_lender(@lender).scope_by_loan_type(@loan_type)
   end
 
 #  If I limit people to preset term lengths, I can pre-calulate average rates, skip the calc_rates_hash
