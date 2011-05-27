@@ -10,7 +10,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110521130558) do
+ActiveRecord::Schema.define(:version => 20110527191234) do
+
+  create_table "counties", :force => true do |t|
+    t.integer  "daft_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -41,6 +48,7 @@ ActiveRecord::Schema.define(:version => 20110521130558) do
     t.date     "daft_date_entered"
     t.string   "address"
     t.string   "property_type"
+    t.integer  "county_id"
   end
 
   add_index "houses", ["county"], :name => "index_houses_on_county"

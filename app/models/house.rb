@@ -1,4 +1,4 @@
-BasicObject.new()
+# I need to gradually wean this model off the county field, onto the county id field
 
 class House < ActiveRecord::Base
   attr_accessible :price, :description, :county, :image_url, :daft_id,
@@ -8,6 +8,7 @@ class House < ActiveRecord::Base
   
   paginates_per(10)
   has_many :photos, :dependent => :destroy
+  belongs_to :county
 
   index do
     daft_title
@@ -42,6 +43,8 @@ class House < ActiveRecord::Base
 
   validates :county, :presence => true,
       :inclusion => { :in => COUNTIES }
+
+  validates :county_id, :presence => true, :numericality => { within: 1..32 }
 
   validates :price, :presence => true,
                     :numericality => { :greater_than => 1 }

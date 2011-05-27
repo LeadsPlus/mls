@@ -4,6 +4,8 @@
 
 # It seems that Daft automatically updates sterling prices in accordance with the exchange rate.
 # This also changes the value of the "Date Entered" field
+
+# this all needs to be updated to take advantage of the new counties and town model
 class Scrape
   def visit_houses_in_county(daft_county_id = 30)
     agent = Mechanize.new

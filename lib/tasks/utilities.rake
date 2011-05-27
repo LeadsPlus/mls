@@ -8,6 +8,11 @@ namespace :houses do
   task :fake_rooms => :environment do
     fake_rooms
   end
+
+  desc "Convert all the county names to their appropriate id"
+  task :convert_county_names => :environment do
+    convert_counties_to_foreign_keys
+  end
 end
 
 def convert_urls_to_ids
@@ -26,3 +31,10 @@ def fake_rooms
     house.save!
   end
 end
+
+def convert_counties_to_foreign_keys
+  House.find_each() do |house|
+    house.county_id = (COUNTIES.index house.county) + 1
+    house.save!
+  end
+end  

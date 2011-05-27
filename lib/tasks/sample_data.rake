@@ -5,6 +5,7 @@ namespace :db do
     delete_rates
     delete_all_searches
 #    delete_all_users
+    make_counties
     make_rates
     create_default_search # has to happen after rates else validation fail
   end
@@ -60,6 +61,16 @@ def create_default_search
          :loan_type => LOAN_TYPES
        })
   puts "Default search created"
+end
+
+# once I have these in here, I don't technically need the COUNTIES array any more?
+# Houses should reference the county id
+def make_counties
+  County.delete_all
+  1.upto(32) do |i|
+    County.create!(name: COUNTIES[i - 1], daft_id: i)
+  end
+  put "Counties created"
 end
 
 def make_rates
