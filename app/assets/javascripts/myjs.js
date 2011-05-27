@@ -63,9 +63,9 @@ $(function() {
     var max_payment = $("#search_max_payment");
     $('div#jquery-slider').slider({
       range: true,
-      min: 50,
-      max: 2000,
-      step: 10,
+      min: 400,
+      max: 3000,
+      step: 50,
       values: [ min_payment.val() , max_payment.val() ],
       slide: function( event, ui ) {
         min_payment.val( ui.values[ 0 ] );

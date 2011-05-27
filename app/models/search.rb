@@ -9,7 +9,7 @@
 
 
 require 'custom_validators/ample_max_payment_validator'
-require 'custom_validators/is_valid_lender_validator'
+#require 'custom_validators/is_valid_lender_validator'
 require 'custom_validators/vrm_and_initial_length_not_both_set_validator'
 
 # what if non-logged in users keep editing the same search but logged in users keep creating new ones
@@ -25,6 +25,10 @@ class Search < ActiveRecord::Base
   before_save do
     logger.debug "About to save the search"
     keep_calculating
+  end
+
+  before_validation do
+    logger.debug "Lender #{lender}"
   end
 
 #  I think there's a way I can put these calcs in the reader methods for the attributes
@@ -93,6 +97,13 @@ class Search < ActiveRecord::Base
     logger.debug "Checking for viable rates"
     unless broker.has_viable_rates?
       errors[:base] << "There are no rates in the system which match those conditions"
+    end
+  end
+
+  def is_valid_lender_validator
+    logger.debug "Checking lenders are valid"
+    lender.each do |lender|
+      errors[:lender] << "is invalid" unless LENDERS.include?(lender)
     end
   end
 end

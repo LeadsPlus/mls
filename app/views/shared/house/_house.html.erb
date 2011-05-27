@@ -2,16 +2,20 @@
 	<%= image_tag house.image_url, size: '160x120' if Rails.env.production? %>
 	<div class="house_details">
 		<h3><%= house.title %></h3>
-		<p><%= house.description if house.description %></p>
+		<p>
+      <%= house.description if house.description %>
+      <%= number_to_currency(house.price, unit: '€', precision: 0) %>
+    </p>
 	</div>
 	<div class="summary">
     <span class="price">
-      <%= number_to_currency(house.price, unit: '€', precision: 0) %>
+      <% pre = Mortgage.new(@rate, @search.term, @search.deposit, house.price).payment_required %>
+      <%= number_to_currency(-pre, unit: '€', precision: 0) %>
     </span>
     <span class="payment_frequency">/ month</span>
     <ul>
-      <li><b>Bedrooms:</b> <%= house.bedrooms ? house.bedrooms : (1 + rand(5)) %></li>
-      <li><b>Bathrooms:</b> <%= house.bathrooms ? house.bathrooms : (1 + rand(3)) %></li>
+      <li><b>Bedrooms:</b> <%= house.bedrooms %></li>
+      <li><b>Bathrooms:</b> <%= house.bathrooms %></li>
     </ul>
     <div class="spacer"></div>
     <%= link_to "contact owner", house.daft_url, class: "button daft_btn corners" %>
