@@ -5,7 +5,6 @@
 # It seems that Daft automatically updates sterling prices in accordance with the exchange rate.
 # This also changes the value of the "Date Entered" field
 class Scrape
-
   def visit_houses_in_county(daft_county_id = 30)
     agent = Mechanize.new
     puts "Visiting all houses in #{COUNTIES[daft_county_id.to_i - 1]}..."
@@ -99,4 +98,32 @@ class Scrape
     House.delete_all("county = '#{COUNTIES[daft_county_id.to_i - 1]}'")
   end
 
+  def all_locations
+    1.upto(32) do |daft_county_id|
+      location daft_county_id
+    end
+  end
+
+  def location(daft_county_id = 30)
+#    <select name="s[a_id]" id="a_id" class="sf_select_refine"><option value="">Co. Dublin</option>
+#    <option value="ga1">- Dublin City Centre -</option>
+#    <option value="ga2">- North Dublin City -</option>
+
+#    Problem with the all county option: Option: Co. Monaghan, value:
+#    the value is empty after the puts. This is the option which lists all properties in meath
+
+    agent = Mechanize.new
+    url = "http://www.daft.ie/searchsale.daft?s%5Bcc_id%5D=c#{daft_county_id}&search=1&submit.x=23&submit.y=11"
+    agent.get(url)
+
+    puts " \nScraping the locations in county: #{COUNTIES[daft_county_id.to_i - 1]}"
+    agent.page.search("#a_id option").each do |option|
+      value = option[:value]
+      text = option.text.gsub(/(- | -)/, "").gsub(/ \(.+\)/, "")
+
+      unless text =~ /(-+|Dublin Commuter)/
+        puts "Option: #{text}, value: #{value}"
+      end
+    end
+  end
 end

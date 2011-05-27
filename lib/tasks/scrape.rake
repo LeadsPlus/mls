@@ -29,4 +29,9 @@ namespace :scrape do
   task :visit_houses_starting_from, [:house_id] => :environment do |task, args|
     Scrape.new.visit_houses_starting_from args.house_id
   end
+
+  desc "Scrape all valid the house locations from daft"
+  task :locations => :environment do
+    Scrape.new.all_locations
+  end
 end
