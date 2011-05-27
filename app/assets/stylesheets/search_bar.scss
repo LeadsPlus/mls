@@ -2,53 +2,84 @@
 
 div.search_bar {
   margin-bottom: 10px;
+  width:760px;
 }
 
 div.search_content {
   background:#eee;
-  padding:10px 10px 2px 10px;
+  padding: 1.2em 1em .1em 1em;
   @include border-radius-bottom(5px);
 
-  table {
-    width: 100%;
-    margin-bottom: 10px;
-    
-    tr { height: 25px; }
+  .search_row { margin-bottom: 1.2em; }
 
-    td.label { width: 145px; font-weight: bold; }
+  #deposit_container { width: 45em; }
 
-    td.fields { width: 115px; }
+  label, .label { font-weight: bold; }
 
-    input#search_location { margin-top: 6px; border: 2px solid $daves_grey; }
+  #search_term { margin-left: 1.5em; margin-top: 0.6em; }
+
+  #mortgage_options { margin: 20px 0 5px 0; }
+
+  ul li.input { list-style: none; display: inline; margin-left: 1em; }
+
+  /* over-riding some jquery-ui styling for buttonsets */
+  .ui-button-text-only .ui-button-text { padding: .1em .3em }
+
+  /* over-riding some jquery-ui styling for sliders */
+  .ui-slider-horizontal { height: 0.6em; }
+  .ui-slider-horizontal .ui-slider-handle { top: -.4em; margin-left: -.6em; }
+  .ui-slider-horizontal .ui-slider-range { top: 0; height: 100%; }
+  .ui-slider-horizontal .ui-slider-range-min { left: 0; }
+  .ui-slider-horizontal .ui-slider-range-max { right: 0; }
+
+  /* below copied from Filament Groups select UI slider */
+  /* I've changed heights, widths etc to suit my layout */
+  .ui-slider  {
+    text-decoration: none !important;
   }
-
-  input[type=text] {
-    display: inline;
-    border: 0;
-    padding: 0;
-    margin: 0;
-    height: 20px;
-    font-weight: bold;
-    font-size: 12px;
+  .ui-slider .ui-slider-handle  {
+    overflow: visible !important;
   }
-
-  div.slider-tooltip {
-    width: 100px;
+  .ui-slider .ui-slider-tooltip {
+    display: block;
     position: absolute;
-    top: -20px; left: -10px;
+    bottom: 1.9em;
+    text-align: center;
+    padding: .1em .2em .1em;
+    font-size: .8em;
+    width: 4.2em;
+    margin-left: -1.6em;
+  }
+  /* this is the little pointer image */
+  .ui-slider .ui-slider-tooltip .ui-tooltip-pointer-down, .ui-slider .ui-slider-tooltip .ui-tooltip-pointer-down-inner {
+    position: absolute;
+    display: block;
+    width:0;
+    height:0;
+    border-bottom-width: 0;
+    background: none;
+  }
+  .ui-slider .ui-slider-tooltip .ui-tooltip-pointer-down {
+    border-left: 7px dashed transparent;
+    border-right: 7px dashed transparent;
+    border-top-width: 8px;
+    bottom:	-8px;
+    right: auto;
+    left: 50%;
+    margin-left: -7px;
+  }
+  /* the bit that gives th  pointer an inner so it has a border */
+  .ui-slider .ui-slider-tooltip .ui-tooltip-pointer-down-inner {
+    border-left: 6px dashed transparent;
+    border-right: 6px dashed transparent;
+    border-top: 7px solid #fff;
+    bottom:	auto;
+    top: -9px;
+    left: -6px;
+  }
+  .ui-slider a {
+    text-decoration: none;
   }
 
-  #mortgage_options {
-    margin: 20px 0 5px 0;
-  }
-
-  ul li.input {
-    list-style: none;
-    display: inline;
-    margin-left: 10px;
-  }
-
-  .label {
-    font-weight: bold;
-  }
+  /* end of copy paste */
 }

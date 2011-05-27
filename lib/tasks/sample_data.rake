@@ -41,7 +41,7 @@ def update_default_search
          :max_payment => 1100,
          :min_payment => 800,
          :deposit => 50000,
-         :term => 25,
+         :term => 30,
          :location => "Detached, Enniskillen, Co. Fermanagh",
          :lender => LENDERS,
          :loan_type => LOAN_TYPES
@@ -54,7 +54,7 @@ def create_default_search
          :max_payment => 1100,
          :min_payment => 800,
          :deposit => 50000,
-         :term => 25,
+         :term => 30,
          :location => "Detached, Enniskillen, Co. Fermanagh",
          :lender => LENDERS,
          :loan_type => LOAN_TYPES

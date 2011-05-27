@@ -1,5 +1,5 @@
 .search_content
   = form_for @search do |f|
     = render 'shared/error_messages', :object => f.object
-    = render 'shared/search_form_fields', :search => @search, :f => f
+    = render 'shared/search/search_form_fields', :search => @search, :f => f
 
