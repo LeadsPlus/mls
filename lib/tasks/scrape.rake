@@ -32,6 +32,7 @@ namespace :scrape do
 
   desc "Scrape all valid the house locations from daft"
   task :locations => :environment do
-    Scrape.new.all_locations
+    Town.delete_all
+    Scrape.new.towns
   end
 end

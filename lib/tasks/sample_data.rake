@@ -70,7 +70,7 @@ def make_counties
   1.upto(32) do |i|
     County.create!(name: COUNTIES[i - 1], daft_id: i)
   end
-  put "Counties created"
+  puts "Counties created"
 end
 
 def make_rates

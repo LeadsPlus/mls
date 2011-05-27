@@ -5,7 +5,10 @@
 # It seems that Daft automatically updates sterling prices in accordance with the exchange rate.
 # This also changes the value of the "Date Entered" field
 
-# this all needs to be updated to take advantage of the new counties and town model
+# this all needs to be updated to take advantage of the new counties model
+
+# ok problem, because I'm indexing off COUNTIES but trying to link to the counties model, the index's are off
+# because the counties model doesn't go back to 1 when I delete all the counties
 class Scrape
   def visit_houses_in_county(daft_county_id = 30)
     agent = Mechanize.new
@@ -44,22 +47,27 @@ class Scrape
     agent = Mechanize.new
     agent.get(url)
 
+#    while I'm here, can get the towns. Remember towns need to be deleted first
+    Town.delete_all
+    create_towns_off agent.page, daft_county_id
+
     while(agent.page.link_with(:text => "Next Page \u00BB")) do
       agent.page.search(".content").each do |house_item|
+#        I should build the DaftSearchResult here and pass it into the store listing method as the only param
+#        Or, build my own page object and store daft_county_id as instance var then pass that around??
+#        Or, move the county scraping methods into the county model???
         store_listing house_item, daft_county_id
       end
 
       agent.page.link_with(:text => "Next Page \u00BB").click
     end
   end
-  handle_asynchronously :county # doesn't seem to work with HireFire
+  handle_asynchronously :county
 
   def store_listing house_item, daft_county_id
-    result = DaftSearchResult.new(house_item)
+    result = DaftSearchResult.new(house_item, daft_county_id)
 
     if result.has_price?
-      result.extract
-
       house = House.find_or_initialize_by_daft_id(result.daft_id)
 #          This automatically only updates fields which have changed
       house.update_attributes({
@@ -67,11 +75,13 @@ class Scrape
         description: result.description,
         image_url: result.image,
         price: result.price,
-        county: COUNTIES[daft_county_id.to_i - 1],
+        county_id: daft_county_id,
         bedrooms: result.rooms[0],
         bathrooms: result.rooms[1],
+        address: result.address
       })
-      house.save
+      house.town = result.town
+      house.save!
     end
   end
 
@@ -100,31 +110,31 @@ class Scrape
     House.delete_all("county = '#{COUNTIES[daft_county_id.to_i - 1]}'")
   end
 
-  def all_locations
+#  this should be a generic visit all counties method. Pass a block
+  def towns
     1.upto(32) do |daft_county_id|
-      location daft_county_id
+      towns_in_county daft_county_id
     end
   end
 
-  def location(daft_county_id = 30)
-#    <select name="s[a_id]" id="a_id" class="sf_select_refine"><option value="">Co. Dublin</option>
-#    <option value="ga1">- Dublin City Centre -</option>
-#    <option value="ga2">- North Dublin City -</option>
-
-#    Problem with the all county option: Option: Co. Monaghan, value:
-#    the value is empty after the puts. This is the option which lists all properties in meath
-
+#  this should be a generic visit county method. Then I can pass it a block depending on what I want
+#  to do while I'm there
+  def towns_in_county(daft_county_id = 30)
     agent = Mechanize.new
     url = "http://www.daft.ie/searchsale.daft?s%5Bcc_id%5D=c#{daft_county_id}&search=1&submit.x=23&submit.y=11"
     agent.get(url)
 
-    puts " \nScraping the locations in county: #{COUNTIES[daft_county_id.to_i - 1]}"
-    agent.page.search("#a_id option").each do |option|
+    puts "Scraping the locations in county: #{COUNTIES[daft_county_id.to_i - 1]}"
+    create_towns_off agent.page, daft_county_id
+  end
+
+  def create_towns_off page, daft_county_id
+    page.search("#a_id option").each do |option|
       value = option[:value]
       text = option.text.gsub(/(- | -)/, "").gsub(/ \(.+\)/, "")
 
-      unless text =~ /(-+|Dublin Commuter)/
-        puts "Option: #{text}, value: #{value}"
+      unless text =~ /(-+|Dublin Commuter)/ || value.blank?
+        Town.create!(name: text, daft_id: value, county_id: daft_county_id)
       end
     end
   end

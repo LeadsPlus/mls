@@ -111,6 +111,9 @@ end
 
 
 
+
+
+
 # == Schema Information
 #
 # Table name: houses
@@ -119,7 +122,6 @@ end
 #  price             :integer
 #  created_at        :datetime
 #  updated_at        :datetime
-#  county            :string(255)
 #  image_url         :string(255)
 #  description       :text
 #  daft_title        :string(255)
@@ -129,5 +131,7 @@ end
 #  daft_date_entered :date
 #  address           :string(255)
 #  property_type     :string(255)
+#  county_id         :integer
+#  town_id           :integer
 #
 

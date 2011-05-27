@@ -1,6 +1,7 @@
 class County < ActiveRecord::Base
   attr_accessible :name, :daft_id
   has_many :houses
+  has_many :towns
 end
 
 # == Schema Information

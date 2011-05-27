@@ -1,26 +1,24 @@
 # I need to gradually wean this model off the county field, onto the county id field
 
 class House < ActiveRecord::Base
-  attr_accessible :price, :description, :county, :image_url, :daft_id,
+  attr_accessible :price, :description, :county_id, :image_url, :daft_id,
                   :property_type, :daft_title, :daft_date_entered, :bedrooms,
-                  :bathrooms, :address
+                  :bathrooms, :address, :town_id
   attr_reader :payment_required
   
   paginates_per(10)
   has_many :photos, :dependent => :destroy
   belongs_to :county
+  belongs_to :town
 
   index do
     daft_title
   end
 
   def title
-#    unless address.blank? || property_type.blank?
-#      return "#{address} - #{property_type}"
-#    end
-    daft_title
+    "#{address} #{town.name}, Co. "
   end
-
+  
   def daft_url
     "http://www.daft.ie/searchsale.daft?id=#{daft_id}"
   end
@@ -41,10 +39,10 @@ class House < ActiveRecord::Base
     @payment_required ||= Mortgage.new(rate, term, users_deposit, self.price).payment_required
   end
 
-  validates :county, :presence => true,
-      :inclusion => { :in => COUNTIES }
+#  validates :county, :presence => true,
+#      :inclusion => { :in => COUNTIES }
 
-  validates :county_id, :presence => true, :numericality => { within: 1..32 }
+#  validates :county_id, :presence => true, :numericality => { within: 1..32 }
 
   validates :price, :presence => true,
                     :numericality => { :greater_than => 1 }
@@ -60,6 +58,9 @@ end
 
 
 
+
+
+
 # == Schema Information
 #
 # Table name: houses
@@ -68,7 +69,6 @@ end
 #  price             :integer
 #  created_at        :datetime
 #  updated_at        :datetime
-#  county            :string(255)
 #  image_url         :string(255)
 #  description       :text
 #  daft_title        :string(255)
@@ -78,5 +78,7 @@ end
 #  daft_date_entered :date
 #  address           :string(255)
 #  property_type     :string(255)
+#  county_id         :integer
+#  town_id           :integer
 #
 
