@@ -1,0 +1,26 @@
+<div id="start_searching">
+  <%= form_for @search do |f| %>
+    <div class="search_row">
+      <span class="field_number">1. </span>
+      <span class="label">Choose a monthly payment range</span>
+      <div class="field">
+        <%= f.label :min_payment, "Min Payment", :class => "hidden" %>
+        <%= f.label :max_payment, "Payment", :class => "hidden" %>
+        <%= f.hidden_field :min_payment %>
+        <%= f.hidden_field :max_payment %>
+        <div id="payment_slider"></div>
+        <a href="" class="float-right">OK...</a>
+      </div>
+    </div>
+    <div class="search_row" id="deposit_container">
+      <span class="field_number">2/3. </span>
+      <span class="label">Select your deposit</span>
+      <div class="field">
+        <%= f.label :deposit, "Deposit", :class => "hidden" %>
+        <%= f.hidden_field :deposit %>
+        <div id="deposit_slider"></div>
+        <a href="" class="float-right">OK...</a>
+      </div>
+    </div>
+  <% end %>
+</div>

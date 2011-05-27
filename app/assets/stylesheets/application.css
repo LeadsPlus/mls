@@ -10,7 +10,7 @@
  *= require results
  *= require smoothness/jquery-ui
  *= require jquery.multiselect
- *
+ *= require start
  *
  * require_tree .
 */
