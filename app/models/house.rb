@@ -37,8 +37,8 @@ class House < ActiveRecord::Base
     where('houses.price >= ?', price)
   end
 
-  def calc_payment_required_assuming rate, term, users_deposit
-    @payment_required ||= Mortgage.new(rate, term, users_deposit, self.price).payment_required
+  def payment_required rate, term, users_deposit
+    Mortgage.new(rate, term, users_deposit, self.price).payment_required
   end
 
 #  validates :county, :presence => true,

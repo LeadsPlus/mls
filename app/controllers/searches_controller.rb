@@ -28,25 +28,25 @@ class SearchesController < ApplicationController
   end
 
   def start
-    @search = Search.new( :min_payment => 700,
-                          :max_payment => 1200,
-                          :term => 25,
+    @search = Search.new( :min_payment => 800,
+                          :max_payment => 1100,
+                          :term => 230,
                           :deposit => 50000,
-                          :location => "Fermanagh",
-                          :lender => 'Any',
-                          :loan_type => 'Any', :initial_period_length => 0)
+                          :location => "Enniskillen, Co. Fermanagh",
+                          :lender => LENDERS,
+                          :loan_type => LOAN_TYPES)
   end
 
   def new
 #    I think that the problem here will be that these will overwrite the fields that
 #    caused errors when we render new from the create failure action???
-    @search = Search.new( :min_payment => 700,
-                          :max_payment => 1200,
-                          :term => 25,
+    @search = Search.new( :min_payment => 800,
+                          :max_payment => 1100,
+                          :term => 30,
                           :deposit => 50000,
-                          :location => "Fermanagh",
-                          :lender => 'Any',
-                          :loan_type => 'Any', :initial_period_length => 0)
+                          :location => "Enniskillen, Co. Fermanagh",
+                          :lender => LENDERS,
+                          :loan_type => LOAN_TYPES)
   end
 
   def create

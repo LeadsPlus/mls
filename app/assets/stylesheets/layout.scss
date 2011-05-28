@@ -4,3 +4,13 @@ div#wrapper {
   width: 980px;
   margin: 0 auto;
 }
+
+div#sidebar {
+  width: 206px;
+  float: left;
+  margin-left: 9px;
+  min-height: 400px;
+  background-color: $colms_bg;
+  border-left: 1px dotted #ddd;
+  padding: 5px 2px;
+}

@@ -1,4 +1,6 @@
 #I guess this can be replaced by an array of hashes?
+# move county scraping methods in here?? County.scrape_listings_in("Fermanagh") OR County.find("Fernamagh").scrape_listings
+# Or leave it in the scrape class but allow access from here??
 
 class County < ActiveRecord::Base
   attr_accessible :name, :daft_id

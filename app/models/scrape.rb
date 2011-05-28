@@ -6,6 +6,7 @@
 # This also changes the value of the "Date Entered" field
 
 # this all needs to be updated to take advantage of the new counties model
+# most of these methods should be class methods I think
 
 # ok problem, because I'm indexing off COUNTIES but trying to link to the counties model, the index's are off
 # because the counties model doesn't go back to 1 when I delete all the counties
@@ -63,7 +64,7 @@ class Scrape
       agent.page.link_with(:text => "Next Page \u00BB").click
     end
   end
-#  handle_asynchronously :county
+  handle_asynchronously :county
 
   def store_listing result
     if result.has_price?

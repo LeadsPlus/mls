@@ -19,6 +19,9 @@ $(function() {
   });
 
   $(".multiselect").multiselect({
+    checkAllText: "All",
+    uncheckAllText: "None",
+    minWidth: 160,
     selectedText: function(numChecked, numTotal, checkedItems){
       if(numChecked === numTotal) {
         return "All selected";
@@ -30,25 +33,6 @@ $(function() {
   });
 
   $("#search_term").buttonset();
-//  $(function() {
-//    var term = $( "#search_term" );
-//    var $tooltip = $('<span class="ui-slider-tooltip ui-widget-content ui-corner-all">'
-//                      + '<span class="ttContent">' + term.val() + ' years</span>'
-//                      + '<span class="ui-tooltip-pointer-down ui-widget-content">'
-//                      + '<span class="ui-tooltip-pointer-down-inner"></span></span>'
-//                      + '</span>');
-//
-//    $( "div#term_slider" ).slider({
-//      range: "min",
-//      min: 5,
-//      max: 50,
-//      value: term.val(),
-//      slide: function( event, ui ) {
-//        term.val( ui.value );
-//        $tooltip.find( "span.ttContent" ).text( ui.value + ' years' );
-//      }
-//    }).find(  ".ui-slider-handle" ).append($tooltip);
-//  });
 
   $(function() {
     var deposit = $( "#search_deposit" );

@@ -1,12 +1,12 @@
 <div class="search_row">
   <%= f.label :min_payment, "Min Payment", :class => "hidden" %>
-  <%= f.label :max_payment, "Payment" %>
+  <b><%= f.label :max_payment, "Payment" %></b>
   <%= f.hidden_field :min_payment, :value => search.min_payment %>
   <%= f.hidden_field :max_payment, :value => search.max_payment %>
   <div id="payment_slider"></div>
 </div>
 <div class="search_row float-left" id="deposit_container">
-  <%= f.label :deposit, "Deposit" %>
+  <b><%= f.label :deposit, "Deposit" %></b>
   <%= f.hidden_field :deposit, :value => search.deposit %>
   <div id="deposit_slider"></div>
 </div>
@@ -18,7 +18,7 @@
   <%= radio_button_tag("search[term]", default_term_3, (search.term == default_term_3)) %><%= label_tag "search_term_#{default_term_3}", default_term_3.to_s %>
 </div>
 <div class="search_row">
-  <%= f.label :location, "Location" %>
+  <b><%= f.label :location, "Location" %></b>
   <%= f.text_field :location, :value => search.location, :size => 60 %>
   <%= f.submit :Search, :class => "float-right sexy_btn" %>
 </div>

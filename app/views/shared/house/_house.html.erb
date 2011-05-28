@@ -9,8 +9,7 @@
 	</div>
 	<div class="summary">
     <span class="price">
-      <% pre = Mortgage.new(@rate, @search.term, @search.deposit, house.price).payment_required %>
-      <%= number_to_currency(-pre, unit: '€', precision: 0) %>
+      <%= number_to_currency(-house.payment_required(@rate, @search.term, @search.deposit), unit: '€') %>
     </span>
     <span class="payment_frequency">/ month</span>
     <ul>

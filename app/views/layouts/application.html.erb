@@ -23,6 +23,11 @@
   <div id="content" role="content">
     <%= yield %>
   </div>
+  <% if content_for? :sidebar %>
+    <div id="sidebar">
+      <%= yield :sidebar %>
+    </div>
+  <% end %>
   <footer class="clear">
     <%= render "layouts/footer" %>
   </footer>

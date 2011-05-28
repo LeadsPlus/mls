@@ -6,7 +6,7 @@ div.search_bar {
 }
 
 div.search_content {
-  background:#eee;
+  background: $colms_bg;
   padding: 1.2em 1em .1em 1em;
   @include border-radius-bottom(5px);
 
@@ -14,7 +14,7 @@ div.search_content {
 
   #deposit_container { width: 45em; }
 
-  label, .label { font-weight: bold; }
+  /*label, .label { font-weight: bold; }*/
 
   #search_term { margin-left: 1.5em; margin-top: 0.6em; }
 
