@@ -4,10 +4,10 @@ class DaftSearchResult
   def initialize(html, county)
     @html = html
     @county = county
-    @correct_town = nil
     @temp_rooms = nil
   end
 
+#  returns nil if no digits in price selector, string otherwise
   def has_price?
     @html.at(".price").text[/[0-9,]+/]
   end
@@ -17,10 +17,12 @@ class DaftSearchResult
     Description: #{description}, \n Image: #{image} \n -------------------------------------"
   end
 
+#  returns an integer price. Only returns EUR price if given in sterling and euro
   def price
     @price ||= @html.at(".price").text[/\u20AC[0-9,]+/].gsub(/[\D]/, '').to_i
   end
 
+#  returns string url of the houses main thumbnail
   def image
     @image ||= @html.at(".main_photo")[:src]
   end
@@ -36,6 +38,7 @@ class DaftSearchResult
     @title_upto_county ||= daft_title[0, county_index]
   end
 
+#  returns daft_title from the comma before county to end
   def county_onwards
     @county_onwards ||= daft_title[county_index, daft_title.length]
   end
@@ -88,7 +91,6 @@ class DaftSearchResult
 #  some properties have no type
 #  some properties have " - " in the freeform address part, hence matching this (only) cannot be relied on
   def parse_type
-    puts "Daft_id: #{daft_id}, Type string: #{property_type_portion}"
     unless property_type_portion.nil?
       HOUSE_TYPES.each do |type|
         return type if property_type_portion.include? type
@@ -113,7 +115,6 @@ class DaftSearchResult
   end
 
 #  This could be improved to get the acerage when we determine we're dealing with a site
-#  This may not work properly now, I kinda messed with it a bit
 #  this is very messy, needs work
   def rooms
     unless @rooms
