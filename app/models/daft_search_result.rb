@@ -1,43 +1,15 @@
-# scrape the date entered
-# split house type off the daft title
-
 class DaftSearchResult
-  attr_reader :county_id
+  attr_reader :county
   
-  def initialize(html, daft_county_id)
+  def initialize(html, county)
     @html = html
-    @county_id = daft_county_id
+    @county = county
     @correct_town = nil
     @temp_rooms = nil
   end
 
   def has_price?
     @html.at(".price").text[/[0-9,]+/]
-  end
-
-#  this is messy, needs work
-  def town
-    unless @town
-      Town.find_all_by_county_id(@county_id).each do |town|
-#        this method is broken. See the rake house utilities parse_address
-        @correct_town = town unless daft_title.index(town.name).nil?
-      end
-#      puts "Nil town found for #{house.daft_title}" if correct_town.nil?
-    end
-    @town ||= @correct_town # town will be a Town record
-  end
-
-#  some addresses are being stripped way too early.
-#  578150 - "20 Lackaboy View, Enniskillen, Co. Fermanagh, BT74 4DY - Semi-Detached House" down to "20"
-#  There is a town called Lack in the db
-#  566795 - "133 Killadeas Road, Nr Ballycassidy, Enniskillen, Co. Fermanagh, BT94 2LZ - Detached House" down to "133"
-#  here what's happening is that I'm matching the string way too early (Killadeas is a diff town)
-#  solution is obv to match from the back
-#  566776 - "Whitehill, Springfield, Enniskillen, Co. Fermanagh - Detached House" down to "Whitehill,"
-#  same again here, Springfield is a different town
-#  problem is because
-  def address
-    @address ||= daft_title[0, daft_title.rindex(town.name)]
   end
 
   def to_s
@@ -53,14 +25,89 @@ class DaftSearchResult
     @image ||= @html.at(".main_photo")[:src]
   end
 
+#  this returns the index of the comma at the very end of town
+  def county_index
+    @county_index = daft_title.rindex(/, Co\./)
+  end
+
+#  returns the daft_title up as far as the comma at the very end of the town name
+  def title_upto_county
+#    this will try to strip from 0 to nil if regex misses!?
+    @title_upto_county ||= daft_title[0, county_index]
+  end
+
+  def county_onwards
+    @county_onwards ||= daft_title[county_index, daft_title.length]
+  end
+
+#  this returns the index of the comma at the very end of address
+  def town_index
+#    this only matches one letter if you remove the " " prefix
+    @town_index ||= title_upto_county.rindex(/, \w+/)
+  end
+
+#  returns the string name of the town this house belongs to
+  def stripped_town
+    @stripped_town ||= title_upto_county[town_index, title_upto_county.length].gsub(/, /, '')
+  end
+
+#  returns the portion of the daft_title which is the freeform address
+  def address
+    @address ||= title_upto_county[0, town_index]
+  end
+
+#  returns the ActiveRecord Town which this house belongs to
+  def town
+    @town ||= county.towns.find_by_name(stripped_town)
+  end
+
+#  returns the portion of daft_title from the " - " just after county else nil if " - " doesn't exist
+  def property_type_portion
+    @property_type_portion ||= parse_property_type_portion
+  end
+
+#  this returns the index of the " - " just after county else nil if doesn't exist
+  def property_type_index
+    @property_type_index ||= county_onwards.rindex(/ - /)
+  end
+
+#  returns the portion of daft_title from the " - " just after county else nil if " - " doesn't exist
+  def parse_property_type_portion
+    unless property_type_index.nil?
+      county_onwards[property_type_index, county_onwards.length]
+    end
+  end
+
+#  returns the property type
+  def type
+    @type ||= parse_type
+  end
+
+#  finds the corresponding house type in the HOUSE_TYPES array
+#  this works because HOUSE_TYPES is set up in such a way that no type includes another as a substring
+#  some properties have no type
+#  some properties have " - " in the freeform address part, hence matching this (only) cannot be relied on
+  def parse_type
+    puts "Daft_id: #{daft_id}, Type string: #{property_type_portion}"
+    unless property_type_portion.nil?
+      HOUSE_TYPES.each do |type|
+        return type if property_type_portion.include? type
+      end
+    end
+#    returns nil if we make it to here
+  end
+
+#  returns the description text
   def description
     @description ||= @html.at(".description").text.strip
   end
 
+#  returns the daft id of the poperty as integer
   def daft_id
     @daft_id ||= @html.at(".title a")[:href].match(/[0-9]+/) { |id| id[0].to_i }
   end
 
+#  returns the daft result listings title
   def daft_title
     @daft_title ||= @html.at(".title a").text.strip
   end

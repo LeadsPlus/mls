@@ -4,7 +4,7 @@ namespace :db do
     require 'faker'
     delete_rates
     delete_all_searches
-#    delete_all_users
+    delete_counties
     make_counties
     make_rates
     create_default_search # has to happen after rates else validation fail
@@ -27,6 +27,7 @@ end
 
 def delete_all_searches
   Search.delete_all
+#  maybe I can over ride the delete_all method to do this automatically?
   ActiveRecord::Base.connection.execute "SELECT setval('public.searches_id_seq', 1, false)"
   puts "All Searches deleted"
 end
@@ -37,17 +38,10 @@ def delete_rates
   puts "All Rates deleted"
 end
 
-def update_default_search
-  Search.find(1).update_attributes({
-         :max_payment => 1100,
-         :min_payment => 800,
-         :deposit => 50000,
-         :term => 30,
-         :location => "Detached, Enniskillen, Co. Fermanagh",
-         :lender => LENDERS,
-         :loan_type => LOAN_TYPES
-       })
-  puts "Default search updated"
+def delete_counties
+  County.delete_all
+  ActiveRecord::Base.connection.execute "SELECT setval('public.counties_id_seq', 1, false)"
+  puts 'All counties deleted'
 end
 
 def create_default_search
@@ -66,7 +60,6 @@ end
 # once I have these in here, I don't technically need the COUNTIES array any more?
 # Houses should reference the county id
 def make_counties
-  County.delete_all
   1.upto(32) do |i|
     County.create!(name: COUNTIES[i - 1], daft_id: i)
   end

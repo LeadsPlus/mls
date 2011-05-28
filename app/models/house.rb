@@ -1,4 +1,6 @@
-# I need to gradually wean this model off the county field, onto the county id field
+# I need to gradually wean this model off the county field, onto the county class/model
+# property_type should be renamed to just type
+# daft_date_entered should be deleted
 
 class House < ActiveRecord::Base
   attr_accessible :price, :description, :county_id, :image_url, :daft_id,
@@ -18,7 +20,61 @@ class House < ActiveRecord::Base
   def title
     "#{address} #{town.name}, Co. "
   end
-  
+
+  def county_index
+    @county_index = daft_title.rindex(/, Co\./)
+  end
+
+  def title_sans_county
+#    this will try to strip from 0 to nil if regex misses!?
+    @title_sans_county ||= daft_title[0, county_index]
+  end
+
+  def county_onwards
+    @county_onwards ||= daft_title[county_index, daft_title.length]
+  end
+
+  def stripped_town
+#    this only matches one letter if you remove the " " prefix
+    title_sans_county[title_sans_county.rindex(/, \w+/), title_sans_county.length].gsub(/, /, '')
+  end
+
+#  returns the portion of daft_title from the " - " just after county else nil if " - " doesn't exist
+  def property_type_portion
+    @property_type_portion ||= parse_property_type_portion
+  end
+
+#  this returns the index of the " - " just after county else nil if doesn't exist
+  def property_type_index
+    @property_type_index ||= county_onwards.rindex(/ - /)
+  end
+
+#  returns the portion of daft_title from the " - " just after county else nil if " - " doesn't exist
+  def parse_property_type_portion
+    unless property_type_index.nil?
+      daft_title[property_type_index, daft_title.length]
+    end
+  end
+
+#  returns the property type
+  def type
+    @type ||= parse_type
+  end
+
+#  finds the corresponding house type in the HOUSE_TYPES array
+#  this works because HOUSE_TYPES is set up in such a way that no type includes another as a substring
+#  some properties have no type
+#  some properties have " - " in the freeform address part, hence matching this (only) cannot be relied on
+  def parse_type
+    puts "Daft_id: #{daft_id}, Type string: #{property_type_portion}"
+    unless property_type_portion.nil?
+      HOUSE_TYPES.each do |type|
+        return type if property_type_portion.include? type
+      end
+    end
+#    returns nil if we make it to here
+  end
+
   def daft_url
     "http://www.daft.ie/searchsale.daft?id=#{daft_id}"
   end

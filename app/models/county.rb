@@ -1,3 +1,5 @@
+#I guess this can be replaced by an array of hashes?
+
 class County < ActiveRecord::Base
   attr_accessible :name, :daft_id
   has_many :houses

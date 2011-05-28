@@ -38,35 +38,34 @@ class Scrape
 #  This method will pull up all search results in a particular county and cycle over each result
 #  If the result corresponds to an existing house record, the record will be updated ??
 #  if the result is new, a House will be built and saved with minimal information
-  def county(daft_county_id = 30)
-
-#    url = "http://www.daft.ie/searchsale.daft?s%5Bcc_id%5D=c#{daft_county_id}&s%5Ba_id%5D%5B%5D=&s%5Broute_id%5D=&s%5Ba_id_transport%5D=0&s%5Baddress%5D=&s%5Btxt%5D=&s%5Bmnb%5D=&s%5Bmxb%5D=&s%5Bmnp%5D=&s%5Bmxp%5D=&s%5Bpt_id%5D=&s%5Bhouse_type%5D=&s%5Bsqmn%5D=&s%5Bsqmx%5D=&s%5Bmna%5D=&s%5Bmxa%5D=&s%5Bnpt_id%5D=&s%5Bdays_old%5D=&s%5Bnew%5D=&s%5Bagreed%5D=&search.x=34&search.y=20&search=Search+%BB&more=&tab=&search=1&s%5Bsearch_type%5D=sale&s%5Btransport%5D=&s%5Badvanced%5D=&s%5Bprice_per_room%5D=&fr=default"
-    url = "http://www.daft.ie/searchsale.daft?s%5Bcc_id%5D=c#{daft_county_id}&search=1&submit.x=23&submit.y=11"
-    puts "Scraping #{COUNTIES[daft_county_id.to_i - 1]} via it's Daft county ID: #{daft_county_id}..."
+  def county(county)
+    url = "http://www.daft.ie/searchsale.daft?s%5Bcc_id%5D=c#{county.daft_id}&search=1&submit.x=23&submit.y=11"
+    puts "Scraping #{county.name} via it's Daft county ID: #{county.daft_id}..."
 
     agent = Mechanize.new
     agent.get(url)
 
 #    while I'm here, can get the towns. Remember towns need to be deleted first
     Town.delete_all
-    create_towns_off agent.page, daft_county_id
+    ActiveRecord::Base.connection.execute "SELECT setval('public.towns_id_seq', 1, false)"
+    create_towns_off agent.page, county
 
     while(agent.page.link_with(:text => "Next Page \u00BB")) do
       agent.page.search(".content").each do |house_item|
 #        I should build the DaftSearchResult here and pass it into the store listing method as the only param
 #        Or, build my own page object and store daft_county_id as instance var then pass that around??
 #        Or, move the county scraping methods into the county model???
-        store_listing house_item, daft_county_id
+
+        result = DaftSearchResult.new(house_item, county)
+        store_listing result
       end
 
       agent.page.link_with(:text => "Next Page \u00BB").click
     end
   end
-  handle_asynchronously :county
+#  handle_asynchronously :county
 
-  def store_listing house_item, daft_county_id
-    result = DaftSearchResult.new(house_item, daft_county_id)
-
+  def store_listing result
     if result.has_price?
       house = House.find_or_initialize_by_daft_id(result.daft_id)
 #          This automatically only updates fields which have changed
@@ -75,11 +74,12 @@ class Scrape
         description: result.description,
         image_url: result.image,
         price: result.price,
-        county_id: daft_county_id,
         bedrooms: result.rooms[0],
         bathrooms: result.rooms[1],
-        address: result.address
+        address: result.address,
+        property_type: result.type
       })
+      house.county = result.county
       house.town = result.town
       house.save!
     end
@@ -95,8 +95,8 @@ class Scrape
   handle_asynchronously :visit_houses_starting_from
 
   def all
-    1.upto(32) do |daft_county_id|
-      county daft_county_id
+    County.all.each do |county|
+      county county
     end
   end
 
@@ -106,35 +106,35 @@ class Scrape
     end
   end
 
-  def delete_houses_in_county(daft_county_id = 30)
-    House.delete_all("county = '#{COUNTIES[daft_county_id.to_i - 1]}'")
+  def delete_houses_in_county(county_name)
+    House.delete_all("county = '#{county_name}'")
   end
 
 #  this should be a generic visit all counties method. Pass a block
   def towns
-    1.upto(32) do |daft_county_id|
-      towns_in_county daft_county_id
+    County.all.each do |county|
+      towns_in_county county
     end
   end
 
 #  this should be a generic visit county method. Then I can pass it a block depending on what I want
 #  to do while I'm there
-  def towns_in_county(daft_county_id = 30)
+  def towns_in_county(county)
     agent = Mechanize.new
-    url = "http://www.daft.ie/searchsale.daft?s%5Bcc_id%5D=c#{daft_county_id}&search=1&submit.x=23&submit.y=11"
+    url = "http://www.daft.ie/searchsale.daft?s%5Bcc_id%5D=c#{county.daft_id}&search=1&submit.x=23&submit.y=11"
     agent.get(url)
 
-    puts "Scraping the locations in county: #{COUNTIES[daft_county_id.to_i - 1]}"
-    create_towns_off agent.page, daft_county_id
+    puts "Scraping the locations in county: #{county.name}"
+    create_towns_off agent.page, county
   end
 
-  def create_towns_off page, daft_county_id
+  def create_towns_off page, county
     page.search("#a_id option").each do |option|
       value = option[:value]
       text = option.text.gsub(/(- | -)/, "").gsub(/ \(.+\)/, "")
 
       unless text =~ /(-+|Dublin Commuter)/ || value.blank?
-        Town.create!(name: text, daft_id: value, county_id: daft_county_id)
+        Town.create!(name: text, daft_id: value, county_id: county.daft_id)
       end
     end
   end

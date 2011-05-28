@@ -57,21 +57,19 @@ end
   end
 
 def parse_address
-  House.find_each() do |house|
-    correct_town = nil
-#    THis is broken by the County indexing offset issue
-    Town.find_all_by_county_id(30).each do |town|
-#      Lack comes after Eniskillan, it finds Eniskillan first and sets correct_town and keeps going
-#      Then it finds Lack and overwrites correct_town. After loop, Lack gets passed back as the town
-#      Need to iterate over the words in the daft_title OR
-#      strip back as far as the county. The town will be the next word along
-      unless house.daft_title.rindex(town.name).nil?
-#      rindex == reverse index
-        correct_town = town
-      end
-    end
-    puts "Nil town found for #{house.daft_title}" if correct_town.nil?
-    house.town = correct_town
-    house.save!
+  House.find_each() do |h|
+    stripped_county = h.daft_title[0, h.daft_title.rindex(/, Co\./)]
+    town_index = stripped_county.rindex(/, \w+/)
+    town_name = stripped_county[town_index, stripped_county.length].gsub(/, /, '')
+    address = stripped_county[0, town_index]
+    town = Town.find_by_name(town_name)
+
+#    puts "TItle: #{h.daft_title}"
+#    puts "Town name: #{town_name}"
+#    puts "address: #{address}"
+#    puts "Town: #{town.name}"
+    h.address = address
+    h.town = town
+    h.save!
   end
 end
