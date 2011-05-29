@@ -2,6 +2,7 @@ class SearchesController < ApplicationController
   before_filter :authenticate_user!, :only => [ :index ]
 #  so that we can access these methods in the view layer
   helper_method :sort_column, :sort_direction
+  autocomplete :town, :name, :display_value => :address
 
   def index
     @searches = Search.page(params[:page]).per(50)
@@ -32,7 +33,7 @@ class SearchesController < ApplicationController
                           :max_payment => 1100,
                           :term => 230,
                           :deposit => 50000,
-                          :location => "Enniskillen, Co. Fermanagh",
+                          :location => "Enniskillen",
                           :lender => LENDERS,
                           :loan_type => LOAN_TYPES)
   end
@@ -44,7 +45,7 @@ class SearchesController < ApplicationController
                           :max_payment => 1100,
                           :term => 30,
                           :deposit => 50000,
-                          :location => "Enniskillen, Co. Fermanagh",
+                          :location => "Enniskillen",
                           :lender => LENDERS,
                           :loan_type => LOAN_TYPES)
   end

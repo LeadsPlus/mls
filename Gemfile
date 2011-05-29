@@ -38,6 +38,7 @@ gem 'delayed_job'
 gem 'hirefire'
 gem 'devise'
 gem 'texticle'
+gem 'rails3-jquery-autocomplete'
 
 # this should be moved back into dev after I stop faking data in prod
 gem 'faker'

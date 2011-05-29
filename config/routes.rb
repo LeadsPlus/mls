@@ -21,7 +21,9 @@ Mls::Application.routes.draw do
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
   match 'start' => "searches#start"
-  resources :searches, :only => [:new, :create, :show, :index]
+  resources :searches, :only => [:new, :create, :show, :index] do
+    get :autocomplete_town_name, :on => :collection
+  end
 
   # Sample resource route with options:
   #   resources :products do

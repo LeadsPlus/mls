@@ -13,4 +13,5 @@
 // require safelog.js
 //= require jquery.multiselect.min
 //= require myjs
+//= require autocomplete-rails
 // require_tree .

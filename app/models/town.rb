@@ -1,6 +1,16 @@
 class Town < ActiveRecord::Base
+  attr_accessible :name
   belongs_to :county
   has_many :houses
+
+  def address
+    "#{name}, Co. #{county}"
+  end
+
+  def self.reset
+    Town.delete_all
+    ActiveRecord::Base.connection.execute "SELECT setval('public.towns_id_seq', 1, false)"
+  end
 
 #  require town names to be unique? What if there is a county with two towns the same name?
 end

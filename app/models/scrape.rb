@@ -10,7 +10,25 @@
 
 # ok problem, because I'm indexing off COUNTIES but trying to link to the counties model, the index's are off
 # because the counties model doesn't go back to 1 when I delete all the counties
+
+#user agent aliases
+#"Windows IE 6"=>"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)",
+#"Windows IE 7"=>"Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)",
+#"Windows Mozilla"=>"Mozilla/5.0 (Windows; U; Windows NT 5.0; en-US; rv:1.4b) Gecko/20030516 Mozilla Firebird/0.6",
+#"Mac Safari"=>"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_2; de-at) AppleWebKit/531.21.8 (KHTML, like Gecko) Version/4.0.4 Safari/531.21.10",
+#"Mac FireFox"=>"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.2) Gecko/20100115 Firefox/3.6",
+#"Mac Mozilla"=>"Mozilla/5.0 (Macintosh; U; PPC Mac OS X Mach-O; en-US; rv:1.4a) Gecko/20030401",
+#"Linux Mozilla"=>"Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.4) Gecko/20030624",
+#"Linux Firefox"=>"Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.2.1) Gecko/20100122 firefox/3.6.1",
+#"Linux Konqueror"=>"Mozilla/5.0 (compatible; Konqueror/3; Linux)",
+#"iPhone"=>"Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1C28 Safari/419.3",
+#"Mechanize"=>"WWW-Mechanize/1.0.0 (http://rubyforge.org/projects/mechanize/)"}
+
 class Scrape
+  AGENT_ALIASES = ["Windows IE 6", "Windows IE 7", "Windows Mozilla", "Mac Safari", "Mac FireFox", "Mac Mozilla"]
+
+
+  
   def visit_houses_in_county(daft_county_id = 30)
     agent = Mechanize.new
     puts "Visiting all houses in #{COUNTIES[daft_county_id.to_i - 1]}..."
@@ -44,11 +62,11 @@ class Scrape
     puts "Scraping #{county.name} via it's Daft county ID: #{county.daft_id}..."
 
     agent = Mechanize.new
+#    agent.user_agent_alias = "Mac Safari"
     agent.get(url)
 
 #    while I'm here, can get the towns. Remember towns need to be deleted first
-    Town.delete_all
-    ActiveRecord::Base.connection.execute "SELECT setval('public.towns_id_seq', 1, false)"
+    Town.reset
     create_towns_off agent.page, county
 
     while(agent.page.link_with(:text => "Next Page \u00BB")) do
@@ -61,6 +79,8 @@ class Scrape
         store_listing result
       end
 
+#      sleep for one second so we don't kill daft
+      sleep 1
       agent.page.link_with(:text => "Next Page \u00BB").click
     end
   end
@@ -135,7 +155,9 @@ class Scrape
       text = option.text.gsub(/(- | -)/, "").gsub(/ \(.+\)/, "")
 
       unless text =~ /(-+|Dublin Commuter)/ || value.blank?
-        Town.create!(name: text, daft_id: value, county_id: county.daft_id)
+        town = Town.new(name: text, daft_id: value)
+        town.county = county
+        town.save
       end
     end
   end
