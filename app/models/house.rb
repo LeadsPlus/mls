@@ -20,7 +20,7 @@ class House < ActiveRecord::Base
   def title
     "#{address}, #{town.name}, Co. #{county.name}"
   end
-
+  
   def daft_url
     "http://www.daft.ie/searchsale.daft?id=#{daft_id}"
   end

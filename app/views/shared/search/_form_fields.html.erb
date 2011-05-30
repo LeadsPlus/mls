@@ -20,15 +20,16 @@
 <div class="search_row">
   <b><%= f.label :location, "Location" %></b>
   <%# f.text_field :location, :value => search.location, :size => 60 %>
-  <%= f.autocomplete_field :location, autocomplete_town_name_searches_path %>
+  <%= f.autocomplete_field :location, autocomplete_town_name_searches_path, value: search.location %>
   <%= f.submit :Search, :class => "float-right sexy_btn" %>
 </div>
-<span><%= link_to 'Mortgage Filter', "#", :class => " collapsed-trigger float-right" %></span>
-<div id="mortgage_options" class="collapsed-content <%= search.has_mortgage_conditions? ? '' : 'hidden' %>">
-  <ul>
-    <li class="input"><%= f.label :lender %></li>
-    <li class="input"><%= f.select :lender, lender_options, {:selected => search.lender}, { :class => "multiselect", :multiple => 'multiple' } %></li>
-    <li class="input"><%= f.label :loan_type %></li>
-    <li class="input"><%= f.select :loan_type, loan_type_options, {:selected => search.loan_type}, { :class => "multiselect", :multiple => 'multiple' } %></li>
-  </ul>
-</div>
+<%# content_for :sidebar do %>
+  <div id="mortgage_options">
+    <ul>
+      <li class="input"><%= f.label :lender %></li>
+      <li class="input"><%= f.select :lender, lender_options, {:selected => search.lender}, { :class => "multiselect", :multiple => 'multiple' } %></li>
+      <li class="input"><%= f.label :loan_type %></li>
+      <li class="input"><%= f.select :loan_type, loan_type_options, {:selected => search.loan_type}, { :class => "multiselect", :multiple => 'multiple' } %></li>
+    </ul>
+  </div>
+<%# end %>

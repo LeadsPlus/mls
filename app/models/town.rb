@@ -3,8 +3,10 @@ class Town < ActiveRecord::Base
   belongs_to :county
   has_many :houses
 
+#  for some reason this raises a NoMethodError for county.name
+#  perhaps there is a collision between Town.name and County.name ??
   def address
-    "#{name}, Co. #{county}"
+    "#{name}, Co. #{county.name}"
   end
 
   def self.reset

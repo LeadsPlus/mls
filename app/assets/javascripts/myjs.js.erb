@@ -18,6 +18,13 @@ $(function() {
     cyclic: true
   });
 
+  $("#new_search").bind('ajax:beforeSend', function(xhr, settings){
+    xhr.data = {
+      key: 'value'
+    };
+    console.log( xhr );
+  });
+
   $(".multiselect").multiselect({
     checkAllText: "All",
     uncheckAllText: "None",

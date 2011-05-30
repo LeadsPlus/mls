@@ -2,7 +2,7 @@ class SearchesController < ApplicationController
   before_filter :authenticate_user!, :only => [ :index ]
 #  so that we can access these methods in the view layer
   helper_method :sort_column, :sort_direction
-  autocomplete :town, :name, :display_value => :address
+  autocomplete :town, :name #, :display_value => :address
 
   def index
     @searches = Search.page(params[:page]).per(50)
@@ -15,8 +15,7 @@ class SearchesController < ApplicationController
 
   def show
     @search = Search.find params[:id]
-    @all_matches = @search.matches.order(sort_column + " " + sort_direction)
-    @matches = @all_matches.page(params[:page])
+    @matches = @search.matches.order(sort_column + " " + sort_direction).page(params[:page])
     @rate = @search.rate
 
     add_search_bar
@@ -54,9 +53,18 @@ class SearchesController < ApplicationController
     @search = Search.new params[:search]
 
     if @search.save
-      redirect_to search_path(@search)
+      respond_to do |format|
+        format.html { redirect_to search_path(@search) }
+        format.js do
+          @matches = @search.matches.order(sort_column + " " + sort_direction).page(params[:page])
+          @rate = @search.rate
+        end
+      end
     else
-      render 'new'
+      respond_to do |format|
+        format.html { render 'new' }
+        format.js { render 'create_failure' }
+      end
     end
   end
 

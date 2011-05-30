@@ -1,13 +1,31 @@
-<div class="results_menu clear">
-  <%= sortable "price", "Required Payments" %>
-</div>
-<div class="clear">
-  <% if @matches.any? %>
-  <ul class="listings">
-    <%= render :partial => 'shared/house/house', :collection => @matches %>
-  </ul>
-  <%= paginate @matches %>
-  <% else %>
-    <p>We're sorry but no houses match that search.</p>
-  <% end %>
+<div id="results" class="float-left">
+  <div id="mortgage_details">
+    <p>
+      You can borrow between <%= number_to_currency(search.min_price, :unit => '€', :precision => 0) %> and
+      <%= number_to_currency(search.max_price, :unit => '€', :precision => 0) %>.
+      <%= link_to "Based on what rate?", "#", class: "collapsed-trigger float-right" %>
+    </p>
+
+    <div class="collapsed-content hidden">
+      <table class="data">
+        <thead><%= render "shared/compact_rate_table_headings", :rate => rate %></thead>
+        <tbody><%= render "shared/compact_rate", :rate => rate %></tbody>
+      </table>
+      <%= link_to "View all the rates", rates_path, class: "float-right" %>
+      <div class="spacer"></div>
+    </div>
+  </div>
+  <div class="results_menu clear">
+    <%= sortable "price", "Required Payments" %>
+  </div>
+  <div class="clear">
+    <% if matches.any? %>
+    <ul class="listings">
+      <%= render :partial => 'shared/house/house', :collection => matches %>
+    </ul>
+    <%= paginate matches %>
+    <% else %>
+      <p>We're sorry but no houses match that search.</p>
+    <% end %>
+  </div>
 </div>

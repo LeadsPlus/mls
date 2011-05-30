@@ -1,4 +1,4 @@
 .search_content
-  = form_for Search.new do |f|
+  = form_for Search.new, :remote => true do |f|
     = render 'shared/search/form_fields', :f => f, :search => @search
   
