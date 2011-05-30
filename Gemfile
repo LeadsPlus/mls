@@ -34,8 +34,7 @@ gem 'kaminari'
 gem 'nokogiri'
 gem 'mechanize'
 gem 'pg'
-gem 'delayed_job'
-gem 'hirefire'
+gem 'delayed_job', git: 'https://github.com/collectiveidea/delayed_job.git', tag: 'v2.1.2'
 gem 'devise'
 gem 'texticle'
 gem 'rails3-jquery-autocomplete'
@@ -48,6 +47,8 @@ gem 'hirb'
 
 group :production do
   gem 'therubyracer-heroku', '0.8.1.pre3'
+#  hirefire gem needs to load after delayed_job
+  gem 'hirefire'
 end
 
 group :development do

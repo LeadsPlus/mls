@@ -18,11 +18,10 @@ $(function() {
     cyclic: true
   });
 
-  $("#new_search").bind('ajax:beforeSend', function(xhr, settings){
-    xhr.data = {
-      key: 'value'
-    };
+  $("#new_search").bind('ajax:before', function(xhr){
+    xhr.data = 'value'
     console.log( xhr );
+//    console.log( xhr.target );
   });
 
   $(".multiselect").multiselect({

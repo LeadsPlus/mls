@@ -8,39 +8,46 @@
 namespace :scrape do
   desc "Enqueue jobs to scrape house listings for every county from daft.ie"
   task :all_listings => :environment do
-    Scrape.new.refresh_listings_in(County.all) # the delay is in the county method
+    County.find_each() do |county|
+      ListingsScraper.new(county).refresh_listings
+    end
   end
 
 #  the numbers in the daft URLs are probably a UID, perhaps I can use these to only scrape new houses
 #  when i do my second and future run throughs. Could also use it to remove sold houses
   desc "Enqueue a job to scrape a single county based off it's ID"
   task :listings_in, [:county_name] => :environment do |task, args|
+    puts "Running task"
     args.with_defaults(:county_name => "Fermanagh")
     county = County.find_by_name args.county_name
-    Scrape.new.refresh_listings_in(county)
+    ListingsScraper.new(county).refresh_listings
   end
 
   desc "Visit the show page of all the houses in the database after a particular house id"
-  task :visit_all => :environment do |task, args|
-    Scrape.new.visit_houses_in County.all
+  task :houses_all => :environment do |task, args|
+    County.find_each() do |county|
+      HouseScraper.new(county).visit_houses
+    end
   end
 
   desc "Visit the show page of all the houses in a particular county"
-  task :visit_in, [:county_name] => :environment do |task, args|
+  task :houses_in, [:county_name] => :environment do |task, args|
     args.with_defaults(:county_name => "Fermanagh") # 30 = Fermanagh
     county = County.find_by_name args.county_name
-    Scrape.new.visit_houses_in(county)
+    HouseScraper.new(county).visit_houses
   end
 
   desc "Scrape all valid town names from daft"
   task :all_towns => :environment do
-    Scrape.new.refresh_towns_in County.all
+    County.find_each() do |county|
+      TownsScraper.new(county).refresh_towns
+    end
   end
 
   desc "Scrape all valid town names in a particular county from daft"
   task :towns_in, [:county_name] => :environment do |task, args|
     args.with_defaults(:county_name => "Fermanagh")
     county = County.find_by_name args.county_name
-    Scrape.new.refresh_towns_in county
+    TownsScraper.new(county).refresh_towns
   end
 end
