@@ -132,7 +132,7 @@
     </requirement>
     <requirement>
       <requirement>
-        <dependency name="rspec-rails" version="0" bound="GREATER_OR_EQUAL" git="true" path="false" doRequire="true" />
+        <dependency name="rspec-rails" version="0" bound="GREATER_OR_EQUAL" git="false" path="false" doRequire="true" />
       </requirement>
       <source from="Gemfile" />
     </requirement>
@@ -144,7 +144,7 @@
     </requirement>
     <requirement>
       <requirement>
-        <dependency name="spork" version="0.9.0.rc" bound="LATEST_IN_BRANCH" git="false" path="false" doRequire="true" />
+        <dependency name="spork" version="0" bound="GREATER_OR_EQUAL" git="false" path="false" doRequire="true" />
       </requirement>
       <source from="Gemfile" />
     </requirement>

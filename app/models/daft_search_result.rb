@@ -61,7 +61,9 @@ class DaftSearchResult
 
 #  returns the ActiveRecord Town which this house belongs to
   def town
-    @town ||= county.towns.find_by_name(stripped_town)
+#    if this listing is for a new town, we pass in a placeholder for daft_id because we don't know it yet
+#    then the next time we run the town scraper, it will be filled in
+    @town ||= Town.find_or_create_by_county_and_name(@county, { name: stripped_town, daft_id: nil })
   end
 
 #  returns the portion of daft_title from the " - " just after county else nil if " - " doesn't exist
@@ -120,6 +122,7 @@ class DaftSearchResult
     unless @rooms
       element = @html.at(".bedrooms")
       if element.nil?
+#        this should probably be [nil,nil]
         @temp_rooms = [0,0]
       else
         beds = element.text.match(/\d+ Be/)
@@ -139,5 +142,25 @@ class DaftSearchResult
       end
     end
     @rooms ||= @temp_rooms
+  end
+
+  def save
+    if has_price?
+      house = House.find_or_initialize_by_daft_id(daft_id)
+#     This automatically only updates fields which have changed
+      house.update_attributes({
+        daft_title: daft_title,
+        description: description,
+        image_url: image,
+        price: price,
+        bedrooms: rooms[0],
+        bathrooms: rooms[1],
+        address: address,
+        property_type: type
+      })
+      house.county = @county
+      house.town = town
+      house.save!
+    end
   end
 end
