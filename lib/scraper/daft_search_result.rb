@@ -64,23 +64,23 @@ module Scraper
     def town
   #    if this listing is for a new town, we pass in a placeholder for daft_id because we don't know it yet
   #    then the next time we run the town scraper, it will be filled in
-      @town ||= Town.find_or_create_by_county_and_name(@county, { name: stripped_town, daft_id: nil })
+      @town ||= Town.find_or_create_by_county_and_name(name: stripped_town, daft_id: nil, county: @county.name)
     end
 
   #  returns the portion of daft_title from the " - " just after county else nil if " - " doesn't exist
-    def property_type_portion
-      @property_type_portion ||= parse_property_type_portion
+    def type_portion
+      @type_portion ||= parse_type_portion
     end
 
   #  this returns the index of the " - " just after county else nil if doesn't exist
-    def property_type_index
-      @property_type_index ||= county_onwards.rindex(/ - /)
+    def type_index
+      @type_index ||= county_onwards.rindex(/ - /)
     end
 
   #  returns the portion of daft_title from the " - " just after county else nil if " - " doesn't exist
-    def parse_property_type_portion
-      unless property_type_index.nil?
-        county_onwards[property_type_index, county_onwards.length]
+    def parse_type_portion
+      unless type_index.nil?
+        county_onwards[type_index, county_onwards.length]
       end
     end
 
@@ -94,9 +94,9 @@ module Scraper
   #  some properties have no type
   #  some properties have " - " in the freeform address part, hence matching this (only) cannot be relied on
     def parse_type
-      unless property_type_portion.nil?
+      unless type_portion.nil?
         HOUSE_TYPES.each do |type|
-          return type if property_type_portion.include? type
+          return type if type_portion.include? type
         end
       end
   #    returns nil if we make it to here

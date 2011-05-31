@@ -26,7 +26,7 @@ module Scraper
           text = option.text.gsub(/(- | -)/, "").gsub(/ \(.+\)/, "")
 
           unless text =~ /(-+|Dublin Commuter)/ || value.blank?
-            Town.create_or_update_by_county_and_name(@county, { name: text, daft_id: value })
+            Town.create_or_update_by_county_and_name(name: text, daft_id: value, county: @county.name)
           end
         end
       end

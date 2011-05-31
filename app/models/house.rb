@@ -63,24 +63,25 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: houses
 #
-#  id                :integer         not null, primary key
-#  price             :integer
-#  created_at        :datetime
-#  updated_at        :datetime
-#  image_url         :string(255)
-#  description       :text
-#  daft_title        :string(255)
-#  daft_id           :integer
-#  bedrooms          :integer
-#  bathrooms         :integer
-#  daft_date_entered :date
-#  address           :string(255)
-#  property_type     :string(255)
-#  county_id         :integer
-#  town_id           :integer
+#  id          :integer         not null, primary key
+#  price       :integer
+#  created_at  :datetime
+#  updated_at  :datetime
+#  image_url   :string(255)
+#  description :text
+#  daft_title  :string(255)
+#  daft_id     :integer
+#  bedrooms    :integer
+#  bathrooms   :integer
+#  address     :string(255)
+#  type        :string(255)
+#  county_id   :integer
+#  town_id     :integer
+#  last_scrape :integer
 #
 

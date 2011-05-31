@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110527212319) do
+ActiveRecord::Schema.define(:version => 20110531010850) do
 
   create_table "counties", :force => true do |t|
     t.integer  "daft_id"
@@ -44,11 +44,11 @@ ActiveRecord::Schema.define(:version => 20110527212319) do
     t.integer  "daft_id"
     t.integer  "bedrooms"
     t.integer  "bathrooms"
-    t.date     "daft_date_entered"
     t.string   "address"
     t.string   "property_type"
     t.integer  "county_id"
     t.integer  "town_id"
+    t.integer  "last_scrape"
   end
 
   add_index "houses", ["daft_id"], :name => "index_houses_on_daft_id"
@@ -99,11 +99,11 @@ ActiveRecord::Schema.define(:version => 20110527212319) do
   end
 
   create_table "towns", :force => true do |t|
-    t.integer  "county_id"
     t.string   "name"
     t.string   "daft_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "county"
   end
 
   create_table "users", :force => true do |t|
