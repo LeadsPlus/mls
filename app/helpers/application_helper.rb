@@ -25,6 +25,14 @@ module ApplicationHelper
     BEDROOMS.collect {|x| [x,x] }
   end
 
+  def checkbox(type, field_number, checked)
+    check_box_tag "search[#{type}][]", field_number.to_s, checked, id: "search_#{type}_#{field_number}"
+  end
+
+  def checkbox_label(type, x)
+    label_tag "search_#{type}_#{x}", x.to_s
+  end
+
   def sortable(column, title = nil)
     title ||= column.titleize
 #    I've no idea whats going on in this logic

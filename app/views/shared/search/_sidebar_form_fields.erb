@@ -7,14 +7,20 @@
       <%= f.label :loan_type %><br />
       <%= f.select :loan_type, loan_type_options, {:selected => search.loan_type}, { :class => "multiselect", :multiple => 'multiple' } %>
     </div>
-    <div id="bedrooms_refinement">
-      <%= check_box_tag "search[bedrooms][]", "1", search.bedrooms[0], id: "search_bedrooms_1" %><%= label_tag "search_bedrooms_1", "1" %>
-      <%= check_box_tag "search[bedrooms][]", "2", search.bedrooms[1], id: "search_bedrooms_2" %><%= label_tag "search_bedrooms_2", "2" %>
-      <%= check_box_tag "search[bedrooms][]", "3", search.bedrooms[2], id: "search_bedrooms_3" %><%= label_tag "search_bedrooms_3", "3" %>
-      <%= check_box_tag "search[bedrooms][]", "4", search.bedrooms[3], id: "search_bedrooms_4" %><%= label_tag "search_bedrooms_4", "4" %>
-      <%= check_box_tag "search[bedrooms][]", "5", search.bedrooms[4], id: "search_bedrooms_5" %><%= label_tag "search_bedrooms_5", "5" %>
+    <div class="buttonset">
+      <b>Bedrooms</b><br />
+      <!-- these should obv be replaced with the bedroom range possible -->
+      <% BEDROOMS.each do |x| %>
+        <%= checkbox('bedroom', x, search.bedrooms[x-1]) %>
+        <%= checkbox_label('bedroom', x) %>
+      <% end %>
     </div>
-      <%= f.label :bathrooms %><br />
-      <%= f.select :bathrooms, bedroom_options, {selected: search.bathrooms}, { class: "multiselect", multiple: 'multiple' } %>
+    <div class="buttonset">
+      <b>Bathrooms</b><br />
+      <% BATHROOMS.each do |x| %>
+        <%= checkbox('bathroom', x, search.bathrooms[x-1]) %>
+        <%= checkbox_label('bathroom', x) %>
+      <% end %>
+    </div>
   <% end %>
 <% end %>
