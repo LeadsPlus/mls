@@ -1,5 +1,6 @@
 module Finance
   class MortgageBroker
+    include Log
     attr_reader :mortgages, :max_mortgage, :min_mortgage
 
   #  can I just pass in the search object?
@@ -14,33 +15,37 @@ module Finance
     end
 
     def viable_rates
-      Rails.logger.debug "Getting viable rates"
-      @viable_rates ||= Rate.scope_by_lender(@lender).scope_by_loan_type(@loan_type)
+      log_around 'to get or calculate viable rates' do
+        @viable_rates ||= Rate.scope_by_lender(@lender).scope_by_loan_type(@loan_type)
+      end
     end
 
   #  If I limit people to preset term lengths, I can pre-calulate average rates, skip the calc_rates_hash
   #  method and only instanciate mortgages for compeditive rates
     def lowest_rates
-      Rails.logger.debug "Returning low rates or Removing high rates"
-      @lowest_rates ||= viable_rates.group_by{|r| r.min_deposit }
+      log_around 'to retrieve or calculate lowest rates' do
+        @lowest_rates ||= viable_rates.group_by{|r| r.min_deposit }
                           .map { |min_deposit, rates| rates.min_by(&:twenty_year_apr) }.flatten(1)
+      end
     end
 
     def mortgages
+#      it appears that putting return @mortgages if @mortgages doesnt do what I think it will
       unless @mortgages
-        Rails.logger.debug "Building the mortgages"
-        @mortgages = []
-        lowest_rates.each do |rate|
-           @mortgages << ReverseMortgage.new(rate, @term, @deposit, @max_payment)
+        log_around 'to build the mortgages' do
+          @mortgages = []
+          lowest_rates.each do |rate|
+             @mortgages << ReverseMortgage.new(rate, @term, @deposit, @max_payment)
+          end
         end
       end
-      Rails.logger.debug "Returning the mortgages"
       @mortgages
     end
 
     def max_mortgage
-      Rails.logger.debug "Returning or Selecting the mortgage with the max affordable price"
-      @max_mortgage ||= affordable_mortgages.sort! {|a,b| a.price <=> b.price }.pop
+      log_around 'return or determine the max mortgage' do
+        @max_mortgage ||= affordable_mortgages.sort! {|a,b| a.price <=> b.price }.pop
+      end
     end
 
     def min_mortgage
@@ -48,7 +53,6 @@ module Finance
     end
 
     def affordable_mortgages
-      Rails.logger.debug "Returning or Removing unaffordable mortgages"
   #    deletes items for which the block is true
       @affordable_mortgages ||= mortgages.delete_if { |mortgage| mortgage.unaffordable? }
     end

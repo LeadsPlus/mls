@@ -1,17 +1,6 @@
 <div class="search_content">
   <%= form_for Search.new, :remote => true do |f| %>
     <%= render 'shared/search/form_fields', :f => f, :search => @search %>
-    <% content_for :sidebar do %>
-      <%= form_tag(Search.new, id: "mortgage_options_form") do %>
-        <div id="mortgage_options">
-          <ul>
-            <li class="input"><%= f.label :lender %></li>
-            <li class="input"><%= f.select :lender, lender_options, {:selected => @search.lender}, { :class => "multiselect", :multiple => 'multiple' } %></li>
-            <li class="input"><%= f.label :loan_type %></li>
-            <li class="input"><%= f.select :loan_type, loan_type_options, {:selected => @search.loan_type}, { :class => "multiselect", :multiple => 'multiple' } %></li>
-          </ul>
-        </div>
-      <% end %>
-    <% end %>
+    <%= render 'shared/search/sidebar_form_fields', :f => f, :search => @search %>
   <% end %>
 </div>

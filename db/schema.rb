@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110531010850) do
+ActiveRecord::Schema.define(:version => 20110531182205) do
 
   create_table "counties", :force => true do |t|
     t.integer  "daft_id"
@@ -96,6 +96,8 @@ ActiveRecord::Schema.define(:version => 20110531010850) do
     t.integer  "max_price"
     t.integer  "min_price"
     t.integer  "rate_id"
+    t.string   "bedrooms"
+    t.string   "bathrooms"
   end
 
   create_table "towns", :force => true do |t|

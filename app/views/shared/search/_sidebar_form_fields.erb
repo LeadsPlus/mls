@@ -1,0 +1,16 @@
+<% content_for :sidebar do %>
+  <%= form_tag(Search.new, id: "mortgage_options_form") do %>
+    <div id="mortgage_options">
+      <%= f.label :lender %><br />
+      <%= f.select :lender, lender_options, {:selected => search.lender}, { :class => "multiselect", :multiple => 'multiple' } %>
+      <%= f.label :loan_type %><br />
+      <%= f.select :loan_type, loan_type_options, {:selected => search.loan_type}, { :class => "multiselect", :multiple => 'multiple' } %>
+    </div>
+    <div id="search_refinement">
+      <%= f.label :bedrooms %><br />
+      <%= f.select :bedrooms, bedroom_options, {selected: search.bedrooms}, { class: "multiselect", multiple: 'multiple' } %>
+      <%= f.label :bathrooms %><br />
+      <%= f.select :bathrooms, bedroom_options, {selected: search.bathrooms}, { class: "multiselect", multiple: 'multiple' } %>
+    </div>
+  <% end %>
+<% end %>

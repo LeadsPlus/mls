@@ -10,15 +10,19 @@ module ApplicationHelper
   end
 
   def lender_options
-    LENDERS.collect {|name| [name, name] } #.unshift ["Any", "Any"]
+    LENDERS.collect {|name| [name, name] }
   end
 
   def loan_type_options
-    LOAN_TYPES.collect {|name| [name, name] } #.unshift ["Any", "Any"]
+    LOAN_TYPES.collect {|name| [name, name] }
   end
 
   def initial_period_length_options
     LOAN_PERIODS.collect {|period| ["#{period} years", period]}.unshift ["", nil]
+  end
+
+  def bedroom_options
+    BEDROOMS.collect {|x| [x,x] }
   end
 
   def sortable(column, title = nil)

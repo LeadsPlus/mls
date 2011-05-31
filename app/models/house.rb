@@ -6,7 +6,7 @@ require "finance/mortgage"
 
 class House < ActiveRecord::Base
   attr_accessible :price, :description, :county_id, :image_url, :daft_id,
-                  :property_type, :daft_title, :daft_date_entered, :bedrooms,
+                  :property_type, :daft_title, :bedrooms,
                   :bathrooms, :address, :town_id
   attr_reader :payment_required
   
@@ -27,16 +27,20 @@ class House < ActiveRecord::Base
     "http://www.daft.ie/searchsale.daft?id=#{daft_id}"
   end
 
-  def ltv(princ)
-    (princ*100)/price
-  end
-
   def self.cheaper_than price
     where('houses.price <= ?', price)
   end
 
   def self.more_expensive_than price
     where('houses.price >= ?', price)
+  end
+
+  def self.has_baths(bathrooms)
+    where(:"houses.bathrooms" => bathrooms)
+  end
+
+  def self.has_beds(bedrooms)
+    where(:"houses.bedrooms" => bedrooms)
   end
 
   def payment_required rate, term, users_deposit

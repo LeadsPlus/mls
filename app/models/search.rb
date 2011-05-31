@@ -1,9 +1,8 @@
-
+require 'log'
 # there must be a way I can include these more cleanly
 require "finance/mortgage_broker"
 require "finance/financial_product"
 require "finance/reverse_mortgage"
-
 require 'custom_validators/ample_max_payment_validator'
 #require 'custom_validators/is_valid_lender_validator'
 require 'custom_validators/vrm_and_initial_length_not_both_set_validator'
@@ -11,20 +10,20 @@ require 'custom_validators/vrm_and_initial_length_not_both_set_validator'
 # what if non-logged in users keep editing the same search but logged in users keep creating new ones
 
 class Search < ActiveRecord::Base
-  attr_accessible :min_payment, :max_payment, :deposit, :term, :location,
+  include Log
+  attr_accessible :min_payment, :max_payment, :deposit, :term, :location, :bedrooms, :bathrooms,
                   :loan_type, :initial_period_length, :lender, :max_price, :min_price
   attr_reader :viable_rates
   belongs_to :rate
   serialize :lender
   serialize :loan_type
+  serialize :bedrooms
+  serialize :bathrooms
 
   before_save do
-    logger.debug "About to save the search"
-    keep_calculating
-  end
-
-  before_validation do
-    logger.debug "Lender #{lender}"
+    log_around("keep calculating") do
+      keep_calculating
+    end
   end
 
 #  I think there's a way I can put these calcs in the reader methods for the attributes
@@ -42,15 +41,21 @@ class Search < ActiveRecord::Base
   end
   
   def has_mortgage_conditions?
-    logger.debug "Checking if has mortgage conditions"
-    loan_type != LOAN_TYPES || lender != LENDERS
+    log_around('check for mortgage conditions') do
+      loan_type != LOAN_TYPES || lender != LENDERS
+    end
   end
 
 #  potential problems I see with this implementation
 #  One, I don't think it lazy loads, which means that I'm working on an array in memory. Could be problem
   def matches
-    logger.debug "Finding matches"
-    House.search(location).cheaper_than(max_price).more_expensive_than(min_price)
+    log "bedrooms #{bedrooms}"
+    log "bathrooms #{bathrooms}"
+    log_around('search for matches') do
+      House.search(location).cheaper_than(max_price)
+        .more_expensive_than(min_price).has_baths(bathrooms)
+        .has_beds(bedrooms)
+    end
   end
 
   validates :max_payment, :presence => true,
@@ -67,7 +72,7 @@ class Search < ActiveRecord::Base
                    :numericality => { greater_than: 0, less_than_or_equal_to: 60, allow_blank: true }
 
   validates :location, presence: true, length: { maximum: 254, minimum: 1, allow_blank: true }
-
+#  validation for bathrooms and bedrooms needed
 #  validates :lender, :is_valid_lender => true
 #  validates :loan_type, :inclusion => { :in => LOAN_TYPES }
 
@@ -80,27 +85,35 @@ class Search < ActiveRecord::Base
   end
 
   def has_some_affordable_prices
-    logger.debug "Checking for affordable prices"
     return if anything_blank? or broker.has_no_viable_rates?
-#    we have an problem if the mortgage broker has no affordable mortgages for us
-    unless broker.has_affordable_mortgages?
-      errors[:base] << "Deposit is too small to facilitate a mortgage with payments in that range"
+    log_around('test for affordable prices') do
+  #    we have an problem if the mortgage broker has no affordable mortgages for us
+      unless broker.has_affordable_mortgages?
+        errors[:base] << "Deposit is too small to facilitate a mortgage with payments in that range"
+      end
     end
   end
 
   def has_some_viable_rates
     return if anything_blank?
-    logger.debug "Checking for viable rates"
-    unless broker.has_viable_rates?
-      errors[:base] << "There are no rates in the system which match those conditions"
+    log_around('check for viable rates') do
+      unless broker.has_viable_rates?
+        errors[:base] << "There are no rates in the system which match those conditions"
+      end
     end
   end
 
   def is_valid_lender_validator
-    logger.debug "Checking lenders are valid"
-    lender.each do |lender|
-      errors[:lender] << "is invalid" unless LENDERS.include?(lender)
+    log_around 'to validate lenders array' do
+      lender.each do |lender|
+        errors[:lender] << "is invalid" unless LENDERS.include?(lender)
+      end
     end
+  end
+
+  def self.reset
+    Search.delete_all
+    ActiveRecord::Base.connection.execute "SELECT setval('public.searches_id_seq', 1, false)"
   end
 end
 

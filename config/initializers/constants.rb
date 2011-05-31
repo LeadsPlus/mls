@@ -11,3 +11,6 @@ LOAN_PERIODS = [1, 2, 3, 4, 5, 6].freeze
 
 HOUSE_TYPES = ['Site', 'New Home', 'Terraced', 'Detached House', 'Bungalow', 'Townhouse',
                 'End of Terrace House', 'Semi-Detached House', 'New Development', 'Apartment'].freeze
+
+BATHROOMS = [1,2,3,4,5]
+BEDROOMS = [1,2,3,4,5]

@@ -1,5 +1,4 @@
 require "custom_validators/ample_ltv_validator"
-
 # ulster bank provides min_term and max_term data
 
 class Rate < ActiveRecord::Base
@@ -68,6 +67,11 @@ class Rate < ActiveRecord::Base
       { :greater_than_or_equal_to => 0, :allow_blank => true }
   validates :max_princ, :numericality =>
       { :greater_than_or_equal_to => 0, :allow_blank => true }
+
+  def self.reset
+    Rate.delete_all
+    ActiveRecord::Base.connection.execute "SELECT setval('public.rates_id_seq', 1, false)"
+  end
 end
 
 

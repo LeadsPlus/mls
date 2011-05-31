@@ -6,12 +6,12 @@ Factory.define House do |house|
   house.address "23 Bananatown"
   house.image_url 'http://mediacache-s3eu.daft.ie/MZYU1EHKU5Wezk5xuw07WPdRb8VZeof6esL9j1djM-RtPWRhZnQmZT0xNjB4MTIw.jpg'
   house.price 250_000
-  house.county "Wicklow"
   house.daft_id 343532
   house.property_type "Semi-Detached House"
   house.bathrooms 4
   house.bedrooms 5
-  house.daft_date_entered Date.civil(2011, (rand(4) + 1), (rand(30) + 1))
+  house.association :town
+  house.association :county
 end
 
 Factory.define Search do |search|

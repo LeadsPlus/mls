@@ -2,18 +2,20 @@ namespace :db do
   desc "Fill database with sample data"
   task :populate => :environment do
     require 'faker'
-    delete_rates
-    delete_all_searches
-    delete_counties
+    Rate.reset
+    Search.reset
+    County.reset
+    User.delete_all
     make_counties
     make_rates
     create_default_search # has to happen after rates else validation fail
+    make_user
   end
 
   namespace :searches do
     desc "Delete all searches from the database"
     task :clear => :environment do
-      delete_all_searches
+      Search.reset
     end
   end
 end
@@ -25,35 +27,22 @@ def delete_default_search
   puts "Default search deleted"
 end
 
-def delete_all_searches
-  Search.delete_all
-#  maybe I can over ride the delete_all method to do this automatically?
-  ActiveRecord::Base.connection.execute "SELECT setval('public.searches_id_seq', 1, false)"
-  puts "All Searches deleted"
-end
-
-def delete_rates
-  Rate.delete_all
-  ActiveRecord::Base.connection.execute "SELECT setval('public.rates_id_seq', 1, false)"
-  puts "All Rates deleted"
-end
-
-def delete_counties
-  County.delete_all
-  ActiveRecord::Base.connection.execute "SELECT setval('public.counties_id_seq', 1, false)"
-  puts 'All counties deleted'
+def make_user
+  User.create!(email: 'dtuite@gmail.com', password: 'foobar', password_confirmation: 'foobar')
 end
 
 def create_default_search
   Search.create!({
-         :max_payment => 1100,
-         :min_payment => 800,
-         :deposit => 50000,
-         :term => 30,
-         :location => "Enniskillen",
-         :lender => LENDERS,
-         :loan_type => LOAN_TYPES
-       })
+    max_payment: 1100,
+    min_payment: 800,
+    deposit: 50000,
+    term: 30,
+    location: "Enniskillen",
+    lender: LENDERS,
+    loan_type: LOAN_TYPES,
+    bedrooms: BEDROOMS,
+    bathrooms: BATHROOMS
+  })
   puts "Default search created"
 end
 
