@@ -22,6 +22,7 @@ $(function() {
     .bind('ajax:beforeSend', function(event, xhr, settings){
 //    append any sidebar elements onto the post data
       settings.data += ( "&" + $("#mortgage_options_form").serialize() );
+//      log($("#mortgage_options_form").serialize());
     
       var $submitButton = $(this).find('input[name="commit"]');
 //    store the origional text of the btn in a data attribute
@@ -49,6 +50,7 @@ $(function() {
   });
 
   $("#search_term").buttonset();
+  $("#bedrooms_refinement").buttonset();
 
   $(function() {
     var deposit = $( "#search_deposit" );
