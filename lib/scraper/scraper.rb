@@ -15,29 +15,30 @@
 # give every house a scrape_id param defaulting to one, if a subsequent scrape finds a house again,
 # increment the scrape_id. Then run through the houses table deleting houses where scrape_id != max scrape_id
 
-class Scrape
-  attr_accessor :agent
-  AGENT_ALIASES = ["Windows IE 6", "Windows IE 7", "Windows Mozilla", "Mac Safari",
-                   "Mac FireFox", "Mac Mozilla"]
+module Scraper
+  class Scrape
+    AGENT_ALIASES = ["Windows IE 6", "Windows IE 7", "Windows Mozilla", "Mac Safari",
+                     "Mac FireFox", "Mac Mozilla"]
 
-  def initialize
-    add_modern_aliases
+    def initialize
+      add_modern_aliases
+    end
+
+    private
+      def add_modern_aliases
+        add_alias "Win7 Safari3","Mozilla/5.0 (Windows; U; Windows NT 6.1; da) AppleWebKit/522.15.5 (KHTML, like Gecko) Version/3.0.3 Safari/522.15.5"
+        add_alias "WinXP Safari3", "Mozilla/5.0 (Windows; U; Windows NT 5.1; id) AppleWebKit/522.11.3 (KHTML, like Gecko) Version/3.0 Safari/522.11.3"
+        add_alias "Mac Safari4", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_1; zh-CN) AppleWebKit/530.19.2 (KHTML, like Gecko) Version/4.0.2 Safari/530.19"
+      end
+
+      def add_alias name, header
+        Mechanize::AGENT_ALIASES[name] = header
+    #    update the local list of available aliases
+        AGENT_ALIASES << name
+      end
+
+      def random_agent
+        AGENT_ALIASES[rand(AGENT_ALIASES.size)]
+      end
   end
-
-  private
-    def add_modern_aliases
-      add_alias "Win7 Safari3","Mozilla/5.0 (Windows; U; Windows NT 6.1; da) AppleWebKit/522.15.5 (KHTML, like Gecko) Version/3.0.3 Safari/522.15.5"
-      add_alias "WinXP Safari3", "Mozilla/5.0 (Windows; U; Windows NT 5.1; id) AppleWebKit/522.11.3 (KHTML, like Gecko) Version/3.0 Safari/522.11.3"
-      add_alias "Mac Safari4", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_1; zh-CN) AppleWebKit/530.19.2 (KHTML, like Gecko) Version/4.0.2 Safari/530.19"
-    end
-
-    def add_alias name, header
-      Mechanize::AGENT_ALIASES[name] = header
-  #    update the local list of available aliases
-      AGENT_ALIASES << name
-    end
-
-    def random_agent
-      AGENT_ALIASES[rand(AGENT_ALIASES.size)]
-    end
 end

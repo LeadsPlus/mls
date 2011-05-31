@@ -5,11 +5,16 @@
 #  38.5*0.05 = $2 to visit every house
 
 # looks like 1k properties takes up about 1mb on the disk
+require "scraper/scraper"
+require "scraper/listings_scraper"
+require "scraper/towns_scraper"
+require "scraper/houses_scraper"
+
 namespace :scrape do
   desc "Enqueue jobs to scrape house listings for every county from daft.ie"
   task :all_listings => :environment do
     County.find_each() do |county|
-      ListingsScraper.new(county).refresh_listings
+      Scraper::ListingsScraper.new(county).refresh_listings
     end
   end
 
@@ -20,13 +25,13 @@ namespace :scrape do
     puts "Running task"
     args.with_defaults(:county_name => "Fermanagh")
     county = County.find_by_name args.county_name
-    ListingsScraper.new(county).refresh_listings
+    Scraper::ListingsScraper.new(county).refresh_listings
   end
 
   desc "Visit the show page of all the houses in the database after a particular house id"
   task :houses_all => :environment do |task, args|
     County.find_each() do |county|
-      HouseScraper.new(county).visit_houses
+      Scraper::HousesScraper.new(county).visit_houses
     end
   end
 
@@ -34,13 +39,13 @@ namespace :scrape do
   task :houses_in, [:county_name] => :environment do |task, args|
     args.with_defaults(:county_name => "Fermanagh") # 30 = Fermanagh
     county = County.find_by_name args.county_name
-    HouseScraper.new(county).visit_houses
+    Scraper::HousesScraper.new(county).visit_houses
   end
 
   desc "Scrape all valid town names from daft"
   task :all_towns => :environment do
     County.find_each() do |county|
-      TownsScraper.new(county).refresh_towns
+      Scraper::TownsScraper.new(county).refresh_towns
     end
   end
 
@@ -48,6 +53,6 @@ namespace :scrape do
   task :towns_in, [:county_name] => :environment do |task, args|
     args.with_defaults(:county_name => "Fermanagh")
     county = County.find_by_name args.county_name
-    TownsScraper.new(county).refresh_towns
+    Scraper::TownsScraper.new(county).refresh_towns
   end
 end
