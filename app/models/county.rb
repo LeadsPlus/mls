@@ -5,6 +5,10 @@
 class County < ActiveRecord::Base
   attr_accessible :name, :daft_id
   has_many :houses
+
+  def towns
+    Town.where(:county => county)
+  end
 end
 
 # == Schema Information

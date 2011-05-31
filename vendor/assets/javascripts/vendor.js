@@ -4,5 +4,13 @@
 // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
 // the compiled file.
 //
-//= require myjs
+//= require jquery.min
+//= require jquery_ujs
+//= require jquery-ui.min
+// require modernizr-1.7.min
+//= require fancybox.pack
+// require respond.min
+//= require safelog.js
+//= require jquery.multiselect.min
+//= require autocomplete-rails
 // require_tree .

@@ -58,6 +58,10 @@ class SearchesController < ApplicationController
         format.js do
           @matches = @search.matches.order(sort_column + " " + sort_direction).page(params[:page])
           @rate = @search.rate
+#          this could also be done like this..
+#          render partial: 'shared/results', locals: { matches: @matches, rate: @rate }, layout: false
+#          this would leave me with less js files to look after and I could handle the html on the client
+#          of course, I also couldn't use coffeescript
         end
       end
     else

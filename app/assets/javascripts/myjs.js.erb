@@ -18,11 +18,21 @@ $(function() {
     cyclic: true
   });
 
-  $("#new_search").bind('ajax:before', function(xhr){
-    xhr.data = 'value'
-    console.log( xhr );
-//    console.log( xhr.target );
-  });
+  $("#new_search")
+    .bind('ajax:beforeSend', function(event, xhr, settings){
+//    append any sidebar elements onto the post data
+      settings.data += ( "&" + $("#mortgage_options_form").serialize() );
+    
+      var $submitButton = $(this).find('input[name="commit"]');
+//    store the origional text of the btn in a data attribute
+      $submitButton.data( "test", $submitButton.val() );
+//    change the text of the button
+      $submitButton.val( 'Submitting...' );
+    }).bind('ajax:complete', function(evt, xhr, status){
+      var $submitButton = $(this).find('input[name="commit"]');
+      // Restore the original submit button text
+      $submitButton.val( $submitButton.data("test") );
+    });
 
   $(".multiselect").multiselect({
     checkAllText: "All",
