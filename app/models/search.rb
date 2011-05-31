@@ -1,12 +1,8 @@
-# option 1: Just store an array of included (perhaps excluded) mortgage types in a db column. AR Serialize
-# the problem is that, bound check boxes respond to boolean model columns, which doesn't really work
-# virtual attribute? Custom form builder?
-# <input name="search[:lenders][]" />
-# <input name="search[:lenders][]" />
-# this will result in search[:lenders] == Array
-# unchecked checkboxes sbmit no value
-# 
 
+# there must be a way I can include these more cleanly
+require "finance/mortgage_broker"
+require "finance/financial_product"
+require "finance/reverse_mortgage"
 
 require 'custom_validators/ample_max_payment_validator'
 #require 'custom_validators/is_valid_lender_validator'
@@ -42,7 +38,7 @@ class Search < ActiveRecord::Base
 
 #  maybe I just pass in the Search object instead?
   def broker
-    @broker ||= MortgageBroker.new(term, deposit, max_payment, min_payment, lender, loan_type, initial_period_length)
+    @broker ||= Finance::MortgageBroker.new(term, deposit, max_payment, min_payment, lender, loan_type, initial_period_length)
   end
   
   def has_mortgage_conditions?

@@ -1,6 +1,8 @@
 # I need to gradually wean this model off the county field, onto the county class/model
 # property_type should be renamed to just type
 # daft_date_entered should be removed, it's useless
+require "finance/financial_product"
+require "finance/mortgage"
 
 class House < ActiveRecord::Base
   attr_accessible :price, :description, :county_id, :image_url, :daft_id,
@@ -38,7 +40,7 @@ class House < ActiveRecord::Base
   end
 
   def payment_required rate, term, users_deposit
-    Mortgage.new(rate, term, users_deposit, self.price).payment_required
+    Finance::Mortgage.new(rate, term, users_deposit, self.price).payment_required
   end
 
 #  validates :county, :presence => true,
