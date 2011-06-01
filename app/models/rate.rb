@@ -2,12 +2,12 @@ require "custom_validators/ample_ltv_validator"
 # ulster bank provides min_term and max_term data
 
 class Rate < ActiveRecord::Base
-  attr_accessible :initial_rate, :lender, :lender_uid, :loan_type, :min_ltv, :max_ltv,
+  attr_accessible :initial_rate, :lender, :lender_uid, :loan_type, :loan_type_uid, :min_ltv, :max_ltv,
                   :initial_period_length, :rolls_to, :min_princ, :max_princ,
                   :min_deposit, :max_deposit, :twenty_year_apr
   has_many :searches
 
-  before_save :calc_deposit_limits, :set_lender_uid, :set_initial_period_length
+  before_save :calc_deposit_limits, :set_lender_uid, :set_initial_period_length, :set_loan_type_uid
 
   def calc_deposit_limits
     self.min_deposit = 100-max_ltv
@@ -22,13 +22,17 @@ class Rate < ActiveRecord::Base
     self.initial_period_length = LOAN_TYPES.find_index(loan_type)
   end
 
+  def set_loan_type_uid
+    self.loan_type_uid = LOAN_TYPE_UIDS[LOAN_TYPES.find_index(loan_type)]
+  end
+
 #  http://stackoverflow.com/questions/5748550/how-to-make-a-rails-3-dynamic-scope-conditional
   def self.scope_by_lender(lender_uids)
     where(:lender_uid => lender_uids)
   end
 
-  def self.scope_by_loan_type(loan_type)
-    where(:loan_type => loan_type)
+  def self.scope_by_loan_type(loan_type_uids)
+    where(:loan_type_uid => loan_type_uids)
   end
 
   def anything_blank?

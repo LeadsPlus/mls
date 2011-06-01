@@ -12,7 +12,7 @@ require 'custom_validators/vrm_and_initial_length_not_both_set_validator'
 class Search < ActiveRecord::Base
   include Log
   attr_accessible :min_payment, :max_payment, :deposit, :term, :location, :bedrooms, :bathrooms,
-                  :loan_type, :initial_period_length, :lender_uids, :max_price, :min_price
+                  :loan_type_uids, :initial_period_length, :lender_uids, :max_price, :min_price
   attr_reader :viable_rates
   belongs_to :rate
   serialize :lender
@@ -37,20 +37,18 @@ class Search < ActiveRecord::Base
 
 #  maybe I just pass in the Search object instead?
   def broker
-    @broker ||= Finance::MortgageBroker.new(term, deposit, max_payment, min_payment, lender_uids, loan_type, initial_period_length)
+    @broker ||= Finance::MortgageBroker.new(term, deposit, max_payment, min_payment, lender_uids, loan_type_uids)
   end
   
   def has_mortgage_conditions?
     log_around('check for mortgage conditions') do
-      loan_type != LOAN_TYPES || lender != LENDERS
+      loan_type_uids != LOAN_TYPE_UIDS || lender_uids != LENDER_UIDS
     end
   end
 
 #  potential problems I see with this implementation
 #  One, I don't think it lazy loads, which means that I'm working on an array in memory. Could be problem
   def matches
-    log "bedrooms #{bedrooms}"
-    log "bathrooms #{bathrooms}"
     log_around('search for matches') do
       House.search(location).cheaper_than(max_price)
         .more_expensive_than(min_price).has_baths(bathrooms)
@@ -73,7 +71,7 @@ class Search < ActiveRecord::Base
 
   validates :location, presence: true, length: { maximum: 254, minimum: 1, allow_blank: true }
 #  validation for bathrooms and bedrooms needed
-#  validates :lender, :is_valid_lender => true
+#  validates :lender_uids, :is_valid_lender_uid => true
 #  validates :loan_type, :inclusion => { :in => LOAN_TYPES }
 
 #  #  as far as I can tell, 'validate xyz' validations always happen before 'validates xyz' validations
@@ -103,10 +101,10 @@ class Search < ActiveRecord::Base
     end
   end
 
-  def is_valid_lender_validator
+  def is_valid_lender_uid_validator
     log_around 'to validate lenders array' do
-      lender.each do |lender|
-        errors[:lender] << "is invalid" unless LENDERS.include?(lender)
+      lender_uids.each do |lender_uid|
+        errors[:lender] << "is invalid" unless LENDER_UIDS.include?(lender)
       end
     end
   end

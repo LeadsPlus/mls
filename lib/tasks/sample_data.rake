@@ -39,7 +39,7 @@ def create_default_search
     term: 30,
     location: "Enniskillen",
     lender_uids: LENDER_UIDS,
-    loan_type: LOAN_TYPES,
+    loan_type_uids: LOAN_TYPE_UIDS,
     bedrooms: BEDROOMS,
     bathrooms: BATHROOMS
   })
@@ -59,7 +59,6 @@ def make_rates
   Rate.create!({
     :twenty_year_apr => 3.0,
     :lender => 'Bank of Ireland',
-    :lender_uid => 'BOI',
     :loan_type => 'Variable Rate',
     :min_ltv => 1,
     :max_ltv => 49,
@@ -68,7 +67,6 @@ def make_rates
   Rate.create!({
     :twenty_year_apr => 3.1,
     :lender => 'Bank of Ireland',
-    :lender_uid => 'BOI',
     :loan_type => 'Variable Rate',
     :min_ltv => 50,
     :max_ltv =>79,
@@ -78,7 +76,6 @@ def make_rates
   Rate.create!({
     :twenty_year_apr => 3.0,
     :lender => 'Bank of Ireland',
-    :lender_uid => 'BOI',
     :loan_type => 'Variable Rate',
     :min_ltv => 50,
     :max_ltv => 79,
@@ -88,7 +85,6 @@ def make_rates
   Rate.create!({
     :twenty_year_apr => 3.3,
     :lender => 'Bank of Ireland',
-    :lender_uid => 'BOI',
     :loan_type => 'Variable Rate',
     :min_ltv => 80,
     :max_ltv => 92,
@@ -98,7 +94,6 @@ def make_rates
   Rate.create!({
     :twenty_year_apr => 3.4,
     :lender => 'Bank of Ireland',
-    :lender_uid => 'BOI',
     :loan_type => 'Variable Rate',
     :min_ltv => 80,
     :max_ltv => 92,
@@ -108,7 +103,6 @@ def make_rates
   Rate.create!({
     :twenty_year_apr => 3.5,
     :lender => 'Bank of Ireland',
-    :lender_uid => 'BOI',
     :loan_type => '1 Year Fixed Rate',
     :min_ltv => 1,
     :max_ltv => 92,
@@ -118,7 +112,6 @@ def make_rates
   Rate.create!({
     :twenty_year_apr => 3.7,
     :lender => 'Bank of Ireland',
-    :lender_uid => 'BOI',
     :loan_type => '2 Year Fixed Rate',
     :min_ltv => 1,
     :max_ltv => 92,
@@ -128,7 +121,6 @@ def make_rates
   Rate.create!({
     :twenty_year_apr => 4.0,
     :lender => 'Bank of Ireland',
-    :lender_uid => 'BOI',
     :loan_type => '3 Year Fixed Rate',
     :min_ltv => 1,
     :max_ltv => 92,
@@ -138,7 +130,6 @@ def make_rates
   Rate.create!({
     :twenty_year_apr => 4.0,
     :lender => 'Bank of Ireland',
-    :lender_uid => 'BOI',
     :loan_type => '5 Year Fixed Rate',
     :min_ltv => 1,
     :max_ltv => 92,
@@ -148,7 +139,6 @@ def make_rates
   Rate.create!({
     :twenty_year_apr => 4.7,
     :lender => 'Ulster Bank',
-    :lender_uid => 'UB',
     :loan_type => '2 Year Fixed Rate',
     :min_ltv => 1,
     :max_ltv => 90,
@@ -158,7 +148,6 @@ def make_rates
   Rate.create!({
     :twenty_year_apr => 5.0,
     :lender => 'Ulster Bank',
-    :lender_uid => 'UB',
     :loan_type => '3 Year Fixed Rate',
     :min_ltv => 1,
     :max_ltv => 90,
@@ -168,7 +157,6 @@ def make_rates
   Rate.create!({
     :twenty_year_apr => 4.0,
     :lender => 'Ulster Bank',
-    :lender_uid => 'UB',
     :loan_type => 'Variable Rate',
     :min_ltv => 1,
     :max_ltv => 79
@@ -177,7 +165,6 @@ def make_rates
   Rate.create!({
     :twenty_year_apr => 4.1,
     :lender => 'Ulster Bank',
-    :lender_uid => 'UB',
     :loan_type => 'Variable Rate',
     :min_ltv => 80,
     :max_ltv => 90
@@ -187,7 +174,6 @@ def make_rates
     :twenty_year_apr => 3.13,
     :initial_rate => 3.09,
     :lender => 'AIB',
-    :lender_uid => 'AIB',
     :loan_type => 'Variable Rate',
     :min_ltv => 1,
     :max_ltv => 50
@@ -197,7 +183,6 @@ def make_rates
     :twenty_year_apr => 3.34,
     :initial_rate => 3.29,
     :lender => 'AIB',
-    :lender_uid => 'AIB',
     :loan_type => 'Variable Rate',
     :min_ltv => 51,
     :max_ltv => 79
@@ -207,7 +192,6 @@ def make_rates
     :twenty_year_apr => 3.54,
     :initial_rate => 3.49,
     :lender => 'AIB',
-    :lender_uid => 'AIB',
     :loan_type => 'Variable Rate',
     :min_ltv => 80,
     :max_ltv => 92
@@ -217,7 +201,6 @@ def make_rates
     :twenty_year_apr => 3.40,
     :initial_rate => 4.15,
     :lender => 'AIB',
-    :lender_uid => 'AIB',
     :loan_type => '1 Year Fixed Rate',
     :min_ltv => 1,
     :max_ltv => 92,
@@ -227,7 +210,6 @@ def make_rates
     :twenty_year_apr => 3.6,
     :initial_rate => 4.65,
     :lender => 'AIB',
-    :lender_uid => 'AIB',
     :loan_type => '2 Year Fixed Rate',
     :min_ltv => 1,
     :max_ltv => 92,
@@ -237,7 +219,6 @@ def make_rates
     :twenty_year_apr => 3.81,
     :initial_rate => 4.88,
     :lender => 'AIB',
-    :lender_uid => 'AIB',
     :loan_type => '3 Year Fixed Rate',
     :min_ltv => 1,
     :max_ltv => 92,
@@ -247,7 +228,6 @@ def make_rates
     :twenty_year_apr => 4.07,
     :initial_rate => 5.15,
     :lender => 'AIB',
-    :lender_uid => 'AIB',
     :loan_type => '4 Year Fixed Rate',
     :min_ltv => 1,
     :max_ltv => 92,
@@ -257,7 +237,6 @@ def make_rates
     :twenty_year_apr => 4.34,
     :initial_rate => 5.35,
     :lender => 'AIB',
-    :lender_uid => 'AIB',
     :loan_type => '5 Year Fixed Rate',
     :min_ltv => 1,
     :max_ltv => 92,

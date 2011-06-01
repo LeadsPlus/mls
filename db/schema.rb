@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110531233119) do
+ActiveRecord::Schema.define(:version => 20110601001741) do
 
   create_table "counties", :force => true do |t|
     t.integer  "daft_id"
@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(:version => 20110531233119) do
     t.integer  "max_deposit"
     t.float    "twenty_year_apr"
     t.string   "lender_uid"
+    t.string   "loan_type_uid"
   end
 
   create_table "searches", :force => true do |t|
@@ -91,8 +92,7 @@ ActiveRecord::Schema.define(:version => 20110531233119) do
     t.string   "location"
     t.integer  "min_payment"
     t.integer  "term"
-    t.string   "loan_type"
-    t.integer  "initial_period_length"
+    t.string   "loan_type_uids"
     t.string   "lender_uids"
     t.integer  "max_price"
     t.integer  "min_price"

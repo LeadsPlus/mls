@@ -3,15 +3,19 @@
   <%= form_tag(Search.new, id: "mortgage_options_form") do %>
     <div id="mortgage_options">
       <div class="buttonset">
+        <b>Lenders</b><br />
         <% LENDER_UIDS.each do |uid| %>
           <%= checkbox('lender_uids', uid, search.lender_uids.include?(uid)) %>
           <%= checkbox_label('lender_uids', uid, LENDERS[LENDER_UIDS.find_index(uid)]) %>
         <% end %>
       </div>
-      <%# f.label :lender %><br />
-      <%# f.select :lender, lender_options, {:selected => search.lender}, { :class => "multiselect", :multiple => 'multiple' } %>
-      <%= f.label :loan_type %><br />
-      <%= f.select :loan_type, loan_type_options, {:selected => search.loan_type}, { :class => "multiselect", :multiple => 'multiple' } %>
+      <div class="buttonset">
+        <b>Loan Types</b><br />
+        <% LOAN_TYPE_UIDS.each do |uid| %>
+          <%= checkbox('loan_type_uids', uid, search.loan_type_uids.include?(uid)) %>
+          <%= checkbox_label('loan_type_uids', uid, LOAN_TYPES[LOAN_TYPE_UIDS.find_index(uid)]) %>
+        <% end %>
+      </div>
     </div>
     <div class="buttonset">
       <b>Bedrooms</b><br />

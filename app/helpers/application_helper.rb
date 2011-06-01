@@ -5,28 +5,8 @@ module ApplicationHelper
     @title ? "#{@title} | #{base_title}" : base_title
   end
 
-  def county_choices
-    COUNTIES.collect {|name| [name, name] }
-  end
-
   def select_options constant_array
     constant_array.collect {|name| [name, name] }
-  end
-
-  def lender_options
-    LENDERS.collect {|name| [name, name] }
-  end
-
-  def loan_type_options
-    LOAN_TYPES.collect {|name| [name, name] }
-  end
-
-  def initial_period_length_options
-    LOAN_PERIODS.collect {|period| ["#{period} years", period]}.unshift ["", nil]
-  end
-
-  def bedroom_options
-    BEDROOMS.collect {|x| [x,x] }
   end
 
   def checkbox(type, field_number, checked)

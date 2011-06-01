@@ -4,20 +4,19 @@ module Finance
     attr_reader :mortgages, :max_mortgage, :min_mortgage
 
   #  can I just pass in the search object?
-    def initialize(term, deposit, max_payment, min_payment, lender_uids, loan_type, initial_period_length)
+    def initialize(term, deposit, max_payment, min_payment, lender_uids, loan_type_uids)
       @term = term
       @deposit = deposit
       @max_payment = max_payment
       @min_payment = min_payment
       @lender_uids = lender_uids
-      @loan_type = loan_type
-      @initial_period_length = initial_period_length
+      @loan_type_uids = loan_type_uids
     end
 
     def viable_rates
       log_around 'to get or calculate viable rates' do
         puts @lender_uids
-        @viable_rates ||= Rate.scope_by_lender(@lender_uids).scope_by_loan_type(@loan_type)
+        @viable_rates ||= Rate.scope_by_lender(@lender_uids).scope_by_loan_type(@loan_type_uids)
       end
     end
 
