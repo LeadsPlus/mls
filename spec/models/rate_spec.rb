@@ -78,6 +78,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: rates
@@ -97,5 +98,6 @@ end
 #  min_deposit           :integer
 #  max_deposit           :integer
 #  twenty_year_apr       :float
+#  lender_uid            :string(255)
 #
 

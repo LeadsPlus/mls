@@ -2,24 +2,30 @@
   <!-- fields_for may be what I need here: http://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-fields_for -->
   <%= form_tag(Search.new, id: "mortgage_options_form") do %>
     <div id="mortgage_options">
-      <%= f.label :lender %><br />
-      <%= f.select :lender, lender_options, {:selected => search.lender}, { :class => "multiselect", :multiple => 'multiple' } %>
+      <div class="buttonset">
+        <% LENDER_UIDS.each do |uid| %>
+          <%= checkbox('lender_uids', uid, search.lender_uids.include?(uid)) %>
+          <%= checkbox_label('lender_uids', uid, LENDERS[LENDER_UIDS.find_index(uid)]) %>
+        <% end %>
+      </div>
+      <%# f.label :lender %><br />
+      <%# f.select :lender, lender_options, {:selected => search.lender}, { :class => "multiselect", :multiple => 'multiple' } %>
       <%= f.label :loan_type %><br />
       <%= f.select :loan_type, loan_type_options, {:selected => search.loan_type}, { :class => "multiselect", :multiple => 'multiple' } %>
     </div>
     <div class="buttonset">
       <b>Bedrooms</b><br />
       <!-- these should obv be replaced with the bedroom range possible -->
-      <% BEDROOMS.each do |x| %>
-        <%= checkbox('bedroom', x, search.bedrooms[x-1]) %>
-        <%= checkbox_label('bedroom', x) %>
+      <% BEDROOMS.each do |number| %>
+        <%= checkbox('bedrooms', number, search.bedrooms[number-1]) %>
+        <%= checkbox_label('bedrooms', number) %>
       <% end %>
     </div>
     <div class="buttonset">
       <b>Bathrooms</b><br />
       <% BATHROOMS.each do |x| %>
-        <%= checkbox('bathroom', x, search.bathrooms[x-1]) %>
-        <%= checkbox_label('bathroom', x) %>
+        <%= checkbox('bathrooms', x, search.bathrooms[x-1]) %>
+        <%= checkbox_label('bathrooms', x) %>
       <% end %>
     </div>
   <% end %>

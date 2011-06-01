@@ -12,7 +12,7 @@ require 'custom_validators/vrm_and_initial_length_not_both_set_validator'
 class Search < ActiveRecord::Base
   include Log
   attr_accessible :min_payment, :max_payment, :deposit, :term, :location, :bedrooms, :bathrooms,
-                  :loan_type, :initial_period_length, :lender, :max_price, :min_price
+                  :loan_type, :initial_period_length, :lender_uids, :max_price, :min_price
   attr_reader :viable_rates
   belongs_to :rate
   serialize :lender
@@ -37,7 +37,7 @@ class Search < ActiveRecord::Base
 
 #  maybe I just pass in the Search object instead?
   def broker
-    @broker ||= Finance::MortgageBroker.new(term, deposit, max_payment, min_payment, lender, loan_type, initial_period_length)
+    @broker ||= Finance::MortgageBroker.new(term, deposit, max_payment, min_payment, lender_uids, loan_type, initial_period_length)
   end
   
   def has_mortgage_conditions?
@@ -121,6 +121,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: searches
@@ -135,9 +136,11 @@ end
 #  term                  :integer
 #  loan_type             :string(255)
 #  initial_period_length :integer
-#  lender                :string(255)
+#  lender_uids           :string(255)
 #  max_price             :integer
 #  min_price             :integer
 #  rate_id               :integer
+#  bedrooms              :string(255)
+#  bathrooms             :string(255)
 #
 

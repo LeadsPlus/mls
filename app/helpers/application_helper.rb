@@ -9,6 +9,10 @@ module ApplicationHelper
     COUNTIES.collect {|name| [name, name] }
   end
 
+  def select_options constant_array
+    constant_array.collect {|name| [name, name] }
+  end
+
   def lender_options
     LENDERS.collect {|name| [name, name] }
   end
@@ -26,11 +30,11 @@ module ApplicationHelper
   end
 
   def checkbox(type, field_number, checked)
-    check_box_tag "search[#{type}][]", field_number.to_s, checked, id: "search_#{type}_#{field_number}"
+    check_box_tag "search[#{type}][]", "#{field_number}", checked, id: "search_#{type}_#{field_number}"
   end
 
-  def checkbox_label(type, x)
-    label_tag "search_#{type}_#{x}", x.to_s
+  def checkbox_label(type, id, text = nil)
+    label_tag "search_#{type}_#{id}", (text || id.to_s)
   end
 
   def sortable(column, title = nil)

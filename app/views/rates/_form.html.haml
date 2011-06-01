@@ -8,17 +8,21 @@
         - @rate.errors.full_messages.each do |msg|
           %li= msg
   .field
-    = f.label :initial_rate, "Initial Rate (% APR)"
+    = f.label :twenty_year_apr, "20 Year APR (%)"
+    %br/
+    = f.text_field :twenty_year_apr
+  .field
+    = f.label :initial_rate, "Initial Rate (% nominal)"
     %br/
     = f.text_field :initial_rate
   .field
     = f.label :lender
     %br/
-    = f.select :lender, lender_options
+    = f.select :lender, select_options(LENDERS)
   .field
     = f.label :loan_type
     %br/
-    = f.select :loan_type, loan_type_options
+    = f.select :loan_type, select_options(LOAN_TYPES)
   .field
     = f.label :min_ltv, "Min. LTV (%). You must be borrowing greater than this % to avail of this rate."
     %br/
@@ -27,16 +31,11 @@
     = f.label :max_ltv, "Max. LTV (%). You may borrow up to this % and still avail of this rate."
     %br/
     = f.text_field :max_ltv
-  .field
-    = f.label :initial_period_length
-    %br/
-    = f.select :initial_period_length, initial_period_length_options
-
   -# this should be 2 selects, one for lender and one for product
   -# that way I could select the actual product it rolls to.
   -# use the info to create a relationship between the two products
   .field
-    = f.label :rolls_to, "Rolling to (%) APR"
+    = f.label :rolls_to, "Rolling to (% nominal)"
     %br/
     = f.text_field :rolls_to
   .field

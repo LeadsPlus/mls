@@ -159,6 +159,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: searches
@@ -173,9 +174,11 @@ end
 #  term                  :integer
 #  loan_type             :string(255)
 #  initial_period_length :integer
-#  lender                :string(255)
+#  lender_uids           :string(255)
 #  max_price             :integer
 #  min_price             :integer
 #  rate_id               :integer
+#  bedrooms              :string(255)
+#  bathrooms             :string(255)
 #
 
