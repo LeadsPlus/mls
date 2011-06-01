@@ -1,4 +1,4 @@
-@import "support";
+@import "variables";
 
 div#wrapper {
   width: 980px;
@@ -13,4 +13,8 @@ div#sidebar {
   background-color: $colms_bg;
   border-left: 1px dotted #ddd;
   padding: 5px 2px;
+}
+
+.sidebar_section {
+  margin-bottom: 10px;
 }

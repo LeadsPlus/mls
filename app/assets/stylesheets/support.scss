@@ -1,32 +1,4 @@
-/* this gets written in everytime it's included in another stylesheet.*/
-/* that means it gets applied to elements 5/6 times each. Obv not ideal */
-
-@mixin border-radius($rad) {
-  border-radius: $rad;
-  -moz-border-radius: $rad;
-  -webkit-border-radius: $rad;
-}
-
-@mixin border-radius-bottom($rad) {
-  border-bottom-right_radius: $rad;
-  border-bottom-left-radius: $rad;
-  -moz-border-radius-bottomright: $rad;
-  -moz-border-radius-bottomleft: $rad;
-  -webkit-border-bottom-left-radius: $rad;
-  -webkit-border-bottom-right-radius: $rad;
-}
-
-// aaplication wide standard colours
-$daves_grey: #e0e0e0;
-$border_color: #aaa;
-$fb_error_background: #ffebe7;
-$fb_error_border: #dc3e00;
-$bp_pink: #FF5E99;
-$bp_grey_blue: #607890; // link
-$bp_dark_blue: #036; // hover
-$bp_hot_pink: #fe57a1;
-$colms_bg: #eee;
-
+@import "variables";
 
 .float-right {
   float: right;
@@ -56,10 +28,9 @@ h2.bar_head {
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#18c), to(#116699));
   background-image: -webkit-linear-gradient(#18c, #116699);
   background-image: -o-linear-gradient(#18c, #116699);
-  padding:7px 0 7px 15px;
-  font-size:14px;
+  padding: .1em 0 .1em 1em;
+  font-size: 1.2em;
   color:#fff;
-  font-weight:bold;
   display:block;
   @include border-radius(5px);
 }

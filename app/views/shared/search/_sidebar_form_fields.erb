@@ -1,36 +1,40 @@
 <% content_for :sidebar do %>
   <!-- fields_for may be what I need here: http://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-fields_for -->
   <%= form_tag(Search.new, id: "mortgage_options_form") do %>
-    <div id="mortgage_options">
+    <div id="mortgage_filter" class="sidebar_section">
+      <h2 class="bar_head">Mortgage Filter</h2>
+      <h3><a href="">Lenders</a></h3>
       <div class="buttonset">
-        <b>Lenders</b><br />
         <% LENDER_UIDS.each do |uid| %>
           <%= checkbox('lender_uids', uid, search.lender_uids.include?(uid)) %>
           <%= checkbox_label('lender_uids', uid, LENDERS[LENDER_UIDS.find_index(uid)]) %>
         <% end %>
       </div>
+      <h3><a href="">Loan Types</a></h3>
       <div class="buttonset">
-        <b>Loan Types</b><br />
         <% LOAN_TYPE_UIDS.each do |uid| %>
           <%= checkbox('loan_type_uids', uid, search.loan_type_uids.include?(uid)) %>
           <%= checkbox_label('loan_type_uids', uid, LOAN_TYPES[LOAN_TYPE_UIDS.find_index(uid)]) %>
         <% end %>
       </div>
     </div>
-    <div class="buttonset">
-      <b>Bedrooms</b><br />
-      <!-- these should obv be replaced with the bedroom range possible -->
-      <% BEDROOMS.each do |number| %>
-        <%= checkbox('bedrooms', number, search.bedrooms[number-1]) %>
-        <%= checkbox_label('bedrooms', number) %>
-      <% end %>
-    </div>
-    <div class="buttonset">
-      <b>Bathrooms</b><br />
-      <% BATHROOMS.each do |x| %>
-        <%= checkbox('bathrooms', x, search.bathrooms[x-1]) %>
-        <%= checkbox_label('bathrooms', x) %>
-      <% end %>
+    <div id="house_filter" class="sidebar_section">
+      <h2 class="bar_head">Results Filter</h2>
+      <h3><a href="">Bedrooms</a></h3>
+      <div class="buttonset">
+        <!-- these should obv be replaced with the bedroom range possible -->
+        <% BEDROOMS.each do |number| %>
+          <%= checkbox('bedrooms', number, search.bedrooms[number-1]) %>
+          <%= checkbox_label('bedrooms', number) %>
+        <% end %>
+      </div>
+      <h3><a href="">Bathrooms</a></h3>
+      <div class="buttonset">
+        <% BATHROOMS.each do |x| %>
+          <%= checkbox('bathrooms', x, search.bathrooms[x-1]) %>
+          <%= checkbox_label('bathrooms', x) %>
+        <% end %>
+      </div>
     </div>
   <% end %>
 <% end %>

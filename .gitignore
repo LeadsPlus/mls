@@ -5,6 +5,7 @@ tmp/
 doc/
 *.swp
 *~
+.sass-cache
 webrat.log
 .project
 

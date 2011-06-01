@@ -1,4 +1,4 @@
-@import 'support';
+@import "variables";
 
 div.search_bar {
   margin-bottom: 10px;
@@ -16,9 +16,7 @@ div.search_content {
 
   /*label, .label { font-weight: bold; }*/
 
-  #search_term { margin-left: 1.5em; margin-top: 0.6em; }
-
-  #mortgage_options { margin: 20px 0 5px 0; }
+  .buttonset { margin-left: 1.5em; margin-top: 0.6em; }
 
   ul li.input { list-style: none; display: inline; margin-left: 1em; }
 
