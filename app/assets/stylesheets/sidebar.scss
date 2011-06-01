@@ -1,0 +1,16 @@
+ul.button_list {
+  list-style: none;
+  margin: 0;
+
+  .ui-button { width: 100%; }
+
+  /* override the jquery-ui css buttons*/
+  .ui-button-text-only .ui-button-text { padding: .1em 1em; font-size: 1em; text-align: left; }
+}
+
+.inline.buttonset .ui-button-text-only .ui-button-text { padding: .1em .5em; font-size: 1em; }
+
+.sidebar_section h3 {
+  font-size: 1.2em;
+  margin: .6em 0 0 0;
+}

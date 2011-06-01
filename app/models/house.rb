@@ -6,7 +6,7 @@ require "finance/mortgage"
 
 class House < ActiveRecord::Base
   attr_accessible :price, :description, :county_id, :image_url, :daft_id,
-                  :property_type, :daft_title, :bedrooms,
+                  :property_type, :property_type_uid, :daft_title, :bedrooms,
                   :bathrooms, :address, :town_id
   attr_reader :payment_required
   
@@ -17,6 +17,12 @@ class House < ActiveRecord::Base
 
   index do
     daft_title
+  end
+
+  before_create :set_property_type_uid
+
+  def set_property_type_uid
+    self.property_type_uid = PropertyType.convert_to_uid(property_type)
   end
 
   def title
@@ -41,6 +47,10 @@ class House < ActiveRecord::Base
 
   def self.has_beds(bedrooms)
     where(:"houses.bedrooms" => bedrooms)
+  end
+
+  def self.property_type_is_one_of(prop_type_uids)
+    where(:property_type_uid => prop_type_uids)
   end
 
   def payment_required rate, term, users_deposit

@@ -12,13 +12,10 @@ require 'custom_validators/vrm_and_initial_length_not_both_set_validator'
 class Search < ActiveRecord::Base
   include Log
   attr_accessible :min_payment, :max_payment, :deposit, :term, :location, :bedrooms, :bathrooms,
-                  :loan_type_uids, :initial_period_length, :lender_uids, :max_price, :min_price
+                  :loan_type_uids, :lender_uids, :prop_type_uids, :max_price, :min_price
   attr_reader :viable_rates
   belongs_to :rate
-  serialize :lender
-  serialize :loan_type
-  serialize :bedrooms
-  serialize :bathrooms
+  serialize :lender_uids; serialize :loan_type_uids; serialize :bedrooms; serialize :bathrooms; serialize :prop_type_uids
 
   before_save do
     log_around("keep calculating") do
@@ -40,10 +37,24 @@ class Search < ActiveRecord::Base
     @broker ||= Finance::MortgageBroker.new(term, deposit, max_payment, min_payment, lender_uids, loan_type_uids)
   end
   
-  def has_mortgage_conditions?
-    log_around('check for mortgage conditions') do
-      loan_type_uids != LOAN_TYPE_UIDS || lender_uids != LENDER_UIDS
-    end
+  def has_loan_type_conditions?
+    loan_type_uids != LOAN_TYPE_UIDS
+  end
+
+  def has_lender_conditions?
+    lender_uids != LENDER_UIDS
+  end
+
+  def has_prop_type_conditions?
+    prop_type_uids != PropertyType.uids
+  end
+
+  def has_bedroom_conditions?
+    bedrooms != BEDROOMS
+  end
+
+  def has_bathroom_conditions?
+    bathrooms != BATHROOMS
   end
 
 #  potential problems I see with this implementation
@@ -52,7 +63,7 @@ class Search < ActiveRecord::Base
     log_around('search for matches') do
       House.search(location).cheaper_than(max_price)
         .more_expensive_than(min_price).has_baths(bathrooms)
-        .has_beds(bedrooms)
+        .has_beds(bedrooms).property_type_is_one_of(prop_type_uids)
     end
   end
 
@@ -120,25 +131,27 @@ end
 
 
 
+
+
 # == Schema Information
 #
 # Table name: searches
 #
-#  id                    :integer         not null, primary key
-#  max_payment           :integer
-#  deposit               :integer
-#  created_at            :datetime
-#  updated_at            :datetime
-#  location              :string(255)
-#  min_payment           :integer
-#  term                  :integer
-#  loan_type             :string(255)
-#  initial_period_length :integer
-#  lender_uids           :string(255)
-#  max_price             :integer
-#  min_price             :integer
-#  rate_id               :integer
-#  bedrooms              :string(255)
-#  bathrooms             :string(255)
+#  id             :integer         not null, primary key
+#  max_payment    :integer
+#  deposit        :integer
+#  created_at     :datetime
+#  updated_at     :datetime
+#  location       :string(255)
+#  min_payment    :integer
+#  term           :integer
+#  loan_type_uids :string(255)
+#  lender_uids    :string(255)
+#  max_price      :integer
+#  min_price      :integer
+#  rate_id        :integer
+#  bedrooms       :string(255)
+#  bathrooms      :string(255)
+#  prop_type_uids :string(255)
 #
 

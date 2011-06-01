@@ -21,8 +21,16 @@ namespace :houses do
       title_upto_county = house.daft_title[0, county_index]
       town_index = title_upto_county.rindex(/, \w+/)
       stripped_town = title_upto_county[town_index, title_upto_county.length].gsub(/, /, '')
-      town = Town.find_or_create_by_county_and_name(house.county, { name: stripped_town, daft_id: nil })
+      town = Town.find_or_create_by_county_and_name({ name: stripped_town, daft_id: nil })
       house.town = town
+      house.save
+    end
+  end
+
+  desc "fill in the property_type_uid column"
+  task :convert_property_types => :environment do
+    House.find_each() do |house|
+      house.property_type_uid = PropertyType.convert_to_uid(house.property_type)
       house.save
     end
   end

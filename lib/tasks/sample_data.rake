@@ -1,7 +1,6 @@
 namespace :db do
   desc "Fill database with sample data"
   task :populate => :environment do
-    require 'faker'
     Rate.reset
     Search.reset
     County.reset
@@ -40,8 +39,9 @@ def create_default_search
     location: "Enniskillen",
     lender_uids: LENDER_UIDS,
     loan_type_uids: LOAN_TYPE_UIDS,
-    bedrooms: BEDROOMS,
-    bathrooms: BATHROOMS
+    bedrooms: ['3', '4', '5'],
+    bathrooms: ['1', '2', '3'],
+    prop_type_uids: PropertyType.uids
   })
   puts "Default search created"
 end

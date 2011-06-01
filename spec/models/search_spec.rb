@@ -160,25 +160,27 @@ end
 
 
 
+
+
 # == Schema Information
 #
 # Table name: searches
 #
-#  id                    :integer         not null, primary key
-#  max_payment           :integer
-#  deposit               :integer
-#  created_at            :datetime
-#  updated_at            :datetime
-#  location              :string(255)
-#  min_payment           :integer
-#  term                  :integer
-#  loan_type             :string(255)
-#  initial_period_length :integer
-#  lender_uids           :string(255)
-#  max_price             :integer
-#  min_price             :integer
-#  rate_id               :integer
-#  bedrooms              :string(255)
-#  bathrooms             :string(255)
+#  id             :integer         not null, primary key
+#  max_payment    :integer
+#  deposit        :integer
+#  created_at     :datetime
+#  updated_at     :datetime
+#  location       :string(255)
+#  min_payment    :integer
+#  term           :integer
+#  loan_type_uids :string(255)
+#  lender_uids    :string(255)
+#  max_price      :integer
+#  min_price      :integer
+#  rate_id        :integer
+#  bedrooms       :string(255)
+#  bathrooms      :string(255)
+#  prop_type_uids :string(255)
 #
 

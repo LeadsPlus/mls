@@ -17,8 +17,7 @@
     .field
       = f.label :county, "County"
       %br/
-      -# county choices is an application helper
-      = f.select :county, county_choices
+      = f.select :county, select_options(COUNTIES)
   %fieldset
     .field
       = f.label :price

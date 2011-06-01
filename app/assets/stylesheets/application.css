@@ -8,6 +8,7 @@
  *= require header
  *= require search_bar
  *= require results
+ *= require sidebar
  *= require smoothness/jquery-ui
  *
  * require_tree .

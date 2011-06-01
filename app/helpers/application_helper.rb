@@ -10,7 +10,7 @@ module ApplicationHelper
   end
 
   def checkbox(type, field_number, checked)
-    check_box_tag "search[#{type}][]", "#{field_number}", checked, id: "search_#{type}_#{field_number}"
+    check_box_tag "search[#{type}][]", "#{field_number}", checked, id: "search_#{type}_#{field_number}", class: "filter_button"
   end
 
   def checkbox_label(type, id, text = nil)

@@ -4,9 +4,10 @@ $(function() {
 //  $( "button, input:submit, a.snazzy" ).button();
   $( "a", ".demo" ).click(function() { return false; });
 
-  $( ".collapsed-trigger" ).bind("click", function(event){
+  $( ".collapsed_trigger" ).click(function(event){
     event.preventDefault();
-    $(this).parent().siblings(".collapsed-content").toggleClass("hidden");
+//    console.log($(this).next());
+    $(this).next(".collapsed_content").toggleClass('hidden');
   });
 
   $("#.sorting_options a, #results .pagination a").live("click", function(event) {
@@ -16,6 +17,11 @@ $(function() {
 
   $("a.gallery").fancybox({
     cyclic: true
+  });
+
+  $(".filter_button").live('click', function(event){
+//    grab all the form elements and serilaize them
+    $.rails.handleRemote( $("#new_search") );
   });
 
   $("#new_search")
