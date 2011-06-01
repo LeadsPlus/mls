@@ -1,25 +1,25 @@
-<div class="search_row">
+<div id="top_search_bar">
   <%= f.label :min_payment, "Min Payment", :class => "hidden" %>
   <b><%= f.label :max_payment, "Payment" %></b>
   <%= f.hidden_field :min_payment, :value => search.min_payment %>
   <%= f.hidden_field :max_payment, :value => search.max_payment %>
   <div id="payment_slider"></div>
 </div>
-<div class="search_row float-left" id="deposit_container">
-  <b><%= f.label :deposit, "Deposit" %></b>
-  <%= f.hidden_field :deposit, :value => search.deposit %>
-  <div id="deposit_slider"></div>
-</div>
-<div class="search_row float-left buttonset">
-  <span class="label">Term</span>
-  <% default_term_1, default_term_2, default_term_3 = 25, 30, 35 %>
-  <%= radio_button_tag("search[term]", default_term_1, (search.term == default_term_1)) %><%= label_tag "search_term_#{default_term_1}", default_term_1.to_s %>
-  <%= radio_button_tag("search[term]", default_term_2, (search.term == default_term_2)) %><%= label_tag "search_term_#{default_term_2}", default_term_2.to_s %>
-  <%= radio_button_tag("search[term]", default_term_3, (search.term == default_term_3)) %><%= label_tag "search_term_#{default_term_3}", default_term_3.to_s %>
-</div>
-<div class="search_row">
-  <b><%= f.label :location, "Location" %></b>
-  <%# f.text_field :location, :value => search.location, :size => 60 %>
-  <%= f.autocomplete_field :location, autocomplete_town_name_searches_path, value: search.location %>
-  <%= f.submit :Search, :class => "float-right sexy_btn" %>
+<div id="side_search_bar">
+  <div class="row">
+    <b><%= f.label :deposit, "Deposit" %></b>
+    <%= f.text_field :deposit, :value => search.deposit %>
+  </div>
+  <div class="inline buttonset row">
+    <div><b>Term</b></div>
+    <% [20,25,30,35,40].each do |id| %>
+      <%= radio('term', id, search.term == id) %><%= checkbox_label 'term', id %>
+     <% end %>
+  </div>
+  <div class="row">
+    <b><%= f.label :location, "Location" %></b>
+    <%# f.text_field :location, :value => search.location, :size => 60 %>
+    <%= f.autocomplete_field :location, autocomplete_town_name_searches_path, value: search.location %>
+  </div>
+  <div><%= f.submit :Search, :class => "sexy_btn" %></div>
 </div>

@@ -17,6 +17,10 @@ module ApplicationHelper
     label_tag "search_#{type}_#{id}", (text || id.to_s)
   end
 
+  def radio(type, id, checked)
+    radio_button_tag("search[#{type}]", id, checked)
+  end
+
   def sortable(column, title = nil)
     title ||= column.titleize
 #    I've no idea whats going on in this logic

@@ -1,27 +1,36 @@
 @import "variables";
 
-div.search_bar {
-  margin-bottom: 10px;
-  width:760px;
+div#side_search_bar {
+  float: left;
+  background: $bp_hot_pink;
+  width: 205px;
+  padding: .7em .4em;
+  margin-bottom: 2em;
+  @include border-radius-bottom(5px);
+  @include border-radius-topright(5px);
+
+  input[type='text'] {
+    width: 180px;
+  }
+
+  .row {
+    margin-bottom: .7em;
+  }
+
+  .buttonset {
+    margin: .5em;
+  }
 }
 
-div.search_content {
-  background: $colms_bg;
-  padding: 1.2em 1em .1em 1em;
-  @include border-radius-bottom(5px);
-
-  .search_row { margin-bottom: 1.2em; }
-
-  #deposit_container { width: 45em; }
-
-  /*label, .label { font-weight: bold; }*/
-
-  .buttonset { margin-left: 1.5em; margin-top: 0.6em; }
-
-  ul li.input { list-style: none; display: inline; margin-left: 1em; }
-
-  /* over-riding some jquery-ui styling for buttonsets */
-  .ui-button-text-only .ui-button-text { padding: .1em .3em }
+div#top_search_bar {
+  $lp: 0.6em; $rp: 0.9em; $tp: 1em; $bp: 1em;
+  background: $bp_hot_pink;
+  width: $content_width - 22px;
+  float: left;
+  padding: $tp $rp $bp $lp;
+  @include border-radius-topleft(5px);
+  @include border-radius-bottomleft(5px);
+  @include border-radius-bottomright(-5px);
 
   /* over-riding some jquery-ui styling for sliders */
   .ui-slider-horizontal { height: 0.6em; }
@@ -78,6 +87,12 @@ div.search_content {
   .ui-slider a {
     text-decoration: none;
   }
-
-  /* end of copy paste */
 }
+
+  .buttonset { margin-left: 1.5em; margin-top: 0.6em; }
+
+  ul li.input { list-style: none; display: inline; margin-left: 1em; }
+
+  /* over-riding some jquery-ui styling for buttonsets */
+  .ui-button-text-only .ui-button-text { padding: .1em .3em }
+

@@ -1,18 +1,19 @@
 @import "variables";
 
 div#wrapper {
-  width: 980px;
+  width: $wrapper_width;
   margin: 0 auto;
 }
 
 div#sidebar {
-  width: 206px;
+  $pl: 2px; $pr: 2px; $pt: 5px; $pb: 5px;
+  $ml: 9px;
+  width: $sidebar_width;
   float: left;
-  margin-left: 9px;
+  margin-left: $ml;
   min-height: 400px;
   background-color: $colms_bg;
-  border-left: 1px dotted #ddd;
-  padding: 5px 2px;
+  padding: $pt $pr;
 }
 
 .sidebar_section {

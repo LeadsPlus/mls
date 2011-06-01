@@ -1,6 +1,5 @@
-<div class="search_content">
-  <%= form_for Search.new, :remote => true do |f| %>
-    <%= render 'shared/search/form_fields', :f => f, :search => @search %>
-    <%= render 'shared/search/sidebar_form_fields', :f => f, :search => @search %>
-  <% end %>
-</div>
+<%= form_for Search.new, :remote => true do |f| %>
+  <%= render 'shared/search/form_fields', :f => f, :search => @search %>
+  <%= render 'shared/search/sidebar_form_fields', :f => f, :search => @search %>
+<% end %>
+<!--<div class="spacer"></div>-->

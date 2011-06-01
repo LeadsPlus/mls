@@ -1,3 +1,6 @@
+# if this class gets any more complicated (I suspect it will), I should probably make seperate
+# ListingScraperJob class which invokes this one and use that to pass into delayed_job like command pattern
+
 module Scraper
   class ListingsScraper < Scrape
     def initialize(county)
@@ -22,6 +25,24 @@ module Scraper
       end
     end
     handle_asynchronously :refresh_listings
+
+#    this is retarded obviously, should be done with a block or delegated somewhat
+#    the danger is that I'll make the thing too complicated for delayed_job to perform normal scraping
+    def generate_fixtures(path)
+      url = "http://www.daft.ie/searchsale.daft?s%5Bcc_id%5D=c#{@county.daft_id}&search=1&submit.x=23&submit.y=11"
+      puts "Scraping #{@county.name} via it's Daft county ID: #{@county.daft_id}..."
+  #    trying to put Mechanize initialization in the initialize method makes SJ prone to failure
+      @agent = Mechanize.new
+      @agent.get(url)
+
+      begin
+        file = File.open(path, 'w')
+      rescue
+        puts "File cannot open"
+      end
+      file << @agent.page.search(".content")[0]
+      file.close
+    end
 
     private
       def next_page_link

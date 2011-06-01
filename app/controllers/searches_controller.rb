@@ -14,7 +14,7 @@ class SearchesController < ApplicationController
   end
 
   def show
-    @search = Search.find params[:id]
+    @search = Search.includes(:rate).find(params[:id])
     @matches = @search.matches.order(sort_column + " " + sort_direction).page(params[:page])
     @rate = @search.rate
 

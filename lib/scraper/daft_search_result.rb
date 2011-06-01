@@ -95,8 +95,8 @@ module Scraper
   #  some properties have " - " in the freeform address part, hence matching this (only) cannot be relied on
     def parse_type
       unless type_portion.nil?
-        HOUSE_TYPES.each do |type|
-          return type if type_portion.include? type
+        PropertyType.each_name do |name|
+          return name if type_portion.include? name
         end
       end
   #    returns nil if we make it to here

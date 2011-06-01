@@ -1,77 +1,107 @@
+# here's how this should work
+# pass in the name of a html fixture which can be found in the fixtures dir
+# also pass in the name of a results file which contains the correct answers stored in a hash
+# require the results hash (remember require is just a method)
+# write the tester in such a way that it can compare against the results
+
 require "spec_helper"
-require "scraper/daft_search_result"
+require Rails.root.join('lib','scraper','scraper')
+require Rails.root.join('lib','scraper','daft_search_result')
 
 describe "DaftSearchResult" do
   before(:all) do
-    files = {
-      "http://www.daft.ie/fermanagh_sr_p1.htm" => "doc/daft_search_results/fermanagh_sr_p1.html",
-      "http://www.daft.ie/fermanagh_sr_p2.htm" => "doc/daft_search_results/fermanagh_sr_p2.html",
-      "http://www.daft.ie/fermanagh_sr_p3.htm" => "doc/daft_search_results/fermanagh_sr_p3.html"
-    }
+    @perfect = parse('listing')
+    @no_price = parse('no_price')
+    @early_dash = parse('early_dash_in_title')
+    @has_postcode = parse('has_postcode')
+    @fermanagh = Factory :county
+    @class = Scraper::DaftSearchResult
+  end
 
-    @pages = []
-    files.each do |url, content|
-      FakeWeb.register_uri(:get, url, :body => File.read(content), :content_type => "text/html")
-      agent = Mechanize.new
-      agent.get(url)
-      @pages << agent.page
+  def parse(fixture_name)
+    path_to_fixture = Rails.root.join('spec','fixtures', "#{fixture_name}.html")
+    fixture = File.open(path_to_fixture)
+    Nokogiri::HTML.parse(fixture)
+  end
+
+  it "should create a new instance given valid arguments" do
+    @class.new(@perfect, @fermanagh).class.should == @class
+  end
+
+  describe "has_price? method" do
+    it "should return a price if the price has digits" do
+      perfect = @class.new(@perfect, @fermanagh)
+      perfect.has_price?.should == '100,000'
+    end
+
+#    as far as I can tell, we cant use 
+    it "should return nil if the price has no numeric content" do
+      no_price = @class.new(@no_price, @fermanagh)
+      no_price.has_price?.should == nil
     end
   end
 
-  it "should get the page successfully" do
-    @pages[0].at("#search_sentence h1").text.should == "Searching for properties for sale in Co. Fermanagh"
-  end
-
-  it "should register 10 search results per page" do
-    @pages[0].search(".content").count.should == 10
-    @pages[1].search(".content").count.should == 10
-  end
-
-#  Price tests don't work because of a unicode fail by rspec
-
-  describe "extract title" do
+  describe "daft_title manipulation methods" do
     before(:each) do
-      @result = DaftSearchResult.new(@pages[0].search(".content")[0])
+      @perfect = @class.new(@perfect, @fermanagh)
+      @early_dash = @class.new(@early_dash, @fermanagh)
+      @postcode = @class.new(@has_postcode, @fermanagh)
     end
 
-    it "should return the right content" do
-      @result.extract_title.should == "546 Loughshore Road, Carranbeg, Belleek, Co. Fermanagh - Detached House"
-    end
-  end
-
-  describe "extract image_src" do
-    it "should return the right src" do
-      @result = DaftSearchResult.new(@pages[0].search(".content")[0])
-      @result.extract_image_src.should == "./fermanagh_sr_p1_files/yC91VGVdZ4xIeFv_pjKu1osQtcwbPgzpY0SyHmSeYwRtPWRhZnQmZT0xNjB4MTIw.png"
-    end
-  end
-
-  describe "room extraction" do
-    it "should work when beds and baths are provided" do
-      @bed_and_bath = DaftSearchResult.new(@pages[0].search(".content")[0])
-      @bed_and_bath.extract_rooms.should == [4,3]
+    it "should get the correct title" do
+      @perfect.daft_title.should == '546 Loughshore Road, Carranbeg, Belleek, Co. Fermanagh - Detached House'
+      @early_dash.daft_title.should == 'The Chestnut - 4 Bed, 2 Storey Detached Home, Spring Meadows, Derrylin, Co. Fermanagh - New Home'
+      @postcode.daft_title.should == 'Bigwood, Letter, Kesh, Co. Fermanagh, BT93 2AP - Detached House'
     end
 
-    it "should return 0 when neither is provided" do
-      @neither = DaftSearchResult.new(@pages[0].search(".content")[1])
-      @neither.extract_rooms.should == [0,0]
+#    the following for tests should be deleted and the associated methods made private
+    it "should get the correct county index" do
+      @perfect.county_index.should == 39
+      @early_dash.county_index.should == 70
+      @postcode.county_index.should == 21
     end
 
-    it "should return [beds, 0] when only beds is provided" do
-      @bedroom_only = DaftSearchResult.new(@pages[0].search(".content")[2])
-      @bedroom_only.extract_rooms.should == [2, 0]
+    it "should work out the correct title upto county" do
+      @perfect.title_upto_county.should == '546 Loughshore Road, Carranbeg, Belleek'
+      @early_dash.title_upto_county.should == 'The Chestnut - 4 Bed, 2 Storey Detached Home, Spring Meadows, Derrylin'
+      @postcode.title_upto_county.should == 'Bigwood, Letter, Kesh'
     end
 
-    it "should return [0,0] when dealing with a site" do
-      @site = DaftSearchResult.new(@pages[0].search(".content")[9])
-      @site.extract_rooms.should == [0,0]
+    it "should work out the correct county onwards" do
+      @perfect.county_onwards.should == ', Co. Fermanagh - Detached House'
+      @early_dash.county_onwards.should == ', Co. Fermanagh - New Home'
+      @postcode.county_onwards.should == ', Co. Fermanagh, BT93 2AP - Detached House'
     end
-  end
 
-  describe "daft_id extraction" do
-    it "should return the correct id" do
-      @result = DaftSearchResult.new(@pages[0].search(".content")[0])
-      @result.extract_daft_id.should == 591692
+    it "should work out the correct town index" do
+      @perfect.town_index.should == 30
+      @early_dash.town_index.should == 60
+      @postcode.town_index.should == 15
+    end
+
+    it "should work out the correct town name" do
+      @perfect.stripped_town.should == 'Belleek'
+      @early_dash.stripped_town.should == 'Derrylin'
+      @postcode.stripped_town.should == 'Kesh'
+    end
+
+    it "should extract the address correctly" do
+      @perfect.address.should == '546 Loughshore Road, Carranbeg'
+      @early_dash.address.should == 'The Chestnut - 4 Bed, 2 Storey Detached Home, Spring Meadows'
+      @postcode.address.should == 'Bigwood, Letter'
+    end
+
+#    this is going to break if I use it with non Fermanagh listings
+    it "should create an association with the correct Town" do
+      @perfect.town.should == Town.find_by_name_and_county('Belleek', @fermanagh.name)
+      @early_dash.town.should == Town.find_by_name_and_county('Derrylin', @fermanagh.name)
+      @postcode.town.should == Town.find_by_name_and_county('Kesh', @fermanagh.name)
+    end
+
+    it "should work out the correct property type" do
+      @perfect.type.should == 'Detached House'
+      @early_dash.type.should == 'New Home'
+      @postcode.type.should == 'Detached House'
     end
   end
 end

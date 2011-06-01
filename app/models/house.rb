@@ -15,6 +15,7 @@ class House < ActiveRecord::Base
   belongs_to :county
   belongs_to :town
 
+#  TODO this needs to be changed so that it searches across address, town, county only
   index do
     daft_title
   end

@@ -8,6 +8,7 @@ doc/
 .sass-cache
 webrat.log
 .project
+spec/fixtures/*
 
 # weird mac project file
 .DS_Store
