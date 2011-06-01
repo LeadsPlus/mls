@@ -58,12 +58,10 @@ end
 Factory.define Town do |c|
   c.name "Eniskillan"
   c.daft_id "3fe3"
-  c.association :house
+  c.association :county
 end
 
 Factory.define County do |c|
   c.name "Fermanagh"
   c.daft_id 30
-#  c.association :house
-#  c.association :town
 end

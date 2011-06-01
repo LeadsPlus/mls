@@ -57,10 +57,9 @@ class House < ActiveRecord::Base
     Finance::Mortgage.new(rate, term, users_deposit, self.price).payment_required
   end
 
-#  validates :county, :presence => true,
-#      :inclusion => { :in => COUNTIES }
-
-#  validates :county_id, :presence => true, :numericality => { within: 1..32 }
+#  doing extensive validations at this point is dangerous since I'm using a scraper
+#  which leads to whacky results. I don't want to drop houses because of it.
+  validates :county_id, presence: true, numericality: true
 
   validates :price, :presence => true,
                     :numericality => { :greater_than => 1 }
@@ -81,24 +80,26 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: houses
 #
-#  id            :integer         not null, primary key
-#  price         :integer
-#  created_at    :datetime
-#  updated_at    :datetime
-#  image_url     :string(255)
-#  description   :text
-#  daft_title    :string(255)
-#  daft_id       :integer
-#  bedrooms      :integer
-#  bathrooms     :integer
-#  address       :string(255)
-#  property_type :string(255)
-#  county_id     :integer
-#  town_id       :integer
-#  last_scrape   :integer
+#  id                :integer         not null, primary key
+#  price             :integer
+#  created_at        :datetime
+#  updated_at        :datetime
+#  image_url         :string(255)
+#  description       :text
+#  daft_title        :string(255)
+#  daft_id           :integer
+#  bedrooms          :integer
+#  bathrooms         :integer
+#  address           :string(255)
+#  property_type     :string(255)
+#  county_id         :integer
+#  town_id           :integer
+#  last_scrape       :integer
+#  property_type_uid :string(255)
 #
 

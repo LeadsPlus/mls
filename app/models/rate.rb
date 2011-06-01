@@ -7,24 +7,7 @@ class Rate < ActiveRecord::Base
                   :min_deposit, :max_deposit, :twenty_year_apr
   has_many :searches
 
-  before_save :calc_deposit_limits, :set_lender_uid, :set_initial_period_length, :set_loan_type_uid
-
-  def calc_deposit_limits
-    self.min_deposit = 100-max_ltv
-    self.max_deposit = 100-min_ltv
-  end
-
-  def set_lender_uid
-    self.lender_uid = LENDER_UIDS[LENDERS.find_index(lender)]
-  end
-
-  def set_initial_period_length
-    self.initial_period_length = LOAN_TYPES.find_index(loan_type)
-  end
-
-  def set_loan_type_uid
-    self.loan_type_uid = LOAN_TYPE_UIDS[LOAN_TYPES.find_index(loan_type)]
-  end
+  before_create :calc_deposit_limits, :set_lender_uid, :set_initial_period_length, :set_loan_type_uid
 
 #  http://stackoverflow.com/questions/5748550/how-to-make-a-rails-3-dynamic-scope-conditional
   def self.scope_by_lender(lender_uids)
@@ -72,6 +55,24 @@ class Rate < ActiveRecord::Base
     Rate.delete_all
     ActiveRecord::Base.connection.execute "SELECT setval('public.rates_id_seq', 1, false)"
   end
+
+  private
+    def calc_deposit_limits
+      self.min_deposit = 100-max_ltv
+      self.max_deposit = 100-min_ltv
+    end
+
+    def set_lender_uid
+      self.lender_uid = LENDER_UIDS[LENDERS.find_index(lender)]
+    end
+
+    def set_initial_period_length
+      self.initial_period_length = LOAN_TYPES.find_index(loan_type)
+    end
+
+    def set_loan_type_uid
+      self.loan_type_uid = LOAN_TYPE_UIDS[LOAN_TYPES.find_index(loan_type)]
+    end
 end
 
 

@@ -1,4 +1,5 @@
 require "spec_helper"
+require "scraper/daft_search_result"
 
 describe "DaftSearchResult" do
   before(:all) do

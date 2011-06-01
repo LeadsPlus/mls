@@ -1,4 +1,5 @@
 require "spec_helper"
+require "scraper/daft_house_page"
 
 describe "DaftHousePage" do
   before(:all) do

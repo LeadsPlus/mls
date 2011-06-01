@@ -15,7 +15,6 @@ module Finance
 
     def viable_rates
       log_around 'to get or calculate viable rates' do
-        puts @lender_uids
         @viable_rates ||= Rate.scope_by_lender(@lender_uids).scope_by_loan_type(@loan_type_uids)
       end
     end

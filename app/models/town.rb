@@ -9,7 +9,7 @@ class Town < ActiveRecord::Base
 #  I think this may be the evidence I need that AR County model is wrong
 #  The solution to this particular issue is to store county name in the town table
   def town_address
-    "#{name}, Co. #{county}"
+    @address ||= "#{name}, Co. #{county}"
   end
 
   def self.reset
@@ -21,7 +21,6 @@ class Town < ActiveRecord::Base
     town = find_by_name_and_county(attributes[:name], attributes[:county])
     unless town
       town = new(attributes)
-      town.county = county
       town.save
     end
     town
@@ -30,6 +29,7 @@ class Town < ActiveRecord::Base
   def self.create_or_update_by_county_and_name(attributes)
     the_town = find_by_name_and_county(attributes[:name], attributes[:county])
     if the_town
+      attributes = attributes.delete_if {|k,v| v.nil? }
       the_town.update_attributes(attributes)
       the_town.save
     else

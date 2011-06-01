@@ -81,14 +81,20 @@ class Search < ActiveRecord::Base
                    :numericality => { greater_than: 0, less_than_or_equal_to: 60, allow_blank: true }
 
   validates :location, presence: true, length: { maximum: 254, minimum: 1, allow_blank: true }
-#  validation for bathrooms and bedrooms needed
-#  validates :lender_uids, :is_valid_lender_uid => true
-#  validates :loan_type, :inclusion => { :in => LOAN_TYPES }
+
+#  TODO validation for bathrooms and bedrooms needed
+
+#  TODO all these validations need to be improved
+  validates :lender_uids, presence: true, format: { with: /\[(("|')\D{2}.+("|'))\]/ }
+  validates :loan_type_uids, presence: true, format: { with: /\[(("|')\D{2}.+("|'))\]/ }
+  validates :prop_type_uids, presence: true, format: { with: /\[(("|').+("|'))\]/ }
 
 #  #  as far as I can tell, 'validate xyz' validations always happen before 'validates xyz' validations
 #  @viable rates is built in 'has_some_viable_rates' and can then be used in 'has_some_affordable_prices'
   validate :has_some_viable_rates, :has_some_affordable_prices
 
+#  this may not be a perfect implementation since 0 != blank
+#  also, there are not far more attributes which may not be blank
   def anything_blank?
     max_payment.blank? || min_payment.blank? || deposit.blank? || term.blank?
   end

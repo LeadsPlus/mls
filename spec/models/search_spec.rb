@@ -4,23 +4,58 @@ describe Search do
   before(:each) do
     @rate = Factory :rate # BOI variable rate
     @fixed_rate = Factory :rate, :initial_period_length => 3,
-                                 :loan_type => "Partially Fixed Rate",
+                                 :loan_type => "3 Year Fixed Rate",
                                  :lender => "AIB"
     @other_rate = Factory :rate, :lender => "Ulster Bank"
     @valid_attr = {
-          :min_payment => 700,
-          :max_payment => 1200,
-          :term => 25,
-          :deposit => 50000,
-          :location => "Fermanagh",
-          :lender => 'Any',
-          :loan_type => 'Any',
-          :initial_period_length => ''
-      }
+      min_payment: 700,
+      max_payment: 1200,
+      term: 25,
+      deposit: 50000,
+      location: "Enniskillen",
+      lender_uids: ['BOI', 'AIB'],
+      loan_type_uids: ['VR'],
+      prop_type_uids: PropertyType.uids,
+      bedrooms: [5,3,2],
+      bathrooms: [1,2]
+    }
   end
 
   it "should create a search given valid params" do
     Search.create! @valid_attr
+  end
+
+  describe "reset method" do
+    before(:each) do
+      Search.create! @valid_attr
+    end
+
+    it "should delete all searches" do
+      expect {
+        Search.reset
+      }.to change(Search, :count).to(0)
+    end
+
+    it "should reset the auto increment column" do
+      Search.reset
+      search = Search.create! @valid_attr
+      search.id.should == 1
+    end
+  end
+
+  describe "anything_blank? method" do
+    before(:each) do
+      @search = Search.new @valid_attr
+    end
+
+    it "should return false if nothing is blank" do
+      @search.anything_blank?.should == false
+    end
+
+    it "should return true if something is blank" do
+      @search.min_payment = nil
+      @search.anything_blank?.should == true
+    end
   end
   
   describe "validations" do
@@ -34,9 +69,9 @@ describe Search do
       end
 
       it "should require a valid deposit" do
-        invalid_payments = [nil, '', -23, '-400', 0, '0', :dfef]
-        invalid_payments.each do |p|
-          Search.new(@valid_attr.merge(:max_payment => p)).should_not be_valid
+        invalid_deposits = [nil, '', -23, '-400', 0, '0', :dfef]
+        invalid_deposits.each do |depos|
+          Search.new(@valid_attr.merge(:deposit => depos)).should_not be_valid
         end
       end
     end
@@ -95,55 +130,51 @@ describe Search do
       end
     end
 
-    describe "of lender" do
-      it "should be of a set group if present" do
-        Search.new(@valid_attr.merge(:lender => 'dfiefijde')).should_not be_valid
-      end
-
+    describe "of lender uids" do
       it "should allow valid lenders" do
-        valid_loans = ['Bank of Ireland', 'AIB', 'Ulster Bank']
-        valid_loans.each do |loan|
-          Search.new(@valid_attr.merge(:lender => loan)).should be_valid
+        valid_loans = [['BOI', 'AIB', 'UB'], ['BOI']]
+        valid_loans.each do |uids|
+          Search.new(@valid_attr.merge(:lender_uids => uids)).should be_valid
         end
       end
 
-      it "should allow the 'Any' lender" do
-        Search.new(@valid_attr.merge(:lender => 'Any')).should be_valid
+#      TODO this will let an integer through somehow. Needs improvement
+      it "should not allow unrecognised lender uids" do
+        nonsensical = [nil, "hello", :defsd, {peope: 'faf'}]
+        nonsensical.each do |what|
+          Search.new(@valid_attr.merge(:lender_uids => [what])).should_not be_valid
+        end
       end
     end
 
-    describe "of loan type" do
-      it "should be required to be of a set group if present" do
-        Search.new(@valid_attr.merge(:loan_type => 'dfiefijde')).should_not be_valid
-      end
-
-      it "should allow valid loan types" do
-        valid_loans = ['Variable Rate', 'Partially Fixed Rate']
+    describe "of loan type uids" do
+      it "should allow valid loan type uids" do
+        valid_loans = [['VR', 'PFR1'], ['PFR2', "PFR3", 'VR']]
         valid_loans.each do |type|
-          Search.new(@valid_attr.merge(:loan_type => type)).should be_valid
+          Search.new(@valid_attr.merge(:loan_type_uids => type)).should be_valid
         end
       end
 
-      it "should allow the 'Any' type" do
-        Search.new(@valid_attr.merge(:loan_type => 'Any')).should be_valid
+#      TODO this will let an integer through somehow. Needs improvement
+      it "should not allow unrecognised loan type uids" do
+        nonsensical = [nil, "hello", :defsd, {peope: 'faf'}]
+        nonsensical.each do |what|
+          Search.new(@valid_attr.merge(:loan_type_uids => [what])).should_not be_valid
+        end
       end
     end
 
-    describe "of Initial Period Length" do
-      it "should be required if loan_type is non Variable rate" do
-        Search.new(@valid_attr.merge(:loan_type => 'Varibale Rate')).should_not be_valid
+    describe "of prop_type_uids" do
+      it "should allow valid prop_type_uids" do
+        type = PropertyType.uids.sample(1+rand(7))
+        Search.new(@valid_attr.merge(:prop_type_uids => type)).should be_valid
       end
 
-      it "should accept valid paramaters under the right conditions" do
-        Search.new(@valid_attr.merge(:loan_type => 'Partially Fixed Rate',
-                                     :initial_period_length => "3")).should be_valid
-      end
-
-      it "should be of a set range if present" do
-        invaid_periods = [4564, -23, "fsfewf", :fefe]
-        invaid_periods.each do |p|
-          Search.new(@valid_attr.merge(:loan_type => "Partially Fixed Rate",
-                                       :initial_period_length => p)).should_not be_valid
+#      TODO this will let an integer through somehow. Needs improvement
+      it "should not allow unrecognised prop_type_uids" do
+        nonsensical = [nil, "hello", :defsd, {peope: 'faf'}]
+        nonsensical.each do |what|
+          Search.new(@valid_attr.merge(:prop_type_uids => [what])).should_not be_valid
         end
       end
     end
