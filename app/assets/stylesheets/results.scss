@@ -1,10 +1,8 @@
 @import "variables";
 
 div#results_container {
-  width: $content_width - 15px;
+  width: 100%;
   float: left;
-  position: relative;
-  top: -150px;
 }
 
 div#results {

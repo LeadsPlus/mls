@@ -73,15 +73,6 @@ end
 
 
 
-
-
-
-
-
-
-
-
-
 # == Schema Information
 #
 # Table name: houses

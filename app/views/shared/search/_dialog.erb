@@ -1,0 +1,101 @@
+<div id="advanced_search_dialog">
+  <div id="advanced_search_fields">
+    <ul>
+      <li><a href="#house_filter">Property Filter</a></li>
+      <li><a href="#mortgage_filter">Mortgage Filter</a></li>
+    </ul>
+    <%= form_tag(Search.new, :id => "filter_options") do %>
+    <div id="house_filter">
+      <table>
+        <tbody>
+        <tr>
+          <td><h3>Property Type</h3></td>
+          <td>
+            <div class="buttonset">
+              <ul class="button_list">
+              <% PropertyType.each do |name, uid| %>
+                <li>
+                  <%= checkbox('prop_type_uids', uid, search.prop_type_uids.include?(uid)) %>
+                  <%= checkbox_label('prop_type_uids', uid, name) %>
+                </li>
+              <% end %>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><h3>Bedrooms</h3></td>
+          <td>
+            <div class="inline buttonset">
+              <!-- these should obv be replaced with the bedroom range possible -->
+              <% BEDROOMS.each do |number| %>
+                <%= checkbox('bedrooms', number, search.bedrooms[number-1]) %>
+                <%= checkbox_label('bedrooms', number) %>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><h3>Bathrooms</h3></td>
+          <td>
+            <div class="inline buttonset">
+              <% BATHROOMS.each do |x| %>
+                <%= checkbox('bathrooms', x, search.bathrooms[x-1]) %>
+                <%= checkbox_label('bathrooms', x) %>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="mortgage_filter">
+      <table>
+        <tbody>
+        <tr>
+          <td><h3>Term</h3></td>
+          <td>
+            <div class="inline buttonset row">
+              <% [20,25,30,35,40].each do |id| %>
+                <%= radio('term', id, search.term == id) %><%= checkbox_label 'term', id %>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><h3>Lenders</h3></td>
+          <td>
+            <div class="buttonset">
+              <ul class="button_list">
+              <% LENDER_UIDS.each do |uid| %>
+                <li>
+                  <%= checkbox('lender_uids', uid, search.lender_uids.include?(uid)) %>
+                  <%= checkbox_label('lender_uids', uid, LENDERS[LENDER_UIDS.find_index(uid)]) %>
+                </li>
+              <% end %>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><h3>Loan Types</h3></td>
+          <td>
+            <div class="buttonset">
+              <ul class="button_list">
+                <% LOAN_TYPE_UIDS.each do |uid| %>
+                  <li>
+                    <%= checkbox('loan_type_uids', uid, search.loan_type_uids.include?(uid)) %>
+                    <%= checkbox_label('loan_type_uids', uid, LOAN_TYPES[LOAN_TYPE_UIDS.find_index(uid)]) %>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <% end %>
+  </div>
+</div>

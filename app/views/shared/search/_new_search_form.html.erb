@@ -1,5 +1,21 @@
 <%= form_for Search.new, :remote => true do |f| %>
-  <%= render 'shared/search/form_fields', :f => f, :search => @search %>
-  <%= render 'shared/search/sidebar_form_fields', :f => f, :search => @search %>
+  <div id="top_search_bar">
+    <div class="row">
+      <%= f.label :min_payment, "Min Payment", :class => "hidden" %>
+      <b><%= f.label :max_payment, "Payment" %></b>
+      <%= f.hidden_field :min_payment, :value => @search.min_payment %>
+      <%= f.hidden_field :max_payment, :value => @search.max_payment %>
+      <div id="payment_slider"></div>
+      <b><%= f.label :deposit, "Deposit" %></b>
+      <%= f.text_field :deposit, :value => @search.deposit, :autocomplete => "off" %>
+    </div>
+    <div class="row">
+      <strong><%= f.label :location, "Location" %></strong>
+      <%# f.text_field :location, :value => search.location, :size => 60 %>
+      <%= f.autocomplete_field :location, autocomplete_town_name_searches_path, value: @search.location %>
+    </div>
+    <a id="advanced_search_trigger" href="">Advanced Search Options</a>
+    <div><%= f.submit :Search, :class => "sexy_btn float-right" %></div>
+  </div>
 <% end %>
-<!--<div class="spacer"></div>-->
+<%= render partial: "shared/search/dialog", locals: { search: @search } %>

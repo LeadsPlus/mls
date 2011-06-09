@@ -10,6 +10,7 @@ $(function() {
     $(this).next(".collapsed_content").toggleClass('hidden');
   });
 
+//  Ajax for pagination
   $("#.sorting_options a, #results .pagination a").live("click", function(event) {
     event.preventDefault();
     $.getScript(this.href);
@@ -19,16 +20,11 @@ $(function() {
     cyclic: true
   });
 
-  $(".filter_button").live('click', function(event){
-//    grab all the form elements and serilaize them
-    $.rails.handleRemote( $("#new_search") );
-  });
-
   $("#new_search")
     .bind('ajax:beforeSend', function(event, xhr, settings){
-//    append any sidebar elements onto the post data
-      settings.data += ( "&" + $("#mortgage_options_form").serialize() );
-//      log($("#mortgage_options_form").serialize());
+//    append any aux form elements onto the post data
+      settings.data += ( "&" + $("#filter_options").serialize() );
+      log( $("#filter_options").serialize() );
     
       var $submitButton = $(this).find('input[name="commit"]');
 //    store the origional text of the btn in a data attribute
@@ -41,42 +37,34 @@ $(function() {
       $submitButton.val( $submitButton.data("test") );
     });
 
-  $(".multiselect").multiselect({
-    checkAllText: "All",
-    uncheckAllText: "None",
-    minWidth: 160,
-    selectedText: function(numChecked, numTotal, checkedItems){
-      if(numChecked === numTotal) {
-        return "All selected";
-      }
-      else {
-        return numChecked + ' selected';
+//  Advanced search options dialog
+  $("div#advanced_search_dialog").dialog({
+    autoOpen: false,
+    modal: true,
+    width: 430,
+    height: 500,
+    resizable: false,
+    draggable: false,
+    title: "Advanced Search Options",
+    buttons: {
+      "Ok": function() {
+        $.rails.handleRemote( $("#new_search") );
+        $(this).dialog('close');
+      },
+      "Cancel": function() {
+//        need to reset any superficial changes on the advanced form
+        $(this).dialog('close');
       }
     }
   });
+  $("div#advanced_search_fields").tabs();
+  
+  $("a#advanced_search_trigger").click(function(e) {
+    e.preventDefault();
+    $("div#advanced_search_dialog").dialog('open');
+  });
   
   $(".buttonset").buttonset();
-
-  $(function() {
-    var deposit = $( "#search_deposit" );
-    var $tooltip = $('<span class="ui-slider-tooltip ui-widget-content ui-corner-all">'
-                      + '<span class="ttContent"> €' + deposit.val() + '</span>'
-                      + '<span class="ui-tooltip-pointer-down ui-widget-content">'
-                      + '<span class="ui-tooltip-pointer-down-inner"></span></span>'
-                      + '</span>');
-
-    $( "div#deposit_slider" ).slider({
-      range: "min",
-      min: 1000,
-      max: 100000,
-      step: 1000,
-      value: deposit.val(),
-      slide: function( event, ui ) {
-        $tooltip.find( "span.ttContent" ).text( "€" + ui.value );
-        deposit.val( ui.value );
-      }
-    }).find(  ".ui-slider-handle" ).append($tooltip);
-  });
 
   $(function(){
     var min_payment = $( "input#search_min_payment" );
