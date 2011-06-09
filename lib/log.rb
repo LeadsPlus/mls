@@ -15,9 +15,9 @@ module Log
   def log_around_with_result(desc = '')
     Rails.logger.debug "Starting to #{desc}"
     result = block_given? ? yield : nil
-    Rails.logger.debug "Finished #{desc}"
     result_message = result ? result : "Result: nil"
     Rails.logger.debug "Result: #{result_message}"
+    Rails.logger.debug "Finished #{desc}"
     result
   end
 

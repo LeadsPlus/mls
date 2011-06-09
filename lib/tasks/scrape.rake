@@ -9,6 +9,8 @@ require "scraper/scraper"
 require "scraper/listings_scraper"
 require "scraper/towns_scraper"
 require "scraper/houses_scraper"
+require "scraper/daft_search_result"
+require "scraper/daft_house_page"
 
 namespace :scrape do
   desc "Enqueue jobs to scrape house listings for every county from daft.ie"

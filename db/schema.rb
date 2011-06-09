@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110601023657) do
+ActiveRecord::Schema.define(:version => 20110609023754) do
 
   create_table "counties", :force => true do |t|
     t.integer  "daft_id"

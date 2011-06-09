@@ -16,9 +16,9 @@ class House < ActiveRecord::Base
   belongs_to :town
 
 #  TODO this needs to be changed so that it searches across address, town, county only
-  index do
-    daft_title
-  end
+#  index do
+#    daft_title
+#  end
 
   before_create :set_property_type_uid
 
@@ -32,6 +32,10 @@ class House < ActiveRecord::Base
   
   def daft_url
     "http://www.daft.ie/searchsale.daft?id=#{daft_id}"
+  end
+
+  def self.in town_ids
+    where('houses.town_id' => town_ids)
   end
 
   def self.cheaper_than price
@@ -67,6 +71,11 @@ class House < ActiveRecord::Base
 
   validates :daft_id, :presence => true,
                       :numericality => { :greater_than => 0 }
+
+  def self.reset
+    House.delete_all
+    ActiveRecord::Base.connection.execute "SELECT setval('public.houses_id_seq', 1, false)"
+  end
 
 end
 

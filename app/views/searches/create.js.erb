@@ -1,1 +1,2 @@
 $("#results_container").html("<%= escape_javascript(render partial: "shared/results", locals: { search: @search, matches: @matches, rate: @rate }) %>" );
+$("div#towns_list").html("<%= escape_javascript(render partial: "shared/search/towns_list", locals: { search: @search }) %>" );

@@ -61,10 +61,18 @@ class Search < ActiveRecord::Base
 #  One, I don't think it lazy loads, which means that I'm working on an array in memory. Could be problem
   def matches
     log_around('search for matches') do
-      House.search(location).cheaper_than(max_price)
+      House.in(town_ids).cheaper_than(max_price)
         .more_expensive_than(min_price).has_baths(bathrooms)
         .has_beds(bedrooms).property_type_is_one_of(prop_type_uids)
     end
+  end
+
+  def towns
+     @towns ||= Town.search(location)
+  end
+
+  def town_ids
+    @town_ids ||= towns.map {|town| town.id }
   end
 
   validates :max_payment, :presence => true,

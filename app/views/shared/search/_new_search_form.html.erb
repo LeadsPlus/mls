@@ -19,7 +19,16 @@
 
 <% content_for :sidebar do %>
   <%= form_for Search.new do |f| %>
-    <strong><%= f.label :location %></strong>
+    <strong><%= f.label :location, 'Locations' %></strong>
     <%= f.autocomplete_field :location, autocomplete_town_name_searches_path, value: @search.location %>
   <% end %>
+  <!-- This partial should be under results or something since it's a byproduct of the search results -->
+  <!-- The towns should be removable by clicking a little x -->
+  <!-- They should also be categorized by county -->
+  <!-- To improve the function, I need to add a little "Add" button beside the search box -->
+  <!-- onclick, add a new town to the list. Then when we search, serialize the list by id (hidden fields!) -->
+  <!-- I also need to fix the error that happens when I press the enter key, make it search -->
+  <div id="towns_list">
+    <%= render partial: "shared/search/towns_list", locals: { search: @search } %>
+  </div>
 <% end %>

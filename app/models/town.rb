@@ -2,6 +2,11 @@ class Town < ActiveRecord::Base
   attr_accessible :name, :daft_id, :county
   has_many :houses
 
+  index do
+    name
+    county
+  end
+
 # I think that what's happening is that the route for this is a collection, therefore it's accessing the
 #  whole Town list, not a specific town. The town list as a whole doesn't have an associated county obviously
 #  doing Town.find_by_name(name).county.name isn't perfect either because if a town is registered to two counties

@@ -25,6 +25,16 @@ describe Search do
     Search.create! @valid_attr
   end
 
+  describe "full text search" do
+    before(:each) do
+      @fermanagh = Factory :county
+      @louth = Factory :county, name: "Louth", id: 12, daft_id: 12
+      @drog = Factory :town, county: @louth, name: "Drogheda"
+    end
+
+    it "should return a "
+  end
+
   describe "reset method" do
     before(:each) do
       Search.create! @valid_attr

@@ -3,9 +3,11 @@
     <p>
       You can borrow between <%= number_to_currency(search.min_price, :unit => '€', :precision => 0) %> and
       <%= number_to_currency(search.max_price, :unit => '€', :precision => 0) %>.
+      <% if Rails.env.development? %>
+        Results: <%= search.matches.count %>.
+      <% end %>
       <%= link_to "Based on what rate?", "#", class: "collapsed-trigger float-right" %>
     </p>
-
     <div class="collapsed-content hidden">
       <table class="data">
         <thead><%= render "shared/compact_rate_table_headings", :rate => rate %></thead>
