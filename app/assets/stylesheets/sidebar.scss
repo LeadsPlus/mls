@@ -1,0 +1,16 @@
+@import "variables";
+
+div#sidebar {
+  $pl: 5px; $pr: 2px; $pt: 5px; $pb: 5px;
+  $ml: 9px;
+  width: 206px;
+  float: left;
+  margin-left: $ml;
+  min-height: 400px;
+  background-color: $colms_bg;
+  padding: $pt $pr $pb $pl;
+
+  input[type='text'] {
+    width: 190px;
+  }
+}

@@ -10,6 +10,7 @@
  *= require results
  *= require search_dialog
  *= require smoothness/jquery-ui
+ *= require sidebar
  *
  * require_tree .
 */

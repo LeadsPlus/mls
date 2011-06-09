@@ -23,8 +23,8 @@ $(function() {
   $("#new_search")
     .bind('ajax:beforeSend', function(event, xhr, settings){
 //    append any aux form elements onto the post data
-      settings.data += ( "&" + $("#filter_options").serialize() );
-      log( $("#filter_options").serialize() );
+      settings.data += ( "&" + $("#filter_options, #sidebar form").serialize() );
+//      log( $("#filter_options").serialize() );
     
       var $submitButton = $(this).find('input[name="commit"]');
 //    store the origional text of the btn in a data attribute
@@ -45,6 +45,8 @@ $(function() {
     height: 500,
     resizable: false,
     draggable: false,
+    hide: 'fade',
+    show: 'fade',
     title: "Advanced Search Options",
     buttons: {
       "Ok": function() {
@@ -83,9 +85,9 @@ $(function() {
 
     $paymentSlider.slider({
       range: true,
-      min: 400,
-      max: 3000,
-      step: 50,
+      min: 200,
+      max: 2000,
+      step: 10,
       values: [ min_payment.val() , max_payment.val() ],
       slide: function( event, ui ) {
         min_payment.val( ui.values[ 0 ] );

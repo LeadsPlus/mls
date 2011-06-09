@@ -23,6 +23,11 @@
   <div class="spacer"></div>
   <%= render "shared/search/new_search_form" if @search_form %>
   <%= yield %>
+  <% if content_for? :sidebar %>
+    <div id="sidebar">
+    <%= yield :sidebar %>
+    </div>
+  <% end %>
   <footer class="clear">
     <%= render "layouts/footer" %>
   </footer>

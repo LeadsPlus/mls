@@ -1,34 +1,41 @@
 @import "variables";
 
-/*div#side_search_bar {*/
-  /*float: left;*/
-  /*background: $bp_hot_pink;*/
-  /*width: 205px;*/
-  /*padding: .7em .4em;*/
-  /*margin-bottom: 2em;*/
-  /*@include border-radius-bottom(5px);*/
-  /*@include border-radius-topright(5px);*/
+div#side_search_bar {
+  float: left;
+  background: $colms_bg;
+  width: 205px;
+  padding: 1.7em .4em .7em .4em;
+  margin-bottom: 2em;
+  @include border-radius-bottom(5px);
+  @include border-radius-topright(5px);
 
-  /*input[type='text'] {*/
-    /*width: 180px;*/
-  /*}*/
+  input[type='text'] {
+    width: 120px;
+    margin-bottom: 1.5em;
+  }
 
-  /*.row {*/
-    /*margin-bottom: .7em;*/
-  /*}*/
+  input[type='submit'] {
+    margin-left: .9em
+  }
 
-  /*.buttonset {*/
-    /*margin: .5em;*/
-  /*}*/
-/*}*/
+  a {
+    position: relative;
+    top: .4em; left: 1em;
+    
+    font: {
+      size: 1.3em;
+    }
+  }
+}
 
 div#top_search_bar {
   $lp: 0.6em; $rp: 0.9em; $tp: 1em; $bp: 1em;
-  background: $bp_hot_pink;
-  width: 100%;
+  background: $colms_bg;
+  width: 746px;
   float: left;
   padding: $tp $rp $bp $lp;
-  @include border-radius(5px);
+  @include border-radius-bottomleft(5px);
+  @include border-radius-topleft(5px);
   /* over-riding some jquery-ui styling for sliders */
   .ui-slider-horizontal { height: 0.6em; }
   .ui-slider-horizontal .ui-slider-handle { top: -.4em; margin-left: -.6em; }
@@ -86,10 +93,10 @@ div#top_search_bar {
   }
 }
 
-  .buttonset { margin-left: 1.5em; margin-top: 0.6em; }
+.buttonset { margin-left: 1.5em; margin-top: 0.6em; }
 
-  ul li.input { list-style: none; display: inline; margin-left: 1em; }
+ul li.input { list-style: none; display: inline; margin-left: 1em; }
 
-  /* over-riding some jquery-ui styling for buttonsets */
-  .ui-button-text-only .ui-button-text { padding: .1em .3em }
+/* over-riding some jquery-ui styling for buttonsets */
+.ui-button-text-only .ui-button-text { padding: .1em .3em }
 
