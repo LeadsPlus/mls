@@ -1,3 +1,4 @@
 <div id="results_container">
   <%= render partial: "shared/results", locals: { search: @search, matches: @matches, rate: @rate } %>
+  <%= paginate @matches, :remote => true %>
 </div>

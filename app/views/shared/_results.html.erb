@@ -1,3 +1,4 @@
+<% if matches.any? %>
 <div id="results">
   <div id="mortgage_details">
     <p>
@@ -21,13 +22,17 @@
     <%= sortable "price", "Required Payments" %>
   </div>
   <div class="clear">
-    <% if matches.any? %>
     <ul class="listings">
       <%= render :partial => 'shared/house/house', :collection => matches %>
     </ul>
-    <%= paginate matches %>
-    <% else %>
-      <p>We're sorry but no houses match that search.</p>
-    <% end %>
   </div>
 </div>
+<% else %>
+<div id="results">
+  <p>We're sorry but no houses match that search.</p>
+  <p>
+    To improve your chances of finding suitable houses, you might try broadening your search
+    conditions or adding more towns to your search.
+  </p>
+</div>
+<% end %>

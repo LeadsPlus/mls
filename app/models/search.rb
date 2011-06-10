@@ -17,6 +17,10 @@ class Search < ActiveRecord::Base
   belongs_to :rate
   serialize :lender_uids; serialize :loan_type_uids; serialize :bedrooms
   serialize :bathrooms; serialize :prop_type_uids; serialize :location
+# TODO serializing (any length) location doesn't work with varchar
+#  need to limit it at 20 areas or something like that (brings a lot of UI issues)
+#  or else I need to increace the varchar length of location in the table
+#    even still it needs some sort of length validation, cant have people inserting 600 towns
 
   before_save do
     log_around("keep calculating") do
