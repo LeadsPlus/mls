@@ -23,7 +23,8 @@ $(function() {
   $("#new_search")
     .bind('ajax:beforeSend', function(event, xhr, settings){
 //    append any aux form elements onto the post data
-      settings.data += ( "&" + $("#filter_options, #sidebar form").serialize() );
+//      TODO here I need to change it so that it ony appends hidden fields from the sidebar
+      settings.data += ( "&" + $("#filter_options, #search_town_form input[type='hidden']").serialize() );
 //      log( $("#filter_options").serialize() );
     
       var $submitButton = $(this).find('input[name="commit"]');
@@ -35,6 +36,17 @@ $(function() {
       var $submitButton = $(this).find('input[name="commit"]');
       // Restore the original submit button text
       $submitButton.val( $submitButton.data("test") );
+    });
+
+//  controls to remove towns from the towns list
+  $("div#towns_list")
+    .find("a.delete_town").live('click', function(event) {
+      event.preventDefault();
+      $(this).parent('li').remove();
+    }).end()
+    .find("a#delete_all").live('click', function(event) {
+      event.preventDefault();
+      $(this).next('ul').children('li').remove();
     });
 
 //  Advanced search options dialog
@@ -55,6 +67,7 @@ $(function() {
       },
       "Cancel": function() {
 //        need to reset any superficial changes on the advanced form
+        $("#filter_options")[0].reset();
         $(this).dialog('close');
       }
     }

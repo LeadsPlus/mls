@@ -7,14 +7,20 @@ class Town < ActiveRecord::Base
     county
   end
 
+  def self.search_except keywords, town_ids
+#    can't allow town_ids to be null
+    return search(keywords) if town_ids.blank?
+    where("towns.id NOT IN (?)", town_ids.map{|t_id| t_id.to_i }).search(keywords)
+  end
+
 # I think that what's happening is that the route for this is a collection, therefore it's accessing the
 #  whole Town list, not a specific town. The town list as a whole doesn't have an associated county obviously
 #  doing Town.find_by_name(name).county.name isn't perfect either because if a town is registered to two counties
 #  we could be finding either one of them first
 #  I think this may be the evidence I need that AR County model is wrong
 #  The solution to this particular issue is to store county name in the town table
-  def town_address
-    @address ||= "#{name}, Co. #{county}"
+  def address
+    @address ||= "#{name}, #{county}"
   end
 
   def self.reset

@@ -1,0 +1,8 @@
+<% towns_by_county.each do |county, towns| %>
+<li class="grouping">
+  <strong><%= county %></strong>
+  <ul>
+    <%= render partial: "shared/search/town", collection: towns %>
+  </ul>
+</li>
+<% end %>

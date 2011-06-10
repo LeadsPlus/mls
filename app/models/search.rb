@@ -15,12 +15,21 @@ class Search < ActiveRecord::Base
                   :loan_type_uids, :lender_uids, :prop_type_uids, :max_price, :min_price
   attr_reader :viable_rates
   belongs_to :rate
-  serialize :lender_uids; serialize :loan_type_uids; serialize :bedrooms; serialize :bathrooms; serialize :prop_type_uids
+  serialize :lender_uids; serialize :loan_type_uids; serialize :bedrooms
+  serialize :bathrooms; serialize :prop_type_uids; serialize :location
 
   before_save do
     log_around("keep calculating") do
       keep_calculating
     end
+  end
+
+  def towns
+    @towns ||= Town.where("towns.id" => location.map {|loc| loc.to_i })
+  end
+
+  def towns_by_county
+    @towns_by_county = towns.group_by {|town| town.county }
   end
 
 #  I think there's a way I can put these calcs in the reader methods for the attributes
@@ -61,18 +70,10 @@ class Search < ActiveRecord::Base
 #  One, I don't think it lazy loads, which means that I'm working on an array in memory. Could be problem
   def matches
     log_around('search for matches') do
-      House.in(town_ids).cheaper_than(max_price)
+      House.in(location).cheaper_than(max_price)
         .more_expensive_than(min_price).has_baths(bathrooms)
         .has_beds(bedrooms).property_type_is_one_of(prop_type_uids)
     end
-  end
-
-  def towns
-     @towns ||= Town.search(location)
-  end
-
-  def town_ids
-    @town_ids ||= towns.map {|town| town.id }
   end
 
   validates :max_payment, :presence => true,

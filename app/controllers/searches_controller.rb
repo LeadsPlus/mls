@@ -2,7 +2,6 @@ class SearchesController < ApplicationController
   before_filter :authenticate_user!, :only => [ :index ]
 #  so that we can access these methods in the view layer
   helper_method :sort_column, :sort_direction
-  autocomplete :town, :name, :extra_data => [:county], :display_value => :town_address
 
   def index
     @searches = Search.page(params[:page]).per(50)
