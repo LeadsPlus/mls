@@ -4,7 +4,7 @@ class TownsController < ApplicationController
   def index
     params[:search] = {:location => []} unless params.key?(:search)
     if params[:name]
-      @towns = Town.search_except(params[:name], params[:search][:location])
+      @towns = Town.tsearch_except(params[:name], params[:search][:location])
     else
       @towns = Town.all
     end

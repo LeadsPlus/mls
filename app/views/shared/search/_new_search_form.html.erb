@@ -10,6 +10,7 @@
     <b><%= f.label :deposit, "Deposit" %></b>
     <%= f.text_field :deposit, :value => @search.deposit, :autocomplete => "off" %>
     <div>
+      <span class="loading float-left"></span>
       <%= f.submit :Search, :class => "sexy_btn float-left", :id => "search_submit" %>
       <a id="advanced_search_trigger" href="">Filter</a>
     </div>
@@ -24,10 +25,6 @@
       <%= autocomplete_field_tag :name, nil, autocomplete_town_name_towns_path, id: 'search_town' %>
       <%= submit_tag :add %>
     </div>
-    <!-- The towns should be removable by clicking a little x -->
-    <!-- They should also be categorized by county -->
-    <!-- I need to prevent people adding the same town twice -->
-    <!-- I also need to fix the error that happens when I press the enter key, make it search -->
     <div id="towns_list">
       <a href="" id="delete_all">Clear All</a>
       <ul>

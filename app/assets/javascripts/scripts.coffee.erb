@@ -14,12 +14,12 @@ $ () ->
     event.preventDefault()
     $.getScript this.href
 
-  $( "#new_search" )
-    .bind 'ajax:beforeSend', (event, xhr, settings) ->
-      settings.data += ( "&" + $( "#filter_options, #search_town_form input[type='hidden']" ).serialize() )
-#      this will be replaced by the results when the response returns
-#      actually this is a bad idea, what if the response never comes??
-      $( '#resultsContainer' ).html('locading')
+  $( "#new_search" ).bind 'ajax:beforeSend', (event, xhr, settings) ->
+    settings.data += "&#{ $( "#filter_options, #search_town_form input[type='hidden']" ).serialize() }"
+#    this will be replaced by the results when the response returns
+#    actually this is a bad idea, what if the response never comes??
+    .find( 'span.loading' ).append '<img src="<%= asset_path('loading.gif') %>" />'
+    false
 
   $( 'div#towns_list' )
     .find( 'a.delete_town' ).live 'click', (e) ->
@@ -43,6 +43,7 @@ $ () ->
     title: "Advanced Search Options",
     buttons:
       "Ok": () ->
+        alert 'hi'
         $.rails.handleRemote( $( "#new_search" ) )
         $( this ).dialog 'close'
       "Cancel": () ->

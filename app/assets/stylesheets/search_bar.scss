@@ -15,8 +15,10 @@ div#side_search_bar {
   }
 
   input[type='submit'] {
-    margin-left: .9em
+    margin-left: .1em;
   }
+
+  span.loading { padding: .5em 0; margin-left: .3em; min-width: 25px; }
 
   a {
     position: relative;
