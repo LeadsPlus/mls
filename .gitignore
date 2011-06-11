@@ -5,9 +5,17 @@ tmp/
 doc/
 *.swp
 *~
+
+
 .sass-cache
+
+# test log
 webrat.log
+
+# netbeans project file
 .project
+
+# fixtures
 spec/fixtures/*
 
 # weird mac project file
@@ -16,3 +24,4 @@ spec/fixtures/*
 # user specific files for rubymine
 .idea/workspace.xml
 .idea/tasks.xml
+.idea/*

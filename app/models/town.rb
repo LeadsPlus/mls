@@ -13,19 +13,16 @@ class Town < ActiveRecord::Base
     where("towns.id NOT IN (?)", town_ids.map{|t_id| t_id.to_i }).search(keywords)
   end
 
-#  TODO fix the issues with tsearch
-#  if I type a county, it returns towns not in that county.
-#  it also returns
   def self.tsearch_except keywords, town_ids
-#    I need to strip all the county names from keywords
     return tsearch(keywords) if town_ids.blank?
     where("towns.id NOT IN (?)", town_ids.map{|t_id| t_id.to_i }).tsearch(keywords)
   end
 
-  def keywords
-#    if there are more than two words (if they type Fermanagh, we don't want to strip it)
-#    strip out the words which are COUNTIES
-#    return the rest
+  def self.controlled_search keywords, town_ids
+    search_results = search_except keywords, town_ids
+    return search_results if search_results.count > 0
+    fuzzy_search_results = tsearch_except keywords, town_ids
+    return fuzzy_search_results
   end
 
 # I think that what's happening is that the route for this is a collection, therefore it's accessing the
