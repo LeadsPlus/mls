@@ -1,5 +1,6 @@
 <%= form_for Search.new, :remote => true do |f| %>
   <div id="top_search_bar">
+    <div id="error_target"></div>
     <%= f.label :min_payment, "Min Payment", :class => "hidden" %>
     <b><%= f.label :max_payment, "Payment" %></b>
     <%= f.hidden_field :min_payment, :value => @search.min_payment %>

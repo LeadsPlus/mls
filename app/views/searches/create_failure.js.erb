@@ -1,1 +1,2 @@
-alert("create failed");
+$('div#error_target')
+  .html('<%= escape_javascript( render partial: 'shared/search/errors') %>');

@@ -6,20 +6,21 @@ require "finance/reverse_mortgage"
 require 'custom_validators/ample_max_payment_validator'
 #require 'custom_validators/is_valid_lender_validator'
 require 'custom_validators/vrm_and_initial_length_not_both_set_validator'
-
+require 'custom_validators/valid_locations_validator'
+require 'custom_validators/serializable_validator'
 # what if non-logged in users keep editing the same search but logged in users keep creating new ones
 
 class Search < ActiveRecord::Base
   include Log
-  attr_accessible :min_payment, :max_payment, :deposit, :term, :location, :bedrooms, :bathrooms,
+  attr_accessible :min_payment, :max_payment, :deposit, :term, :locations, :bedrooms, :bathrooms,
                   :loan_type_uids, :lender_uids, :prop_type_uids, :max_price, :min_price
   attr_reader :viable_rates
   belongs_to :rate
   serialize :lender_uids; serialize :loan_type_uids; serialize :bedrooms
-  serialize :bathrooms; serialize :prop_type_uids; serialize :location
-# TODO serializing (any length) location doesn't work with varchar
+  serialize :bathrooms; serialize :prop_type_uids; serialize :locations
+# TODO serializing (any length) locations doesn't work with varchar
 #  need to limit it at 20 areas or something like that (brings a lot of UI issues)
-#  or else I need to increace the varchar length of location in the table
+#  or else I need to increace the varchar length of locations in the table
 #    even still it needs some sort of length validation, cant have people inserting 600 towns
 
   before_save do
@@ -29,7 +30,7 @@ class Search < ActiveRecord::Base
   end
 
   def towns
-    @towns ||= Town.where("towns.id" => location.map {|loc| loc.to_i })
+    @towns ||= Town.where("towns.id" => locations.map {|loc| loc.to_i })
   end
 
   def towns_by_county
@@ -70,11 +71,9 @@ class Search < ActiveRecord::Base
     bathrooms != BATHROOMS
   end
 
-#  potential problems I see with this implementation
-#  One, I don't think it lazy loads, which means that I'm working on an array in memory. Could be problem
   def matches
     log_around('search for matches') do
-      House.in(location).cheaper_than(max_price)
+      House.in(locations).cheaper_than(max_price)
         .more_expensive_than(min_price).has_baths(bathrooms)
         .has_beds(bedrooms).property_type_is_one_of(prop_type_uids)
     end
@@ -93,14 +92,21 @@ class Search < ActiveRecord::Base
   validates :term, :presence => true,
                    :numericality => { greater_than: 0, less_than_or_equal_to: 60, allow_blank: true }
 
-  validates :location, presence: true, length: { maximum: 254, minimum: 1, allow_blank: true }
+  validates :locations, presence: true, valid_locations: true
 
 #  TODO validation for bathrooms and bedrooms needed
-
 #  TODO all these validations need to be improved
   validates :lender_uids, presence: true, format: { with: /\[(("|')\D{2}.+("|'))\]/ }
   validates :loan_type_uids, presence: true, format: { with: /\[(("|')\D{2}.+("|'))\]/ }
   validates :prop_type_uids, presence: true, format: { with: /\[(("|').+("|'))\]/ }
+  validates :bedrooms, presence: true, serializable: true
+  validates :bathrooms, presence: true
+
+#  really what I need is a class that takes a block and will test each method
+#  in the array against the block, returning errors if any fail
+
+#  at least one bedroom option checked. at least one bathroom option checked
+#  at least one property type checked. At least one mortgage type checked and one lender checked.
 
 #  #  as far as I can tell, 'validate xyz' validations always happen before 'validates xyz' validations
 #  @viable rates is built in 'has_some_viable_rates' and can then be used in 'has_some_affordable_prices'
@@ -161,7 +167,7 @@ end
 #  deposit        :integer
 #  created_at     :datetime
 #  updated_at     :datetime
-#  location       :string(255)
+#  locations       :string(255)
 #  min_payment    :integer
 #  term           :integer
 #  loan_type_uids :string(255)

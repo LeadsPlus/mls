@@ -4,9 +4,9 @@ class TownsController < ApplicationController
   autocomplete :town, :name, :extra_data => [:county], :display_value => :address
 
   def index
-    params[:search] = {:location => []} unless params.key?(:search)
+    params[:search] = {:locations => []} unless params.key?(:search)
     if params[:name]
-      @towns = Town.controlled_search(params[:name], params[:search][:location])
+      @towns = Town.controlled_search(params[:name], params[:search][:locations])
     else
       @towns = Town.all
     end

@@ -1,0 +1,10 @@
+<div id="search_errors">
+  <% if @search.errors.any? %>
+    <span class="error_count"><%= pluralize(@search.errors.count, 'Error') %>:</span>
+    <span class="error_messages">
+      <% @search.errors.full_messages.each do |message| %>
+        <%= message %>
+      <% end %>
+    </span>
+  <% end %>
+</div>

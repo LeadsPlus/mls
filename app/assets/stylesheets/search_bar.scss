@@ -102,3 +102,14 @@ ul li.input { list-style: none; display: inline; margin-left: 1em; }
 /* over-riding some jquery-ui styling for buttonsets */
 .ui-button-text-only .ui-button-text { padding: .1em .3em }
 
+div#search_errors {
+  border: 1px solid red;
+  background-color: pink;
+  padding: .2em;
+  margin-bottom: .9em;
+  @include border-radius(5px);
+
+  .error_count {
+    font-weight: bold;
+  }
+}

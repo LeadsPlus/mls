@@ -5,7 +5,7 @@ $(function() {
   $( ".collapsed_trigger" ).click(function(event){
     event.preventDefault();
 //    console.log($(this).next());
-    $(this).next(".collapsed_content").toggleClass('hidden');
+    $( this ).parent().next( ".collapsed_content" ).toggleClass( 'hidden' );
   });
 
 //  Ajax for pagination
@@ -19,7 +19,9 @@ $(function() {
   });
 
   $("#new_search")
-    .bind('ajax:beforeSend', function(event, xhr, settings){
+    .bind('ajax:before', function(event) {
+      $( this ).find( 'div#error_target' ).html( '' );
+    }).bind('ajax:beforeSend', function(event, xhr, settings){
 //    append any aux form elements onto the post data
 //      TODO here I need to change it so that it ony appends hidden fields from the sidebar
       settings.data += ( "&" + $("#filter_options, #search_town_form input[type='hidden']").serialize() );
@@ -28,6 +30,8 @@ $(function() {
       $(this).find( 'span.loading' ).append('<img src="<%= asset_path('loading.gif') %>" />');
     }).bind('ajax:complete', function(evt, xhr, status){
       $(this).find( 'span.loading' ).text('');
+    }).bind('ajax:success', function(evt, xhr, data) {
+      // fix the url
     });
 
 //  controls to remove towns from the towns list
@@ -46,7 +50,7 @@ $(function() {
     autoOpen: false,
     modal: true,
     width: 430,
-    height: 500,
+    height: 560,
     resizable: false,
     draggable: false,
     hide: 'fade',

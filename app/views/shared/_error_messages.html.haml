@@ -1,7 +1,0 @@
-- if object.errors.any?
-  #search_error
-    %span.error_count
-      %b= "#{pluralize(object.errors.count, "Error")}: "
-    %span.messages
-      - object.errors.full_messages.each do |msg|
-        = "#{msg}. "

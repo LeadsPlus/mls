@@ -7,9 +7,9 @@
       <% if Rails.env.development? %>
         Results: <%= search.matches.count %>.
       <% end %>
-      <%= link_to "Based on what rate?", "#", class: "collapsed-trigger float-right" %>
+      <%= link_to "Based on what rate?", "#", class: "collapsed_trigger float-right" %>
     </p>
-    <div class="collapsed-content hidden">
+    <div class="collapsed_content hidden">
       <table class="data">
         <thead><%= render "shared/compact_rate_table_headings", :rate => rate %></thead>
         <tbody><%= render "shared/compact_rate", :rate => rate %></tbody>
@@ -18,14 +18,15 @@
       <div class="spacer"></div>
     </div>
   </div>
-  <div class="results_menu clear">
-    <%= sortable "price", "Required Payments" %>
+  <div class="results_menu">
+    <span class="sort_options">Sort by: <%= sortable "price", "Required Payments", 'price_sort', true %></span>
   </div>
   <div class="clear">
     <ul class="listings">
       <%= render :partial => 'shared/house/house', :collection => matches %>
     </ul>
   </div>
+  <%= paginate matches, :remote => true %>
 </div>
 <% else %>
 <div id="results">

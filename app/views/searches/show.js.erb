@@ -1,0 +1,1 @@
+$("#results_container").html("<%= escape_javascript(render partial: "shared/results", locals: { search: @search, matches: @matches, rate: @rate }) %>" );

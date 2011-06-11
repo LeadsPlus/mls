@@ -3,6 +3,9 @@
 div#results_container {
   width: 756px;
   float: left;
+  /* TODO this messes up when there are form errors */
+  position: relative;
+  top: -5em;
 }
 
 div#results {
@@ -10,9 +13,17 @@ div#results {
     width: 100%;
     border-bottom: 1px solid #ddd;
   }
+
 }
 
+a.price_sort { padding-right: 12px; background-repeat: no-repeat; background-position: right center; }
+a.price_sort.asc { background-image: url(up_arrow.gif); }
+a.price_sort.desc { background-image: url(down_arrow.gif); }
+
+div#mortgage_details { margin-bottom: 1em; }
+
 ul.listings {
+  clear: both;
   padding-top: 1em;
   margin: 0;
 }
@@ -39,7 +50,7 @@ li.listing {
 
   .house_details {
     float: left;
-    width: 417px;
+    width: 410px;
     margin-right: 10px;
 
     h3 {

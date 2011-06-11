@@ -13,4 +13,16 @@ div#sidebar {
   input[type='text'] {
     width: 150px;
   }
+
+  div#towns_list {
+    ul { margin-left: 0; }
+    li {
+      @include border-radius(5px);
+      list-style: none;
+      background-color: #dfeaf4;
+      padding:2px;
+      color: $link_hover;
+      margin-bottom: 3px;
+    }
+  }
 }

@@ -33,7 +33,7 @@ class SearchesController < ApplicationController
                           :max_payment => 1100,
                           :term => 230,
                           :deposit => 50000,
-                          :location => "Enniskillen",
+                          :locations => "Enniskillen",
                           :lender => LENDERS,
                           :loan_type => LOAN_TYPES)
   end
@@ -45,7 +45,7 @@ class SearchesController < ApplicationController
                           :max_payment => 1100,
                           :term => 30,
                           :deposit => 50000,
-                          :location => "Enniskillen",
+                          :locations => "Enniskillen",
                           :lender => LENDERS,
                           :loan_type => LOAN_TYPES)
   end

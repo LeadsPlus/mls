@@ -1,10 +1,9 @@
 <li class="listing" id="house_<%= house.id %>">
-	<%= image_tag house.image_url, size: '160x120' if Rails.env.production? %>
+	<%= image_tag house.image_url, size: '160x120' %>
 	<div class="house_details">
 		<h3><%= house.title %></h3>
 		<p>
       <%= house.description if house.description %>
-      <%= number_to_currency(house.price, unit: '€', precision: 0) %>
     </p>
 	</div>
 	<div class="summary">
@@ -16,6 +15,7 @@
       <li><b>Bedrooms:</b> <%= house.bedrooms %></li>
       <li><b>Bathrooms:</b> <%= house.bathrooms %></li>
       <li><b>Type:</b> <%= house.property_type %></li>
+      <li><b>Price:</b> <%= number_to_currency(house.price, unit: '€', precision: 0) %></li>
     </ul>
     <div class="spacer"></div>
     <%= link_to "contact owner", house.daft_url, class: "button daft_btn corners" %>

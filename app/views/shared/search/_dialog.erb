@@ -6,6 +6,10 @@
     </ul>
     <%= form_tag(Search.new, :id => "filter_options") do %>
     <div id="house_filter">
+      <p>
+        Use these selectors to filter the listings you will see. Don't want houses with more than
+        3 bedrooms? You can set that here. Only want to see bungalows with 1 bathroom? You can set that too.
+      </p>
       <table>
         <tbody>
         <tr>
@@ -27,9 +31,10 @@
           <td><h3>Bedrooms</h3></td>
           <td>
             <div class="inline buttonset">
-              <!-- these should obv be replaced with the bedroom range possible -->
+              <!-- TODO need 1..5 and then a 'more' option for houses with tons of bedrooms -->
+              <!-- possibly best left till I have a better Bedrooms class -->
               <% BEDROOMS.each do |number| %>
-                <%= checkbox('bedrooms', number, search.bedrooms[number-1]) %>
+                <%= checkbox('bedrooms', number, search.bedrooms.include?(number)) %>
                 <%= checkbox_label('bedrooms', number) %>
               <% end %>
             </div>
@@ -40,7 +45,7 @@
           <td>
             <div class="inline buttonset">
               <% BATHROOMS.each do |x| %>
-                <%= checkbox('bathrooms', x, search.bathrooms[x-1]) %>
+                <%= checkbox('bathrooms', x, search.bathrooms.include?(x)) %>
                 <%= checkbox_label('bathrooms', x) %>
               <% end %>
             </div>
@@ -51,6 +56,11 @@
     </div>
 
     <div id="mortgage_filter">
+      <p>
+        Here you can filter the types of mortgage products we look at to try and find the best one
+        for you. Don't want fixed rate mortgages? Turn them off here. You can also set the term
+        length you would like and the lenders you're prepared to deal with.
+      </p>
       <table>
         <tbody>
         <tr>
