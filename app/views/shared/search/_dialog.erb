@@ -34,7 +34,7 @@
               <!-- TODO need 1..5 and then a 'more' option for houses with tons of bedrooms -->
               <!-- possibly best left till I have a better Bedrooms class -->
               <% BEDROOMS.each do |number| %>
-                <%= checkbox('bedrooms', number, search.bedrooms.include?(number)) %>
+                <%= checkbox('bedrooms', number, search.bedrooms.include?(number.to_s)) %>
                 <%= checkbox_label('bedrooms', number) %>
               <% end %>
             </div>
@@ -45,7 +45,7 @@
           <td>
             <div class="inline buttonset">
               <% BATHROOMS.each do |x| %>
-                <%= checkbox('bathrooms', x, search.bathrooms.include?(x)) %>
+                <%= checkbox('bathrooms', x, search.bathrooms.include?(x.to_s)) %>
                 <%= checkbox_label('bathrooms', x) %>
               <% end %>
             </div>
