@@ -43,7 +43,8 @@ class Search < ActiveRecord::Base
   def broker
     @broker ||= Finance::MortgageBroker.new(term, deposit, max_payment, min_payment, lender_uids, loan_type_uids)
   end
-  
+
+#  am I using these functions?
   def has_loan_type_conditions?
     loan_type_uids != LOAN_TYPE_UIDS
   end
@@ -87,9 +88,9 @@ class Search < ActiveRecord::Base
 
   validates :locations, presence: true, valid_locations: true, serializable_ints: true
 
-  validates :lender_uids, presence: true, serializable_strings: true #format: { with: /\[(("|')\D{2}.+("|'))\]/ }
-  validates :loan_type_uids, presence: true, serializable_strings: true #, format: { with: /\[(("|')\D{2}.+("|'))\]/ }
-  validates :prop_type_uids, presence: true, serializable_strings: true #, format: { with: /\[(("|').+("|'))\]/ }
+  validates :lender_uids, presence: true, serializable_strings: true
+  validates :loan_type_uids, presence: true, serializable_strings: true
+  validates :prop_type_uids, presence: true, serializable_strings: true
   validates :bedrooms, presence: true, serializable_ints: true
   validates :bathrooms, presence: true, serializable_ints: true
   validate :has_some_viable_rates, :has_some_affordable_prices

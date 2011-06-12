@@ -12,4 +12,6 @@ LOAN_TYPES = ['Variable Rate', "1 Year Fixed Rate", "2 Year Fixed Rate", "3 Year
 LOAN_TYPE_UIDS = ['VR', 'PFR1', 'PFR2', 'PFR3', 'PFR4', 'PFR5', 'PFR6'].freeze
 
 BATHROOMS = [1,2,3,4,5].freeze
-BEDROOMS = [1,2,3,4,5].freeze
+BEDROOMS = ['1', '2', '3', '4' ,'5', 'more'].freeze
+
+MAX_LOCATIONS = 60

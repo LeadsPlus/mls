@@ -1,6 +1,7 @@
 require 'spec_helper'
+require 'finance/financial_product'
 
-describe FinancialProduct do
+describe Finance::FinancialProduct do
   before(:each) do
     @rate = Factory :rate
     @term = 25
@@ -12,7 +13,7 @@ describe FinancialProduct do
 
   describe "effective rate method" do
     before(:each) do
-      @fp = FinancialProduct.new(@rate, @term, @users_deposit)
+      @fp = Finance::FinancialProduct.new(@rate, @term, @users_deposit)
     end
 
     it "should have an effective rate method" do

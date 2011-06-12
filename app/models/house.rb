@@ -15,11 +15,6 @@ class House < ActiveRecord::Base
   belongs_to :county
   belongs_to :town
 
-#  TODO this needs to be changed so that it searches across address, town, county only
-#  index do
-#    daft_title
-#  end
-
   before_create :set_property_type_uid
 
   def set_property_type_uid
@@ -50,8 +45,20 @@ class House < ActiveRecord::Base
     where(:"houses.bathrooms" => bathrooms)
   end
 
-  def self.has_beds(bedrooms)
+  def self.has_humble_beds(bedrooms)
     where(:"houses.bedrooms" => bedrooms)
+  end
+
+  def self.has_loads_of_beds
+    where "houses.bedrooms > ?", 5
+  end
+
+  def self.has_beds(bedrooms)
+    logger.debug "Has these bedrooms #{bedrooms.to_s}"
+    logger.debug "Does it include more? #{bedrooms.include? 'more'}"
+    return has_humble_beds(bedrooms) unless bedrooms.include?('more')
+#    have to use AREL to make an OR chain
+    where(arel_table[:bedrooms].in(bedrooms).or(arel_table[:bedrooms].gt(5)))
   end
 
   def self.property_type_is_one_of(prop_type_uids)

@@ -12,27 +12,17 @@ describe Search do
       max_payment: 1200,
       term: 25,
       deposit: 50000,
-      location: "Enniskillen",
+      locations: ['2343', '124', '3432'],
       lender_uids: ['BOI', 'AIB'],
       loan_type_uids: ['VR'],
       prop_type_uids: PropertyType.uids,
-      bedrooms: [5,3,2],
-      bathrooms: [1,2]
+      bedrooms: ['5','3','2'],
+      bathrooms: ['1','2']
     }
   end
 
   it "should create a search given valid params" do
     Search.create! @valid_attr
-  end
-
-  describe "full text search" do
-    before(:each) do
-      @fermanagh = Factory :county
-      @louth = Factory :county, name: "Louth", id: 12, daft_id: 12
-      @drog = Factory :town, county: @louth, name: "Drogheda"
-    end
-
-    it "should return a "
   end
 
   describe "reset method" do
@@ -129,14 +119,24 @@ describe Search do
       end
     end
 
-    describe "of location" do
-      it "should require a location" do
-        Search.new(@valid_attr.merge(:location => '')).should_not be_valid
+    describe "of locations" do
+      it "should require locations" do
+        Search.new(@valid_attr.merge(:locations => '')).should_not be_valid
       end
 
       it "should require a location of reasonable length" do
-        long_location = "a" * 256
-        Search.new(@valid_attr.merge(:location => long_location )).should_not be_valid
+        long_locations = ['3454'] * 100
+        Search.new(@valid_attr.merge(:locations => long_locations )).should_not be_valid
+      end
+
+      it 'should require the locations to be integers' do
+        non_int_locations = ['dfsdfs', 'sdsd']
+        Search.new(@valid_attr.merge(:locations => non_int_locations)).should_not be_valid
+      end
+
+      it "should limit the number of locations to #{MAX_LOCATIONS}" do
+        loads_of_locations = ['3433'] * (MAX_LOCATIONS * 70)
+        Search.new(@valid_attr.merge(:locations => loads_of_locations)).should_not be_valid
       end
     end
 
@@ -148,7 +148,6 @@ describe Search do
         end
       end
 
-#      TODO this will let an integer through somehow. Needs improvement
       it "should not allow unrecognised lender uids" do
         nonsensical = [nil, "hello", :defsd, {peope: 'faf'}]
         nonsensical.each do |what|
@@ -165,9 +164,8 @@ describe Search do
         end
       end
 
-#      TODO this will let an integer through somehow. Needs improvement
       it "should not allow unrecognised loan type uids" do
-        nonsensical = [nil, "hello", :defsd, {peope: 'faf'}]
+        nonsensical = [[nil, 'Variable Rate'], [:defsd, 'Variable Rate'], [{peope: 'faf'}, 'Variable Rate']]
         nonsensical.each do |what|
           Search.new(@valid_attr.merge(:loan_type_uids => [what])).should_not be_valid
         end
@@ -180,11 +178,29 @@ describe Search do
         Search.new(@valid_attr.merge(:prop_type_uids => type)).should be_valid
       end
 
-#      TODO this will let an integer through somehow. Needs improvement
       it "should not allow unrecognised prop_type_uids" do
-        nonsensical = [nil, "hello", :defsd, {peope: 'faf'}]
+        nonsensical = [[nil, 'Site'], [:defsd, 'Site'], [{peope: 'faf'}, 'Site']]
         nonsensical.each do |what|
           Search.new(@valid_attr.merge(:prop_type_uids => [what])).should_not be_valid
+        end
+      end
+    end
+
+    describe "of bedrooms" do
+      it "should allow valid numeric bedrooms" do
+        beds = ['5', '4']
+        Search.new(@valid_attr.merge(:bedrooms => beds)).should be_valid
+      end
+
+      it "should allow the 'more' keyword" do
+        beds = ['5', 'more']
+        Search.new(@valid_attr.merge(:bedrooms => beds)).should be_valid
+      end
+
+      it "should not allow invalid beds" do
+        invaid_beds = [[nil, '3'], [:dsdd, '3']]
+        invaid_beds.each do |what|
+          Search.new(@valid_attr.merge(:bedrooms => what)).should_not be_valid
         end
       end
     end

@@ -26,6 +26,8 @@
       <%= render :partial => 'shared/house/house', :collection => matches %>
     </ul>
   </div>
+  <!-- TODO the pagination links are sending all the bedrooms etc, data along for some reason -->
+  <!-- THis is making the URI too long and it gets rejected -->
   <%= paginate matches, :remote => true %>
 </div>
 <% else %>

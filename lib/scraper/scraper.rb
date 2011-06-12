@@ -11,6 +11,8 @@
 # ok problem, because I'm indexing off COUNTIES but trying to link to the counties model, the index's are off
 # because the counties model doesn't go back to 1 when I delete all the counties
 
+# TODO implement this house removal. I've noted somewhere how to do it.
+# TODO look into creating seperate simple JOB classes and then improving the actual scraper classes
 # if I keep track of every daft_id I find in a particular run, I can delete unlisted houses when finished!??
 # give every house a scrape_id param defaulting to one, if a subsequent scrape finds a house again,
 # increment the scrape_id. Then run through the houses table deleting houses where scrape_id != max scrape_id

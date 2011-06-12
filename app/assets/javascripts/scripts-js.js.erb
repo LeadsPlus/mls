@@ -2,17 +2,11 @@ $(function() {
 //  $( "button, input:submit, a.snazzy" ).button();
   $( "a", ".demo" ).click(function() { return false; });
 
-  $( ".collapsed_trigger" ).click(function(event){
+  $( ".collapsed_trigger" ).live('click', function(event){
     event.preventDefault();
 //    console.log($(this).next());
     $( this ).parent().next( ".collapsed_content" ).toggleClass( 'hidden' );
   });
-
-//  Ajax for pagination
-//  $("#.sorting_options a, #results .pagination a").live("click", function(event) {
-////    event.preventDefault();
-//    $.getScript(this.href);
-//  });
 
   $("a.gallery").fancybox({
     cyclic: true

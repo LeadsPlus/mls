@@ -1,6 +1,8 @@
 require "spec_helper"
+require "finance/financial_product"
+require "finance/reverse_mortgage"
 
-describe ReverseMortgage do
+describe Finance::ReverseMortgage do
   before(:each) do
     @rate = Factory :rate
     @term = 25

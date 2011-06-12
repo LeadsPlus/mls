@@ -4,6 +4,8 @@
 # require the results hash (remember require is just a method)
 # write the tester in such a way that it can compare against the results
 
+# TODO look into writing to a base html file with Kaminari. More flexible
+
 require "spec_helper"
 require Rails.root.join('lib','scraper','scraper')
 require Rails.root.join('lib','scraper','daft_search_result')

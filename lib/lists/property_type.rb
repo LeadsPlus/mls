@@ -1,3 +1,5 @@
+# TODO make lenders and loan_types like this
+
 class PropertyType
   extend Enumerable
 

@@ -1,5 +1,3 @@
-# TODO form error handling
-
 class SearchesController < ApplicationController
   before_filter :authenticate_user!, :only => [ :index ]
 #  so that we can access these methods in the view layer

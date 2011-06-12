@@ -14,7 +14,7 @@ module ApplicationHelper
   end
 
   def checkbox_label(type, id, text = nil)
-    label_tag "search_#{type}_#{id}", (text || id.to_s)
+    label_tag "search_#{type}_#{id}", (text || id)
   end
 
   def radio(type, id, checked)

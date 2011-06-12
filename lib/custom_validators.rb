@@ -2,9 +2,15 @@ module CustomValidators
   class SerializableIntsValidator < ActiveModel::EachValidator
     def validate_each(record, attribute, array)
 #      Rails.logger.debug "Integer Array: #{array.to_s}"
+#      no oint running these validations if the user left locations blank
+      return if array.blank?
+#      just return if something really crazy is going on
+      record.errors[attribute] << "is the wrong format" and return unless array.is_a? Array
+#      if things look ok, test the elements
       array.each do |number|
-        unless number =~ /\d+/
-          record.errors[attr] << "is invalid"
+#        more is the keyword for large numeric ranges
+        unless number =~ /\d+/ || number =~ /more/
+          record.errors[attribute] << "is invalid"
           break
         end
       end
@@ -14,9 +20,10 @@ module CustomValidators
   class SerializableStringsValidator < ActiveModel::EachValidator
     def validate_each record, attribute, array
 #      Rails.logger.debug "String Array: #{array.to_s}"
+      record.errors[attribute] << "is the wrong format" and return unless array.is_a? Array
       array.each do |string|
         unless string.is_a? String and string.length < 40
-          record.errors[attr] << "is invalid"
+          record.errors[attribute] << "is invalid"
           break
         end
       end
@@ -45,10 +52,9 @@ module CustomValidators
 
   class ValidLocationsValidator < ActiveModel::EachValidator
     def validate_each(record, attribute, locations_array)
-      max_locations = 60
       unless locations_array.nil?
-        record.errors[:base] << "The maximum number of areas is #{max_locations}." unless
-            locations_array.size < max_locations
+        record.errors[:base] << "The maximum number of areas is #{MAX_LOCATIONS}." unless
+            locations_array.size < MAX_LOCATIONS
       end
     end
   end

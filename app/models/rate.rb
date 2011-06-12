@@ -1,7 +1,8 @@
-require "custom_validators/ample_ltv_validator"
+require "custom_validators"
 # ulster bank provides min_term and max_term data
 
 class Rate < ActiveRecord::Base
+  include CustomValidators
   attr_accessible :initial_rate, :lender, :lender_uid, :loan_type, :loan_type_uid, :min_ltv, :max_ltv,
                   :initial_period_length, :rolls_to, :min_princ, :max_princ,
                   :min_deposit, :max_deposit, :twenty_year_apr

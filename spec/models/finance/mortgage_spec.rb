@@ -1,6 +1,12 @@
 require "spec_helper"
+require "finance/financial_product"
+require "finance/mortgage"
 
-describe Mortgage do
+describe Finance::Mortgage do
+  before(:all) do
+    @mort = Finance::Mortgage
+  end
+
   before(:each) do
     @rate = Factory :rate
     @term = 25
@@ -9,10 +15,11 @@ describe Mortgage do
   end
 
   it "should create a new instance given valid attributes"
+#  how do I test if I have a new instance??
 
   describe "payment method" do
     before(:each) do
-      @mortgage = Mortgage.new(@rate, @term, @users_deposit, @price)
+      @mortgage = @mort.new(@rate, @term, @users_deposit, @price)
     end
 
     it "should have a payment_required method" do
@@ -26,7 +33,7 @@ describe Mortgage do
 
   describe "total paid method" do
     before(:each) do
-      @mortgage = Mortgage.new(@rate, @term, @users_deposit, @price)
+      @mortgage = @mort.new(@rate, @term, @users_deposit, @price)
     end
 
     it "should have a total_paid method" do
