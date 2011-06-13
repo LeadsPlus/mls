@@ -5,7 +5,6 @@ module Scraper
     def initialize(html, county)
       @html = html
       @county = county
-      @temp_rooms = nil
     end
 
   #  returns nil if no digits in price selector, string otherwise
@@ -20,7 +19,12 @@ module Scraper
 
   #  returns an integer price. Only returns EUR price if given in sterling and euro
     def price
-      @price ||= @html.at(".price").text[/\u20AC[0-9,]+/].gsub(/[\D]/, '').to_i
+      return unless has_price?
+      @price ||= price_text.gsub(/[\D]/, '').to_i
+    end
+
+    def price_text
+      @price_text ||= @html.at(".price").text[/\u20AC[0-9,]+/]
     end
 
   #  returns string url of the houses main thumbnail
@@ -29,6 +33,8 @@ module Scraper
     end
 
   #  this returns the index of the comma at the very end of town
+#    TODO this doesn't work in Dub because the county can be "North Co. Dublin"
+#    There's also a problem with Cork and other couties - Cork City Suburbs, West Cork
     def county_index
       @county_index = daft_title.rindex(/, Co\./)
     end
@@ -96,10 +102,13 @@ module Scraper
     def parse_type
       unless type_portion.nil?
         PropertyType.each_name do |name|
+#          Rails.logger.debug "Checking if type: #{name}? Ans: #{type_portion.include? name}"
           return name if type_portion.include? name
         end
       end
-  #    returns nil if we make it to here
+  #    if there is no property type, just set it to nil
+      Rails.logger.debug "Unknown Property type found: #{type_portion}" unless type_portion.nil?
+      nil
     end
 
   #  returns the description text
@@ -118,31 +127,28 @@ module Scraper
     end
 
   #  This could be improved to get the acerage when we determine we're dealing with a site
-  #  this is very messy, needs work
     def rooms
       unless @rooms
-        element = @html.at(".bedrooms")
+        element = @html.at('.bedrooms')
         if element.nil?
-  #        this should probably be [nil,nil]
-          @temp_rooms = [0,0]
+          @rooms = [0,0]
         else
-          beds = element.text.match(/\d+ Be/)
-          if !beds.nil?
-            beds = beds[0].gsub(/\D+/, '').to_i
-          else
-            beds = 0
-          end
-
-          baths = element.text.match(/\d+ Ba/)
-          if !baths.nil?
-            baths = baths[0].gsub(/\D+/, '').to_i
-          else
-            baths = 0
-          end
-          @temp_rooms = [beds, baths]
+          @rooms = [parse_beds(element),parse_baths(element)]
         end
       end
-      @rooms ||= @temp_rooms
+      @rooms
+    end
+
+    def parse_beds element
+      beds = element.text.match /\d+ Be/
+      return 0 if beds.nil?
+      beds[0].gsub(/\D+/, '').to_i
+    end
+
+    def parse_baths element
+      baths = element.text.match /\d+ Ba/
+      return 0 if baths.nil?
+      baths[0].gsub(/\D+/, '').to_i
     end
 
     def save

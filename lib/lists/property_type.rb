@@ -15,7 +15,9 @@ class PropertyType
       ['End of Terrace House', 'EoTHouse'],
       ['Semi-Detached House', 'Semi-D'],
       ['New Development', 'NewDev'],
-      ['Apartment', 'Apartment']
+      ['Apartment', 'Apartment'],
+      ['Duplex', 'Duplex'],
+      ['House For Sale', 'House']
   ].freeze
 
   def self.each

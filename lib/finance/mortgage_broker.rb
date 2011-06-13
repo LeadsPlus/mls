@@ -47,6 +47,7 @@ module Finance
       end
     end
 
+#    TODO the maths for the min mortgage is wrong
     def min_mortgage
       @min_mortgage ||= ReverseMortgage.new(max_mortgage.rate, @term, @deposit, @min_payment)
     end
