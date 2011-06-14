@@ -28,7 +28,8 @@ describe "DaftSearchResult" do
   end
 
   describe "price methods" do
-#    I'm having a lot of difficuty testing these methods because of encoding issues
+    it "should include the has_price? method which tells is if the listing has a numeric price"
+#    I'm having a lot of difficuty testing these methods (I think) because of encoding issues
 #    From what I can see, they do work when I run the scraper though
 #    it "should get the correct price of all price" do
 #      @files.each do |file|
@@ -144,6 +145,9 @@ describe "DaftSearchResult" do
       end
     end
   end
+
+  it "should retreive the image_url with the image method"
+  it "should retrieve the description with the description method"
 
 #  describe "saving and updating houses" do
 #    before(:each) do

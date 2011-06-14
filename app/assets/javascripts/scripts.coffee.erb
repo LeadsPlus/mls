@@ -6,21 +6,24 @@ $ () ->
   $( "a.gallery" ).fancybox
     cyclic: true
 
-  $( '.collpsed_trigger' ).click (event) ->
+  $( '.collapsed_trigger' ).live 'click', (event) ->
     event.preventDefault()
-    $( this ).next( '.collepsed_content' ).toggleClass 'hidden'
+    $( this ).parent().next( '.collapsed_content' ).toggleClass 'hidden'
 
-  $( '#.sorting_options a, #results .pagination a' ).live 'click', (event) ->
-    event.preventDefault()
-    $.getScript this.href
+  $( "#new_search" )
+    .bind 'ajax:before', (event) ->
+      $( this ).find( 'div#error_target' ).html( '' )
+    .bind 'ajax:beforeSend', (event, xhr, settings) ->
+      settings.data += "&#{ $( "#filter_options, #search_town_form input[type='hidden']" ).serialize() }"
+#     this will be replaced by the results when the response returns
+#     actually this is a bad idea, what if the response never comes??
+      $( this ).find( 'span.loading' ).append '<img src="<%= asset_path('loading.gif') %>" />'
+    .bind 'ajax:complete', (event, xhr, status) ->
+      $( this ).find( 'span.loading' ).text ''
+    .bind 'ajax:success', () ->
+#      TODO fix the url and back button
 
-  $( "#new_search" ).bind 'ajax:beforeSend', (event, xhr, settings) ->
-    settings.data += "&#{ $( "#filter_options, #search_town_form input[type='hidden']" ).serialize() }"
-#    this will be replaced by the results when the response returns
-#    actually this is a bad idea, what if the response never comes??
-    .find( 'span.loading' ).append '<img src="<%= asset_path('loading.gif') %>" />'
-    false
-
+#  controls for  the towns list
   $( 'div#towns_list' )
     .find( 'a.delete_town' ).live 'click', (e) ->
       e.preventDefault()
@@ -43,7 +46,6 @@ $ () ->
     title: "Advanced Search Options",
     buttons:
       "Ok": () ->
-        alert 'hi'
         $.rails.handleRemote( $( "#new_search" ) )
         $( this ).dialog 'close'
       "Cancel": () ->

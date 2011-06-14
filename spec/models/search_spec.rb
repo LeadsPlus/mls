@@ -219,6 +219,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: searches
@@ -228,7 +229,7 @@ end
 #  deposit        :integer
 #  created_at     :datetime
 #  updated_at     :datetime
-#  location       :string(255)
+#  locations      :string(400)
 #  min_payment    :integer
 #  term           :integer
 #  loan_type_uids :string(255)

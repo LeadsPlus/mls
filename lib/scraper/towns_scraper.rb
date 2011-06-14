@@ -25,6 +25,7 @@ module Scraper
           value = option[:value]
           text = option.text.gsub(/(- | -)/, "").gsub(/ \(.+\)/, "")
 
+#          TODO this will have to be altered because of the new dashed areas in the town select
           unless text =~ /(-+|Dublin Commuter)/ || value.blank?
             Town.create_or_update_by_county_and_name(name: text, daft_id: value, county: @county.name)
           end

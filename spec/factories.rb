@@ -15,14 +15,17 @@ Factory.define House do |house|
 end
 
 Factory.define Search do |search|
-  search.deposit 50_000
-  search.min_payment 700
-  search.max_payment 1_200
-  search.location "Mountain View, Wicklow"
+  search.max_payment 1100
+  search.min_payment 800
+  search.deposit 50000
   search.term 30
-  search.initial_period_length
-  search.loan_type "Any"
-  search.lender "Any"
+  search.locations ['2367', '2364', '2358']
+  search.lender_uids LENDER_UIDS
+  search.loan_type_uids LOAN_TYPE_UIDS
+  search.bedrooms ['3', '4', '5']
+  search.bathrooms ['1', '2', '3']
+  search.prop_type_uids PropertyType.uids
+  search.association :rate
 end
 
 Factory.define Rate do |rate|
