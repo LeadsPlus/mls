@@ -9,8 +9,8 @@ module Scraper
     end
 
     def title_parser
-      return Scraper::DublinTitleParser.new(daft_title) if @county.name == 'Dublin'
-      Scraper::TitleParser.new(daft_title)
+      return Scraper::DublinTitleParser.new(daft_title, @county) if @county.name == 'Dublin'
+      Scraper::TitleParser.new(daft_title, @county)
     end
 
     #  returns nil if no digits in price selector, string otherwise
@@ -90,7 +90,8 @@ module Scraper
           bedrooms: rooms[0],
           bathrooms: rooms[1],
           address: @title_parser.address,
-          property_type: @title_parser.type
+          property_type: @title_parser.type,
+          region_name: @title_parser.region
         })
         house.county = @county
         house.town = @title_parser.town

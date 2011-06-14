@@ -152,6 +152,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: houses
@@ -172,5 +173,6 @@ end
 #  town_id           :integer
 #  last_scrape       :integer
 #  property_type_uid :string(255)
+#  region_name       :string(255)
 #
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110611080509) do
+ActiveRecord::Schema.define(:version => 20110614082251) do
 
   create_table "counties", :force => true do |t|
     t.integer  "daft_id"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(:version => 20110611080509) do
     t.integer  "town_id"
     t.integer  "last_scrape"
     t.string   "property_type_uid"
+    t.string   "region_name"
   end
 
   add_index "houses", ["daft_id"], :name => "index_houses_on_daft_id"
@@ -109,6 +110,7 @@ ActiveRecord::Schema.define(:version => 20110611080509) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "county"
+    t.string   "region_name"
   end
 
   create_table "users", :force => true do |t|

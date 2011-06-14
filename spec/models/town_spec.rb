@@ -111,15 +111,17 @@ describe Town do
     town
   end
 end
+
 # == Schema Information
 #
 # Table name: towns
 #
-#  id         :integer         not null, primary key
-#  name       :string(255)
-#  daft_id    :string(255)
-#  created_at :datetime
-#  updated_at :datetime
-#  county     :string(255)
+#  id          :integer         not null, primary key
+#  name        :string(255)
+#  daft_id     :string(255)
+#  created_at  :datetime
+#  updated_at  :datetime
+#  county      :string(255)
+#  region_name :string(255)
 #
 

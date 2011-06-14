@@ -1,10 +1,10 @@
 class Town < ActiveRecord::Base
-  attr_accessible :name, :daft_id, :county
+  attr_accessible :name, :daft_id, :county, :region_name
   has_many :houses
 
   index do
     name
-    county
+    region_name
   end
 
   def self.search_except keywords, town_ids
@@ -26,7 +26,7 @@ class Town < ActiveRecord::Base
   end
 
   def address
-    @address ||= "#{name}, #{county}"
+    @address ||= "#{name}, #{region_name}"
   end
 
 #  TODO validations
@@ -63,15 +63,17 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: towns
 #
-#  id         :integer         not null, primary key
-#  name       :string(255)
-#  daft_id    :string(255)
-#  created_at :datetime
-#  updated_at :datetime
-#  county     :string(255)
+#  id          :integer         not null, primary key
+#  name        :string(255)
+#  daft_id     :string(255)
+#  created_at  :datetime
+#  updated_at  :datetime
+#  county      :string(255)
+#  region_name :string(255)
 #
 

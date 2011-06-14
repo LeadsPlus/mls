@@ -7,7 +7,7 @@ require "finance/mortgage"
 class House < ActiveRecord::Base
   attr_accessible :price, :description, :county_id, :image_url, :daft_id,
                   :property_type, :property_type_uid, :daft_title, :bedrooms,
-                  :bathrooms, :address, :town_id
+                  :bathrooms, :address, :town_id, :region_name
   attr_reader :payment_required
   
   paginates_per(10)
@@ -89,6 +89,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: houses
@@ -109,5 +110,6 @@ end
 #  town_id           :integer
 #  last_scrape       :integer
 #  property_type_uid :string(255)
+#  region_name       :string(255)
 #
 

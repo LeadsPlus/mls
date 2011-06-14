@@ -33,7 +33,7 @@ module Scraper
           return name if type_string.include? name
         end
       end
-      #    if there is no property type, just set it to nil
+#      if there is no property type, just set it to nil
       nil
     end
 
@@ -58,7 +58,9 @@ module Scraper
     def town
 #     if this listing is for a new town, we pass in a placeholder for daft_id because we don't know it yet
 #     then the next time we run the town scraper, it will be filled in
-      @town ||= Town.find_or_create_by_county_and_name(name: town_string, daft_id: nil, county: @county.name)
+      @town ||= Town.find_or_create_by_county_and_name(
+          name: town_string, daft_id: nil, county: @county.name, region_name: region
+      )
     end
 
     def get_address
