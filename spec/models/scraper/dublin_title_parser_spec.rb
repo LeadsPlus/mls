@@ -1,17 +1,17 @@
 require 'spec_helper'
 require Rails.root.join('lib','scraper','scraper')
 require Rails.root.join('lib','scraper','title_parser')
-require Rails.root.join('spec', 'fixtures', 'titles' ,'cork_titles')
-require Rails.root.join('spec', 'fixtures', 'titles' ,'roscommon')
+require Rails.root.join('spec', 'fixtures', 'titles' ,'dublin_titles')
 
-describe "TitleParser" do
+describe "DublinTitleParser" do
+  describe "dublin titles" do
     before(:all) do
-      @titles = CORK_TITLES + ROSCOMMON_TITLES
-      @county = Factory :county, :name => 'Cork'
+      @titles = TITLE_FIXTURES
+      @county = Factory :county, :name => 'Dublin'
 
       @title_parsers = []
       @titles.each do |title|
-        @title_parsers << Scraper::TitleParser.new(title[:title], @county)
+        @title_parsers << Scraper::DublinTitleParser.new(title[:title], @county)
       end
     end
 
@@ -33,6 +33,18 @@ describe "TitleParser" do
       end
     end
 
+    it "should be able to tell if there's an area code" do
+      @title_parsers.each_with_index do |p, i|
+        p.area_code?.should == @titles[i][:has_area_code]
+      end
+    end
+
+    it "should retrieve the area code if it exists" do
+      @title_parsers.each_with_index do |p, i|
+        p.area_code.should == @titles[i][:area_code]
+      end
+    end
+
     it "should retrieve the town correctly" do
       @title_parsers.each_with_index do |p, i|
         p.town_string.should == @titles[i][:town_string]
@@ -44,4 +56,5 @@ describe "TitleParser" do
         p.address.should == @titles[i][:address]
       end
     end
+  end
 end
