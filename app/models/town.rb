@@ -1,10 +1,15 @@
+# It turns outt that since I'm back to using the select boxes to get town names,
+# the region_name column is useless since I can't fill it from the selects.
+# The only way I was able to filling it was creating towns when parsing titles
+# but since I'm not doing that any more it can't be filled
+
 class Town < ActiveRecord::Base
-  attr_accessible :name, :daft_id, :county, :region_name
+  attr_accessible :name, :daft_id, :county
   has_many :houses
 
   index do
     name
-    region_name
+    county
   end
 
   def self.search_except keywords, town_ids
@@ -26,7 +31,7 @@ class Town < ActiveRecord::Base
   end
 
   def address
-    @address ||= "#{name}, #{region_name}"
+    @address ||= "#{name}, #{county}"
   end
 
 #  TODO validations
@@ -57,9 +62,8 @@ class Town < ActiveRecord::Base
     end
     the_town
   end
-
-#  require town names to be unique? What if there is a county with two towns the same name?
 end
+
 
 
 
@@ -68,12 +72,11 @@ end
 #
 # Table name: towns
 #
-#  id          :integer         not null, primary key
-#  name        :string(255)
-#  daft_id     :string(255)
-#  created_at  :datetime
-#  updated_at  :datetime
-#  county      :string(255)
-#  region_name :string(255)
+#  id         :integer         not null, primary key
+#  name       :string(255)
+#  daft_id    :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#  county     :string(255)
 #
 

@@ -1,5 +1,5 @@
 class TownsController < ApplicationController
-  autocomplete :town, :name, :extra_data => [:region_name], :display_value => :address
+  autocomplete :town, :name, :extra_data => [:county], :display_value => :address
 
   def index
     params[:search] = {:locations => []} unless params.key?(:search)
