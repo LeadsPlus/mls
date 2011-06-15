@@ -23,10 +23,10 @@ module Scraper
       def scrape_town_options
         @agent.page.search("#a_id option").each do |option|
           value = option[:value]
-          text = option.text.gsub(/(- | -)/, "").gsub(/ \(.+\)/, "")
 
-#          TODO this will have to be altered because of the new dashed areas in the town select
-          unless text =~ /(-+|Dublin Commuter)/ || value.blank?
+          unless option.text =~ /^-/ || value.blank?
+            text = option.text.gsub(/\(.+\)/, '').strip
+            Rails.logger.debug "Option text: #{text}"
             Town.create_or_update_by_county_and_name(name: text, daft_id: value, county: @county.name)
           end
         end

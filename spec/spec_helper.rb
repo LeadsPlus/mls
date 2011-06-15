@@ -37,6 +37,8 @@ Spork.prefork do
       Rails::logger.debug "------------------------------------------------------------------------------"
     end
   end
+
+  DatabaseCleaner.strategy = :truncation
 end
 
 Spork.each_run do

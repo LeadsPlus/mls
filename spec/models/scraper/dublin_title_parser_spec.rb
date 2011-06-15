@@ -7,12 +7,19 @@ describe "DublinTitleParser" do
   describe "dublin titles" do
     before(:all) do
       @titles = TITLE_FIXTURES
-      @county = Factory :county, :name => 'Dublin'
+    end
 
+    before(:each) do
+      DatabaseCleaner.clean
       @title_parsers = []
+      @towns = []
+
+      @county = Factory :county, :name => 'Dublin'
       @titles.each do |title|
         @title_parsers << Scraper::DublinTitleParser.new(title[:title], @county)
+        @towns << Factory(:town, :name => title[:town_string], :county => @county.name)
       end
+#      Rails.logger.debug @towns.to_s
     end
 
     it "should split off the location" do
@@ -33,12 +40,6 @@ describe "DublinTitleParser" do
       end
     end
 
-    it "should be able to tell if there's an area code" do
-      @title_parsers.each_with_index do |p, i|
-        p.area_code?.should == @titles[i][:has_area_code]
-      end
-    end
-
     it "should retrieve the area code if it exists" do
       @title_parsers.each_with_index do |p, i|
         p.area_code.should == @titles[i][:area_code]
@@ -47,7 +48,7 @@ describe "DublinTitleParser" do
 
     it "should retrieve the town correctly" do
       @title_parsers.each_with_index do |p, i|
-        p.town_string.should == @titles[i][:town_string]
+        p.town.name.should == @towns[i].name
       end
     end
 

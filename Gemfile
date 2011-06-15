@@ -66,4 +66,5 @@ group :test do
   gem "launchy"
   gem 'factory_girl_rails'
   gem 'fakeweb'
+  gem 'database_cleaner', :git => 'https://github.com/bmabey/database_cleaner.git'
 end

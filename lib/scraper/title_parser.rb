@@ -1,3 +1,10 @@
+# new flow:
+#   get the region and type the same way.
+#   if the second last element in location array is a recognised town -> set it.
+#     set everything else to be address.
+#   otherwise, check if it's an area code.
+#     if so, store the area code and check for the town in the third last element
+#     if not, assume only region and address
 module Scraper
   class TitleParser
     def initialize(title, county)
@@ -14,10 +21,40 @@ module Scraper
     end
 
     def location
+      Rails.logger.debug "Location: #{@daft_title.slice(0, split_index)}"
       @location ||= @daft_title.slice(0, split_index)
     end
 
 #    returns an empty string if there is no type
+    def split_location
+      Rails.logger.debug "Split Location: #{location.split ', '}"
+      @split_location ||= location.split ', '
+    end
+
+    def region
+      Rails.logger.debug "getting the region: #{split_location.last}"
+      @region ||= split_location.last
+    end
+
+    def town
+      Rails.logger.debug "Found town: #{Town.find_by_name_and_county(split_location[-2], @county.name)}"
+      @town ||= Town.find_by_name_and_county(split_location[-2], @county.name)
+    end
+
+    def get_address
+#      there is always a region and a town
+      split_location[0, split_location.length - 2]
+    end
+
+#    address will be an empty string if all we're given is a town, (optional area_code) and region
+    def address
+      unless @address
+        address_array = get_address
+        @address = address_array.join ', '
+      end
+      @address
+    end
+
     def type_string
       @type_string ||= @daft_title.slice(split_index + 3, @daft_title.length)
     end
@@ -41,77 +78,49 @@ module Scraper
       @type ||= parse_type
     end
 
-    def split_location
-      @split_location ||= location.split ', '
-    end
-
-    def region
-      @region ||= split_location.last
-    end
-
-    def town_string
-      return nil unless split_location.length > 1
-      @town_string ||= split_location[-2]
-    end
-
-#   returns the ActiveRecord Town which this house belongs to
-    def town
-#     if this listing is for a new town, we pass in a placeholder for daft_id because we don't know it yet
-#     then the next time we run the town scraper, it will be filled in
-      @town ||= Town.find_or_create_by_county_and_name(
-          name: town_string, daft_id: nil, county: @county.name, region_name: region
-      )
-    end
-
-    def get_address
-#      there is always a region and a town
-      split_location[0, split_location.length - 2]
-    end
-
-#    address will be an empty string if all we're given is a town, (optional area_code) and region
-    def address
-      unless @address
-#        if there's a town,
-        address_array = get_address
-        @address = address_array.join ', '
-      end
-      @address
-    end
   end
 
   class DublinTitleParser < TitleParser
-    def town_string
+#    this is all wrong IMO. Can't think how to fix it yet
+    def town
+      Rails.logger.debug "Accessing the town"
       unless @town
-        if area_code?
-#         one r-element is region, second is area code. Has to be 3 long for there to be a town
-          return nil unless split_location.length > 2
-          @town = split_location[-3]
+        if town_based
+          Rails.logger.debug "Is a town based Title"
+          @town = Town.find_by_name_and_county(split_location[-2], @county.name)
         else
-          return nil unless split_location.length > 1
-#         if there's no area code, the town is found in the element previous to region info
-          @town = split_location[-2]
+          Rails.logger.debug "Not a town based title"
+          @town = Town.find_by_name_and_county(split_location[-3], @county.name)
+          Rails.logger.debug "Found town: #{Town.find_by_name_and_county(split_location[-3], @county.name).name}"
         end
       end
       @town
     end
 
-    def area_code?
-#      there is no area code info if split_location is only one element long
-      return nil if split_location.length == 1
-#      return true if the second last element (after region) looks like an area code
-#      remember that some area codes are like -> 'Dublin 6w'
-      true if split_location[-2].is_a? String and split_location[-2] =~ /Dublin \d/
+    def area_code
+      unless @area_code
+        if !town_based
+          @area_code = split_location[-2]
+        else
+          @area_code = nil
+        end
+      end
+      @area_code
     end
 
-    def area_code
-      return nil unless area_code?
-      @area_code ||= split_location[-2]
+    def town_based
+      @town_based ||= Town.find_by_name_and_county(split_location[-2], @county.name)
+    end
+
+#    will return an index integer or nil
+    def is_area_code?(code)
+      code =~ /Dublin \d/
     end
 
     def get_address
 #      there is always a town since it's created if it doesn't exist
-      return split_location[0, split_location.length - 2] if !area_code?
-      split_location[0, split_location.length - 3] if area_code?
+      return split_location[0, split_location.length - 2] if town_based
+      split_location[0, split_location.length - 3]
     end
   end
 end

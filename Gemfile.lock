@@ -1,4 +1,10 @@
 GIT
+  remote: https://github.com/bmabey/database_cleaner.git
+  revision: 41602da900b0469d04c8d189a99e6deb5b5552ac
+  specs:
+    database_cleaner (0.6.7)
+
+GIT
   remote: https://github.com/collectiveidea/delayed_job.git
   revision: ccc6b0bfd66dd7fd534f0cc1cbd5b72bdca7b170
   tag: v2.1.2
@@ -207,6 +213,7 @@ DEPENDENCIES
   annotate
   capybara!
   coffee-script
+  database_cleaner!
   delayed_job!
   devise
   factory_girl_rails
