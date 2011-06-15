@@ -1,5 +1,6 @@
 <li>
   <%= town.address %>
   <%= hidden_field_tag "search[locations][]", town.id, class: "town_id_field" %>
+  (<%= town.houses.count %>)
   <a href="" class="delete_town float-right">X</a>
 </li>

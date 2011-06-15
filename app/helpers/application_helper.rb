@@ -21,7 +21,8 @@ module ApplicationHelper
     radio_button_tag("search[#{type}]", id, checked)
   end
 
-  def sortable(column, title = nil, classes = '', remote = false)
+#  TODO needs work, too many params. Splat or something
+  def sortable(id, column, title = nil, classes = '', remote = false)
     title ||= column.titleize
 #    I've no idea whats going on in this logic
     direction = column == sort_column && sort_direction == "asc" ? "desc" : "asc"
@@ -29,6 +30,6 @@ module ApplicationHelper
     css_class = column == sort_column ? "current #{sort_direction}" : nil
 #    I assume that since this doesn't have a path it just refreshes the page
 #    we have to put the brackets in here otherwise this will all be treated as one hash
-    link_to title, { sort: column, direction: direction }, { class: "#{css_class} #{classes}", :'data-remote' => remote }
+    link_to title, search_path({id: id, sort: column, direction: direction }), { class: "#{css_class} #{classes}", :'data-remote' => remote }
   end
 end

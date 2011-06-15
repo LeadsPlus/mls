@@ -21,7 +21,7 @@
 
 <% content_for :sidebar do %>
   <%= form_tag towns_path, :method => :get, :remote => true, :id => 'search_town_form' do %>
-    <strong><%= label_tag :name, 'Locations' %></strong>
+    <strong><%= label_tag :name, 'Locations (Max. 60)' %></strong>
     <div>
       <%= autocomplete_field_tag :name, nil, autocomplete_town_name_towns_path, id: 'search_town' %>
       <%= submit_tag :add %>

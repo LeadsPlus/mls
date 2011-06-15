@@ -18,8 +18,8 @@
       <li><b>Price:</b> <%= number_to_currency(house.price, unit: '€', precision: 0) %></li>
     </ul>
     <div class="spacer"></div>
-    <%= link_to "contact owner", house.daft_url, class: "button daft_btn corners" %>
-    <%= link_to "more info", house_path(house), class: "button grey_btn corners" %>
+    <%= link_to "view on daft.ie", house.daft_url, class: "button daft_btn corners" %>
+    <%# link_to "more info", house_path(house), class: "button grey_btn corners" %>
   </div>
   <div class="spacer"></div>
 </li>

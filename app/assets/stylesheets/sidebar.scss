@@ -14,8 +14,13 @@ div#sidebar {
     width: 150px;
   }
 
+  a#delete_all {
+    float:right;
+    margin-top: .3em;
+  }
+
   div#towns_list {
-    ul { margin-left: 0; }
+    ul { margin-left: 0; clear: both; }
     li {
       @include border-radius(5px);
       list-style: none;
