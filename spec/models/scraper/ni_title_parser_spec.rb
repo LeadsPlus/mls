@@ -1,10 +1,10 @@
 require 'spec_helper'
 require Rails.root.join('lib','scraper','scraper')
 require Rails.root.join('lib','scraper','title_parser')
-require Rails.root.join('spec', 'fixtures', 'titles' ,'dublin_titles')
+require Rails.root.join('spec', 'fixtures', 'titles' ,'ni_titles')
 
-describe "DublinTitleParser" do
-  describe "dublin titles" do
+describe "NiTitleParser" do
+  describe "NI titles" do
     before(:all) do
       @titles = TITLE_FIXTURES
     end
@@ -15,7 +15,7 @@ describe "DublinTitleParser" do
       @towns = []
       @titles.each do |title|
         @county = Factory :county, :name => title[:county]
-        @title_parsers << Scraper::DublinTitleParser.new(title[:title], @county)
+        @title_parsers << Scraper::NiTitleParser.new(title[:title], @county)
         @towns << Factory(:town, :name => title[:town_string], :county => @county.name)
       end
 #      Rails.logger.debug @towns.to_s

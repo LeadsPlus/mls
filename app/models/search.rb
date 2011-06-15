@@ -15,6 +15,8 @@ class Search < ActiveRecord::Base
   belongs_to :rate
   serialize :lender_uids; serialize :loan_type_uids; serialize :bedrooms
   serialize :bathrooms; serialize :prop_type_uids; serialize :locations
+#  TODO town adding UI and serializing is not compatible. Dublin has ~180 towns. Can't serialize them all.
+#  something has to change
 
   before_save do
     log_around("keep calculating") do

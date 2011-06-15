@@ -1,6 +1,7 @@
 module Scraper
   class DaftSearchResult
     attr_reader :county
+    NI_COUNTIES = ['Down', 'Derry', 'Antrim', 'Armagh', 'Fermanagh', 'Tyrone']
 
     def initialize(html, county)
       @html = html
@@ -10,6 +11,7 @@ module Scraper
 
     def title_parser
       return Scraper::DublinTitleParser.new(daft_title, @county) if @county.name == 'Dublin'
+      return Scraper::NiTitleParser.new(daft_title, @county) if NI_COUNTIES.include?(@county.name)
       Scraper::TitleParser.new(daft_title, @county)
     end
 

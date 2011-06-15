@@ -123,4 +123,15 @@ module Scraper
       split_location[0, split_location.length - 3]
     end
   end
+
+  class NiTitleParser < TitleParser
+    def split_location
+      unless @split_location
+        @split_location = location.split(', ')
+#        all NI postcodes start with BT
+        @split_location.pop if @split_location[-1] =~ /^BT.+/
+      end
+      @split_location
+    end
+  end
 end
