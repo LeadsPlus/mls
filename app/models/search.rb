@@ -12,7 +12,7 @@ class Search < ActiveRecord::Base
   attr_accessible :min_payment, :max_payment, :deposit, :term, :locations, :bedrooms, :bathrooms,
                   :loan_type_uids, :lender_uids, :prop_type_uids, :max_price, :min_price
   attr_reader :viable_rates
-  belongs_to :rate
+  belongs_to :rate; belongs_to :usage
   serialize :lender_uids; serialize :loan_type_uids; serialize :bedrooms
   serialize :bathrooms; serialize :prop_type_uids; serialize :locations
 #  TODO town adding UI and serializing is not compatible. Dublin has ~180 towns. Can't serialize them all.
@@ -144,6 +144,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: searches
@@ -164,5 +165,6 @@ end
 #  bedrooms       :string(255)
 #  bathrooms      :string(255)
 #  prop_type_uids :string(255)
+#  usage_id       :integer
 #
 

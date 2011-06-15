@@ -49,9 +49,8 @@ class SearchesController < ApplicationController
   end
 
   def create
-#    require 'digest/md5'
-#    digest = Digest::MD5.hexdigest(request.remote_ip + request.headers['HTTP_USER_AGENT'])
     @search = Search.new params[:search]
+    @usage = Usage.find_or_create_by_identifier(ip_address: request.ip, user_agent: request.headers['HTTP_USER_AGENT'])
 
     if @search.save
       respond_to do |format|

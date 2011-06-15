@@ -7,6 +7,8 @@ describe Search do
                                  :loan_type => "3 Year Fixed Rate",
                                  :lender => "AIB"
     @other_rate = Factory :rate, :lender => "Ulster Bank"
+
+#    note that we don't send a rate, that association is made by calculation
     @valid_attr = {
       min_payment: 700,
       max_payment: 1200,
@@ -23,6 +25,28 @@ describe Search do
 
   it "should create a search given valid params" do
     Search.create! @valid_attr
+  end
+
+  describe "associations" do
+    before(:each) do
+      @search = Search.create @valid_attr
+    end
+
+    it "should have a rate attribute" do
+      @search.should respond_to :rate
+    end
+
+    it "should retrieve the associated rate" do
+      @search.rate.should == @rate
+    end
+
+    it "should have a usage association" do
+      @search.should respond_to :usage
+    end
+
+    it "should retrieve the associated usage" do
+      @search.usage.should == @usage
+    end
   end
 
   describe "reset method" do
@@ -220,6 +244,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: searches
@@ -240,5 +265,6 @@ end
 #  bedrooms       :string(255)
 #  bathrooms      :string(255)
 #  prop_type_uids :string(255)
+#  usage_id       :integer
 #
 

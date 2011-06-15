@@ -26,6 +26,7 @@ Factory.define Search do |search|
   search.bathrooms ['1', '2', '3']
   search.prop_type_uids PropertyType.uids
   search.association :rate
+  search.association :usage
 end
 
 Factory.define Rate do |rate|
@@ -67,4 +68,9 @@ end
 Factory.define County do |c|
   c.name "Fermanagh"
   c.daft_id 30
+end
+
+Factory.define Usage do |u|
+  u.ip_address "227.343.231.653"
+  u.user_agent 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.30 (KHTML, like Gecko) Chrome/12.0.742.91 Safari/534.30'
 end

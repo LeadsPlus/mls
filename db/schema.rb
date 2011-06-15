@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110615051530) do
+ActiveRecord::Schema.define(:version => 20110615080513) do
 
   create_table "counties", :force => true do |t|
     t.integer  "daft_id"
@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(:version => 20110615051530) do
     t.string   "bedrooms"
     t.string   "bathrooms"
     t.string   "prop_type_uids"
+    t.integer  "usage_id"
   end
 
   create_table "towns", :force => true do |t|
@@ -110,6 +111,14 @@ ActiveRecord::Schema.define(:version => 20110615051530) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "county"
+  end
+
+  create_table "usages", :force => true do |t|
+    t.string   "identifier", :limit => 32
+    t.string   "user_agent"
+    t.string   "ip_address"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|
