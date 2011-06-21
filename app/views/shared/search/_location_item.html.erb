@@ -1,0 +1,10 @@
+<li>
+  <%= location_item.name %>
+  <% if location_item.class == County %>
+    <%= hidden_field_tag "search[locations][]", "c#{location_item.id}" %>
+  <% elsif location_item.class == Town %>
+    <%= hidden_field_tag "search[locations][]", "t#{location_item.id}" %>
+  <% end %>
+   (<%= location_item.houses.count %>)
+  <a href="" class="delete_town float-right">X</a>
+</li>

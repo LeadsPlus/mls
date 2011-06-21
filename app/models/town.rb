@@ -13,22 +13,40 @@ class Town < ActiveRecord::Base
   end
 
 #  TODO when I try to add Kildare town in Kildare County. It adds every town in Kildare.
-  def self.search_except keywords, town_ids
-#    can't allow town_ids to be null
-    return search(keywords) if town_ids.blank?
-    where("towns.id NOT IN (?)", town_ids.map{|t_id| t_id.to_i }).search(keywords)
+#  TODO I get an error when I search for 'Drogheda town centre'
+  def self.search_except keywords, chosen_loc_ids
+#    can't allow chosen_loc_ids to be null
+    return search(keywords) if chosen_loc_ids.blank?
+    where("towns.id NOT IN (?)", chosen_loc_ids.map{|t_id| t_id.to_i }).search(keywords)
   end
 
-  def self.tsearch_except keywords, town_ids
-    return tsearch(keywords) if town_ids.blank?
-    where("towns.id NOT IN (?)", town_ids.map{|t_id| t_id.to_i }).tsearch(keywords)
+  def self.tsearch_except keywords, chosen_loc_ids
+    return tsearch(keywords) if chosen_loc_ids.blank?
+    where("towns.id NOT IN (?)", chosen_loc_ids.map{|t_id| t_id.to_i }).tsearch(keywords)
   end
 
-  def self.controlled_search keywords, town_ids
-    search_results = search_except keywords, town_ids
-    return search_results if search_results.count > 0
-    fuzzy_search_results = tsearch_except keywords, town_ids
+#  TODO now that I'm searching across the town and county models, some of these methods
+#  should be refactored to an agnostic location
+#  When it's there, I can make chosen_loc_ids an instance variable with setter and getter
+#  so I don't have to keep passing it around like I'm doing at the moment
+  def self.controlled_search keywords, chosen_loc_ids
+    county_search_results = County.search_except keywords, self.county_loc_ids(chosen_loc_ids)
+#    county_search_results.county should be a binary result so this could be better
+    return county_search_results if county_search_results.count > 0
+    town_search_results = search_except keywords, self.town_loc_ids(chosen_loc_ids)
+    return town_search_results if town_search_results.count > 0
+    fuzzy_search_results = tsearch_except keywords, self.town_loc_ids(chosen_loc_ids)
     return fuzzy_search_results
+  end
+
+#  keep_if is equiv to select! but not select
+  def self.county_loc_ids loc_ids
+#    select returns an array containing the elements we want
+    @county_loc_ids = loc_ids.select {|id| id[0] == 'c'}
+  end
+
+  def self.town_loc_ids loc_ids
+    @town_loc_ids = loc_ids.select {|id| id[0] == 't'}
   end
 
   def address

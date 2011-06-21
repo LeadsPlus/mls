@@ -109,6 +109,7 @@ $ () ->
 #      TODO fix the url and back button
 #      $.address.value 'hello'
 
+#  handling for the search form on the 'start' (intended homepage) page
   $('form#start_new_search')
     .bind 'ajax:beforeSend', (event, xhr, settings) ->
       settings.data += "&#{ $("#new_search, #search_town_form input[type='hidden'], #filter_options").serialize() }"

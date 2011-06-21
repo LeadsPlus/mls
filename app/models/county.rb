@@ -5,8 +5,17 @@ class County < ActiveRecord::Base
   attr_accessible :name, :daft_id
   has_many :houses
 
+  index do
+    name
+  end
+
   def towns
     Town.where(:county => county)
+  end
+
+  def self.search_except keywords, chosen_loc_ids
+    return search(keywords) if chosen_loc_ids.blank?
+    where("counties.id NOT IN (?)", chosen_loc_ids.map{|t_id| t_id.to_i }).search(keywords)
   end
 
   def self.reset

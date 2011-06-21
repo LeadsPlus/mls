@@ -1,6 +1,7 @@
 class TownsController < ApplicationController
   autocomplete :town, :name, :extra_data => [:county], :display_value => :address
 
+#  TODO this search should be refactored out of here because it's not only dealing with towns any more
   def index
     params[:search] = {:locations => []} unless params.key?(:search)
     if params[:name]
