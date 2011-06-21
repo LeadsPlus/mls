@@ -93,7 +93,8 @@ module Scraper
           bathrooms: rooms[1],
           address: @title_parser.address,
           property_type: @title_parser.type,
-          region_name: @title_parser.region
+          region_name: @title_parser.region,
+          last_scrape: 1
         })
         house.county = @county
         house.town = @title_parser.town

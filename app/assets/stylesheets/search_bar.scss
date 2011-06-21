@@ -38,6 +38,28 @@ div#top_search_bar {
   @include border-radius-bottomleft(5px);
   @include border-radius-topleft(5px);
   /* over-riding some jquery-ui styling for sliders */
+}
+
+.buttonset { margin-left: 1.5em; margin-top: 0.6em; }
+
+ul li.input { list-style: none; display: inline; margin-left: 1em; }
+
+/* over-riding some jquery-ui styling for buttonsets */
+.ui-button-text-only .ui-button-text { padding: .1em .3em }
+
+div#search_errors {
+  border: 1px solid red;
+  background-color: pink;
+  padding: .2em;
+  margin-bottom: .9em;
+  @include border-radius(5px);
+
+  .error_count {
+    font-weight: bold;
+  }
+}
+
+/* Styling for sliders */
   .ui-slider-horizontal { height: 0.6em; }
   .ui-slider-horizontal .ui-slider-handle { top: -.4em; margin-left: -.6em; }
   .ui-slider-horizontal .ui-slider-range { top: 0; height: 100%; }
@@ -92,23 +114,3 @@ div#top_search_bar {
   .ui-slider a {
     text-decoration: none;
   }
-}
-
-.buttonset { margin-left: 1.5em; margin-top: 0.6em; }
-
-ul li.input { list-style: none; display: inline; margin-left: 1em; }
-
-/* over-riding some jquery-ui styling for buttonsets */
-.ui-button-text-only .ui-button-text { padding: .1em .3em }
-
-div#search_errors {
-  border: 1px solid red;
-  background-color: pink;
-  padding: .2em;
-  margin-bottom: .9em;
-  @include border-radius(5px);
-
-  .error_count {
-    font-weight: bold;
-  }
-}

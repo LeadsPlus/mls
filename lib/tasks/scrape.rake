@@ -12,7 +12,9 @@ require "scraper/houses_scraper"
 require "scraper/daft_search_result"
 require "scraper/daft_house_page"
 require "scraper/title_parser"
+require "scraper/listings_scraper_job"
 
+# TODO update these rake tasks to use the new Job clasees
 namespace :scrape do
   desc "Enqueue jobs to scrape house listings for every county from daft.ie"
   task :all_listings => :environment do
@@ -28,7 +30,7 @@ namespace :scrape do
     puts "Running task"
     args.with_defaults(:county_name => "Fermanagh")
     county = County.find_by_name args.county_name
-    Scraper::ListingsScraper.new(county).refresh_listings
+    Delayed::Job.enqueue ListingsScraperJob.new(county)
   end
 
   desc "Visit the show page of all the houses in the database after a particular house id"

@@ -10,6 +10,7 @@ Factory.define House do |house|
   house.property_type "Semi-Detached House"
   house.bathrooms 4
   house.bedrooms 5
+  house.region_name "Co. Wicklow"
   house.association :town
   house.association :county
 end

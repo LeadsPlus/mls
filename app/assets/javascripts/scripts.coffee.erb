@@ -10,6 +10,91 @@ $ () ->
     event.preventDefault()
     $( this ).parent().next( '.collapsed_content' ).toggleClass 'hidden'
 
+#  $( '.pagination a' ).live 'click', (event) ->
+#    event.preventDefault()
+#    href = $(this).attr('href')
+#    page = href.match /page=\d+/gi
+#    href.replace /\?.+/gi, page
+#    log href
+#    $.getScript( href )
+#
+#  $(window).bind 'hashchange.page', () ->
+#    event.preventDefault()
+#    search = $.bbw.getState( 'searches' )
+#    page = $.bbq.getState('page')
+#    new_url = "/searches/#{search}?page=#{page}"
+#    log new_url
+#    $.getScript( new_url )
+
+#  $( '.pagination a' ).live 'click', (event) ->
+#    event.preventDefault()
+##    this is how to retrieve an object formed from the parameters of the href
+##    it wont be coerced though
+#    console.log $.deparam.querystring( this.href )
+##    this just gets us an object like "url?page=": 2
+#    console.log( $.deparam( this.href, true ) )
+##    to get the url part of a href
+#    console.log this.href.split( '?' )[0]
+##    put the fully split href back together
+#    address = $.param.querystring this.href.split( '?' )[0], $.deparam.querystring( this.href )
+#    console.log address
+##     push #hello=bye onto the end of the current url
+#    $.bbq.pushState { 'hello':'bye' }
+#
+#  $( window ).bind 'hashchange', (event) ->
+##    retrive the value of the hello paramater from the address
+#    url = $.bbq.getState( 'hello' )
+##    do something with it
+#    console.log url
+##  when the page loads for the first time, trigger the hash change event to init the page
+#  $( window ).trigger 'hashchange'
+
+#  $('.pagination a').live 'click', (event) ->
+#    event.preventDefault()
+##    get the href of the link we just clicked
+#    href = $( this ).attr( 'href' )
+#    console.log href
+##    the base url of the document -> http://localhost:3000
+#    console.log $.address.baseURL()
+##    put a hash in the address bar -> /#/#foo=bar
+#    $.address.hash 'foo=bar'
+##    get the hash part of the address -> 'foo=bar'
+#    $.addrss.hash()
+##    set a parameter in the address -> '/#/?foo=bar'
+##    if there are already params there, they will be appended
+##    of course this means I can only append one value at a time, substandaerd to the BBQ merge
+#    $.address.parameter('foo', 'bar')
+##    get a parameter -> 'bar'
+#    $.address.parameter('foo')
+##    note that I can still use the $.param method but I don't have the $.deparam method
+##    get all the params  from the address. Doesn't include values after the hash
+#    $.address.queryString()
+##    set the whole querystring. Overwrites anything that was there before (leaves hash values)
+#    $.address.queryString('banana=apple')
+##    set the path in the address bar -> :3000/#/foo/bar. note that any params or hash will stay there
+#    $.address.path('foo/bar');
+##    get the path names -> ['foo', 'bar']
+#    $.address.pathNames()
+##    get the path as a string instead
+#    $.address.path()
+##    set the actual address with html5 -> :3000/foo/bar. When I try to reload on this, it will bring me to that actual page
+##    these value changes are also recorded in the history so my back button will work
+#    $.address.value('foo/bar')
+##    get the value again - 'foo/bar'
+#    $.address.value()
+#  $.address.state '/'
+
+#  $('.pagination a').live 'click', (event) ->
+#
+#  $.address.externalChange (event) ->
+#    console.log 'Value: ' + event.value
+#    console.log 'Path: ' + event.path
+##    this actually works in so far as it changes the results.
+##    what it doesn't do is set the forms and towns list to match the results.
+##    basically it just retrieves the create.js.erb and does what it say to do
+##    so, I either need to update all the forms here or else in the create.js
+#    $.getScript(location.href)
+
   $( "#new_search" )
     .bind 'ajax:before', (event) ->
       $( this ).find( 'div#error_target' ).html( '' )
@@ -20,8 +105,16 @@ $ () ->
       $( this ).find( 'span.loading' ).append '<img src="<%= asset_path('loading.gif') %>" />'
     .bind 'ajax:complete', (event, xhr, status) ->
       $( this ).find( 'span.loading' ).text ''
-    .bind 'ajax:success', () ->
+    .bind 'ajax:success', (event, data, status) ->
 #      TODO fix the url and back button
+#      $.address.value 'hello'
+
+  $('form#start_new_search')
+    .bind 'ajax:beforeSend', (event, xhr, settings) ->
+      settings.data += "&#{ $("#new_search, #search_town_form input[type='hidden'], #filter_options").serialize() }"
+    .bind 'ajax:complete', (event, xhr, status) ->
+      log xhr
+#      document.location.href = 'hello'
 
 #  controls for  the towns list
   $( 'div#towns_list' )
@@ -32,6 +125,8 @@ $ () ->
     .find( 'a#delete_all' ).live 'click', (e) ->
       e.preventDefault()
       $( this ).next( 'ul' ).children( 'li' ).remove()
+
+#  TODO I can potentially fix the Ajax pagination errors by stripping the URL with a before hook in here
 
 #  Advanced search option dialog
   $( 'div#advanced_search_dialog' ).dialog

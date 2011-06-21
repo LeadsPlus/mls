@@ -12,6 +12,7 @@ class Town < ActiveRecord::Base
     county
   end
 
+#  TODO when I try to add Kildare town in Kildare County. It adds every town in Kildare.
   def self.search_except keywords, town_ids
 #    can't allow town_ids to be null
     return search(keywords) if town_ids.blank?

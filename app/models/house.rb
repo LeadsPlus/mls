@@ -7,7 +7,7 @@ require "finance/mortgage"
 class House < ActiveRecord::Base
   attr_accessible :price, :description, :county_id, :image_url, :daft_id,
                   :property_type, :property_type_uid, :daft_title, :bedrooms,
-                  :bathrooms, :address, :town_id, :region_name
+                  :bathrooms, :address, :town_id, :region_name, :last_scrape
   attr_reader :payment_required
   
   paginates_per(10)
@@ -22,7 +22,7 @@ class House < ActiveRecord::Base
   end
 
   def title
-    "#{address}, #{town.name}, Co. #{county.name}"
+    "#{address}, #{town.name}, #{region_name}"
   end
   
   def daft_url
@@ -69,6 +69,22 @@ class House < ActiveRecord::Base
     Finance::Mortgage.new(rate, term, users_deposit, self.price).payment_required
   end
 
+#  TODO these need to have county integrated
+#  what happens if I scrape kildare only, I can't go and delete houses in other
+#  counties because their scrape id wasn't affected
+  def self.delete_all_not_scraped
+    find_each() do |house|
+      house.delete if house.last_scrape.nil?
+    end
+  end
+
+#  same deal down here
+  def self.reset_all_last_scraped
+    find_each() do |house|
+      house.update_attributes(last_scrape: nil)
+    end
+  end
+
 #  doing extensive validations at this point is dangerous since I'm using a scraper
 #  which leads to whacky results. I don't want to drop houses because of it.
   validates :county_id, presence: true, numericality: true
@@ -80,7 +96,7 @@ class House < ActiveRecord::Base
                       :numericality => { :greater_than => 0 }
 
   def self.reset
-    House.delete_all
+    self.delete_all
     ActiveRecord::Base.connection.execute "SELECT setval('public.houses_id_seq', 1, false)"
   end
 

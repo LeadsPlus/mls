@@ -11,6 +11,6 @@
  *= require search_dialog
  *= require smoothness/jquery-ui
  *= require sidebar
- *
+ *= require start
  * require_tree .
 */
