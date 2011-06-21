@@ -29,8 +29,21 @@ class House < ActiveRecord::Base
     "http://www.daft.ie/searchsale.daft?id=#{daft_id}"
   end
 
-  def self.in town_ids
-    where('houses.town_id' => town_ids)
+#  TODO change this so it searches mor houses with matching county_ids either
+  def self.in location_ids
+    Rails.logger.debug "Town ids: #{town_ids(location_ids)} "
+    Rails.logger.debug "County ID's: #{county_ids(location_ids)}"
+    where(arel_table[:town_id].in(town_ids(location_ids))
+          .or(arel_table[:county_id].in(county_ids(location_ids))))
+  end
+
+#  TODO no point having these methods in both the town and house model
+  def self.town_ids location_ids
+    @town_ids ||= location_ids.select {|id| id[0] == 't' }.map {|id| id.gsub(/\D/, '').to_i }
+  end
+
+  def self.county_ids location_ids
+    @county_ids ||= location_ids.select {|id| id[0] == 'c' }.map {|id| id.gsub(/\D/, '').to_i }
   end
 
   def self.cheaper_than price

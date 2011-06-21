@@ -40,17 +40,18 @@ class Town < ActiveRecord::Base
   end
 
 #  keep_if is equiv to select! but not select
+#  TODO these shouldn't be class methods. Are these class instance methods I'm creating here???
   def self.county_loc_ids loc_ids
 #    select returns an array containing the elements we want
-    @county_loc_ids = loc_ids.select {|id| id[0] == 'c'}
+    @county_loc_ids ||= loc_ids.select {|id| id[0] == 'c'}
   end
 
   def self.town_loc_ids loc_ids
-    @town_loc_ids = loc_ids.select {|id| id[0] == 't'}
+    @town_loc_ids ||= loc_ids.select {|id| id[0] == 't'}
   end
 
-  def address
-    @address ||= "#{name}, #{county}"
+  def identifying_string
+    @identifying_string ||= "#{name}, Co. #{county}"
   end
 
 #  TODO validations

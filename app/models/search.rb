@@ -24,12 +24,23 @@ class Search < ActiveRecord::Base
     end
   end
 
-  def towns
-    @towns ||= Town.where("towns.id" => locations.map {|loc| loc.to_i })
-  end
+#  def towns
+#    @towns ||= Town.where("towns.id" => locations.map {|loc| loc.to_i })
+#  end
+#
+#  def towns_by_county
+#    @towns_by_county = towns.group_by {|town| town.county }
+#  end
 
-  def towns_by_county
-    @towns_by_county = towns.group_by {|town| town.county }
+  def location_objects
+    locations.map do |location|
+      if location[0] == 't'
+#        TODO it might be better to utalise the 'town_ids' methods found in Houses and only hit the DB once
+        Town.find(location.gsub(/\D/, '').to_i)
+      elsif location[0] == 'c'
+        County.find location.gsub(/\D/, '').to_i
+      end
+    end
   end
 
 #  I think there's a way I can put these calcs in the reader methods for the attributes
@@ -41,12 +52,12 @@ class Search < ActiveRecord::Base
     self.rate = broker.max_mortgage.rate
   end
 
-#  maybe I just pass in the Search object instead?
+#  TODO maybe I just pass in the Search object instead?
   def broker
     @broker ||= Finance::MortgageBroker.new(term, deposit, max_payment, min_payment, lender_uids, loan_type_uids)
   end
 
-#  am I using these functions?
+#  TODO am I using these functions?
   def has_loan_type_conditions?
     loan_type_uids != LOAN_TYPE_UIDS
   end

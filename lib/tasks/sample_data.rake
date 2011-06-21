@@ -36,7 +36,7 @@ def create_default_search
     min_payment: 800,
     deposit: 50000,
     term: 30,
-    locations: ['191', '188', '57'],
+    locations: ['t191', 't188', 't57'],
     lender_uids: LENDER_UIDS,
     loan_type_uids: LOAN_TYPE_UIDS,
     bedrooms: ['3', '4', '5'],

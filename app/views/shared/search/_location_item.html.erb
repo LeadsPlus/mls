@@ -1,5 +1,5 @@
 <li>
-  <%= location_item.name %>
+  <%= location_item.identifying_string %>
   <% if location_item.class == County %>
     <%= hidden_field_tag "search[locations][]", "c#{location_item.id}" %>
   <% elsif location_item.class == Town %>
