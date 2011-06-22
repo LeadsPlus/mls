@@ -13,13 +13,14 @@ class County < ActiveRecord::Base
     Town.where(:county => county)
   end
 
+#  the locations controller needs to be updated anytime this method is changed
   def identifying_string
     @identifying_string ||= "Anywhere in Co. #{name}"
   end
 
-  def self.search_except keywords, chosen_loc_ids
-    return search(keywords) if chosen_loc_ids.blank?
-    where("counties.id NOT IN (?)", chosen_loc_ids.map{|t_id| t_id.to_i }).search(keywords)
+  def self.search_except keywords, excluded_ids
+    return search(keywords) if excluded_ids.empty?
+    where("counties.id NOT IN (?)", excluded_ids).search(keywords)
   end
 
   def self.reset
