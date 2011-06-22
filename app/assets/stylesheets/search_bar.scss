@@ -1,51 +1,45 @@
 @import "variables";
 
-div#side_search_bar {
-  float: left;
+div#search_bar {
   background: $colms_bg;
-  width: 205px;
-  padding: 1.7em .4em .7em .4em;
-  margin-bottom: 2em;
-  @include border-radius-bottom(5px);
-  @include border-radius-topright(5px);
-
-  input[type='text'] {
-    width: 120px;
-    margin-bottom: 1.5em;
-  }
-
-  input[type='submit'] {
-    margin-left: .1em;
-  }
-
-  span.loading { padding: .5em 0; margin-left: .3em; min-width: 25px; }
-
-  a {
-    position: relative;
-    top: .4em; left: 1em;
-    font: {
-      size: 1.3em;
-    }
-  }
-}
-
-div#top_search_bar {
-  $lp: 0.6em; $rp: 0.9em; $tp: 1em; $bp: 1em;
-  background: $colms_bg;
-  width: 746px;
+  width: 100%;
   float: left;
-  padding: $tp $rp $bp $lp;
   @include border-radius-bottomleft(5px);
   @include border-radius-topleft(5px);
-  /* over-riding some jquery-ui styling for sliders */
+
+  #search_content { border-bottom: 1px solid #fff; }
+  .search_section {
+    $lp: 0.6em; $rp: 0.9em; $tp: 1em; $bp: 1em;
+    padding: $tp $rp $bp $lp;
+  }
+
+  a#delete_all {
+    margin-top: .3em;
+  }
+
+  div#towns_list {
+    ul { margin-left: 0; }
+    li {
+      @include border-radius(5px);
+      float: left;
+      margin-left: 3px;
+      list-style: none;
+      background-color: #dfeaf4;
+      padding:2px 20px 2px 2px;
+      color: $link_hover;
+      border: 1px dotted $link_hover;
+      margin-bottom: 3px;
+      input { display: inline; }
+    }
+  }
+  /* over-riding some jquery-ui styling for buttonsets */
+  .ui-button-text-only .ui-button-text { padding: .1em .3em }
 }
 
 .buttonset { margin-left: 1.5em; margin-top: 0.6em; }
 
 ul li.input { list-style: none; display: inline; margin-left: 1em; }
 
-/* over-riding some jquery-ui styling for buttonsets */
-.ui-button-text-only .ui-button-text { padding: .1em .3em }
 
 div#search_errors {
   border: 1px solid red;

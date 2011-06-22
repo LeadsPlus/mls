@@ -12,6 +12,10 @@ class Town < ActiveRecord::Base
     county
   end
 
+  def address
+    "#{name} Co. #{county}"
+  end
+
 #  TODO when I try to add Kildare town in Kildare County. It adds every town in Kildare.
 #  TODO I get an error when I search for 'Drogheda town centre'
   def self.search_except keywords, chosen_loc_ids

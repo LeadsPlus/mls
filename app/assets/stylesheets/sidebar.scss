@@ -5,31 +5,30 @@ div#sidebar {
   $ml: 9px;
   width: 206px;
   float: left;
-  margin-left: $ml;
   min-height: 400px;
   background-color: $colms_bg;
   padding: $pt $pr $pb $pl;
 
-  input[type='text'] {
-    width: 150px;
+  #search_controls { margin-bottom: 1.5em; }
+  div.buttonset { margin-top: 0; }
+
+  ul.button_list {
+    list-style: none;
+    margin: 0;
+
+    .ui-button { width: 100%; }
+
+    /* override the jquery-ui css buttons*/
+    .ui-button-text-only .ui-button-text { padding: .1em 1em; font-size: .8em; text-align: left; }
   }
 
+  .inline.buttonset .ui-button-text-only .ui-button-text { padding: .1em .5em; font-size: .8em; }
+
+  .sidebar_section h3 {
+    font-size: 1.2em;
+    margin: .6em 0 0 0;
+  }
 }
 
-  a#delete_all {
-    float:right;
-    margin-top: .3em;
-  }
 
-  div#towns_list {
-    ul { margin-left: 0; clear: both; }
-    li {
-      @include border-radius(5px);
-      list-style: none;
-      background-color: #dfeaf4;
-      padding:2px;
-      color: $link_hover;
-      margin-bottom: 3px;
-    }
-  }
 
