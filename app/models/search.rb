@@ -24,14 +24,6 @@ class Search < ActiveRecord::Base
     end
   end
 
-#  def towns
-#    @towns ||= Town.where("towns.id" => locations.map {|loc| loc.to_i })
-#  end
-#
-#  def towns_by_county
-#    @towns_by_county = towns.group_by {|town| town.county }
-#  end
-
   def location_objects
     locations.map do |location|
       if location[0] == 't'

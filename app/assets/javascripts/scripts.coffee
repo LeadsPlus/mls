@@ -102,7 +102,7 @@ $ () ->
       settings.data += "&#{ $( "#filter_options, #search_town_form input[type='hidden']" ).serialize() }"
 #     this will be replaced by the results when the response returns
 #     actually this is a bad idea, what if the response never comes??
-      $( this ).find( 'span.loading' ).append '<img src="<%= asset_path('loading.gif') %>" />'
+      $( this ).find( 'span.loading' ).append '<img src="assets/loading.gif" />'
     .bind 'ajax:complete', (event, xhr, status) ->
       $( this ).find( 'span.loading' ).text ''
     .bind 'ajax:success', (event, data, status) ->
