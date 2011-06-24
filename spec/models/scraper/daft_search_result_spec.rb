@@ -9,10 +9,10 @@ require "#{Rails.root}/lib/scraper/title_parser"
 
 describe "DaftSearchResult" do
   before(:all) do
-    @no_baths = PropertyFixture.new 'no_baths'
-    @no_beds_or_baths = PropertyFixture.new 'no_beds_or_baths'
-    @site = PropertyFixture.new 'site'
-    @type_in_beds = PropertyFixture.new'type_in_beds'
+    @no_baths = PropertyFixture.new('no_baths')
+    @no_beds_or_baths = PropertyFixture.new('no_beds_or_baths')
+    @site = PropertyFixture.new('site')
+    @type_in_beds = PropertyFixture.new('type_in_beds')
 
     @files = [
               PropertyFixture.new('listing'),

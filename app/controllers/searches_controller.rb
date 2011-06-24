@@ -14,7 +14,8 @@ class SearchesController < ApplicationController
 
   def show
     @search = Search.includes(:rate).find(params[:id])
-    @matches = @search.matches.order(sort_column + " " + sort_direction).page(params[:page])
+    @matches = @search.matches.includes(:photos)
+                      .order(sort_column + " " + sort_direction).page(params[:page])
     @rate = @search.rate
 
     add_search_bar
