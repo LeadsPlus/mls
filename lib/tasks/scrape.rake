@@ -19,7 +19,7 @@ namespace :scrape do
   desc "Enqueue jobs to scrape house listings for every county from daft.ie"
   task :all_listings => :environment do
     County.find_each() do |county|
-      Scraper::ListingsScraper.new(county).refresh_listings
+      Delayed::Job.enqueue ListingsScraperJob.new(county)
     end
   end
 

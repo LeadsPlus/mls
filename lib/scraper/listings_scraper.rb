@@ -25,17 +25,7 @@ module Scraper
         next_page_link.click
       end
     end
-#    handle_asynchronously :refresh_listings
-#
-#    def success(job)
-#      Rails.logger.debug "Scrape Success Registeded. "
-#      House.delete_not_scraped
-#    end
-#
-#    def failure(job)
-#
-#    end
-
+    
     private
       def next_page_link
         @agent.page.link_with(:text => "Next Page \u00BB")

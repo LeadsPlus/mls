@@ -9,9 +9,10 @@ class LocationsController < ApplicationController
     end
   end
 
+#  TODO searching 'North County Dublin' causes a ton off locations to be added to the towns list
   def controlled_search keyword, exclusions
     keyword = sanitize keyword
-##    Rails.logger.debug "County ID's #{county_exclusions(exclusions)}"
+#    Rails.logger.debug "County ID's #{county_exclusions(exclusions)}"
 #    Rails.logger.debug "Town ID's #{town_exclusions(exclusions)}"
     logger.debug "Keyword '#{keyword}'"
     county_search_results = County.search_except keyword.to_s, county_exclusions(exclusions)
