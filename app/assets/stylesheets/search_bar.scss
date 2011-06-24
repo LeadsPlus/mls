@@ -54,7 +54,11 @@ div#search_errors {
 }
 
 /* Styling for sliders */
-  .ui-slider-horizontal { height: 0.6em; }
+
+  .ui-slider .ui-slider-handle { position: absolute; z-index: 2; width: 1em; height: 1em; cursor: default; }
+  .ui-slider .ui-slider-range { position: absolute; z-index: 1; font-size: .7em; display: block; border: 0; background-position: 0 0; }
+
+  .ui-slider-horizontal { height: 0.4em; width: 14em; }
   .ui-slider-horizontal .ui-slider-handle { top: -.4em; margin-left: -.6em; }
   .ui-slider-horizontal .ui-slider-range { top: 0; height: 100%; }
   .ui-slider-horizontal .ui-slider-range-min { left: 0; }
@@ -73,10 +77,10 @@ div#search_errors {
     position: absolute;
     bottom: 1.9em;
     text-align: center;
-    padding: .1em .2em .1em;
-    font-size: .8em;
-    width: 4.2em;
-    margin-left: -1.6em;
+    padding: .1em;
+    font-size: .7em;
+    width: 3.4em;
+    margin-left: -1.1em;
   }
   /* this is the little pointer image */
   .ui-slider .ui-slider-tooltip .ui-tooltip-pointer-down, .ui-slider .ui-slider-tooltip .ui-tooltip-pointer-down-inner {
@@ -107,4 +111,9 @@ div#search_errors {
   }
   .ui-slider a {
     text-decoration: none;
+    border: none;
+  }
+  .ui-slider a:active {
+    text-decoration: none;
+    border: none;
   }

@@ -59,7 +59,7 @@ $ () ->
     .find( 'a#delete_all' ).live 'click', (e) ->
       e.preventDefault()
       $( 'div#loc_search_options' ).find( 'li' ).remove()
-      $('#search_town').val('');
+      $('#search_town').val('')
 #
 ##  event handlers for the search form
 #  $( "#new_search" )
@@ -128,7 +128,7 @@ $ () ->
     range: true,
     min: 200,
     max: 2000,
-    step: 10,
+    step: 50,
     values: [ min_payment.val() , max_payment.val() ],
     slide: ( event, ui ) ->
       min_payment.val( ui.values[ 0 ] )
