@@ -1,5 +1,6 @@
 <li class="listing" id="house_<%= house.id %>">
 	<%= image_tag house.image_url, size: '160x120' if Rails.env.production? %>
+  <%= render "shared/house/photo", collection: house.photos %>
 	<div class="house_details">
 		<h3><%= house.title %></h3>
 		<p>

@@ -10,9 +10,12 @@ module Scraper
     end
 
     def title_parser
-      return Scraper::DublinTitleParser.new(daft_title, @county) if @county.name == 'Dublin'
-      return Scraper::NiTitleParser.new(daft_title, @county) if NI_COUNTIES.include?(@county.name)
-      Scraper::TitleParser.new(daft_title, @county)
+      unless @title_parser
+        @title_parser = Scraper::DublinTitleParser.new(daft_title, @county) if @county.name == 'Dublin'
+        @title_parser = Scraper::NiTitleParser.new(daft_title, @county) if NI_COUNTIES.include?(@county.name)
+        @title_parser = Scraper::TitleParser.new(daft_title, @county)
+      end
+      @title_parser
     end
 
     #  returns nil if no digits in price selector, string otherwise

@@ -4,18 +4,17 @@
 
 module Scraper
   class ListingsScraper < Scrape
+
     def initialize(county)
       super()
       @county = county
+      @url = "http://www.daft.ie/searchsale.daft?s%5Bcc_id%5D=c#{@county.daft_id}&search=1&submit.x=23&submit.y=11"
+      @agent.get(@url)
     end
 
     #  this should take approx 30 mins per 10k houses
     def refresh_listings
-      url = "http://www.daft.ie/searchsale.daft?s%5Bcc_id%5D=c#{@county.daft_id}&search=1&submit.x=23&submit.y=11"
       puts "Scraping #{@county.name} via it's Daft county ID: #{@county.daft_id}..."
-  #    trying to put Mechanize initialization in the initialize method makes SJ prone to failure
-      @agent = Mechanize.new
-      @agent.get(url)
 
       while next_page_link do
         scrape_house_listings
@@ -25,16 +24,6 @@ module Scraper
         next_page_link.click
       end
     end
-#    handle_asynchronously :refresh_listings
-#
-#    def success(job)
-#      Rails.logger.debug "Scrape Success Registeded. "
-#      House.delete_not_scraped
-#    end
-#
-#    def failure(job)
-#
-#    end
 
     private
       def next_page_link
@@ -46,5 +35,31 @@ module Scraper
           DaftSearchResult.new(listing, @county).save
         end
       end
+  end
+
+  class ListingsScraperJob
+    def initialize(county)
+      @county = county
+    end
+
+    # Update the towns list before we scrape since we need the towns to be right
+    # in order to correctly parse the daft_titles of the listings
+    def before(job)
+      Scraper::TownsScraper.new(@county).refresh_towns
+    end
+
+    def perform
+  #    TODO decide should I update the towns in this county first. Problably is wise
+      @scraper = Scraper::ListingsScraper.new(@county).refresh_listings
+    end
+  
+    def success(job)
+      Rails.logger.debug "Successfully scraped listings in #{@county.name}"
+      # House.delete_all_not_scraped_in(@county)
+    end
+  
+    #def failure
+    #  House.reset_all_last_scraped(@county)
+    #end
   end
 end

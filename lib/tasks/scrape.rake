@@ -12,14 +12,13 @@ require "scraper/houses_scraper"
 require "scraper/daft_search_result"
 require "scraper/daft_house_page"
 require "scraper/title_parser"
-require "scraper/listings_scraper_job"
 
 # TODO update these rake tasks to use the new Job clasees
 namespace :scrape do
   desc "Enqueue jobs to scrape house listings for every county from daft.ie"
   task :all_listings => :environment do
     County.find_each() do |county|
-      Scraper::ListingsScraper.new(county).refresh_listings
+      Delayed::Job.enqueue Scraper::ListingsScraperJob.new(county)
     end
   end
 
@@ -30,13 +29,13 @@ namespace :scrape do
     puts "Running task"
     args.with_defaults(:county_name => "Fermanagh")
     county = County.find_by_name args.county_name
-    Delayed::Job.enqueue ListingsScraperJob.new(county)
+    Delayed::Job.enqueue Scraper::ListingsScraperJob.new(county)
   end
 
   desc "Visit the show page of all the houses in the database after a particular house id"
   task :houses_all => :environment do |task, args|
     County.find_each() do |county|
-      Scraper::HousesScraper.new(county).visit_houses
+      Delayed::Job.enqueue Scraper::HousesScraperJob.new(county)
     end
   end
 
@@ -44,13 +43,13 @@ namespace :scrape do
   task :houses_in, [:county_name] => :environment do |task, args|
     args.with_defaults(:county_name => "Fermanagh") # 30 = Fermanagh
     county = County.find_by_name args.county_name
-    Scraper::HousesScraper.new(county).visit_houses
+    Delayed::Job.enqueue Scraper::HousesScraperJob.new(county)
   end
 
   desc "Scrape all valid town names from daft"
   task :all_towns => :environment do
     County.find_each() do |county|
-      Scraper::TownsScraper.new(county).refresh_towns
+      Delayed::Job.enqueue Scraper::TownsScraperJob.new(county)
     end
   end
 
@@ -58,6 +57,6 @@ namespace :scrape do
   task :towns_in, [:county_name] => :environment do |task, args|
     args.with_defaults(:county_name => "Fermanagh")
     county = County.find_by_name args.county_name
-    Scraper::TownsScraper.new(county).refresh_towns
+    Delayed::Job.enqueue Scraper::TownsScraperJob.new(county)
   end
 end
