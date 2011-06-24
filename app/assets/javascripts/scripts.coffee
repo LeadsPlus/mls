@@ -3,8 +3,8 @@ $ () ->
 #  $( "a", ".demo" ).click (event) ->
 #    event.preventDefault()
 #
-#  $( "a.gallery" ).fancybox
-#    cyclic: true
+  $( "a.gallery" ).fancybox
+    cyclic: true
 
 #  $( '.collapsed_trigger' ).live 'click', (event) ->
 #    event.preventDefault()

@@ -6,7 +6,6 @@ module Scraper
     end
 
     def visit_houses
-      puts "Visiting all houses in #{@county.name}..."
 
       House.where(:county_id => @county.id).find_each() do |house|
   #      puts "visiting house with ID: #{house.daft_id}"
@@ -38,16 +37,20 @@ module Scraper
       @county = county
     end
 
+    def before(job)
+      puts "Grabbing photos for all houses in #{@county.name}..."
+    end
+
     def perform
       Scraper::HousesScraper.new(@county).visit_houses
     end
 
     def success(job)
-      puts "Scraping of #{@county.name} completed successfully."
+      puts "Scraping of photos for all houses in #{@county.name} completed successfully."
     end
 
     def failure
-      puts "Scraping of #{@county.name} failed."
+      puts "Scraping of photos for all houses in #{@county.name} failed."
     end
   end
 end

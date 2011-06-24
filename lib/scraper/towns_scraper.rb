@@ -37,7 +37,6 @@ module Scraper
 
     def success(job)
       puts "Scraping of towns in #{@county.name} successful."
-      puts "Job details: #{job.inspect}"
     end
   end
 end

@@ -14,8 +14,6 @@ module Scraper
 
     #  this should take approx 30 mins per 10k houses
     def refresh_listings
-      puts "Scraping #{@county.name} via it's Daft county ID: #{@county.daft_id}..."
-
       while next_page_link do
         scrape_house_listings
   #      sleep for a second so we don't kill daft
@@ -45,6 +43,7 @@ module Scraper
     # Update the towns list before we scrape since we need the towns to be right
     # in order to correctly parse the daft_titles of the listings
     def before(job)
+      puts "Refreshing towns and listings in #{@county.name}."
       Scraper::TownsScraper.new(@county).refresh_towns
     end
 

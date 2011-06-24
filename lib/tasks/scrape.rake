@@ -13,7 +13,6 @@ require "scraper/daft_search_result"
 require "scraper/daft_house_page"
 require "scraper/title_parser"
 
-# TODO update these rake tasks to use the new Job clasees
 namespace :scrape do
   desc "Enqueue jobs to scrape house listings for every county from daft.ie"
   task :all_listings => :environment do
@@ -22,8 +21,6 @@ namespace :scrape do
     end
   end
 
-#  the numbers in the daft URLs are probably a UID, perhaps I can use these to only scrape new houses
-#  when i do my second and future run throughs. Could also use it to remove sold houses
   desc "Enqueue a job to scrape a single county based off it's ID"
   task :listings_in, [:county_name] => :environment do |task, args|
     puts "Running task"
