@@ -2,9 +2,11 @@
   <% if @search.errors.any? %>
     <span class="error_count"><%= pluralize(@search.errors.count, 'Error') %>:</span>
     <span class="error_messages">
+      <ul>
       <% @search.errors.full_messages.each do |message| %>
-        <%= message %>
+        <li><%= message %></li>
       <% end %>
+      </ul>
     </span>
   <% end %>
 </div>
