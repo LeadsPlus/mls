@@ -5,7 +5,6 @@ class LocationsSearch
     @exclusions = exclusions
   end
 
-#  TODO I need to be logging what people are search somewhere so I can analyse it
 #  TODO Behavior when searching 'North County Dublin' isn't exaclty correct
   def controlled_search
     return [] if @exclusions.size > 60
