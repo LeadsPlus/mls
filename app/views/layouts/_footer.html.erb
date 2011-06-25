@@ -1,0 +1,11 @@
+<footer>
+  <div id="footer_links" class="float-right">
+    <%= link_to "User Agreement", pages_user_agreement_path, rel: 'nofollow' %>
+    <% if user_signed_in? %>
+      <%= link_to "Profile", user_path(current_user) %>
+      <%= link_to "Sign Out", destroy_user_session_path %>
+    <% else %>
+      <%= link_to "Sign In", new_user_session_path %>
+    <% end %>
+  </div>
+</footer>

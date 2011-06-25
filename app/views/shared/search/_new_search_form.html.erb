@@ -12,7 +12,10 @@
           <div id="payment_slider"></div>
         </div>
         <div class="row">
-          <%# label_tag :search_deposit, 'Deposit' %>
+          <%= label_tag :search_deposit, 'Deposit' %>
+          <%= label_tag :search_term, 'Term' %>
+        </div>
+        <div class="row">
           <%= text_field_tag 'search[deposit]', @search.deposit, :autocomplete => "off", size: 8 %>
 
           <div class="inline buttonset row inline">
@@ -56,18 +59,16 @@
           </div> <!-- buttonset -->
         </div>
         
-        <h3><a href="#">Bedrooms</a></h3>
+        <h3><a href="#">Room Options</a></h3>
         <div>
+          <p>Bedrooms</p>
           <div class="inline buttonset">
             <% BEDROOMS.each do |beds| %>
               <%= checkbox('bedrooms', beds, @search.bedrooms.include?(beds)) %>
               <%= checkbox_label('bedrooms', beds) %>
             <% end %>
           </div> <!-- buttonset -->
-        </div>
-
-        <h3><a href="#">Bathrooms</a></h3>
-        <div>
+          <p>Bathrooms</p>
           <div class="inline buttonset">
             <% BATHROOMS.each do |x| %>
               <%= checkbox('bathrooms', x, @search.bathrooms.include?(x.to_s)) %>

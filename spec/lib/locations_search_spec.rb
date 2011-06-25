@@ -9,6 +9,8 @@ describe 'LocationsSearch' do
       @dublin = Factory :county, name: 'Dublin', daft_id: 1, id: 1
       @baldonnell = Factory :town, name: 'Baldonnell', county: @dublin.name
       @enniskillen = Factory :town
+      @drog_louth = Factory :town, name: "Drogheda", county: 'Louth'
+      @drog_meath = Factory :town, name: "Drogheda", county: 'Meath'
     end
 
     it "of exact match should should return only that county" do
@@ -33,6 +35,9 @@ describe 'LocationsSearch' do
     end
 
     it "of 'North County Dublin' should return ???"
+    it "of 'Drogheda, Dublin' should add the county dublin and towns in Drogheda" do
+      LocationsSearch.new('Drogheda, Dublin').controlled_search.should == [@drog_louth, @drog_meath, @dublin]
+    end
 
     it "of 'Enniskillen, Co. Fermanagh' (Autocomplete) should get the town only" do
       LocationsSearch.new(@enniskillen.identifying_string).controlled_search.should == [@enniskillen]

@@ -24,7 +24,6 @@ div#mortgage_details { margin-bottom: 1em; }
 
 ul.listings {
   clear: both;
-  padding-top: 1em;
   margin: 0;
 }
 
@@ -58,16 +57,18 @@ li.listing {
     margin-right: 10px;
 
     h3 {
-      margin-bottom: 10px;
-      letter-spacing:-1px;
-      color:#444;
+      margin-bottom: 7px;
       line-height:14px;
+      cursor:pointer;
 
       font: {
-        family:Verdana, Geneva, sans-serif;
-        size: 18px;
+        size: 16px;
         weight: bold;
       }
+    }
+
+    h3:hover {
+      text-decoration:underline;
     }
 
     p {
@@ -83,6 +84,7 @@ li.listing {
   .summary {
     float: right;
     width: 170px;
+
     .price {
       color: #18c;
       line-height:18px;
@@ -95,44 +97,20 @@ li.listing {
     }
 
     .payment_frequency {
-      color:#666; font-size:0.9em;
+      color:#666;
+      font-size:1.1em;
+      position:relative;
+      left:-3px;
     }
 
     ul {
-      margin-left: 0;
-      margin-bottom: 10px;
+      margin:0 0 5px 0;
+      padding-top:3px;
+
       li {
-        list-style: none;
+        font-size:11px;
+        margin-bottom:3px;
       }
-    }
-
-    .button {
-      font-family:"Trebuchet MS", Arial, Helvetica;
-      font-weight: bold;
-      text-transform: lowercase;
-      padding: 5px;
-      @include border-radius(5px);
-      margin-top: 10px;
-      width:79px;
-      color:#fff;
-      font-size:10px;
-      text-align:center;
-    }
-
-    .daft_btn {
-      background:#18c;
-    }
-
-    .daft_btn:hover {
-      background:#17a
-    }
-
-    .grey_btn {
-      background:#555;
-    }
-
-    .grey_btn:hover {
-      background:#666;
     }
   }
 }

@@ -4,7 +4,7 @@
 	<div class="house_details">
 		<h3><%= house.title %></h3>
 		<p>
-      <%= truncate(house.description, length: 300) if house.description %>
+      <%= truncate(house.description, length: 325) if house.description %>
     </p>
 	</div>
 	<div class="summary">
@@ -19,8 +19,8 @@
       <li><b>Price:</b> <%= number_to_currency(house.price, unit: '€', precision: 0) %></li>
     </ul>
     <div class="spacer"></div>
-    <%= link_to "view on daft.ie", house.daft_url, class: "button daft_btn corners" %>
-    <%# link_to "more info", house_path(house), class: "button grey_btn corners" %>
+    <%= link_to "view daft.ie", house.daft_url, class: "button blue_btn daft_btn" %>
+    <%= link_to "more info", house_path(house), class: "button grey_btn more_info" %>
   </div>
   <div class="spacer"></div>
 </li>

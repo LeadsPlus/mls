@@ -1,15 +1,53 @@
 @import "variables";
 
-div#header, header {
-  margin: 1em 0em;
+header {
+  width:1000px;
+  margin: 0 auto;
+  background-color:#666;
 
-  span.logo a {
-    float: left;
-    padding: 8px 5px 0 0;
 
-    font: {
-      size: 2em;
-      weight: bold;
+  h1 {
+    position: relative;
+    background-color:#666;
+    text-indent:-9999px;
+    float:left;
+  }
+
+  h1:before, h1:after {
+    content: "";
+    position: absolute;
+    background-color:#666;  /* Match the background */
+    top: 0;
+    bottom: 0;
+    width: 9999px;   /* some huge width */
+    z-index:-9999
+  }
+
+  h1:before {
+    right: 100%;
+    top:-18px
+  }
+
+  h1:after {
+    left: 100%;
+    top:-18px
+  }
+
+  nav {
+    float:right;
+    overflow:hidden;
+
+    ul li {
+      float:left;
+      padding-left:20px;
+
+      a {
+        font-size:14px;
+        font-weight:bold;
+        color:#fff;
+      }
     }
   }
 }
+
+header { padding-top:18px }

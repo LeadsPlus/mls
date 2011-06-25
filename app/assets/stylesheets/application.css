@@ -6,6 +6,7 @@
  *= require support
  *= require layout
  *= require header
+ *= require footer
  *= require search_bar
  *= require results
  *= require smoothness/jquery-ui
