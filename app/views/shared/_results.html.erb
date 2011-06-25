@@ -31,7 +31,7 @@
   <!-- THis is making the URI too long and it gets rejected -->
   <%= paginate matches, :params => {:controller => 'searches',
                                     :action => 'show', :id => search.id},
-                                    :method => :post, :remote => true %>
+                                    :remote => true %>
 </div>
 <% else %>
 <div id="results">

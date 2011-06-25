@@ -5,9 +5,18 @@ class County < ActiveRecord::Base
   attr_accessible :name, :daft_id
   has_many :houses
 
+  index do name; end
+
   def towns
     Town.where(:county => county)
   end
+
+#  the locations controller needs to be updated anytime this method is changed
+  def identifying_string
+    @identifying_string ||= "Anywhere in Co. #{name}"
+  end
+
+  def code; "c#{id}"; end
 
   def self.reset
     County.delete_all

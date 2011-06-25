@@ -18,7 +18,7 @@ describe House do
       address: '546 Loughshore Road, Carranbeg',
       property_type: 'Detached House',
       last_scrape: nil,
-#      property_type_uid
+      region_name: 'Co. Fermanagh'
     }
   end
 
@@ -29,6 +29,38 @@ describe House do
   it "should set the property_type_uid before creating" do
     house = House.create(@attr)
     house.property_type_uid.should == PropertyType.convert_to_uid(@attr[:property_type])
+  end
+
+#  TODO these tests need to be expanded to make sure I only reset houses in the county that was scraped
+  describe "delete_not_scraped method" do
+    before(:each) do
+      @scraped_house = House.create(@attr.merge(:last_scrape => 1))
+      @not_scraped_house = House.create(@attr)
+    end
+
+    it "should delete the houses which havent been scraped" do
+      expect {
+        House.delete_all_not_scraped
+      }.to change(House, :count).by(-1)
+    end
+
+    it "should not delete the houses which have been scraped" do
+      House.delete_all_not_scraped
+      House.all.should == [@scraped_house]
+    end
+
+    it "should reset the last_scrape attributes of all houses to nil" do
+      House.delete_all_not_scraped
+      @scraped_house.last_scrape.should == nil
+    end
+
+    it "should have a method to reset all the last scrapes" do
+      House.should respond_to :delete_all_last_scrapes
+    end
+
+    it "method: reset_all_last_scrapes should reset all alst scrape attrs to nil" do
+      @scraped_house.last_scrape.should == nil
+    end
   end
 
   describe "payment_required method" do

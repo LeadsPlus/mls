@@ -1,64 +1,57 @@
 $ () ->
   $( ".buttonset" ).buttonset()
-  $( "a", ".demo" ).click (event) ->
-    event.preventDefault()
-
+#  $( "a", ".demo" ).click (event) ->
+#    event.preventDefault()
+#
   $( "a.gallery" ).fancybox
     cyclic: true
+
+#  $( '.collapsed_trigger' ).live 'click', (event) ->
+#    event.preventDefault()
+#    $( this ).parent().next( '.collapsed_content' ).toggleClass 'hidden'
 
   $( '.collapsed_trigger' ).live 'click', (event) ->
     event.preventDefault()
     $( this ).parent().next( '.collapsed_content' ).toggleClass 'hidden'
 
-  $( "#new_search" )
-    .bind 'ajax:before', (event) ->
-      $( this ).find( 'div#error_target' ).html( '' )
-    .bind 'ajax:beforeSend', (event, xhr, settings) ->
-      settings.data += "&#{ $( "#filter_options, #search_town_form input[type='hidden']" ).serialize() }"
-#     this will be replaced by the results when the response returns
-#     actually this is a bad idea, what if the response never comes??
-      $( this ).find( 'span.loading' ).append '<img src="<%= asset_path('loading.gif') %>" />'
-    .bind 'ajax:complete', (event, xhr, status) ->
-      $( this ).find( 'span.loading' ).text ''
-    .bind 'ajax:success', () ->
-#      TODO fix the url and back button
-
 #  controls for  the towns list
-  $( 'div#towns_list' )
+  $( 'div#loc_search_options' )
     .find( 'a.delete_town' ).live 'click', (e) ->
       e.preventDefault()
-      $( this ).parent( 'li' ).remove()
+      $( this ).parent( 'li' ).fadeOut().remove()
     .end()
     .find( 'a#delete_all' ).live 'click', (e) ->
       e.preventDefault()
-      $( this ).next( 'ul' ).children( 'li' ).remove()
+      $( 'div#loc_search_options' ).find( 'li' ).fadeOut().remove()
+      $('#search_town').val('')
 
-#  Advanced search option dialog
-  $( 'div#advanced_search_dialog' ).dialog
-    autoOpen: false,
-    modal: true,
-    width: 430,
-    height: 500,
-    resizable: false,
-    draggable: false,
-    hide: 'fade',
-    show: 'fade',
-    title: "Advanced Search Options",
-    buttons:
-      "Ok": () ->
-        $.rails.handleRemote( $( "#new_search" ) )
-        $( this ).dialog 'close'
-      "Cancel": () ->
-#        need to reset any superficial changes on the advanced form
-        $( "#filter_options" )[0].reset()
-        $( this ).dialog 'close'
-        
-  $( "div#advanced_search_fields" ).tabs()
+  $(".accordion").accordion { collapsible: true, active: false }
 
-  $( "a#advanced_search_trigger" ).click (e) ->
-    e.preventDefault()
-    $( "div#advanced_search_dialog" ).dialog 'open'
+  console.log $( ".new_search" )
 
+#  event handlers for the search form
+  $( "#search" )
+    .bind 'ajax:before', (event) ->
+      $( '#search_bar' ).find( 'div#error_target' ).html ''
+    .bind 'ajax:beforeSend', (event, xhr, settings) ->
+      settings.data += "&#{ $( "#mort_fields, #option_fields, #search_town_form input[type='hidden']" ).serialize() }"
+#     this will be replaced by the results when the response returns
+#     actually this is a bad idea, what if the response never comes??
+      $( this ).find( 'span.loading' ).append '<img src="assets/loading.gif" />'
+    .bind 'ajax:complete', (event, xhr, status) ->
+      $( this ).find( 'span.loading' ).text ''
+    .bind 'ajax:success', (event, data, status) ->
+#      TODO fix the url and back button
+
+##  handling for the search form on the 'start' (intended homepage) page
+##  TODO none of this works yet
+#  $('form#start_new_search')
+#    .bind 'ajax:beforeSend', (event, xhr, settings) ->
+#      settings.data += "&#{ $("#new_search, #search_town_form input[type='hidden'], #filter_options").serialize() }"
+#    .bind 'ajax:complete', (event, xhr, status) ->
+#      log xhr
+##      document.location.href = 'hello'
+#
   min_payment = $( "input#search_min_payment" )
   max_payment = $( "input#search_max_payment" )
   $minTooltip = $("<span class=\"ui-slider-tooltip ui-widget-content ui-corner-all\">
@@ -77,7 +70,7 @@ $ () ->
     range: true,
     min: 200,
     max: 2000,
-    step: 10,
+    step: 50,
     values: [ min_payment.val() , max_payment.val() ],
     slide: ( event, ui ) ->
       min_payment.val( ui.values[ 0 ] )

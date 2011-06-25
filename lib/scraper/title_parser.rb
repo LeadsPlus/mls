@@ -12,10 +12,6 @@ module Scraper
       @county = county
     end
 
-#    I could start at the rightmost ' - ' and work backwards. Semi-D has no spaces in it's hyphen
-#    assumption: None of the property type identifiers ever have a ' - ' in them.
-#    assumption: Even when the property type is not supplied, the hyphen is still there
-
     def split_index
       @daft_title.rindex(/ - /)
     end

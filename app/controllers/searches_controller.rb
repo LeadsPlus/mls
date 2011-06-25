@@ -14,7 +14,8 @@ class SearchesController < ApplicationController
 
   def show
     @search = Search.includes(:rate).find(params[:id])
-    @matches = @search.matches.order(sort_column + " " + sort_direction).page(params[:page])
+    @matches = @search.matches.includes(:photos)
+                      .order(sort_column + " " + sort_direction).page(params[:page])
     @rate = @search.rate
 
     add_search_bar
@@ -27,13 +28,18 @@ class SearchesController < ApplicationController
   end
 
   def start
-    @search = Search.new( :min_payment => 800,
-                          :max_payment => 1100,
-                          :term => 230,
-                          :deposit => 50000,
-                          :locations => "Enniskillen",
-                          :lender => LENDERS,
-                          :loan_type => LOAN_TYPES)
+    @search = Search.create!({
+      max_payment: 1100,
+      min_payment: 800,
+      deposit: 50000,
+      term: 30,
+      locations: ['191', '188', '57'],
+      lender_uids: LENDER_UIDS,
+      loan_type_uids: LOAN_TYPE_UIDS,
+      bedrooms: ['3', '4', '5'],
+      bathrooms: ['1', '2', '3'],
+      prop_type_uids: PropertyType.uids
+    })
   end
 
   def new

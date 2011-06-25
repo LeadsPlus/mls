@@ -7,7 +7,7 @@ require "finance/mortgage"
 class House < ActiveRecord::Base
   attr_accessible :price, :description, :county_id, :image_url, :daft_id,
                   :property_type, :property_type_uid, :daft_title, :bedrooms,
-                  :bathrooms, :address, :town_id, :region_name
+                  :bathrooms, :address, :town_id, :region_name, :last_scrape
   attr_reader :payment_required
   
   paginates_per(10)
@@ -22,15 +22,28 @@ class House < ActiveRecord::Base
   end
 
   def title
-    "#{address}, #{town.name}, Co. #{county.name}"
+    "#{address}, #{town.name}"
   end
   
   def daft_url
     "http://www.daft.ie/searchsale.daft?id=#{daft_id}"
   end
 
-  def self.in town_ids
-    where('houses.town_id' => town_ids)
+#  TODO change this so it searches mor houses with matching county_ids either
+  def self.in location_ids
+    Rails.logger.debug "Town ids: #{town_ids(location_ids)} "
+    Rails.logger.debug "County ID's: #{county_ids(location_ids)}"
+    where(arel_table[:town_id].in(town_ids(location_ids))
+          .or(arel_table[:county_id].in(county_ids(location_ids))))
+  end
+
+#  TODO no point having these methods in both the town and house model
+  def self.town_ids location_ids
+    @town_ids ||= location_ids.select {|id| id[0] == 't' }.map {|id| id.gsub(/\D/, '').to_i }
+  end
+
+  def self.county_ids location_ids
+    @county_ids ||= location_ids.select {|id| id[0] == 'c' }.map {|id| id.gsub(/\D/, '').to_i }
   end
 
   def self.cheaper_than price
@@ -69,6 +82,22 @@ class House < ActiveRecord::Base
     Finance::Mortgage.new(rate, term, users_deposit, self.price).payment_required
   end
 
+#  TODO these need to have county integrated
+#  what happens if I scrape kildare only, I can't go and delete houses in other
+#  counties because their scrape id wasn't affected
+  def self.delete_all_not_scraped
+    find_each() do |house|
+      house.delete if house.last_scrape.nil?
+    end
+  end
+
+#  same deal down here
+  def self.reset_all_last_scraped
+    find_each() do |house|
+      house.update_attributes(last_scrape: nil)
+    end
+  end
+
 #  doing extensive validations at this point is dangerous since I'm using a scraper
 #  which leads to whacky results. I don't want to drop houses because of it.
   validates :county_id, presence: true, numericality: true
@@ -80,7 +109,7 @@ class House < ActiveRecord::Base
                       :numericality => { :greater_than => 0 }
 
   def self.reset
-    House.delete_all
+    self.delete_all
     ActiveRecord::Base.connection.execute "SELECT setval('public.houses_id_seq', 1, false)"
   end
 

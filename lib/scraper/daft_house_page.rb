@@ -16,7 +16,7 @@ module Scraper
               house_id: @house.id
           })
     #     I think I'm ok to just save the photo, if it's there
-          photo.save!
+          photo.save
         end
       end
     end

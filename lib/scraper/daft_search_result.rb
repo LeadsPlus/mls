@@ -10,9 +10,12 @@ module Scraper
     end
 
     def title_parser
-      return Scraper::DublinTitleParser.new(daft_title, @county) if @county.name == 'Dublin'
-      return Scraper::NiTitleParser.new(daft_title, @county) if NI_COUNTIES.include?(@county.name)
-      Scraper::TitleParser.new(daft_title, @county)
+      unless @title_parser
+        @title_parser = Scraper::DublinTitleParser.new(daft_title, @county) if @county.name == 'Dublin'
+        @title_parser = Scraper::NiTitleParser.new(daft_title, @county) if NI_COUNTIES.include?(@county.name)
+        @title_parser = Scraper::TitleParser.new(daft_title, @county)
+      end
+      @title_parser
     end
 
     #  returns nil if no digits in price selector, string otherwise
@@ -93,7 +96,8 @@ module Scraper
           bathrooms: rooms[1],
           address: @title_parser.address,
           property_type: @title_parser.type,
-          region_name: @title_parser.region
+          region_name: @title_parser.region,
+          last_scrape: 1
         })
         house.county = @county
         house.town = @title_parser.town

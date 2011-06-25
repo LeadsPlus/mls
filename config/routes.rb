@@ -23,9 +23,13 @@ Mls::Application.routes.draw do
   match 'start' => "searches#start"
   resources :searches, :only => [:new, :create, :show, :index]
 
-  resources :towns, :only => [:index] do
+  resources :towns do
+#    the route for the autocomplete towns mechanism
     get :autocomplete_town_name, :on => :collection
   end
+
+#  this is the path that the 'Add' button accesses when adding alocation to the locations list
+  resources :locations, :only => [:index]
 
   # Sample resource route with options:
   #   resources :products do

@@ -1,21 +1,19 @@
 # if this class gets any more complicated (I suspect it will), I should probably make seperate
 # ListingScraperJob class which invokes this one and use that to pass into delayed_job like command pattern
+# TODO once I'm sure the new job object works well. Refactor! and delegate!
 
 module Scraper
   class ListingsScraper < Scrape
+
     def initialize(county)
       super()
       @county = county
+      @url = "http://www.daft.ie/searchsale.daft?s%5Bcc_id%5D=c#{@county.daft_id}&search=1&submit.x=23&submit.y=11"
+      @agent.get(@url)
     end
 
     #  this should take approx 30 mins per 10k houses
     def refresh_listings
-      url = "http://www.daft.ie/searchsale.daft?s%5Bcc_id%5D=c#{@county.daft_id}&search=1&submit.x=23&submit.y=11"
-      puts "Scraping #{@county.name} via it's Daft county ID: #{@county.daft_id}..."
-  #    trying to put Mechanize initialization in the initialize method makes SJ prone to failure
-      @agent = Mechanize.new
-      @agent.get(url)
-
       while next_page_link do
         scrape_house_listings
   #      sleep for a second so we don't kill daft
@@ -23,25 +21,6 @@ module Scraper
         @agent.user_agent_alias = random_agent
         next_page_link.click
       end
-    end
-    handle_asynchronously :refresh_listings
-
-#    this is retarded obviously, should be done with a block or delegated somewhat
-#    the danger is that I'll make the thing too complicated for delayed_job to perform normal scraping
-    def generate_fixtures(path)
-      url = "http://www.daft.ie/searchsale.daft?s%5Bcc_id%5D=c#{@county.daft_id}&search=1&submit.x=23&submit.y=11"
-      puts "Scraping #{@county.name} via it's Daft county ID: #{@county.daft_id}..."
-  #    trying to put Mechanize initialization in the initialize method makes SJ prone to failure
-      @agent = Mechanize.new
-      @agent.get(url)
-
-      begin
-        file = File.open(path, 'w')
-      rescue
-        puts "File cannot open"
-      end
-      file << @agent.page.search(".content")[0]
-      file.close
     end
 
     private
@@ -54,5 +33,32 @@ module Scraper
           DaftSearchResult.new(listing, @county).save
         end
       end
+  end
+
+  class ListingsScraperJob
+    def initialize(county)
+      @county = county
+    end
+
+    # Update the towns list before we scrape since we need the towns to be right
+    # in order to correctly parse the daft_titles of the listings
+    def before(job)
+      puts "Refreshing towns and listings in #{@county.name}."
+      Scraper::TownsScraper.new(@county).refresh_towns
+    end
+
+    def perform
+  #    TODO decide should I update the towns in this county first. Problably is wise
+      @scraper = Scraper::ListingsScraper.new(@county).refresh_listings
+    end
+  
+    def success(job)
+      Rails.logger.debug "Successfully scraped listings in #{@county.name}"
+      # House.delete_all_not_scraped_in(@county)
+    end
+  
+    #def failure
+    #  House.reset_all_last_scraped(@county)
+    #end
   end
 end

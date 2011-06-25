@@ -5,13 +5,14 @@ require "spec_helper"
 require Rails.root.join('lib','scraper','scraper')
 require Rails.root.join('lib','scraper','daft_search_result')
 require Rails.root.join('spec', 'fixtures', 'property_fixture')
+require "#{Rails.root}/lib/scraper/title_parser"
 
 describe "DaftSearchResult" do
   before(:all) do
-    @no_baths = PropertyFixture.new 'no_baths'
-    @no_beds_or_baths = PropertyFixture.new 'no_beds_or_baths'
-    @site = PropertyFixture.new 'site'
-    @type_in_beds = PropertyFixture.new'type_in_beds'
+    @no_baths = PropertyFixture.new('no_baths')
+    @no_beds_or_baths = PropertyFixture.new('no_beds_or_baths')
+    @site = PropertyFixture.new('site')
+    @type_in_beds = PropertyFixture.new('type_in_beds')
 
     @files = [
               PropertyFixture.new('listing'),
@@ -21,7 +22,8 @@ describe "DaftSearchResult" do
               @no_baths,
               @no_beds_or_baths,
               @site,
-              @type_in_beds
+              @type_in_beds,
+              PropertyFixture.new('auction_price')
               ]
 
     @fermanagh = Factory :county
@@ -44,63 +46,14 @@ describe "DaftSearchResult" do
 #    end
   end
 
-  describe "daft_title manipulation methods" do
-    it "should get the correct title" do
-      @files.each do |file|
-        file.extracted.daft_title.should == file.expected_daft_title
-      end
-    end
-
-#    the following for tests should be deleted and the associated methods made private
-    it "should get the correct county index" do
-      @files.each do |file|
-        file.extracted.county_index.should == file.expected_county_index.to_i
-      end
-    end
-
-    it "should work out the correct title upto county" do
-      @files.each do |file|
-        file.extracted.title_upto_county.should == file.expected_title_upto_county
-      end
-    end
-
-    it "should work out the correct county onwards" do
-      @files.each do |file|
-        file.extracted.county_onwards.should == file.expected_county_onwards
-      end
-    end
-
-    it "should work out the correct town index" do
-      @files.each do |file|
-        file.extracted.town_index.should == file.expected_town_index.to_i
-      end
-    end
-
-    it "should work out the correct town name" do
-      @files.each do |file|
-        file.extracted.stripped_town.should == file.expected_stripped_town
-      end
-    end
-
-    it "should extract the address correctly" do
-      @files.each do |file|
-        file.extracted.address.should == file.expected_address
-      end
-    end
-
-#    this is going to break if I use it with non Fermanagh listings
-    it "should create an association with the correct Town" do
-      @files.each do |file|
-        file.extracted.town.should == Town.find_by_name_and_county(file.expected_town, @fermanagh.name)
-      end
-    end
-
-    it "should work out the correct property type" do
-      @files.each do |file|
-        file.extracted.type.should == file.expected_type
-      end
+  it "should get the correct daft_title" do
+    @files.each do |file|
+      file.extracted.daft_title.should == file.expected_daft_title
     end
   end
+
+  # I've neglected to test all the title extraction methods here since
+  # those classes have their own tests
 
   describe "working out the number of rooms" do
     it "should have a rooms method" do

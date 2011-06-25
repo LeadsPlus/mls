@@ -10,6 +10,7 @@ Factory.define House do |house|
   house.property_type "Semi-Detached House"
   house.bathrooms 4
   house.bedrooms 5
+  house.region_name "Co. Wicklow"
   house.association :town
   house.association :county
 end
@@ -60,14 +61,15 @@ Factory.sequence :photo_url do |n|
 end
 
 Factory.define Town do |c|
-  c.name "Eniskillan"
+  c.name "Eniskillen"
   c.daft_id "3fe3"
-  c.association :county
+  c.county "Fermanagh"
 end
 
 Factory.define County do |c|
   c.name "Fermanagh"
   c.daft_id 30
+  c.id 30
 end
 
 Factory.define Usage do |u|

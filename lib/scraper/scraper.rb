@@ -23,6 +23,7 @@ module Scraper
                      "Mac FireFox", "Mac Mozilla"]
 
     def initialize
+      @agent = Mechanize.new
       add_modern_aliases
     end
 

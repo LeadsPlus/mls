@@ -21,8 +21,10 @@
   <div id="notice"></div>
   <div id="alert"></div>
   <div class="spacer"></div>
-  <%= render "shared/search/new_search_form" if @search_form %>
-  <%= yield %>
+  <div id="content">
+    <%= render "shared/search/new_search_form" if @search_form %>
+    <%= yield %>
+  </div>
   <% if content_for? :sidebar %>
     <div id="sidebar">
     <%= yield :sidebar %>

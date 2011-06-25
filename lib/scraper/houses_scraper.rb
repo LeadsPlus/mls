@@ -6,15 +6,14 @@ module Scraper
     end
 
     def visit_houses
-      puts "Visiting all houses in #{@county.name}..."
-      @agent = Mechanize.new
 
       House.where(:county_id => @county.id).find_each() do |house|
   #      puts "visiting house with ID: #{house.daft_id}"
+  #      randomize the user agent
+        @agent.user_agent_alias = random_agent
         store_visit house
       end
     end
-    handle_asynchronously :visit_houses
 
     private
       def store_visit(house)
@@ -31,5 +30,27 @@ module Scraper
         DaftHousePage.new(@agent.page, house).save_photos
         sleep 1
       end
+  end
+
+  class HousesScraperJob
+    def initialize(county)
+      @county = county
+    end
+
+    def before(job)
+      puts "Grabbing photos for all houses in #{@county.name}..."
+    end
+
+    def perform
+      Scraper::HousesScraper.new(@county).visit_houses
+    end
+
+    def success(job)
+      puts "Scraping of photos for all houses in #{@county.name} completed successfully."
+    end
+
+    def failure
+      puts "Scraping of photos for all houses in #{@county.name} failed."
+    end
   end
 end

@@ -14,7 +14,7 @@ describe Finance::ReverseMortgage do
 
   describe "principal method" do
     before(:each) do
-      @mortgage = ReverseMortgage.new(@rate, @term, @users_deposit, @payment)
+      @mortgage = Finance::ReverseMortgage.new(@rate, @term, @users_deposit, @payment)
     end
 
     it "should have a payment method" do
@@ -28,7 +28,7 @@ describe Finance::ReverseMortgage do
 
   describe "total paid method" do
     before(:each) do
-      @mortgage = ReverseMortgage.new(@rate, @term, @users_deposit, @payment)
+      @mortgage = Finance::ReverseMortgage.new(@rate, @term, @users_deposit, @payment)
     end
 
     it "should have a total_paid method" do
@@ -42,15 +42,15 @@ describe Finance::ReverseMortgage do
 
   describe "affordable method" do
     before(:each) do
-      @affordable_mortgage = ReverseMortgage.new(@rate, @term, @users_deposit, @payment)
-      @unaffordable_mortgage = ReverseMortgage.new(@rate, @term, 2000, @payment)
+      @affordable_mortgage = Finance::ReverseMortgage.new(@rate, @term, @users_deposit, @payment)
+      @unaffordable_mortgage = Finance::ReverseMortgage.new(@rate, @term, 2000, @payment)
     end
 
     it "should have an unaffordable method" do
       @affordable_mortgage.should respond_to :unaffordable?
     end
 
-    it "should recocnise an affordable mortgage as such" do
+    it "should recognise an affordable mortgage as such" do
       @affordable_mortgage.unaffordable?.should == false
     end
 
@@ -61,7 +61,7 @@ describe Finance::ReverseMortgage do
 
   describe "price method" do
     before(:each) do
-      @mortgage = ReverseMortgage.new(@rate, @term, @users_deposit, @payment)
+      @mortgage = Finance::ReverseMortgage.new(@rate, @term, @users_deposit, @payment)
     end
 
     it "should have a price method" do

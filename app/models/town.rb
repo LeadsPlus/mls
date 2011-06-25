@@ -7,32 +7,14 @@ class Town < ActiveRecord::Base
   attr_accessible :name, :daft_id, :county
   has_many :houses
 
-  index do
-    name
-    county
+  index do name; county end
+
+#  the locations controller needs to be updated anytime this method is changed
+  def identifying_string
+    @identifying_string ||= "#{name}, Co. #{county}"
   end
 
-  def self.search_except keywords, town_ids
-#    can't allow town_ids to be null
-    return search(keywords) if town_ids.blank?
-    where("towns.id NOT IN (?)", town_ids.map{|t_id| t_id.to_i }).search(keywords)
-  end
-
-  def self.tsearch_except keywords, town_ids
-    return tsearch(keywords) if town_ids.blank?
-    where("towns.id NOT IN (?)", town_ids.map{|t_id| t_id.to_i }).tsearch(keywords)
-  end
-
-  def self.controlled_search keywords, town_ids
-    search_results = search_except keywords, town_ids
-    return search_results if search_results.count > 0
-    fuzzy_search_results = tsearch_except keywords, town_ids
-    return fuzzy_search_results
-  end
-
-  def address
-    @address ||= "#{name}, #{county}"
-  end
+  def code; "t#{id}"; end
 
 #  TODO validations
 
