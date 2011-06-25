@@ -1,15 +1,15 @@
 <li class="listing" id="house_<%= house.id %>">
 	<%= image_tag house.image_url, size: '160x120' %>
-  <%= render partial: "shared/house/photo", collection: house.photos %>
+  <%# render partial: "shared/house/photo", collection: house.photos %>
 	<div class="house_details">
 		<h3><%= house.title %></h3>
 		<p>
-      <%= house.description if house.description %>
+      <%= truncate(house.description, length: 300) if house.description %>
     </p>
 	</div>
 	<div class="summary">
     <span class="price">
-      <%= number_to_currency(-house.payment_required(@rate, @search.term, @search.deposit), unit: '€') %>
+      <%= number_to_currency(-house.payment_required(@rate, @search.term, @search.deposit), unit: '€', precision: 0) %>
     </span>
     <span class="payment_frequency">/ month</span>
     <ul>

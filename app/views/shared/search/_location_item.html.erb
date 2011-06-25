@@ -5,6 +5,5 @@
   <% elsif location_item.class == Town %>
     <%= hidden_field_tag "search[locations][]", "t#{location_item.id}" %>
   <% end %>
-   (<%= location_item.houses.count %>)
   <a href="" class="delete_town">X</a>
 </li>

@@ -1,8 +1,8 @@
 @import "variables";
 
 div#wrapper {
-  width: $wrapper_width;
+  width: 1000px;
   margin: 0 auto;
 }
 
-div#content { width: 767px; float:left; }
+div#content { width: 700px; float:left; }

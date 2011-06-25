@@ -1,7 +1,7 @@
 @import "variables";
 
 div#results_container {
-  width: 756px;
+  width: 700px;
   float: left;
   /* TODO find antoher way to move this up */
   /*position: relative;*/
@@ -45,25 +45,35 @@ li.listing {
   }
 
   img:hover {
-    opacity:0.8;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    filter: alpha(opacity=80);
+    -moz-opacity:0.8;
+    -khtml-opacity: 0.8;
+    opacity: 0.8;
   }
 
   .house_details {
     float: left;
-    width: 410px;
+    width: 350px;
     margin-right: 10px;
 
     h3 {
-      margin-bottom: 5px;
+      margin-bottom: 10px;
+      letter-spacing:-1px;
+      color:#444;
+      line-height:14px;
 
       font: {
-        size: 1.1em;
+        family:Verdana, Geneva, sans-serif;
+        size: 18px;
         weight: bold;
       }
     }
 
     p {
       color: #666;
+      line-height:17px;
+      
       font: {
         size: 0.9em;
       }
@@ -72,12 +82,14 @@ li.listing {
 
   .summary {
     float: right;
-    width: 163px;
+    width: 170px;
     .price {
       color: #18c;
+      line-height:18px;
+
       font: {
-        family: "lucida grande";
-        size: 1.2em;
+        family:Verdana, Geneva, sans-serif;
+        size: 26px;
         weight: bold;
       }
     }

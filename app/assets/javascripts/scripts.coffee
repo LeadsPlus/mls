@@ -18,11 +18,11 @@ $ () ->
   $( 'div#loc_search_options' )
     .find( 'a.delete_town' ).live 'click', (e) ->
       e.preventDefault()
-      $( this ).parent( 'li' ).remove()
+      $( this ).parent( 'li' ).fadeOut()
     .end()
     .find( 'a#delete_all' ).live 'click', (e) ->
       e.preventDefault()
-      $( 'div#loc_search_options' ).find( 'li' ).remove()
+      $( 'div#loc_search_options' ).find( 'li' ).fadeOut()
       $('#search_town').val('')
 
   $(".accordion").accordion { collapsible: true, active: false }

@@ -2,13 +2,8 @@
 
 div#sidebar {
   // top padding has to be large enough to keep tooltips in sidebar
-  $pl: 5px; $pr: 2px; $pt: 16px; $pb: 5px;
-  $ml: 9px;
-  width: 206px;
-  float: left;
-  min-height: 400px;
-  background-color: white;
-  padding: $pt $pr $pb $pl;
+  width: 260px;
+  float: right;
 
   #search_controls { margin-bottom: 1.5em; }
   div.buttonset { margin-top: 0; }
@@ -50,36 +45,38 @@ div#search_bar {
 
   .search_section { padding: 1em 0; border-bottom: 1px solid #aaa; }
 
-  div#slider_row { padding-bottom: 1em; }
+  div#slider_row { padding-bottom: 15px; border-bottom:1px dotted #ccc; margin-bottom:15px }
 
   a#delete_all { margin-top: .3em; float: right; }
 
   div#towns_list {
-    ul { margin-left: 0; }
+    ul { margin-left: 0; padding-top:3px }
     li {
-      @include border-radius(5px);
-      float: left;
+      float:left;
       list-style: none;
+      font-size:12px;
+      width:250px;
       background-color: #dfeaf4;
-      padding:2px;
-      color: $link_hover;
-      border: 1px dotted $link_hover;
-      margin-bottom: 3px;
+      padding:3px 5px;
+      color: #333;
+      margin-bottom: 1px;
 
       font: {
         size: .9em;
       }
     }
   }
+  #search_town { border:1px solid #ccc; padding:3px 5px } #search_town:focus { outline:0; border-color:#bbb }
+  #add_location { border:0; padding:3px 5px; background-color:#18c; color:#fff; border:1px solid #333 }
 }
 
 
  .ui-accordion { width: 100%; }
- .ui-accordion .ui-accordion-header { cursor: pointer; position: relative; margin-top: 1px; zoom: 1; }
+ .ui-accordion .ui-accordion-header { background-color:#18c; cursor: pointer; border:1px solid #333; position: relative; margin-bottom: 1px; zoom: 1; }
  .ui-accordion .ui-accordion-li-fix { display: inline; }
  .ui-accordion .ui-accordion-header-active { border-bottom: 0 !important; }
- .ui-accordion .ui-accordion-header a { display: block; font-size: 1em; padding: .5em .5em .5em .7em; }
- .ui-accordion-icons .ui-accordion-header a { padding-left: 2.2em; }
+ .ui-accordion .ui-accordion-header a { display: block; font-size: 12px; padding:3px 5px; color:#fff }
+ .ui-accordion-icons .ui-accordion-header a { padding-left: 2.2em; color:#fff }
  .ui-accordion .ui-accordion-header .ui-icon { position: absolute; left: .5em; top: 50%; margin-top: -8px; }
  // had to overwrite accordian padding because it was massive
  .ui-accordion .ui-accordion-content { padding: 1em .2em; border-top: 0; margin-top: -2px; position: relative; top: 1px; margin-bottom: 2px; overflow: auto; display: none; zoom: 1; } 
@@ -89,11 +86,13 @@ div#search_bar {
 ul li.input { list-style: none; display: inline; margin-left: 1em; }
 
 // Styling for slider and tooltips
-.ui-slider .ui-slider-handle { position: absolute; z-index: 2; width: 1em; height: 1em; cursor: default; }
-.ui-slider .ui-slider-range { position: absolute; z-index: 1; font-size: .7em; display: block; border: 0; background-position: 0 0; }
+.ui-slider .ui-slider-handle { position: absolute; background-color:#eee; z-index: 2; width: 1.5em; height: 1.1em; cursor: default; }
+.ui-slider .ui-slider-handle:hover { border-color:#bbb; background-color:#eee; }
+.ui-slider .ui-slider-handle:focus { outline:0 }
+.ui-slider .ui-slider-range { position: absolute; z-index: 1; background-color:#18c; font-size: .7em; display: block; border: 0; background-position: 0 0; }
 
-.ui-slider-horizontal { height: 0.4em; width: 14em; }
-.ui-slider-horizontal .ui-slider-handle { top: -.4em; margin-left: -.6em; }
+.ui-slider-horizontal { height: 0.8em }
+.ui-slider-horizontal .ui-slider-handle { top: -.25em; margin-left: -.4em; margin-right: -.4em; }
 .ui-slider-horizontal .ui-slider-range { top: 0; height: 100%; }
 .ui-slider-horizontal .ui-slider-range-min { left: 0; }
 .ui-slider-horizontal .ui-slider-range-max { right: 0; }
@@ -109,9 +108,14 @@ ul li.input { list-style: none; display: inline; margin-left: 1em; }
 .ui-slider .ui-slider-tooltip {
   display: block;
   position: absolute;
-  bottom: 1.9em;
+  font-size:12px;
+  font-weight:bold;
+  background-color:#333;
+  color:#fff;
+  border:0;
+  bottom: 2.4em;
   text-align: center;
-  padding: .1em;
+  padding:3px 5px;
   font-size: .7em;
   width: 3.4em;
   margin-left: -1.1em;
@@ -144,10 +148,6 @@ ul li.input { list-style: none; display: inline; margin-left: 1em; }
   left: -6px;
 }
 .ui-slider a {
-  text-decoration: none;
-  border: none;
-}
-.ui-slider a:active {
   text-decoration: none;
   border: none;
 }

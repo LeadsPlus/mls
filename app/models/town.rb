@@ -7,10 +7,7 @@ class Town < ActiveRecord::Base
   attr_accessible :name, :daft_id, :county
   has_many :houses
 
-  index do
-    name
-    county
-  end
+  index do name; county end
 
   def self.search_except keywords, excluded_ids
 #    can't allow chosen_loc_ids to be null

@@ -22,7 +22,7 @@ class House < ActiveRecord::Base
   end
 
   def title
-    "#{address}, #{town.name}, #{region_name}"
+    "#{address}, #{town.name}"
   end
   
   def daft_url

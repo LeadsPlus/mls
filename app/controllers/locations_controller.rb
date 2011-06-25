@@ -4,13 +4,15 @@ class LocationsController < ApplicationController
     @locations = controlled_search(params[:name], params[:search][:locations])
 
     respond_to do |format|
-      format.html
       format.js
     end
   end
 
 #  TODO searching 'North County Dublin' causes a ton off locations to be added to the towns list
-  def controlled_search keyword, exclusions
+#  TODO searching for any of the Autocomplete tags causes tons of results to show up
+#  TODO check if the exclusions list is already huge and return error if so
+#  TODO I need to be logging what people are search somewhere so I can analyse it
+  def controlled_search keyword, exclusions=[]
     keyword = sanitize keyword
 #    Rails.logger.debug "County ID's #{county_exclusions(exclusions)}"
 #    Rails.logger.debug "Town ID's #{town_exclusions(exclusions)}"
@@ -30,7 +32,8 @@ class LocationsController < ApplicationController
   end
 
   def sanitize keywords
-    keywords.gsub(/(\banywhere\b|\bin\b|\bCo\.\b|,\b)/, '')
+    # the name for these things is 'stop words'
+    keywords.gsub(/(Anywhere in Co. |, Co\.|County)/, '').strip
   end
 
   def county_exclusions exclusions

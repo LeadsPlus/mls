@@ -5,9 +5,7 @@ class County < ActiveRecord::Base
   attr_accessible :name, :daft_id
   has_many :houses
 
-  index do
-    name
-  end
+  index do name; end
 
   def towns
     Town.where(:county => county)
