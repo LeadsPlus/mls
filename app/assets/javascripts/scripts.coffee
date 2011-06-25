@@ -15,6 +15,7 @@ $ () ->
     $( this ).parent().next( '.collapsed_content' ).toggleClass 'hidden'
 
 #  controls for  the towns list
+#  TODO this fade out/remove isn't working
   $( 'div#loc_search_options' )
     .find( 'a.delete_town' ).live 'click', (e) ->
       e.preventDefault()

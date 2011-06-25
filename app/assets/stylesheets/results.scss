@@ -16,7 +16,7 @@ div#results {
 
 }
 
-a.price_sort { padding-right: 12px; background-repeat: no-repeat; background-position: right center; }
+a.price_sort { padding-right: 12px; background-repeat: no-repeat; background-position: right center; float:right }
 a.price_sort.asc { background-image: url(up_arrow.gif); }
 a.price_sort.desc { background-image: url(down_arrow.gif); }
 
@@ -29,7 +29,7 @@ ul.listings {
 
 li.listing {
   list-style: none;
-  border-bottom: 1px dotted #ccc;
+  border-bottom: 1px dotted #c0c0c0;
   clear: both;
   padding: 1em 0;
 

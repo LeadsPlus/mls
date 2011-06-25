@@ -1,5 +1,6 @@
+# TODO stackoverflow: how to manage rails database yml
+
 development:
-  # <<: *common
   adapter: postgresql
   username: davidtuite
   encoding: utf-8
@@ -11,7 +12,6 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  # <<: *common
   adapter: postgresql
   username: davidtuite
   encoding: utf-8

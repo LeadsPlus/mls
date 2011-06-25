@@ -30,8 +30,8 @@
     <div id="loc_search_options" class="search_section">
       <%= form_tag locations_path, :method => :get, :remote => true, :id => 'search_town_form' do %>
         <div class="clear">
-          <%= autocomplete_field_tag :name, nil, autocomplete_town_name_towns_path, id: 'search_town', size: 26 %>
-          <%= submit_tag :add, id: 'add_location' %>
+          <%= autocomplete_field_tag :name, nil, autocomplete_town_name_towns_path, id: 'search_town', size: 21, placeholder: 'Town or Area' %>
+          <%= submit_tag 'Add Town', id: 'add_location' %>
          <a href="" id="delete_all">Clear All</a>
         </div>
         <div id="towns_list">
