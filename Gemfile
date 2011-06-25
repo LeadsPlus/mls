@@ -31,7 +31,7 @@ gem 'uglifier'
 
 gem 'jquery-rails', :git => 'https://github.com/indirect/jquery-rails.git'
 gem 'kaminari'
-gem 'nokogiri'
+gem 'nokogiri', '>= 1.4.4.1'
 gem 'mechanize'
 gem 'pg'
 gem 'delayed_job', git: 'https://github.com/collectiveidea/delayed_job.git', tag: 'v2.1.2'
@@ -46,7 +46,7 @@ gem 'faker'
 gem 'hirb'
 
 group :production do
-  gem 'therubyracer-heroku', '0.8.1.pre3'
+#  gem 'therubyracer-heroku', '0.8.1.pre3'
 #  hirefire gem needs to load after delayed_job
   gem 'hirefire'
 end
