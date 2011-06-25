@@ -92,7 +92,18 @@ ul li.input { list-style: none; display: inline; margin-left: 1em; }
 .ui-slider .ui-slider-handle { position: absolute; background-color:#eee; z-index: 2; width: 1.5em; height: 1.1em; cursor: default; }
 .ui-slider .ui-slider-handle:hover { border-color:#bbb; background-color:#eee; }
 .ui-slider .ui-slider-handle:focus { outline:0 }
-.ui-slider .ui-slider-range { position: absolute; z-index: 1; background-color:#18c; font-size: .7em; display: block; border: 0; background-position: 0 0; }
+.ui-slider .ui-slider-range {
+  position: absolute; z-index: 1;
+  background-color: #1a82f7;
+  background-image: url(images/fallback-gradient.png);
+  background-image: -moz-linear-gradient(#18c, #116699);
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#18c), to(#116699));
+  background-image: -webkit-linear-gradient(#18c, #116699);
+  background-image: -o-linear-gradient(#18c, #116699);
+  display: block;
+  border: 0;
+  background-position: 0 0;
+}
 
 .ui-slider-horizontal { height: 0.8em }
 .ui-slider-horizontal .ui-slider-handle { top: -.25em; margin-left: -.4em; margin-right: -.4em; }
