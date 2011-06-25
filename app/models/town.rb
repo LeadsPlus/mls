@@ -9,23 +9,12 @@ class Town < ActiveRecord::Base
 
   index do name; county end
 
-  def self.search_except keywords, excluded_ids
-#    can't allow chosen_loc_ids to be null
-    return search(keywords) if excluded_ids.empty?
-    where("towns.id NOT IN (?)", excluded_ids).search(keywords)
-  end
-
-  def self.tsearch_except keywords, excluded_ids
-    Rails.logger.debug "Fuzzy search with keys: #{keywords} and exclusions #{excluded_ids}"
-    return tsearch(keywords) if excluded_ids.empty?
-    Rails.logger.debug "Past the fuzzy search return"
-    where("towns.id NOT IN (?)", excluded_ids).tsearch(keywords)
-  end
-
 #  the locations controller needs to be updated anytime this method is changed
   def identifying_string
     @identifying_string ||= "#{name}, Co. #{county}"
   end
+
+  def code; "t#{id}"; end
 
 #  TODO validations
 

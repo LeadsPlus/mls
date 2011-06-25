@@ -16,10 +16,7 @@ class County < ActiveRecord::Base
     @identifying_string ||= "Anywhere in Co. #{name}"
   end
 
-  def self.search_except keywords, excluded_ids
-    return search(keywords) if excluded_ids.empty?
-    where("counties.id NOT IN (?)", excluded_ids).search(keywords)
-  end
+  def code; "c#{id}"; end
 
   def self.reset
     County.delete_all
