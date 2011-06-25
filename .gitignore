@@ -1,5 +1,8 @@
 .bundle
+
 db/*.sqlite3
+# have to ignore this so can set up on individual computers
+confog/database.yml
 
 log/*.log
 tmp/
