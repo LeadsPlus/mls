@@ -3,9 +3,7 @@
 div#results_container {
   width: 700px;
   float: left;
-  /* TODO find antoher way to move this up */
-  /*position: relative;*/
-  /*top: -5em;*/
+
 }
 
 div#results {
@@ -13,7 +11,6 @@ div#results {
     width: 100%;
     border-bottom: 1px solid #ddd;
   }
-
 }
 
 a.price_sort { padding-right: 12px; background-repeat: no-repeat; background-position: right center; float:right }
@@ -41,15 +38,17 @@ li.listing {
     float: left;
     margin-right: 10px;
     clear: none;
+
+    &:hover {
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+      filter: alpha(opacity=80);
+      -moz-opacity: 0.8;
+      -khtml-opacity: 0.8;
+      opacity: 0.8;
+    }
+
   }
 
-  img:hover {
-    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-    filter: alpha(opacity=80);
-    -moz-opacity:0.8;
-    -khtml-opacity: 0.8;
-    opacity: 0.8;
-  }
 
   .house_details {
     float: left;
@@ -60,16 +59,13 @@ li.listing {
       margin-bottom: 7px;
       line-height:14px;
       cursor:pointer;
-
+      &:hover { text-decoration:underline; }
       font: {
         size: 16px;
         weight: bold;
       }
     }
 
-    h3:hover {
-      text-decoration:underline;
-    }
 
     p {
       color: #666;
@@ -90,7 +86,7 @@ li.listing {
       line-height:18px;
 
       font: {
-        family:Verdana, Geneva, sans-serif;
+        family: Verdana, Geneva, sans-serif;
         size: 26px;
         weight: bold;
       }
