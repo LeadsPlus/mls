@@ -27,7 +27,7 @@ class Search < ActiveRecord::Base
   def location_objects
     locations.map do |location|
       if location[0] == 't'
-#        TODO it might be better to utalise the 'town_ids' methods found in Houses and only hit the DB once
+#        TODO it might be better to utalise the 'excluded_county_ids' methods found in Locations and only hit the DB once
         Town.find(location.gsub(/\D/, '').to_i)
       elsif location[0] == 'c'
         County.find location.gsub(/\D/, '').to_i

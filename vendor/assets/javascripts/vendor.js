@@ -7,12 +7,12 @@
 //= require jquery.min
 //= require jquery_ujs
 //= require jquery-ui.min
-// require modernizr-1.7.min
-//= require jquery-bbq
+//= require modernizr
+// require jquery-bbq
 // require jquery.address-1.4
 //= require fancybox.pack
 // require respond.min
-//= require safelog.js
-//= require jquery.multiselect.min
+// require safelog.js
+// require jquery.multiselect.min
 //= require autocomplete-rails
 // require_tree .

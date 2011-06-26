@@ -1,3 +1,8 @@
+# THis file lists various constants which are used throughout the aplication
+
+# Used both in the scripts.coffee.erb and in the search form placeholder attribute
+TOWN_SEARCH_PLACEHOLDER = 'Enter a town name'
+
 # it's very important that these stay in the same order as dafts county list
 COUNTIES = %w[Dublin Meath Kildare Wicklow Longford Offaly Westmeath Laois Louth Carlow Kilkenny Waterford
         Wexford Kerry Cork Clare Limerick Tipperary Galway Mayo Roscommon Sligo Leitrim Donegal Cavan

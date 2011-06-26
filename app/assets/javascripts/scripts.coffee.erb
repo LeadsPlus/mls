@@ -6,29 +6,38 @@ $ () ->
   $( "a.gallery" ).fancybox
     cyclic: true
 
-#  $( '.collapsed_trigger' ).live 'click', (event) ->
-#    event.preventDefault()
-#    $( this ).parent().next( '.collapsed_content' ).toggleClass 'hidden'
-
   $( '.collapsed_trigger' ).live 'click', (event) ->
     event.preventDefault()
     $( this ).parent().next( '.collapsed_content' ).toggleClass 'hidden'
 
 #  controls for  the towns list
-#  TODO this fade out/remove isn't working
+#  It might be agood idea to take off this 'unless' every so often and test the functionality
+  unless Modernizr.input.placeholder
+    townSearchPlaceholder = <%= TOWN_SEARCH_PLACEHOLDER %>
+    console.log Modernizr.input.placeholder
+    $( 'input#search_town' )
+      .bind 'focus', (event) ->
+        console.log $( this )
+        $( this ).val('') if $( this ).val() == townSearchPlaceholder
+      .bind 'blur', (event) ->
+        $( this ).val townSearchPlaceholder if $( this ).val() == ''
+      .val(townSearchPlaceholder)
+
   $( 'div#loc_search_options' )
-    .find( 'a.delete_town' ).live 'click', (e) ->
+    .find( 'li a' ).live 'click', (e) ->
       e.preventDefault()
-      $( this ).parent( 'li' ).fadeOut().remove()
+      $li = $( this ).parent( 'li' )
+      $li.fadeOut 'fast', () ->
+        $li.remove()
     .end()
     .find( 'a#delete_all' ).live 'click', (e) ->
       e.preventDefault()
-      $( 'div#loc_search_options' ).find( 'li' ).fadeOut().remove()
+      $allLi = $( 'div#loc_search_options' ).find( 'li' )
+      $allLi.fadeOut 'fast', () ->
+        $allLi.remove()
       $('#search_town').val('')
 
   $(".accordion").accordion { collapsible: true, active: false }
-
-  console.log $( ".new_search" )
 
 #  event handlers for the search form
   $( "#search" )
@@ -44,15 +53,6 @@ $ () ->
     .bind 'ajax:success', (event, data, status) ->
 #      TODO fix the url and back button
 
-##  handling for the search form on the 'start' (intended homepage) page
-##  TODO none of this works yet
-#  $('form#start_new_search')
-#    .bind 'ajax:beforeSend', (event, xhr, settings) ->
-#      settings.data += "&#{ $("#new_search, #search_town_form input[type='hidden'], #filter_options").serialize() }"
-#    .bind 'ajax:complete', (event, xhr, status) ->
-#      log xhr
-##      document.location.href = 'hello'
-#
   min_payment = $( "input#search_min_payment" )
   max_payment = $( "input#search_max_payment" )
   $minTooltip = $("<span class=\"ui-slider-tooltip ui-widget-content ui-corner-all\">
