@@ -56,12 +56,12 @@ $ () ->
   min_payment = $( "input#search_min_payment" )
   max_payment = $( "input#search_max_payment" )
   $minTooltip = $("<span class=\"ui-slider-tooltip ui-widget-content ui-corner-all\">
-                    <span class=\"ttContent\">€#{ min_payment.val() }</span>
+                    <span class=\"ttContent\">\u20AC#{ min_payment.val() }</span>
                     <span class=\"ui-tooltip-pointer-down ui-widget-content\">
                     <span class=\"ui-tooltip-pointer-down-inner\"></span></span>
                     </span>")
   $maxTooltip = $("<span class=\"ui-slider-tooltip ui-widget-content ui-corner-all\">
-                    <span class=\"ttContent\">€#{ max_payment.val() }</span>
+                    <span class=\"ttContent\">\u20AC#{ max_payment.val() }</span>
                     <span class=\"ui-tooltip-pointer-down ui-widget-content\">
                     <span class=\"ui-tooltip-pointer-down-inner\"></span></span>
                     </span>")
@@ -76,8 +76,8 @@ $ () ->
     slide: ( event, ui ) ->
       min_payment.val( ui.values[ 0 ] )
       max_payment.val( ui.values[ 1 ] )
-      $minTooltip.find( "span.ttContent" ).text( "€#{ui.values[0]}" )
-      $maxTooltip.find( "span.ttContent" ).text( "€#{ui.values[1]}" )
+      $minTooltip.find( "span.ttContent" ).text( "\u20AC#{ui.values[0]}" )
+      $maxTooltip.find( "span.ttContent" ).text( "\u20AC#{ui.values[1]}" )
 
   $paymentSlider.find( ".ui-slider-handle" ).eq(0).append $minTooltip
   $paymentSlider.find( ".ui-slider-handle" ).eq(1).append $maxTooltip
