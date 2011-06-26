@@ -8,15 +8,25 @@ div#sidebar {
   #search_controls { margin-bottom: 1.5em; }
   div.buttonset { margin-top: 0; }
 
-  ul.button_list {
-    list-style: none;
-    margin: 0;
+  ul.button_list li {
+      background-color: #444;
+      background-image: url(images/fallback-gradient.png);
+      background-image: -moz-linear-gradient(#ddd, #ccc);
+      background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#444), to(#333));
+      background-image: -webkit-linear-gradient(#777, #666);
+      background-image: -o-linear-gradient(#444, #333);
+      color:#fff;
+      clear:both;
+      margin-bottom:1px;
+      &:hover { background:#777 }
 
     .ui-button { width: 100%; }
 
     /* override the jquery-ui css buttons*/
-    .ui-button-text-only .ui-button-text { padding: .1em 1em; font-size: .8em; text-align: left; }
+    .ui-button-text-only .ui-button-text { font-size: .8em; text-align: left; }
   }
+
+  .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active li { font-weight: normal }
 
   .inline.buttonset .ui-button-text-only .ui-button-text { padding: .1em .2em; font-size: .8em; }
 
@@ -43,14 +53,14 @@ div#search_bar {
     }
   }
 
-  .search_section { padding: 1em 0; border-bottom: 1px dotted #c0c0c0; }
+  .search_section { padding: 5px 0; }
 
   div#slider_row { padding-bottom: 15px; border-bottom:1px dotted #ccc; margin-bottom:15px }
 
   a#delete_all { margin-top: .3em; float: right; }
 
   div#towns_list {
-    ul { margin-left: 0; padding-top:3px }
+    ul { margin-left: 0; padding-top:3px; clear:both; }
     li {
       float:left;
       width:250px;
@@ -69,23 +79,14 @@ div#search_bar {
     }
     li:hover { a { display: inline; } }
   }
-  #search_town { border:1px solid #ccc; padding:4px 5px; font-size:12px; color:#666; width:183px; } #search_town:focus { outline:0; border-color:#bbb }
+  #search_town { float:left; border:1px solid #bbb; padding:4px 5px; font-size:12px; width:183px; margin-right:1px; } #search_town:focus { outline:0; border-color:#999 }
   #add_location {
-    background-color: #1a82f7;
-    background-image: url(images/fallback-gradient.png);
-    background-image: -moz-linear-gradient(#18c, #116699);
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#18c), to(#116699));
-    background-image: -webkit-linear-gradient(#18c, #116699);
-    background-image: -o-linear-gradient(#18c, #116699);
-    border:0; padding:3px 5px;
+    width:64px;
+    float:left;
+    padding:4px 0;
+    text-align:center;
     color:#fff;
-    border:1px solid #17a;
-    border-bottom:1px solid #035;
-    font-size:11px;
-    padding:5px 5px 4px 5px;
-  }
-  #add_location:hover {
-    border:1px solid #035;
+    font-size:12px;
   }
 }
 
@@ -112,7 +113,7 @@ div#search_bar {
  .ui-accordion-icons .ui-accordion-header a { padding-left: 2.2em; color:#fff }
  .ui-accordion .ui-accordion-header .ui-icon { position: absolute; left: .5em; top: 50%; margin-top: -8px; }
  // had to overwrite accordian padding because it was massive
- .ui-accordion .ui-accordion-content { background-color:#f4f4f4; padding:10px; border:1px solid #ccc; position: relative; top: 1px; margin-bottom: 3px; overflow: auto; display: none; zoom: 1; }
+ .ui-accordion .ui-accordion-content { border:0; position: relative; top: 1px; margin-bottom: 3px; overflow: auto; display: none; zoom: 1; }
  .ui-accordion .ui-accordion-content-active { display: block; }
 
 // not totally sure what this is doing

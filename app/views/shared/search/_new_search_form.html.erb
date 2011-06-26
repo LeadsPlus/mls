@@ -31,8 +31,7 @@
       <%= form_tag locations_path, :method => :get, :remote => true, :id => 'search_town_form' do %>
         <div class="clear">
           <%= autocomplete_field_tag :name, nil, autocomplete_town_name_towns_path, id: 'search_town', size: 21, placeholder: TOWN_SEARCH_PLACEHOLDER %>
-          <%= submit_tag 'Add Town', id: 'add_location' %>
-         <a href="" id="delete_all">Clear All</a>
+          <%= submit_tag 'Add Town', id: 'add_location', class: 'gradient_btn' %>
         </div>
         <div id="towns_list">
           <ul>
@@ -107,11 +106,9 @@
       </div> <!-- accordion -->
     <% end %>
 
-    <div class="search_section">
       <%= form_tag searches_path, :remote => true, :id => "search" do %>
         <span class="loading float-left"></span>
-        <%= submit_tag :Search, :class => "sexy_btn" %>
+        <%= submit_tag :Search, :class => "grey_btn", id: "search_btn", value: "Refine Search" %>
       <% end %>
-    </div>
   </div> <!-- search bar -->
 <% end %>

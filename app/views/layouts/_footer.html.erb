@@ -1,11 +1,26 @@
 <footer>
-  <div id="footer_links" class="float-right">
-    <%= link_to "User Agreement", pages_user_agreement_path, rel: 'nofollow' %>
-    <% if user_signed_in? %>
-      <%= link_to "Profile", user_path(current_user) %>
-      <%= link_to "Sign Out", destroy_user_session_path %>
-    <% else %>
-      <%= link_to "Sign In", new_user_session_path %>
-    <% end %>
-  </div>
+    <ul style="float:left">
+        <li style="margin:0">CribCalc &copy; 2011</li>
+    </ul>
+
+    <ul style="float:right">
+        <li><a href="#">About</a></li>
+        <li>&middot;</li>
+        <li><a href="#">Advertising</a></li>
+        <li>&middot;</li>
+        <li><a href="#">Blog</a></li>
+        <li>&middot;</li>
+        <li><a href="#">Privacy</a></li>
+        <li>&middot;</li>
+        <li><%= link_to "Terms", pages_user_agreement_path, rel: 'nofollow' %></li>
+        <li>&middot;</li>
+        <li><a href="#">Help</a></li>
+        <li>&middot;</li>
+        <% if user_signed_in? %>
+        <li><%= link_to "Profile", user_path(current_user) %></li>
+        <li><%= link_to "Sign Out", destroy_user_session_path %></li>
+        <% else %>
+        <li><%= link_to "Sign In", new_user_session_path %></li>
+        <% end %>
+    </ul>
 </footer>

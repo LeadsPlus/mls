@@ -6,6 +6,23 @@ ul { list-style:none }
 
 .button { font-weight: bold }
 
+.gradient_btn {
+    background-color: #1a82f7;
+    background-image: url(images/fallback-gradient.png);
+    background-image: -moz-linear-gradient(#18c, #116699);
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#18c), to(#116699));
+    background-image: -webkit-linear-gradient(#18c, #116699);
+    background-image: -o-linear-gradient(#18c, #116699);
+    border:1px solid #17a;
+    border-bottom:1px solid #035;
+    }
+.gradient_btn:hover {
+    border:1px solid #035;
+}
+.gradient_btn:active {
+    background:#169
+}
+
 .blue_btn { background-color:#18c; border:1px solid #18c; color:#fff }
 .blue_btn:hover { border-color:#035; color:#fff }
 
@@ -14,6 +31,8 @@ ul { list-style:none }
 
 .daft_btn, .more_info { float:left; width:81px; text-align:center; font-size:11px; padding:5px 0 }
 .daft_btn { margin-right:3px }
+
+#search_btn { padding:5px 20px; float:right; text-transform:uppercase; font-weight:bold; font-size:11px }
 
 .float-right {
   float: right;
@@ -39,7 +58,7 @@ div.spacer {
   clear:both;
 }
 
-/* these should be moved out into a seperate file since they are style rather than utilities */
+/* these should be moved out into a separate file since they are style rather than utilities */
 h2.bar_head {
   background-color: #1a82f7;
   background-image: url(images/fallback-gradient.png);
