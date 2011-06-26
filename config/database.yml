@@ -1,7 +1,7 @@
 development:
-  # <<: *common
   adapter: postgresql
-  username: davidtuite
+  username: postgres
+  password: database
   encoding: utf-8
   database: mls_dev
   pool: 5
@@ -11,9 +11,9 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  # <<: *common
   adapter: postgresql
-  username: davidtuite
+  username: postgres
+  password: database
   encoding: utf-8
   database: mls_test
   pool: 5

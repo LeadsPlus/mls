@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.1.0.rc4'
-gem 'rake' #, '~> 0.8.7'
+gem 'rake', '0.8.7'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -31,10 +31,10 @@ gem 'uglifier'
 
 gem 'jquery-rails', :git => 'https://github.com/indirect/jquery-rails.git'
 gem 'kaminari'
-gem 'nokogiri', '>= 1.4.4.1'
+gem 'nokogiri', '1.4.6'
 gem 'mechanize'
 gem 'pg'
-gem 'delayed_job', git: 'https://github.com/collectiveidea/delayed_job.git', tag: 'v2.1.2'
+gem 'delayed_job', git: 'https://github.com/collectiveidea/delayed_job.git', tag: 'v2.1.4'
 gem 'devise'
 gem 'texticle'
 gem 'rails3-jquery-autocomplete'

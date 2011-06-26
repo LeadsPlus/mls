@@ -6,10 +6,10 @@ GIT
 
 GIT
   remote: https://github.com/collectiveidea/delayed_job.git
-  revision: ccc6b0bfd66dd7fd534f0cc1cbd5b72bdca7b170
-  tag: v2.1.2
+  revision: 8dc3930f20eb7363ef0d451ac05a3851eb0caaf6
+  tag: v2.1.4
   specs:
-    delayed_job (2.1.2)
+    delayed_job (2.1.4)
       activesupport (~> 3.0)
       daemons
 
@@ -160,7 +160,7 @@ GEM
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (~> 0.14.6)
-    rake (0.9.2)
+    rake (0.8.7)
     rdoc (3.6.1)
     rest-client (1.6.3)
       mime-types (>= 1.16)
@@ -230,11 +230,11 @@ DEPENDENCIES
   kaminari
   launchy
   mechanize
-  nokogiri (>= 1.4.4.1)
+  nokogiri (= 1.4.6)
   pg
   rails (= 3.1.0.rc4)
   rails3-jquery-autocomplete
-  rake
+  rake (= 0.8.7)
   rspec-rails
   sass
   spork
