@@ -12,16 +12,16 @@ $ () ->
 
 #  controls for  the towns list
 #  It might be agood idea to take off this 'unless' every so often and test the functionality
-  unless Modernizr.input.placeholder
-    townSearchPlaceholder = <%= TOWN_SEARCH_PLACEHOLDER %>
-    console.log Modernizr.input.placeholder
-    $( 'input#search_town' )
-      .bind 'focus', (event) ->
-        console.log $( this )
-        $( this ).val('') if $( this ).val() == townSearchPlaceholder
-      .bind 'blur', (event) ->
-        $( this ).val townSearchPlaceholder if $( this ).val() == ''
-      .val(townSearchPlaceholder)
+#  unless typeof Modernizer == 'undefined' || Modernizr.input.placeholder
+   townSearchPlaceholder = <%# TOWN_SEARCH_PLACEHOLDER %>
+   console.log Modernizr.input.placeholder
+   $( 'input#search_town' )
+     .bind 'focus', (event) ->
+       console.log $( this )
+       $( this ).val('') if $( this ).val() == townSearchPlaceholder
+     .bind 'blur', (event) ->
+       $( this ).val townSearchPlaceholder if $( this ).val() == ''
+     .val(townSearchPlaceholder)
 
   $( 'div#loc_search_options' )
     .find( 'li a' ).live 'click', (e) ->
