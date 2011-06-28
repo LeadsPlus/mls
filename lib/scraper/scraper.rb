@@ -16,6 +16,7 @@
 # if I keep track of every daft_id I find in a particular run, I can delete unlisted houses when finished!??
 # give every house a scrape_id param defaulting to one, if a subsequent scrape finds a house again,
 # increment the scrape_id. Then run through the houses table deleting houses where scrape_id != max scrape_id
+# TODO Upgrade to Mechanize 2.0: https://github.com/tenderlove/mechanize
 
 module Scraper
   class Scrape

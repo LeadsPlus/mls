@@ -12,16 +12,15 @@ $ () ->
 
 #  controls for  the towns list
 #  It might be agood idea to take off this 'unless' every so often and test the functionality
-#  unless typeof Modernizer == 'undefined' || Modernizr.input.placeholder
-   townSearchPlaceholder = <%# TOWN_SEARCH_PLACEHOLDER %>
-   console.log Modernizr.input.placeholder
-   $( 'input#search_town' )
-     .bind 'focus', (event) ->
-       console.log $( this )
-       $( this ).val('') if $( this ).val() == townSearchPlaceholder
-     .bind 'blur', (event) ->
-       $( this ).val townSearchPlaceholder if $( this ).val() == ''
-     .val(townSearchPlaceholder)
+  unless typeof Modernizer == 'undefined' || Modernizr.input.placeholder
+    townSearchPlaceholder = <%= TOWN_SEARCH_PLACEHOLDER %>
+    $( 'input#search_town' )
+      .bind 'focus', (event) ->
+        console.log $( this )
+        $( this ).val('') if $( this ).val() == townSearchPlaceholder
+      .bind 'blur', (event) ->
+        $( this ).val townSearchPlaceholder if $( this ).val() == ''
+      .val(townSearchPlaceholder)
 
   $( 'div#loc_search_options' )
     .find( 'li a' ).live 'click', (e) ->
@@ -56,12 +55,12 @@ $ () ->
   min_payment = $( "input#search_min_payment" )
   max_payment = $( "input#search_max_payment" )
   $minTooltip = $("<span class=\"ui-slider-tooltip ui-widget-content ui-corner-all\">
-                    <span class=\"ttContent\">\u20AC#{ min_payment.val() }</span>
+                    <span class=\"ttContent\">#{ min_payment.val() }</span>
                     <span class=\"ui-tooltip-pointer-down ui-widget-content\">
                     <span class=\"ui-tooltip-pointer-down-inner\"></span></span>
                     </span>")
   $maxTooltip = $("<span class=\"ui-slider-tooltip ui-widget-content ui-corner-all\">
-                    <span class=\"ttContent\">\u20AC#{ max_payment.val() }</span>
+                    <span class=\"ttContent\">#{ max_payment.val() }</span>
                     <span class=\"ui-tooltip-pointer-down ui-widget-content\">
                     <span class=\"ui-tooltip-pointer-down-inner\"></span></span>
                     </span>")
@@ -76,8 +75,8 @@ $ () ->
     slide: ( event, ui ) ->
       min_payment.val( ui.values[ 0 ] )
       max_payment.val( ui.values[ 1 ] )
-      $minTooltip.find( "span.ttContent" ).text( "\u20AC#{ui.values[0]}" )
-      $maxTooltip.find( "span.ttContent" ).text( "\u20AC#{ui.values[1]}" )
+      $minTooltip.find( "span.ttContent" ).text( "#{ui.values[0]}" )
+      $maxTooltip.find( "span.ttContent" ).text( "#{ui.values[1]}" )
 
   $paymentSlider.find( ".ui-slider-handle" ).eq(0).append $minTooltip
   $paymentSlider.find( ".ui-slider-handle" ).eq(1).append $maxTooltip
