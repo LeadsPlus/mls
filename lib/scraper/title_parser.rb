@@ -51,20 +51,17 @@ module Scraper
       @address
     end
 
+    # slice off the string containing the property type
     def type_string
       @type_string ||= @daft_title.slice(split_index + 3, @daft_title.length)
     end
 
-    #  finds the corresponding house type in the HOUSE_TYPES array
-    #  this works because HOUSE_TYPES is set up in such a way that no type includes another as a substring
+    # find the property typle in the database which matches the houses type string
     #  some properties have no type
     #  some properties have " - " in the freeform address part, hence matching this (only) cannot be relied on
     def parse_type
       unless type_string.nil?
-        PropertyType.each_name do |name|
-#          Rails.logger.debug "Checking if type: #{name}? Ans: #{type_portion.include? name}"
-          return name if type_string.include? name
-        end
+        return PropertyType.find_by_daft_identifier type_string.strip
       end
 #      if there is no property type, just set it to nil
       nil
@@ -73,7 +70,6 @@ module Scraper
     def type
       @type ||= parse_type
     end
-
   end
 
   class DublinTitleParser < TitleParser

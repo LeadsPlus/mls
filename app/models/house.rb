@@ -6,20 +6,15 @@ require "finance/mortgage"
 
 class House < ActiveRecord::Base
   attr_accessible :price, :description, :county_id, :image_url, :daft_id,
-                  :property_type, :property_type_uid, :daft_title, :bedrooms,
+                  :property_type_id, :daft_title, :bedrooms,
                   :bathrooms, :address, :town_id, :region_name, :last_scrape
   attr_reader :payment_required
+  belongs_to :property_type
   
   paginates_per(10)
   has_many :photos, :dependent => :destroy
   belongs_to :county
   belongs_to :town
-
-  before_create :set_property_type_uid
-
-  def set_property_type_uid
-    self.property_type_uid = PropertyType.convert_to_uid(property_type)
-  end
 
   def title
     "#{address}, #{town.name}"
@@ -119,26 +114,27 @@ end
 
 
 
+
+
 # == Schema Information
 #
 # Table name: houses
 #
-#  id                :integer         not null, primary key
-#  price             :integer
-#  created_at        :datetime
-#  updated_at        :datetime
-#  image_url         :string(255)
-#  description       :text
-#  daft_title        :string(255)
-#  daft_id           :integer
-#  bedrooms          :integer
-#  bathrooms         :integer
-#  address           :string(255)
-#  property_type     :string(255)
-#  county_id         :integer
-#  town_id           :integer
-#  last_scrape       :integer
-#  property_type_uid :string(255)
-#  region_name       :string(255)
+#  id               :integer         not null, primary key
+#  price            :integer
+#  created_at       :datetime
+#  updated_at       :datetime
+#  image_url        :string(255)
+#  description      :text
+#  daft_title       :string(255)
+#  daft_id          :integer
+#  bedrooms         :integer
+#  bathrooms        :integer
+#  address          :string(255)
+#  county_id        :integer
+#  town_id          :integer
+#  last_scrape      :integer
+#  region_name      :string(255)
+#  property_type_id :integer
 #
 

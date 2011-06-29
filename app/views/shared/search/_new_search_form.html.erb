@@ -48,10 +48,10 @@
         <div>
           <div class="buttonset">
             <ul class="button_list">
-            <% PropertyType.each do |name, uid| %>
+            <% PropertyType.all.each do |ptype| %>
             <li>
-              <%= checkbox('prop_type_uids', uid, @search.prop_type_uids.include?(uid)) %>
-              <%= checkbox_label('prop_type_uids', uid, name) %>
+              <%= checkbox('prop_type_uids', ptype.uid, @search.prop_type_uids.include?(ptype.uid)) %>
+              <%= checkbox_label('prop_type_uids', ptype.uid, ptype.name) %>
             </li>
             <% end %>
             </ul>

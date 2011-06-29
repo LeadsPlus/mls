@@ -12,13 +12,6 @@ namespace :db do
     create_default_search # has to happen after rates else validation fail
     make_user
   end
-
-  namespace :searches do
-    desc "Delete all searches from the database"
-    task :clear => :environment do
-      Search.reset
-    end
-  end
 end
 
 # git push heroku && heroku rake db:reset && heroku rake db:migrate && heroku rake db:p
@@ -49,18 +42,18 @@ def create_default_search
 end
 
 def make_property_types
-  PropertyType.create!(name: "Site", uid: "Site")
-  PropertyType.create!(name: "New Home", uid: "NewHome")
-  PropertyType.create!(name: "Terraced House", uid: "Terraced")
-  PropertyType.create!(name: "Detached House", uid: "Detached")
-  PropertyType.create!(name: "Bungalow", uid: "Bungalow")
-  PropertyType.create!(name: "Townhouse", uid: "Townhouse")
-  PropertyType.create!(name: "End Of Terrace House", uid: "EoTHouse")
-  PropertyType.create!(name: "Semi-Detached House", uid: "Semi-D")
-  PropertyType.create!(name: "New Development", uid: "NewDev")
-  PropertyType.create!(name: "Apartment", uid: "Apartment")
-  PropertyType.create!(name: "Duplex", uid: "Duplex")
-  PropertyType.create!(name: "House for Sale", uid: "House")
+  PropertyType.create!(name: "Site", uid: "Site", daft_identifier: "Site For Sale")
+  PropertyType.create!(name: "New Home", uid: "NewHome", daft_identifier: "New Home")
+  PropertyType.create!(name: "Terraced", uid: "Terraced", daft_identifier: "Terraced House")
+  PropertyType.create!(name: "Detached", uid: "Detached", daft_identifier: "Detached House")
+  PropertyType.create!(name: "Bungalow", uid: "Bungalow", daft_identifier: "Bungalow For Sale")
+  PropertyType.create!(name: "Townhouse", uid: "Townhouse", daft_identifier: "Townhouse")
+  PropertyType.create!(name: "End Of Terrace", uid: "EoTHouse", daft_identifier: "End of Terrace House")
+  PropertyType.create!(name: "Semi-Detached", uid: "Semi-D", daft_identifier: "Semi-Detached House")
+  PropertyType.create!(name: "New Development", uid: "NewDev", daft_identifier: "New Development")
+  PropertyType.create!(name: "Apartment", uid: "Apartment", daft_identifier: "Apartment For Sale")
+  PropertyType.create!(name: "Duplex", uid: "Duplex", daft_identifier: "Duplex For Sale")
+  PropertyType.create!(name: "House for Sale", uid: "House", daft_identifier: "House For Sale")
   puts "Property types created"
 end
 

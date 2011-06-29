@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe PropertyType do
   before :each do
-    @valid_attr = { name: "Detached House", uid: "Detached" }
+    @valid_attr = { name: "Detached House", uid: "Detached", daft_identifier: "Detached House" }
   end
 
   it "should create a new type give valid attributes" do
@@ -17,32 +17,29 @@ describe PropertyType do
     PropertyType.new(@valid_attr.merge(name: "")).should_not be_valid
   end
 
+  it "should require a daft identifier" do
+    PropertyType.new(@valid_attr.merge(daft_identifier: "")).should_not be_valid
+  end
+
   it "should require a unique UID" do
     PropertyType.create! @valid_attr
     PropertyType.new(@valid_attr).should_not be_valid
   end
 
-#  describe "associations" do
-#    before(:each) do
-#      @search = Search.create @valid_attr
-#    end
-#
-#    it "should have a rate attribute" do
-#      @search.should respond_to :rate
-#    end
-#
-#    it "should retrieve the associated rate" do
-#      @search.rate.should == @rate
-#    end
-#
-#    it "should have a usage association" do
-#      @search.should respond_to :usage
-#    end
-#
-#    it "should retrieve the associated usage" do
-#      @search.usage.should == @usage
-#    end
-#  end
+  describe "house associations" do
+    before(:each) do
+      @detached = PropertyType.create! @valid_attr
+      @house = Factory :house, :property_type => @detached
+    end
+
+    it "should have a houses attribute" do
+      @detached.should respond_to :houses
+    end
+
+    it "should retrieve all houses with that property type" do
+      @detached.houses.should == [@house]
+    end
+  end
 
   describe "checkbox_options method"
 
@@ -64,3 +61,17 @@ describe PropertyType do
     end
   end
 end
+
+
+# == Schema Information
+#
+# Table name: property_types
+#
+#  id              :integer         not null, primary key
+#  name            :string(255)
+#  uid             :string(255)
+#  created_at      :datetime
+#  updated_at      :datetime
+#  daft_identifier :string(255)
+#
+

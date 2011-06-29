@@ -29,12 +29,6 @@ describe "TitleParser" do
       end
     end
 
-    it "should split off the property type" do
-      @title_parsers.each_with_index do |parser, index|
-        parser.type_string.should == @titles[index][:type]
-      end
-    end
-
     it "should contain the region in the last index of split_location" do
       @title_parsers.each_with_index do |parser, index|
         parser.region.should == @titles[index][:region]
@@ -51,5 +45,15 @@ describe "TitleParser" do
       @title_parsers.each_with_index do |p, i|
         p.address.should == @titles[i][:address]
       end
+    end
+
+    describe "property type finders" do
+      it "should split off the property type" do
+        @title_parsers.each_with_index do |parser, index|
+          parser.type_string.should == @titles[index][:type]
+        end
+      end
+
+      it "should find the property type in the database"
     end
 end
