@@ -65,7 +65,7 @@ Mls::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => "searches#show", :id => 1
+  root :to => "searches#new"
 
   # See how all your routes lay out with "rake routes"
 

@@ -28,18 +28,6 @@ class SearchesController < ApplicationController
   end
 
   def new
-    @search = Search.create!({
-    max_payment: 1100,
-    min_payment: 800,
-    deposit: 50000,
-    term: 30,
-    locations: ['t191', 't188', 't57'],
-    lender_uids: LENDER_UIDS,
-    loan_type_uids: LOAN_TYPE_UIDS,
-    bedrooms: ['3', '4', '5'],
-    bathrooms: ['1', '2', '3'],
-    prop_type_uids: PropertyType.uids
-    })
     render :layout => 'single_column'
   end
 

@@ -50,9 +50,10 @@ div#search_bar {
   
     .error_count {
       font-weight: bold;
-    }
   }
+}
 
+// all of the stuff below is not nested. THis will have to change for the search page
   .search_section { padding: 5px 0; }
 
   div#slider_row { padding-bottom: 15px; border-bottom:1px dotted #ccc; margin-bottom:15px }
