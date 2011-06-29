@@ -5,6 +5,8 @@ namespace :db do
     Search.reset
     County.reset
     User.delete_all
+    PropertyType.reset
+    make_property_types
     make_counties
     make_rates
     create_default_search # has to happen after rates else validation fail
@@ -44,6 +46,22 @@ def create_default_search
     prop_type_uids: PropertyType.uids
   })
   puts "Default search created"
+end
+
+def make_property_types
+  PropertyType.create!(name: "Site", uid: "Site")
+  PropertyType.create!(name: "New Home", uid: "NewHome")
+  PropertyType.create!(name: "Terraced House", uid: "Terraced")
+  PropertyType.create!(name: "Detached House", uid: "Detached")
+  PropertyType.create!(name: "Bungalow", uid: "Bungalow")
+  PropertyType.create!(name: "Townhouse", uid: "Townhouse")
+  PropertyType.create!(name: "End Of Terrace House", uid: "EoTHouse")
+  PropertyType.create!(name: "Semi-Detached House", uid: "Semi-D")
+  PropertyType.create!(name: "New Development", uid: "NewDev")
+  PropertyType.create!(name: "Apartment", uid: "Apartment")
+  PropertyType.create!(name: "Duplex", uid: "Duplex")
+  PropertyType.create!(name: "House for Sale", uid: "House")
+  puts "Property types created"
 end
 
 # once I have these in here, I don't technically need the COUNTIES array any more?

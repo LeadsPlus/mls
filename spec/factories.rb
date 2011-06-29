@@ -1,5 +1,10 @@
 require "date"
 
+Factory.define PropertyType do |t|
+  t.name "Detached House"
+  t.uid "Detached"
+end
+
 Factory.define House do |house|
   house.daft_title "Mountain View, Co. Wicklow - Semi-Detached House"
   house.description "This is the description of a house"
@@ -25,7 +30,7 @@ Factory.define Search do |search|
   search.loan_type_uids LOAN_TYPE_UIDS
   search.bedrooms ['3', '4', '5']
   search.bathrooms ['1', '2', '3']
-  search.prop_type_uids PropertyType.uids
+  # search.prop_type_uids PropertyType.uids
   search.association :rate
   search.association :usage
 end
