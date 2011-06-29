@@ -17,9 +17,9 @@ describe Search do
       locations: ['2343', '124', '3432'],
       lender_uids: ['BOI', 'AIB'],
       loan_type_uids: ['VR'],
-      prop_type_uids: PropertyType.uids,
       bedrooms: ['5','3','2'],
-      bathrooms: ['1','2']
+      bathrooms: ['1','2'],
+      property_type_ids: PropertyType.ids.to_s
     }
   end
 
@@ -196,18 +196,13 @@ describe Search do
       end
     end
 
-    describe "of prop_type_uids" do
-      it "should allow valid prop_type_uids" do
-        type = PropertyType.uids.sample(1+rand(7))
-        Search.new(@valid_attr.merge(:prop_type_uids => type)).should be_valid
+    describe "of prop_type_ids" do
+      it "should allow valid prop_type_ids" do
+        type = PropertyType.ids.sample(1+rand(7))
+        Search.new(@valid_attr.merge(:property_type_ids => type.to_s)).should be_valid
       end
 
-      it "should not allow unrecognised prop_type_uids" do
-        nonsensical = [[nil, 'Site'], [:defsd, 'Site'], [{peope: 'faf'}, 'Site']]
-        nonsensical.each do |what|
-          Search.new(@valid_attr.merge(:prop_type_uids => [what])).should_not be_valid
-        end
-      end
+      it "should not allow unrecognised property_type_ids"
     end
 
     describe "of bedrooms" do

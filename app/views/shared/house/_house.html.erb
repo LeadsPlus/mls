@@ -15,7 +15,7 @@
     <ul>
       <li><b>Bedrooms:</b> <%= house.bedrooms %></li>
       <li><b>Bathrooms:</b> <%= house.bathrooms %></li>
-      <li><b>Type:</b> <%= house.property_type %></li>
+      <li><b>Type:</b> <%= house.property_type.name %></li>
       <li><b>Price:</b> <%= number_to_currency(house.price, unit: '€', precision: 0) %></li>
     </ul>
     <div class="spacer"></div>

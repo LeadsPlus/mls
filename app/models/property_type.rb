@@ -10,8 +10,8 @@ class PropertyType < ActiveRecord::Base
   validates :uid, presence: true, uniqueness: true
 
   # temp method to make DB populate work until I update the searches model
-  def self.uids
-    all.collect {|ptype| ptype.uid }
+  def self.ids
+    all.collect {|ptype| ptype.id }
   end
 
   def self.reset

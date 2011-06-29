@@ -69,8 +69,10 @@ class House < ActiveRecord::Base
     where(arel_table[:bedrooms].in(bedrooms).or(arel_table[:bedrooms].gt(5)))
   end
 
-  def self.property_type_is_one_of(prop_type_uids)
-    where(:property_type_uid => prop_type_uids)
+  # This now needs to be a join since house belongs to property type
+  def self.property_type_is_one_of(prop_type_ids)
+# TODO This is less than ideal because this always does INNER JOIN
+    joins(:property_type).where('property_types.id IN (?)', prop_type_ids)
   end
 
   def payment_required rate, term, users_deposit

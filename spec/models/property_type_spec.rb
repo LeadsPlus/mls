@@ -41,7 +41,20 @@ describe PropertyType do
     end
   end
 
-  describe "checkbox_options method"
+  describe "'ids' method" do
+    before :each do
+      @type1 = Factory :property_type
+      @type2 = Factory :property_type, :uid => "Something else"
+    end
+
+    it "should have an ids method" do
+      PropertyType.should respond_to :ids
+    end
+
+    it "should return an array of all the property types" do
+      PropertyType.ids.should == [@type1.id, @type2.id]
+    end
+  end
 
   describe "reset method" do
     before(:each) do

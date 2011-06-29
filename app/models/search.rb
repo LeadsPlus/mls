@@ -10,11 +10,11 @@ class Search < ActiveRecord::Base
   include CustomValidators
   include Log
   attr_accessible :min_payment, :max_payment, :deposit, :term, :locations, :bedrooms, :bathrooms,
-                  :loan_type_uids, :lender_uids, :prop_type_uids, :max_price, :min_price
+                  :loan_type_uids, :lender_uids, :max_price, :min_price, :property_type_ids
   attr_reader :viable_rates
   belongs_to :rate; belongs_to :usage
   serialize :lender_uids; serialize :loan_type_uids; serialize :bedrooms
-  serialize :bathrooms; serialize :prop_type_uids; serialize :locations
+  serialize :bathrooms; serialize :locations; serialize :property_type_ids
 #  TODO town adding UI and serializing is not compatible. Dublin has ~180 towns. Can't serialize them all.
 #  something has to change
 
@@ -74,7 +74,7 @@ class Search < ActiveRecord::Base
     log_around('search for matches') do
       House.in(locations).cheaper_than(max_price)
         .more_expensive_than(min_price).has_baths(bathrooms)
-        .has_beds(bedrooms).property_type_is_one_of(prop_type_uids)
+        .has_beds(bedrooms).property_type_is_one_of(property_type_ids)
     end
   end
 
@@ -95,7 +95,8 @@ class Search < ActiveRecord::Base
 
   validates :lender_uids, presence: true, serializable_strings: true
   validates :loan_type_uids, presence: true, serializable_strings: true
-  validates :prop_type_uids, presence: true, serializable_strings: true
+# TODO come up with a format validation for property_type_uids
+  validates :property_type_ids, presence: true
   validates :bedrooms, presence: true, serializable_ints: true
   validates :bathrooms, presence: true, serializable_ints: true
   validate :has_some_viable_rates, :has_some_affordable_prices

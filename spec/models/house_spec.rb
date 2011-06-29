@@ -40,6 +40,18 @@ describe House do
     end
   end
 
+  describe "property type scope" do
+    before :each do
+      @house = House.create @attr
+      @bungalow = Factory :property_type, name: "Bunglalow", uid: "bungalow", :daft_identifier => "Bungalow For Sale"
+      @duplex = Factory :property_type, name: "Duplex", uid: "duplex", :daft_identifier => "Duplex For Sale"
+    end
+
+    it "should return houses with the included types" do
+      House.property_type_is_one_of([@detached.id, @bungalow.id]).should include(@house)
+    end
+  end
+
 #  TODO these tests need to be expanded to make sure I only reset houses in the county that was scraped
   describe "delete_not_scraped method" do
     before(:each) do
