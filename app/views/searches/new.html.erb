@@ -1,6 +1,113 @@
-<div class="search_bar clear">
-  <h2 class="bar_head">Search Bar</h2>
-  <%= render "shared/search/search_form" %>
+<div id="start_searching">
+    <div id="mort_search_options" class="search_section">
+      <%= form_tag searches_path, id: 'mort_fields' do %>
+        <div class="row" id="slider_row">
+          <%= label_tag :search_min_payment, nil, :class => "hidden" %>
+          <b><%= label_tag :searh_max_payment, "Payment", class: 'hidden' %></b>
+          <%= hidden_field_tag 'search[min_payment]' , @search.min_payment %>
+          <%= hidden_field_tag 'search[max_payment]', @search.max_payment %>
+          <div id="payment_slider"></div>
+        </div>
+        <div class="row hidden">
+          <%= label_tag :search_deposit, 'Deposit' %>
+          <%= label_tag :search_term, 'Term' %>
+        </div>
+        <div class="row hidden">
+          <%= text_field_tag 'search[deposit]', @search.deposit, :autocomplete => "off", size: 8 %>
+
+          <div class="inline buttonset row inline">
+            <% [20,25,30,35,40].each do |id| %>
+              <%= radio('term', id, @search.term == id) %><%= checkbox_label 'term', id %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div id="loc_search_options" class="search_section">
+      <%= form_tag locations_path, :method => :get, :remote => true, :id => 'search_town_form' do %>
+        <div class="clear">
+          <%= autocomplete_field_tag :name, nil, autocomplete_town_name_towns_path, id: 'search_town', size: 21, placeholder: TOWN_SEARCH_PLACEHOLDER %>
+          <%= submit_tag 'Add Town', id: 'add_location', class: 'gradient_btn' %>
+        </div>
+        <div id="towns_list">
+          <ul>
+            <%= render partial: "shared/search/location_item", collection: @search.location_objects %>
+          </ul>
+        </div>
+      <% end %>
+      <div class="spacer"></div>
+    </div> <!-- loc_search -->
+ 
+    <%= form_tag searches_path, id: 'option_fields', class: "hidden" do %>
+      <div class="accordion clear search_section">
+        <h3><a href="#">Property Type</a></h3>
+        <div>
+          <div class="buttonset">
+            <ul class="button_list">
+            <% PropertyType.each do |name, uid| %>
+            <li>
+              <%= checkbox('prop_type_uids', uid, @search.prop_type_uids.include?(uid)) %>
+              <%= checkbox_label('prop_type_uids', uid, name) %>
+            </li>
+            <% end %>
+            </ul>
+          </div> <!-- buttonset -->
+        </div>
+        
+        <h3><a href="#">Room Options</a></h3>
+        <div>
+          <p>Bedrooms</p>
+          <div class="inline buttonset">
+            <% BEDROOMS.each do |beds| %>
+              <%= checkbox('bedrooms', beds, @search.bedrooms.include?(beds)) %>
+              <%= checkbox_label('bedrooms', beds) %>
+            <% end %>
+          </div> <!-- buttonset -->
+          <p>Bathrooms</p>
+          <div class="inline buttonset">
+            <% BATHROOMS.each do |x| %>
+              <%= checkbox('bathrooms', x, @search.bathrooms.include?(x.to_s)) %>
+              <%= checkbox_label('bathrooms', x) %>
+            <% end %>
+          </div> <!-- buttonset -->
+        </div>
+
+        <h3><a href="#">Lenders</a></h3>
+        <div>
+          <div class="buttonset">
+            <ul class="button_list">
+              <% LENDER_UIDS.each do |uid| %>
+                <li>
+                  <%= checkbox('lender_uids', uid, @search.lender_uids.include?(uid)) %>
+                  <%= checkbox_label('lender_uids', uid, LENDERS[LENDER_UIDS.find_index(uid)]) %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+
+        <h3><a href="#">Loan Types</a></h3>
+          <div>
+            <div class="buttonset">
+              <ul class="button_list">
+                <% LOAN_TYPE_UIDS.each do |uid| %>
+                  <li>
+                    <%= checkbox('loan_type_uids', uid, @search.loan_type_uids.include?(uid)) %>
+                    <%= checkbox_label('loan_type_uids', uid, LOAN_TYPES[LOAN_TYPE_UIDS.find_index(uid)]) %>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+      </div> <!-- accordion -->
+    <% end %>
+
+      <%= form_tag searches_path, :remote => true, :id => "search" do %>
+        <span class="loading float-left"></span>
+        <%= submit_tag :Search, :class => "grey_btn", id: "search_btn", value: "Refine Search" %>
+      <% end %>
+
 </div>
 
 
