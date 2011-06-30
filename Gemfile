@@ -64,7 +64,7 @@ group :test do
   gem 'capybara', :git => "https://github.com/jnicklas/capybara.git", tag: '0.4.1.2'
   gem 'spork', '~> 0.9.0.rc8'
   gem "launchy"
-  gem 'factory_girl_rails'
+  gem 'factory_girl_rails', :require => false
   gem 'fakeweb'
   gem 'database_cleaner', :git => 'https://github.com/bmabey/database_cleaner.git'
 end

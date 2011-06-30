@@ -26,6 +26,21 @@ describe PropertyType do
     PropertyType.new(@valid_attr).should_not be_valid
   end
 
+  describe "not in" do
+    before(:each) do
+      @detached = PropertyType.create @valid_attr
+      @bungalow = Factory :property_type, name: "Bungalow", uid: "bungalow", daft_identifier: "Bungalow"
+    end
+
+    it "should return property types not listed in the supplied array" do
+      PropertyType.not_in([@detached.id]).should include(@bungalow.id)
+    end
+
+    it "should not return property types listed in the supplied array" do
+      PropertyType.not_in([@detached.id]).should_not include(@detached.id)
+    end
+  end
+
   describe "house associations" do
     before(:each) do
       @detached = PropertyType.create! @valid_attr

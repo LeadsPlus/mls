@@ -36,7 +36,7 @@ def create_default_search
     loan_type_uids: LOAN_TYPE_UIDS,
     bedrooms: ['3', '4', '5'],
     bathrooms: ['1', '2', '3'],
-    property_type_ids: PropertyType.ids.to_s
+    property_type_ids: PropertyType.building_ids
   })
   puts "Default search created"
 end

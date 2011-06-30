@@ -19,7 +19,7 @@ describe Search do
       loan_type_uids: ['VR'],
       bedrooms: ['5','3','2'],
       bathrooms: ['1','2'],
-      property_type_ids: PropertyType.ids.to_s
+      property_type_ids: PropertyType.ids
     }
   end
 
@@ -199,7 +199,7 @@ describe Search do
     describe "of prop_type_ids" do
       it "should allow valid prop_type_ids" do
         type = PropertyType.ids.sample(1+rand(7))
-        Search.new(@valid_attr.merge(:property_type_ids => type.to_s)).should be_valid
+        Search.new(@valid_attr.merge(:property_type_ids => type)).should be_valid
       end
 
       it "should not allow unrecognised property_type_ids"
@@ -240,26 +240,27 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: searches
 #
-#  id             :integer         not null, primary key
-#  max_payment    :integer
-#  deposit        :integer
-#  created_at     :datetime
-#  updated_at     :datetime
-#  locations      :string(400)
-#  min_payment    :integer
-#  term           :integer
-#  loan_type_uids :string(255)
-#  lender_uids    :string(255)
-#  max_price      :integer
-#  min_price      :integer
-#  rate_id        :integer
-#  bedrooms       :string(255)
-#  bathrooms      :string(255)
-#  prop_type_uids :string(255)
-#  usage_id       :integer
+#  id                :integer         not null, primary key
+#  max_payment       :integer
+#  deposit           :integer
+#  created_at        :datetime
+#  updated_at        :datetime
+#  locations         :string(400)
+#  min_payment       :integer
+#  term              :integer
+#  loan_type_uids    :string(255)
+#  lender_uids       :string(255)
+#  max_price         :integer
+#  min_price         :integer
+#  rate_id           :integer
+#  bedrooms          :string(255)
+#  bathrooms         :string(255)
+#  property_type_ids :string(255)
+#  usage_id          :integer
 #
 

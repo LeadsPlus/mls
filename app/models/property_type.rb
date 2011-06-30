@@ -9,9 +9,14 @@ class PropertyType < ActiveRecord::Base
   validates :daft_identifier, presence: true
   validates :uid, presence: true, uniqueness: true
 
-  # temp method to make DB populate work until I update the searches model
-  def self.ids
-    all.collect {|ptype| ptype.id }
+  # recieves an array of integer ids and returns an array of ids which were not
+  # included in the original array
+  def self.not_in ids
+    where("property_types.id NOT IN (?)", ids).collect {|ptype| ptype.id }
+  end
+
+  def self.building_ids
+    where("property_types.name != ?", "Site").collect{|ptype| ptype.id }
   end
 
   def self.reset

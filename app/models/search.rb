@@ -15,13 +15,15 @@ class Search < ActiveRecord::Base
   belongs_to :rate; belongs_to :usage
   serialize :lender_uids; serialize :loan_type_uids; serialize :bedrooms
   serialize :bathrooms; serialize :locations; serialize :property_type_ids
-#  TODO town adding UI and serializing is not compatible. Dublin has ~180 towns. Can't serialize them all.
-#  something has to change
+  
+  before_validation :invert_property_type_ids
+  before_save :keep_calculating
 
-  before_save do
-    log_around("keep calculating") do
-      keep_calculating
-    end
+  def invert_property_type_ids
+    Rails.logger.debug "Current Property Types: #{property_type_ids}"
+    not_included_types = PropertyType.not_in property_type_ids
+    Rails.logger.debug "Not included Property Types: #{not_included_types}"
+    property_type_ids = not_included_types
   end
 
   def location_objects
@@ -96,7 +98,6 @@ class Search < ActiveRecord::Base
   validates :lender_uids, presence: true, serializable_strings: true
   validates :loan_type_uids, presence: true, serializable_strings: true
 # TODO come up with a format validation for property_type_uids
-  validates :property_type_ids, presence: true
   validates :bedrooms, presence: true, serializable_ints: true
   validates :bathrooms, presence: true, serializable_ints: true
   validate :has_some_viable_rates, :has_some_affordable_prices
@@ -149,26 +150,27 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: searches
 #
-#  id             :integer         not null, primary key
-#  max_payment    :integer
-#  deposit        :integer
-#  created_at     :datetime
-#  updated_at     :datetime
-#  locations      :string(400)
-#  min_payment    :integer
-#  term           :integer
-#  loan_type_uids :string(255)
-#  lender_uids    :string(255)
-#  max_price      :integer
-#  min_price      :integer
-#  rate_id        :integer
-#  bedrooms       :string(255)
-#  bathrooms      :string(255)
-#  prop_type_uids :string(255)
-#  usage_id       :integer
+#  id                :integer         not null, primary key
+#  max_payment       :integer
+#  deposit           :integer
+#  created_at        :datetime
+#  updated_at        :datetime
+#  locations         :string(400)
+#  min_payment       :integer
+#  term              :integer
+#  loan_type_uids    :string(255)
+#  lender_uids       :string(255)
+#  max_price         :integer
+#  min_price         :integer
+#  rate_id           :integer
+#  bedrooms          :string(255)
+#  bathrooms         :string(255)
+#  property_type_ids :string(255)
+#  usage_id          :integer
 #
 
