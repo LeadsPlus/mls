@@ -44,7 +44,9 @@ describe PropertyType do
   describe "house associations" do
     before(:each) do
       @detached = PropertyType.create! @valid_attr
-      @house = Factory :house, :property_type => @detached
+      @fermanagh = Factory :county
+      @town = Factory :town, :county => @fermanagh
+      @house = Factory :house, :property_type => @detached, :county => @fermanagh, :town => @town
     end
 
     it "should have a houses attribute" do

@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe House do
   before(:each) do
+    DatabaseCleaner.clean
     @county = Factory :county
     @town = Factory :town, :county => @county
     @detached = Factory :property_type
@@ -153,8 +154,8 @@ describe House do
       @house.should respond_to(:photos)
     end
 
-    it "should have the right notes in the right order" do
-      @house.photos.should. == [@photo1, @photo2]
+    it "should have the right photos in the right order" do
+      @house.photos.should == [@photo1, @photo2]
     end
 
     it "should destroy associated photos" do

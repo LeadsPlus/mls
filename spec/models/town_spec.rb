@@ -13,13 +13,13 @@ describe Town do
     save_valid_attr_town!
   end
 
-  describe "address" do
+  describe "identifying_string" do
     before(:each) do
       @town = save_valid_attr_town!
     end
 
     it "should be correct" do
-      @town.town_address.should == "#{@valid_attr[:name]}, Co. #{@valid_attr[:county]}"
+      @town.identifying_string.should == "#{@valid_attr[:name]}, Co. #{@valid_attr[:county]}"
     end
   end
 

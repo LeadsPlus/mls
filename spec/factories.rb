@@ -31,7 +31,7 @@ Factory.define Search do |search|
   search.loan_type_uids LOAN_TYPE_UIDS
   search.bedrooms ['3', '4', '5']
   search.bathrooms ['1', '2', '3']
-  # search.prop_type_uids PropertyType.uids
+  search.property_type_ids []
   search.association :rate
   search.association :usage
 end

@@ -16,8 +16,7 @@ class Search < ActiveRecord::Base
   serialize :lender_uids; serialize :loan_type_uids; serialize :bedrooms
   serialize :bathrooms; serialize :locations; serialize :property_type_ids
   
-  before_validation :invert_property_type_ids
-  before_save :keep_calculating
+  before_save :invert_property_type_ids, :keep_calculating
 
   def invert_property_type_ids
     Rails.logger.debug "Current Property Types: #{property_type_ids}"
@@ -99,6 +98,7 @@ class Search < ActiveRecord::Base
   validates :lender_uids, presence: true, serializable_strings: true
   validates :loan_type_uids, presence: true, serializable_strings: true
 # TODO come up with a format validation for property_type_uids
+  validates :property_type_ids, serializable_ints: true
   validates :bedrooms, presence: true, serializable_ints: true
   validates :bathrooms, presence: true, serializable_ints: true
   validate :has_some_viable_rates, :has_some_affordable_prices

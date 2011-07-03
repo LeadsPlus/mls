@@ -202,7 +202,16 @@ describe Search do
         Search.new(@valid_attr.merge(:property_type_ids => type)).should be_valid
       end
 
-      it "should not allow unrecognised property_type_ids"
+      it "should allow a blank array" do
+        Search.new(@valid_attr.merge(:property_type_ids => [])).should be_valid
+      end
+
+      it "should not allow invalid property_type_ids" do
+        bad_types = [['a', 'fghj'], ['^&*^'], [nil, '456']]
+        bad_types.each do |type|
+          Search.new(@valid_attr.merge(:property_type_ids => type)).should_not be_valid
+        end
+      end
     end
 
     describe "of bedrooms" do

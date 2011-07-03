@@ -9,24 +9,26 @@ require "#{Rails.root}/lib/scraper/title_parser"
 
 describe "DaftSearchResult" do
   before(:all) do
-    @no_baths = PropertyFixture.new('no_baths')
-    @no_beds_or_baths = PropertyFixture.new('no_beds_or_baths')
-    @site = PropertyFixture.new('site')
-    @type_in_beds = PropertyFixture.new('type_in_beds')
+    DatabaseCleaner.clean
+    @fermanagh = Factory :county
+    @clare = Factory :county, :name => "Clare", :daft_id => 6
+
+    @no_baths = PropertyFixture.new('no_baths', @fermanagh)
+    @no_beds_or_baths = PropertyFixture.new('no_beds_or_baths', @fermanagh)
+    @site = PropertyFixture.new('site', @fermanagh)
+    @type_in_beds = PropertyFixture.new('type_in_beds', @fermanagh)
 
     @files = [
-              PropertyFixture.new('listing'),
-              PropertyFixture.new('early_dash_in_title'),
-              PropertyFixture.new('has_postcode'),
-              PropertyFixture.new('no_type'),
+              PropertyFixture.new('listing', @fermanagh),
+              PropertyFixture.new('early_dash_in_title', @fermanagh),
+              PropertyFixture.new('has_postcode', @fermanagh),
+              PropertyFixture.new('no_type', @fermanagh),
               @no_baths,
               @no_beds_or_baths,
               @site,
               @type_in_beds,
-              PropertyFixture.new('auction_price')
+              PropertyFixture.new('auction_price', @clare)
               ]
-
-    @fermanagh = Factory :county
   end
 
   describe "price methods" do
