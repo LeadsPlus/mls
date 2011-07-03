@@ -76,7 +76,7 @@ class Search < ActiveRecord::Base
     log_around('search for matches') do
       House.in(locations).cheaper_than(max_price)
         .more_expensive_than(min_price).has_baths(bathrooms)
-        .has_beds(bedrooms).property_type_is_one_of(property_type_ids)
+        .has_beds(bedrooms).not_of_type(property_type_ids)
     end
   end
 

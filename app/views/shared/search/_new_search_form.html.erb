@@ -50,7 +50,8 @@
             <ul class="button_list">
             <% PropertyType.all.each do |ptype| %>
             <li>
-              <%= checkbox('property_type_ids', ptype.id, @search.property_type_ids.include?(ptype.id)) %>
+              <!-- something isn't quite right here. THis shouldn't be working -->
+              <%= checkbox('property_type_ids', ptype.id, !@search.property_type_ids.include?(ptype.id)) %>
               <%= checkbox_label('property_type_ids', ptype.id, ptype.name) %>
             </li>
             <% end %>

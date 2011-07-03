@@ -31,12 +31,12 @@ def create_default_search
     min_payment: 800,
     deposit: 50000,
     term: 30,
-    locations: ['t191', 't188', 't57'],
+    locations: ["c#{County.find_by_name('Louth').id}"],
     lender_uids: LENDER_UIDS,
     loan_type_uids: LOAN_TYPE_UIDS,
     bedrooms: ['3', '4', '5'],
     bathrooms: ['1', '2', '3'],
-    property_type_ids: PropertyType.building_ids
+    property_type_ids: []
   })
   puts "Default search created"
 end

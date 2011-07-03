@@ -70,7 +70,7 @@ class House < ActiveRecord::Base
   end
 
   # This now needs to be a join since house belongs to property type
-  def self.property_type_is_one_of(prop_type_ids)
+  def self.not_of_type(prop_type_ids)
 # TODO This is less than ideal because this always does INNER JOIN
     joins(:property_type).where('property_types.id IN (?)', prop_type_ids)
   end
