@@ -72,7 +72,8 @@ class House < ActiveRecord::Base
   # This now needs to be a join since house belongs to property type
   def self.not_of_type(prop_type_ids)
 # TODO This is less than ideal because this always does INNER JOIN
-    joins(:property_type).where('property_types.id IN (?)', prop_type_ids)
+    return scoped if prop_type_ids.blank?
+    joins(:property_type).where('property_types.id NOT IN (?)', prop_type_ids)
   end
 
   def payment_required rate, term, users_deposit

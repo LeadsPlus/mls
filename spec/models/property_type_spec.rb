@@ -56,18 +56,23 @@ describe PropertyType do
     end
   end
 
-  describe "'ids' method" do
+  describe "'building_ids' method" do
     before :each do
       @type1 = Factory :property_type
       @type2 = Factory :property_type, :uid => "Something else"
+      @site = Factory :property_type, :name => "Site", :uid => "Site"
     end
 
-    it "should have an ids method" do
-      PropertyType.should respond_to :ids
+    it "should have a building_ids method" do
+      PropertyType.should respond_to :building_ids
     end
 
-    it "should return an array of all the property types" do
-      PropertyType.ids.should == [@type1.id, @type2.id]
+    it "should return an array of all the property types with structures" do
+      PropertyType.building_ids.should include(@type1.id, @type2.id)
+    end
+
+    it "should not return property_type site" do
+      PropertyType.building_ids.should_not include @site.id
     end
   end
 

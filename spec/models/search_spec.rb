@@ -19,7 +19,7 @@ describe Search do
       loan_type_uids: ['VR'],
       bedrooms: ['5','3','2'],
       bathrooms: ['1','2'],
-      property_type_ids: PropertyType.ids
+      property_type_ids: []
     }
   end
 
@@ -198,7 +198,7 @@ describe Search do
 
     describe "of prop_type_ids" do
       it "should allow valid prop_type_ids" do
-        type = PropertyType.ids.sample(1+rand(7))
+        type = PropertyType.building_ids.sample(1+rand(7))
         Search.new(@valid_attr.merge(:property_type_ids => type)).should be_valid
       end
 

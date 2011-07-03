@@ -23,7 +23,8 @@ class Search < ActiveRecord::Base
     Rails.logger.debug "Current Property Types: #{property_type_ids}"
     not_included_types = PropertyType.not_in property_type_ids
     Rails.logger.debug "Not included Property Types: #{not_included_types}"
-    property_type_ids = not_included_types
+    # Neet to put the self.pro.. otherwise it doesn't actually get set
+    self.property_type_ids = not_included_types
   end
 
   def location_objects

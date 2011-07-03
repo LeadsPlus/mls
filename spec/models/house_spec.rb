@@ -47,8 +47,16 @@ describe House do
       @duplex = Factory :property_type, name: "Duplex", uid: "duplex", :daft_identifier => "Duplex For Sale"
     end
 
-    it "should return houses with the included types" do
-      House.property_type_is_one_of([@detached.id, @bungalow.id]).should include(@house)
+    it "should have a not_of_type scope method" do
+      House.should respond_to :not_of_type
+    end
+
+    it "should return houses which don't have the included types" do
+      House.not_of_type([@duplex.id, @bungalow.id]).should include(@house)
+    end
+
+    it "should not return houses which do have the included types" do
+      House.not_of_type([@detached.id]).should_not include @house
     end
   end
 
