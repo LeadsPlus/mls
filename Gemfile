@@ -35,7 +35,7 @@ gem 'nokogiri', '1.4.6'
 gem 'mechanize'
 gem 'pg'
 gem 'delayed_job', git: 'https://github.com/collectiveidea/delayed_job.git', tag: 'v2.1.4'
-gem 'devise'
+gem 'devise', '1.4.2'
 gem 'texticle'
 gem 'rails3-jquery-autocomplete'
 
