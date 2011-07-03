@@ -46,7 +46,7 @@ gem 'faker'
 gem 'hirb'
 
 group :production do
-#  gem 'therubyracer-heroku', '0.8.1.pre3'
+  gem 'therubyracer-heroku', '0.8.1.pre3'
 #  hirefire gem needs to load after delayed_job
   gem 'hirefire'
 end
