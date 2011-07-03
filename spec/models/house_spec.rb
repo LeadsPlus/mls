@@ -4,19 +4,19 @@ describe House do
   before(:each) do
     @county = Factory :county
     @town = Factory :town, :county => @county
+    @detached = Factory :property_type
     @attr = {
       price: 345435,
       image_url: 'http://mediacache-s3eu.daft.ie/MZYU1EHKU5Wezk5xuw07WPdRb8VZeof6esL9j1djM-RtPWRhZnQmZT0xNjB4MTIw.jpg',
       daft_title: '546 Loughshore Road, Carranbeg, Belleek, Co. Fermanagh - Detached House',
       description: 'This is the description',
-      county_id: 30,
       daft_id: 5453653,
       county_id: @county.id,
       town_id: @town.id,
+      property_type_id: @detached.id,
       bedrooms: 3,
       bathrooms: 2,
       address: '546 Loughshore Road, Carranbeg',
-      property_type: 'Detached House',
       last_scrape: nil,
       region_name: 'Co. Fermanagh'
     }
@@ -26,9 +26,38 @@ describe House do
     House.create!(@attr)
   end
 
-  it "should set the property_type_uid before creating" do
-    house = House.create(@attr)
-    house.property_type_uid.should == PropertyType.convert_to_uid(@attr[:property_type])
+  describe "property_type associations" do
+    before(:each) do
+      @house = House.create(@attr)
+    end
+
+    it "should have a property_type attribute" do
+      @house.should respond_to :property_type
+    end
+
+    it "should retrieve the associated property type" do
+      @house.property_type.should == @detached
+    end
+  end
+
+  describe "property type scope" do
+    before :each do
+      @house = House.create @attr
+      @bungalow = Factory :property_type, name: "Bunglalow", uid: "bungalow", :daft_identifier => "Bungalow For Sale"
+      @duplex = Factory :property_type, name: "Duplex", uid: "duplex", :daft_identifier => "Duplex For Sale"
+    end
+
+    it "should have a not_of_type scope method" do
+      House.should respond_to :not_of_type
+    end
+
+    it "should return houses which don't have the included types" do
+      House.not_of_type([@duplex.id, @bungalow.id]).should include(@house)
+    end
+
+    it "should not return houses which do have the included types" do
+      House.not_of_type([@detached.id]).should_not include @house
+    end
   end
 
 #  TODO these tests need to be expanded to make sure I only reset houses in the county that was scraped
@@ -81,7 +110,7 @@ describe House do
     end
 
     it "should return the correct title" do
-      @house.title.should == "#{@attr[:address]}, #{@town.name}, Co. #{@county.name}"
+      @house.title.should == "#{@attr[:address]}, #{@town.name}"
     end
   end
 
@@ -185,26 +214,27 @@ end
 
 
 
+
+
 # == Schema Information
 #
 # Table name: houses
 #
-#  id                :integer         not null, primary key
-#  price             :integer
-#  created_at        :datetime
-#  updated_at        :datetime
-#  image_url         :string(255)
-#  description       :text
-#  daft_title        :string(255)
-#  daft_id           :integer
-#  bedrooms          :integer
-#  bathrooms         :integer
-#  address           :string(255)
-#  property_type     :string(255)
-#  county_id         :integer
-#  town_id           :integer
-#  last_scrape       :integer
-#  property_type_uid :string(255)
-#  region_name       :string(255)
+#  id               :integer         not null, primary key
+#  price            :integer
+#  created_at       :datetime
+#  updated_at       :datetime
+#  image_url        :string(255)
+#  description      :text
+#  daft_title       :string(255)
+#  daft_id          :integer
+#  bedrooms         :integer
+#  bathrooms        :integer
+#  address          :string(255)
+#  county_id        :integer
+#  town_id          :integer
+#  last_scrape      :integer
+#  region_name      :string(255)
+#  property_type_id :integer
 #
 

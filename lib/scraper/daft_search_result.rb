@@ -95,12 +95,12 @@ module Scraper
           bedrooms: rooms[0],
           bathrooms: rooms[1],
           address: @title_parser.address,
-          property_type: @title_parser.type,
           region_name: @title_parser.region,
           last_scrape: 1
         })
         house.county = @county
         house.town = @title_parser.town
+        house.property_type = @title_parser.type
         house.save!
       end
     end

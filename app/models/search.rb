@@ -10,18 +10,21 @@ class Search < ActiveRecord::Base
   include CustomValidators
   include Log
   attr_accessible :min_payment, :max_payment, :deposit, :term, :locations, :bedrooms, :bathrooms,
-                  :loan_type_uids, :lender_uids, :prop_type_uids, :max_price, :min_price
+                  :loan_type_uids, :lender_uids, :max_price, :min_price, :property_type_ids
   attr_reader :viable_rates
   belongs_to :rate; belongs_to :usage
   serialize :lender_uids; serialize :loan_type_uids; serialize :bedrooms
-  serialize :bathrooms; serialize :prop_type_uids; serialize :locations
-#  TODO town adding UI and serializing is not compatible. Dublin has ~180 towns. Can't serialize them all.
-#  something has to change
+  serialize :bathrooms; serialize :locations; serialize :property_type_ids
+  
+  before_validation :invert_property_type_ids
+  before_save :keep_calculating
 
-  before_save do
-    log_around("keep calculating") do
-      keep_calculating
-    end
+  def invert_property_type_ids
+    Rails.logger.debug "Current Property Types: #{property_type_ids}"
+    not_included_types = PropertyType.not_in property_type_ids
+    Rails.logger.debug "Not included Property Types: #{not_included_types}"
+    # Neet to put the self.pro.. otherwise it doesn't actually get set
+    self.property_type_ids = not_included_types
   end
 
   def location_objects
@@ -74,7 +77,7 @@ class Search < ActiveRecord::Base
     log_around('search for matches') do
       House.in(locations).cheaper_than(max_price)
         .more_expensive_than(min_price).has_baths(bathrooms)
-        .has_beds(bedrooms).property_type_is_one_of(prop_type_uids)
+        .has_beds(bedrooms).not_of_type(property_type_ids)
     end
   end
 
@@ -95,7 +98,7 @@ class Search < ActiveRecord::Base
 
   validates :lender_uids, presence: true, serializable_strings: true
   validates :loan_type_uids, presence: true, serializable_strings: true
-  validates :prop_type_uids, presence: true, serializable_strings: true
+# TODO come up with a format validation for property_type_uids
   validates :bedrooms, presence: true, serializable_ints: true
   validates :bathrooms, presence: true, serializable_ints: true
   validate :has_some_viable_rates, :has_some_affordable_prices
@@ -148,26 +151,27 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: searches
 #
-#  id             :integer         not null, primary key
-#  max_payment    :integer
-#  deposit        :integer
-#  created_at     :datetime
-#  updated_at     :datetime
-#  locations      :string(400)
-#  min_payment    :integer
-#  term           :integer
-#  loan_type_uids :string(255)
-#  lender_uids    :string(255)
-#  max_price      :integer
-#  min_price      :integer
-#  rate_id        :integer
-#  bedrooms       :string(255)
-#  bathrooms      :string(255)
-#  prop_type_uids :string(255)
-#  usage_id       :integer
+#  id                :integer         not null, primary key
+#  max_payment       :integer
+#  deposit           :integer
+#  created_at        :datetime
+#  updated_at        :datetime
+#  locations         :string(400)
+#  min_payment       :integer
+#  term              :integer
+#  loan_type_uids    :string(255)
+#  lender_uids       :string(255)
+#  max_price         :integer
+#  min_price         :integer
+#  rate_id           :integer
+#  bedrooms          :string(255)
+#  bathrooms         :string(255)
+#  property_type_ids :string(255)
+#  usage_id          :integer
 #
 

@@ -1,5 +1,11 @@
 require "date"
 
+Factory.define PropertyType do |t|
+  t.name "Detached"
+  t.uid "Detached"
+  t.daft_identifier "Detached House"
+end
+
 Factory.define House do |house|
   house.daft_title "Mountain View, Co. Wicklow - Semi-Detached House"
   house.description "This is the description of a house"
@@ -7,12 +13,12 @@ Factory.define House do |house|
   house.image_url 'http://mediacache-s3eu.daft.ie/MZYU1EHKU5Wezk5xuw07WPdRb8VZeof6esL9j1djM-RtPWRhZnQmZT0xNjB4MTIw.jpg'
   house.price 250_000
   house.daft_id 343532
-  house.property_type "Semi-Detached House"
   house.bathrooms 4
   house.bedrooms 5
   house.region_name "Co. Wicklow"
   house.association :town
   house.association :county
+  house.association :property_type
 end
 
 Factory.define Search do |search|
@@ -25,7 +31,7 @@ Factory.define Search do |search|
   search.loan_type_uids LOAN_TYPE_UIDS
   search.bedrooms ['3', '4', '5']
   search.bathrooms ['1', '2', '3']
-  search.prop_type_uids PropertyType.uids
+  # search.prop_type_uids PropertyType.uids
   search.association :rate
   search.association :usage
 end
@@ -69,7 +75,6 @@ end
 Factory.define County do |c|
   c.name "Fermanagh"
   c.daft_id 30
-  c.id 30
 end
 
 Factory.define Usage do |u|

@@ -5,17 +5,12 @@ namespace :db do
     Search.reset
     County.reset
     User.delete_all
+    PropertyType.reset
+    make_property_types
     make_counties
     make_rates
     create_default_search # has to happen after rates else validation fail
     make_user
-  end
-
-  namespace :searches do
-    desc "Delete all searches from the database"
-    task :clear => :environment do
-      Search.reset
-    end
   end
 end
 
@@ -36,14 +31,30 @@ def create_default_search
     min_payment: 800,
     deposit: 50000,
     term: 30,
-    locations: ['t191', 't188', 't57'],
+    locations: ["c#{County.find_by_name('Louth').id}"],
     lender_uids: LENDER_UIDS,
     loan_type_uids: LOAN_TYPE_UIDS,
     bedrooms: ['3', '4', '5'],
     bathrooms: ['1', '2', '3'],
-    prop_type_uids: PropertyType.uids
+    property_type_ids: []
   })
   puts "Default search created"
+end
+
+def make_property_types
+  PropertyType.create!(name: "Site", uid: "Site", daft_identifier: "Site For Sale")
+  PropertyType.create!(name: "New Home", uid: "NewHome", daft_identifier: "New Home")
+  PropertyType.create!(name: "Terraced", uid: "Terraced", daft_identifier: "Terraced House")
+  PropertyType.create!(name: "Detached", uid: "Detached", daft_identifier: "Detached House")
+  PropertyType.create!(name: "Bungalow", uid: "Bungalow", daft_identifier: "Bungalow For Sale")
+  PropertyType.create!(name: "Townhouse", uid: "Townhouse", daft_identifier: "Townhouse")
+  PropertyType.create!(name: "End Of Terrace", uid: "EoTHouse", daft_identifier: "End of Terrace House")
+  PropertyType.create!(name: "Semi-Detached", uid: "Semi-D", daft_identifier: "Semi-Detached House")
+  PropertyType.create!(name: "New Development", uid: "NewDev", daft_identifier: "New Development")
+  PropertyType.create!(name: "Apartment", uid: "Apartment", daft_identifier: "Apartment For Sale")
+  PropertyType.create!(name: "Duplex", uid: "Duplex", daft_identifier: "Duplex For Sale")
+  PropertyType.create!(name: "House for Sale", uid: "House", daft_identifier: "House For Sale")
+  puts "Property types created"
 end
 
 # once I have these in here, I don't technically need the COUNTIES array any more?

@@ -35,7 +35,7 @@ gem 'nokogiri', '1.4.6'
 gem 'mechanize'
 gem 'pg'
 gem 'delayed_job', git: 'https://github.com/collectiveidea/delayed_job.git', tag: 'v2.1.4'
-gem 'devise'
+gem 'devise', '1.4.2'
 gem 'texticle'
 gem 'rails3-jquery-autocomplete'
 
@@ -62,9 +62,9 @@ group :test do
   gem 'rspec-rails' #, :git => 'https://github.com/dchelimsky/rspec-rails.git'
 #  gem 'webrat'
   gem 'capybara', :git => "https://github.com/jnicklas/capybara.git", tag: '0.4.1.2'
-  gem 'spork' #, '~> 0.9.0.rc'
+  gem 'spork', '~> 0.9.0.rc8'
   gem "launchy"
-  gem 'factory_girl_rails'
+  gem 'factory_girl_rails', :require => false
   gem 'fakeweb'
   gem 'database_cleaner', :git => 'https://github.com/bmabey/database_cleaner.git'
 end

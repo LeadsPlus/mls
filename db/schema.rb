@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110622150103) do
+ActiveRecord::Schema.define(:version => 20110629212127) do
 
   create_table "counties", :force => true do |t|
     t.integer  "daft_id"
@@ -45,12 +45,11 @@ ActiveRecord::Schema.define(:version => 20110622150103) do
     t.integer  "bedrooms"
     t.integer  "bathrooms"
     t.string   "address"
-    t.string   "property_type"
     t.integer  "county_id"
     t.integer  "town_id"
     t.integer  "last_scrape"
-    t.string   "property_type_uid"
     t.string   "region_name"
+    t.integer  "property_type_id"
   end
 
   add_index "houses", ["daft_id"], :name => "index_houses_on_daft_id"
@@ -66,6 +65,16 @@ ActiveRecord::Schema.define(:version => 20110622150103) do
   end
 
   add_index "photos", ["url"], :name => "index_photos_on_url", :unique => true
+
+  create_table "property_types", :force => true do |t|
+    t.string   "name"
+    t.string   "uid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "daft_identifier"
+  end
+
+  add_index "property_types", ["uid"], :name => "index_property_types_on_uid", :unique => true
 
   create_table "rates", :force => true do |t|
     t.float    "initial_rate"
@@ -91,7 +100,7 @@ ActiveRecord::Schema.define(:version => 20110622150103) do
     t.integer  "deposit"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "locations",      :limit => 400
+    t.string   "locations",         :limit => 400
     t.integer  "min_payment"
     t.integer  "term"
     t.string   "loan_type_uids"
@@ -101,7 +110,7 @@ ActiveRecord::Schema.define(:version => 20110622150103) do
     t.integer  "rate_id"
     t.string   "bedrooms"
     t.string   "bathrooms"
-    t.string   "prop_type_uids"
+    t.string   "property_type_ids"
     t.integer  "usage_id"
   end
 
