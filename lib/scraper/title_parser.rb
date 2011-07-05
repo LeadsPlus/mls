@@ -14,6 +14,7 @@ module Scraper
 
     def split_index
       Rails.logger.debug "Found the property dash at #{@daft_title.rindex(/ - /)}"
+#     if there is no dash found, assume that the whole string is location
       @daft_title.rindex(/ - /) || @daft_title.length
     end
 

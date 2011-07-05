@@ -22,11 +22,11 @@ namespace :scrape do
   end
 
   desc "Enqueue a job to scrape a single county based off it's ID"
-  task :listings_in, [:county_name] => :environment do |task, args|
-    puts "Running task"
-    args.with_defaults(:county_name => "Fermanagh")
-    county = County.find_by_name args.county_name
-    Delayed::Job.enqueue Scraper::ListingsScraperJob.new(county)
+  task :listings_in, [:county_names] => :environment do |task, args|
+    args.county_names.split(',').each do |name|
+      county = County.find_by_name name.capitalize
+      Delayed::Job.enqueue Scraper::ListingsScraperJob.new(county)
+    end
   end
 
   desc "Visit the show page of all the houses in the database after a particular house id"
@@ -37,10 +37,11 @@ namespace :scrape do
   end
 
   desc "Visit the show page of all the houses in a particular county"
-  task :houses_in, [:county_name] => :environment do |task, args|
-    args.with_defaults(:county_name => "Fermanagh") # 30 = Fermanagh
-    county = County.find_by_name args.county_name
-    Delayed::Job.enqueue Scraper::HousesScraperJob.new(county)
+  task :houses_in, [:county_names] => :environment do |task, args|
+    args.county_names.split(',').each do |name|
+      county = County.find_by_name name.capitalize
+      Delayed::Job.enqueue Scraper::HousesScraperJob.new(county)
+    end
   end
 
   desc "Scrape all valid town names from daft"
@@ -51,9 +52,10 @@ namespace :scrape do
   end
 
   desc "Scrape all valid town names in a particular county from daft"
-  task :towns_in, [:county_name] => :environment do |task, args|
-    args.with_defaults(:county_name => "Fermanagh")
-    county = County.find_by_name args.county_name
-    Delayed::Job.enqueue Scraper::TownsScraperJob.new(county)
+  task :towns_in, [:county_names] => :environment do |task, args|
+    args.county_names.split(',').each do |name|
+      county = County.find_by_name name.capitalize
+      Delayed::Job.enqueue Scraper::TownsScraperJob.new(county)
+    end
   end
 end
