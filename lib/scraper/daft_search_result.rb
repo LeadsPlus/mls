@@ -11,9 +11,16 @@ module Scraper
 
     def title_parser
       unless @title_parser
-        @title_parser = Scraper::DublinTitleParser.new(daft_title, @county) if @county.name == 'Dublin'
-        @title_parser = Scraper::NiTitleParser.new(daft_title, @county) if NI_COUNTIES.include?(@county.name)
-        @title_parser = Scraper::TitleParser.new(daft_title, @county)
+        if @county.name == 'Dublin'
+          Rails.logger.debug "Using the Dublin Parser"
+          @title_parser = Scraper::DublinTitleParser.new(daft_title, @county)
+        elsif
+          Rails.logger.debug "Using the NI Parser"
+          @title_parser = Scraper::NiTitleParser.new(daft_title, @county) if NI_COUNTIES.include?(@county.name)
+        else
+          Rails.logger.debug "Using the Normal Parser"
+          @title_parser = Scraper::TitleParser.new(daft_title, @county)
+        end
       end
       @title_parser
     end

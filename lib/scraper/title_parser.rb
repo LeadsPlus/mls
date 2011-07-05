@@ -13,7 +13,8 @@ module Scraper
     end
 
     def split_index
-      @daft_title.rindex(/ - /)
+      Rails.logger.debug "Found the property dash at #{@daft_title.rindex(/ - /)}"
+      @daft_title.rindex(/ - /) || @daft_title.length
     end
 
     # this is the part of the title upto the dash before property type inc. postcode
@@ -122,7 +123,10 @@ module Scraper
       unless @split_location
         @split_location = location.split(', ')
 #        all NI postcodes start with BT
-        @split_location.pop if @split_location[-1] =~ /^BT.+/
+        if @split_location[-1] =~ /^BT.+/
+          Rails.logger.debug "Postcode found. Popping it off the split_locations array"
+          @split_location.pop
+        end
       end
       @split_location
     end
