@@ -16,6 +16,7 @@ module Scraper
       @daft_title.rindex(/ - /)
     end
 
+    # this is the part of the title upto the dash before property type inc. postcode
     def location
       Rails.logger.debug "Location: #{@daft_title.slice(0, split_index)}"
       @location ||= @daft_title.slice(0, split_index)

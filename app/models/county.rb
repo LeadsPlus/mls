@@ -4,6 +4,7 @@
 class County < ActiveRecord::Base
   attr_accessible :name, :daft_id
   has_many :houses
+# TODO make a relationship between counties and the towns within
 
   index do name; end
 

@@ -3,8 +3,12 @@ $ () ->
 # into jquery buttons. Commenting out this line prevents this from happening.
 #  $( ".buttonset" ).buttonset()
 
-  $( "a.gallery" ).fancybox
-    cyclic: true
+#  $( "a.gallery" ).fancybox
+#    cyclic: true
+
+  $( 'li.listing' )
+    .find( 'img' ).live 'click', (event) ->
+      console.log $( this ).parent().find( 'a.gallery' )
 
   $( '.collapsed_trigger' ).live 'click', (event) ->
     event.preventDefault()

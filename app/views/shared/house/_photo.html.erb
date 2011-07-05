@@ -1,3 +1,4 @@
 <% unless photo.blank? %>
   <%= link_to "\u2022", photo.url, class: "gallery", rel: "house_#{photo.house.id}" %>
+  <%# link_to "", photo.url, class: "gallery", rel: "house_#{photo.house.id}" %>
 <% end %>

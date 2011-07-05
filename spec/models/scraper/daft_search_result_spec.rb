@@ -12,6 +12,7 @@ describe "DaftSearchResult" do
     DatabaseCleaner.clean
     @fermanagh = Factory :county
     @clare = Factory :county, :name => "Clare", :daft_id => 6
+    @armagh = Factory :county, :name => "Armagh", :daft_id => 7
 
     @no_baths = PropertyFixture.new('no_baths', @fermanagh)
     @no_beds_or_baths = PropertyFixture.new('no_beds_or_baths', @fermanagh)
@@ -27,7 +28,8 @@ describe "DaftSearchResult" do
               @no_beds_or_baths,
               @site,
               @type_in_beds,
-              PropertyFixture.new('auction_price', @clare)
+              PropertyFixture.new('auction_price', @clare),
+              PropertyFixture.new('trouble_armagh', @armagh),
               ]
   end
 

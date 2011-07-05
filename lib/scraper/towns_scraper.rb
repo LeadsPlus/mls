@@ -1,4 +1,5 @@
 module Scraper
+  # TODO Sometimes Daft removes a town from it's listings, I need a way to keep up
   class TownsScraper < Scrape
     def initialize(county)
       super()
