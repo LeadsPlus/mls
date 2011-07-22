@@ -9,6 +9,7 @@ module Scraper
       @title_parser = title_parser
     end
 
+    # TODO For some reason the NiTitleParser is being used for cork
     def title_parser
       unless @title_parser
         if @county.name == 'Dublin'

@@ -5,6 +5,8 @@
 #   otherwise, check if it's an area code.
 #     if so, store the area code and check for the town in the third last element
 #     if not, assume only region and address
+#
+#     TODO there's something wrong with the scraper picking up Belfast Co. Down
 module Scraper
   class TitleParser
     def initialize(title, county)
